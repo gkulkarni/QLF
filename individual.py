@@ -1,0 +1,347 @@
+import numpy as np
+import scipy.optimize as op
+import emcee
+import matplotlib as mpl
+mpl.use('Agg') 
+mpl.rcParams['text.usetex'] = True 
+mpl.rcParams['font.family'] = 'serif'
+mpl.rcParams['font.serif'] = 'cm'
+mpl.rcParams['font.size'] = '22'
+import matplotlib.pyplot as plt
+import triangle 
+from astropy.stats import poisson_conf_interval as pci
+from astropy.stats import knuth_bin_width  as kbw 
+import cosmolopy.distance as cd
+cosmo = {'omega_M_0':0.3,
+         'omega_lambda_0':0.7,
+         'omega_k_0':0.0,
+         'h':0.70}
+
+def getqlums(lumfile, zlims=None):
+
+    """Read quasar luminosities."""
+
+    with open(lumfile,'r') as f: 
+        z, mag, p, area = np.loadtxt(lumfile, usecols=(1,2,3,4), unpack=True)
+
+    if zlims is None:
+        select = None
+    else:
+        z_min, z_max = zlims 
+        select = ((z>z_min) & (z<=z_max))
+
+    return z[select], mag[select], p[select], area[select]
+
+def getselfn(selfile, zlims=None):
+
+    """Read selection map."""
+
+    with open(selfile,'r') as f: 
+        z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
+
+    if zlims is None:
+        select = None
+    else:
+        z_min, z_max = zlims 
+        select = ((z>z_min) & (z<=z_max))
+
+    return z[select], mag[select], p[select]
+
+def volume(z, area, cosmo=cosmo):
+
+    omega = (area/41253.0)*4.0*np.pi # str
+    volperstr = cd.diff_comoving_volume(z,**cosmo) # cMpc^3 str^-1 dz^-1
+
+    return omega*volperstr # cMpc^3 dz^-1
+
+def percentiles(x):
+    
+    u = np.percentile(x, 15.87) 
+    l = np.percentile(x, 84.13)
+    c = np.mean(x) 
+
+    return [u, l, c] 
+
+class selmap:
+
+    def __init__(self, selection_map_file, area, zlims=None):
+
+        self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
+
+        self.dz = np.unique(np.diff(self.z))[-1]
+        self.dm = np.unique(np.diff(self.m))[-1]
+        print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
+
+        self.area = area
+        self.volume = volume(self.z, self.area)
+        
+        return
+
+    def nqso(self, lumfn, theta):
+
+        psi = 10.0**lumfn.log10phi(theta, self.m)
+        tot = psi*self.p*self.volume*self.dz*self.dm
+        
+        return np.sum(tot)
+
+    def totvolume(self):
+
+        z = self.z[self.p!=0.0]
+        vol = volume(z, self.area)
+        return np.sum(vol*self.dz)
+
+class lf:
+
+    def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
+
+        for datafile in quasar_files:
+            z, m, p, area= getqlums(datafile, zlims=zlims)
+            try:
+                self.z=np.append(self.z,z)
+                self.M1450=np.append(self.M1450,m)
+                self.p=np.append(self.p,p)
+                self.area=np.append(self.area,area)
+            except(AttributeError):
+                self.z=z
+                self.M1450=m
+                self.p=p
+                self.area=area
+
+        if zlims is not None:
+            self.dz = zlims[1]-zlims[0]
+
+        self.maps = [selmap(x[0], x[1]) for x in selection_maps]
+                
+        return
+
+    def log10phi(self, theta, mag):
+
+        log10phi_star, M_star, alpha, beta = theta 
+
+        phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
+                                     10.0**(0.4*(beta+1)*(mag-M_star)))
+        return np.log10(phi)
+
+    def lfnorm(self, theta):
+
+        ns = [x.nqso(self, theta) for x in self.maps]
+        return sum(ns) 
+
+    def neglnlike(self, theta):
+
+        logphi = self.log10phi(theta, self.M1450) # Mpc^-3 mag^-1
+        logphi /= np.log10(np.e) # Convert to base e 
+
+        return -2.0*logphi.sum() + 2.0*self.lfnorm(theta)
+
+    def bestfit(self, guess, method='Nelder-Mead'):
+        result = op.minimize(self.neglnlike,
+                             guess,
+                             method=method)
+
+        if not result.success:
+            print 'Likelihood optimisation did not converge.'
+
+        self.bf = result 
+        return result
+    
+    def create_param_range(self):
+
+        half = self.bf.x/2.0
+        double = 2.0*self.bf.x
+        self.prior_min_values = np.where(half < double, half, double) 
+        self.prior_max_values = np.where(half > double, half, double)
+        assert(np.all(self.prior_min_values < self.prior_max_values))
+
+        return
+
+    def lnprior(self, theta):
+        """
+        Set up uniform priors.
+
+        """
+        if (np.all(theta < self.prior_max_values) and
+            np.all(theta > self.prior_min_values)):
+            return 0.0 
+
+        return -np.inf
+    
+    def lnprob(self, theta):
+
+        lp = self.lnprior(theta)
+        
+        if not np.isfinite(lp):
+            return -np.inf
+
+        return lp - self.neglnlike(theta)
+
+    def run_mcmc(self):
+        """
+        Run emcee.
+
+        """
+        self.ndim, self.nwalkers = self.bf.x.size, 100
+        self.mcmc_start = self.bf.x 
+        pos = [self.mcmc_start + 1e-4*np.random.randn(self.ndim) for i
+               in range(self.nwalkers)]
+        
+        self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
+                                             self.lnprob)
+
+        self.sampler.run_mcmc(pos, 1000)
+        self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
+
+        return
+
+    def get_percentiles(self):
+        """
+        Get 1-sigma errors on the LF parameters.
+
+        """
+        self.phi_star = percentiles(self.samples[:,0])
+        self.M_star = percentiles(self.samples[:,1])
+        self.alpha = percentiles(self.samples[:,2])
+        self.beta = percentiles(self.samples[:,3])
+
+        return 
+
+    def corner_plot(self, labels=[r'$\phi_*$', r'$M_*$', r'$\alpha$', r'$\beta$'], dirname=''):
+
+        mpl.rcParams['font.size'] = '14'
+        f = triangle.corner(self.samples, labels=labels, truths=self.bf.x)
+        plotfile = dirname+'triangle.png'
+        f.savefig(plotfile)
+        mpl.rcParams['font.size'] = '22'
+
+        return
+    
+    def plot_chains(self, fig, param, ylabel):
+        ax = fig.add_subplot(self.bf.x.size, 1, param+1)
+        for i in range(self.nwalkers): 
+            ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
+        ax.axhline(self.bf.x[param], c='#CC9966', dashes=[7,2], lw=2) 
+        ax.set_ylabel(ylabel)
+        if param+1 != self.bf.x.size:
+            ax.set_xticklabels('')
+        else:
+            ax.set_xlabel('step')
+            
+        return 
+
+    def chains(self, labels=[r'$\phi_*$', r'$M_*$', r'$\alpha$', r'$\beta$'], dirname=''):
+
+        mpl.rcParams['font.size'] = '10'
+        nparams = self.bf.x.size
+        plot_number = 0 
+
+        fig = plt.figure(figsize=(12, 2*nparams), dpi=100)
+        for i in range(nparams): 
+            self.plot_chains(fig, i, ylabel=labels[i])
+            
+        plotfile = dirname+'chains.pdf' 
+        plt.savefig(plotfile,bbox_inches='tight')
+        plt.close('all')
+        mpl.rcParams['font.size'] = '22'
+        
+        return
+    
+    def plot_posterior_sample_lfs(self, ax, mags, **kwargs):
+
+        random_thetas = self.samples[np.random.randint(len(self.samples), size=300)]
+        for theta in random_thetas:
+            phi_fit = self.log10phi(theta, mags)
+            ax.plot(mags, phi_fit, **kwargs)
+
+        return
+
+    def plot_bestfit_lf(self, ax, mags, **kwargs):
+
+        phi_fit = self.log10phi(self.bf.x, mags)
+        ax.plot(mags, phi_fit, **kwargs)
+        ax.plot(mags, phi_fit, lw=1, c='k', zorder=kwargs['zorder'])
+
+        return
+
+    def volume_in_bin(self):
+            
+        ns = [x.totvolume() for x in self.maps]
+        
+        return sum(ns) # cMpc^3 
+
+    def get_lf(self, z_plot):
+
+        # Bin data.  This is only for visualisation and to compare with the
+        # binned values reported by BOSS.  The number of bins (nbins) has been
+        # estimated using Knuth's rule (astropy.stats.knuth_bin_width).
+
+        m = self.M1450[self.p!=0.0]
+        p = self.p[self.p!=0.0]
+        
+        nbins = int(np.ptp(m)/kbw(m))
+        h = np.histogram(m,bins=nbins,weights=1.0/p)
+        nums = h[0]
+        mags = (h[1][:-1] + h[1][1:])*0.5
+        dmags = np.diff(h[1])*0.5
+
+        total_volume = np.sum(volume(z_plot, self.area)*self.dz)
+        phi = nums/np.diff(h[1])/total_volume  
+        logphi = np.log10(phi) # cMpc^-3 mag^-1
+
+        # Calculate errorbars on our binned LF.  These have been estimated
+        # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
+        # implemented in astropy.stats.poisson_conf_interval.  The
+        # interval='frequentist-confidence' option to that astropy function is
+        # exactly equal to the Gehrels formulas, although the documentation
+        # does not say so.
+        n = np.histogram(self.M1450,bins=nbins)[0]
+        nlims = pci(n,interval='frequentist-confidence')
+        nlims *= phi/n 
+        uperr = np.log10(nlims[1]) - logphi 
+        downerr = logphi - np.log10(nlims[0])
+        
+        return mags, dmags, logphi, uperr, downerr 
+
+    def draw(self, z_plot, composite=None, dirname=''):
+        """
+        Plot data, best fit LF, and posterior LFs.
+
+        """
+        mpl.rcParams['font.size'] = '22'
+
+        fig = plt.figure(figsize=(7, 7), dpi=100)
+        ax = fig.add_subplot(1, 1, 1)
+        ax.tick_params('both', which='major', length=7, width=1)
+        ax.tick_params('both', which='minor', length=3, width=1)
+
+        mag_plot = np.linspace(-30.0,-22.0,num=100) 
+        self.plot_posterior_sample_lfs(ax, mag_plot, lw=1,
+                                       c='#d8b365', alpha=0.1, zorder=2) 
+        self.plot_bestfit_lf(ax, mag_plot, lw=2,
+                             c='#d8b365', label='individual', zorder=3)
+
+        mags, dmags, logphi, uperr, downerr = self.get_lf(z_plot)
+        ax.scatter(mags, logphi, c='#191cd7', edgecolor='None', zorder=4)
+        ax.errorbar(mags, logphi, ecolor='#191cd7', capsize=0,
+                    xerr=dmags,
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=4)
+        
+        ax.set_xlim(-28.0, -22.0)
+        ax.set_ylim(-9.2, -5.2) 
+
+        ax.set_xlabel(r'$M_{1450}$')
+        ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{Mpc}^{-3}\,\mathrm{mag}^{-1})$')
+
+        plt.legend(loc='lower right', fontsize=14, handlelength=3,
+                   frameon=False, framealpha=0.0, labelspacing=.1,
+                   handletextpad=0.4, borderpad=0.2, scatterpoints=1)
+
+        plottitle = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+        plt.title(plottitle, size='medium', y=1.01)
+
+        plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)
+        plt.savefig(plotfile, bbox_inches='tight')
+
+        plt.close('all') 
+
+        return 
