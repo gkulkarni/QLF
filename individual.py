@@ -69,11 +69,19 @@ class selmap:
         self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
 
         self.dz = np.unique(np.diff(self.z))[-1]
+        if np.isclose(self.dz, 0.0):
+            print 'dz is too small; set to 0.05' 
+            self.dz = 0.05
+            
         self.dm = np.unique(np.diff(self.m))[-1]
         print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
 
         self.area = area
-        self.volume = volume(self.z, self.area)
+        if len(np.unique(self.z)) == 1: 
+            z = np.unique(self.z)[0]
+        else:
+            raise IndexError(np.unique(self.z), 'dz is too large!')
+        self.volume = volume(z, self.area) # cMpc^3 dz^-1
         
         return
 
@@ -85,10 +93,8 @@ class selmap:
         return np.sum(tot)
 
     def totvolume(self):
-
-        z = self.z[self.p!=0.0]
-        vol = volume(z, self.area)
-        return np.sum(vol*self.dz)
+        
+        return self.volume*self.dz # cMpc^3 
 
 class lf:
 
@@ -110,7 +116,7 @@ class lf:
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
 
-        self.maps = [selmap(x[0], x[1]) for x in selection_maps]
+        self.maps = [selmap(x[0], x[1], zlims) for x in selection_maps]
                 
         return
 
@@ -283,7 +289,8 @@ class lf:
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        total_volume = np.sum(volume(z_plot, self.area)*self.dz)
+        # total_volume = np.sum(volume(z_plot, self.area)*self.dz)
+        total_volume = self.volume_in_bin() 
         phi = nums/np.diff(h[1])/total_volume  
         logphi = np.log10(phi) # cMpc^-3 mag^-1
 
