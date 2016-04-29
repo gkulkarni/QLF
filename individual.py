@@ -10,7 +10,8 @@ mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 import triangle 
 from astropy.stats import poisson_conf_interval as pci
-from astropy.stats import knuth_bin_width  as kbw 
+from astropy.stats import knuth_bin_width  as kbw
+from scipy.integrate import quad 
 import cosmolopy.distance as cd
 cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
@@ -39,13 +40,16 @@ def getselfn(selfile, zlims=None):
     with open(selfile,'r') as f: 
         z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
 
+    dz = np.unique(np.diff(z))[-1]
+    dm = np.unique(np.diff(mag))[-1]
+
     if zlims is None:
         select = None
     else:
         z_min, z_max = zlims 
         select = ((z>z_min) & (z<=z_max))
 
-    return z[select], mag[select], p[select]
+    return dz, dm, z[select], mag[select], p[select]
 
 def volume(z, area, cosmo=cosmo):
 
@@ -66,35 +70,22 @@ class selmap:
 
     def __init__(self, selection_map_file, area, zlims=None):
 
-        self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
-
-        self.dz = np.unique(np.diff(self.z))[-1]
-        if np.isclose(self.dz, 0.0):
-            print 'dz is too small; set to 0.05' 
-            self.dz = 0.05
-            
-        self.dm = np.unique(np.diff(self.m))[-1]
+        self.dz, self.dm, self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
         print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
 
         self.area = area
-        if len(np.unique(self.z)) == 1: 
-            z = np.unique(self.z)[0]
-        else:
-            raise IndexError(np.unique(self.z), 'dz is too large!')
-        self.volume = volume(z, self.area) # cMpc^3 dz^-1
+
+        zmin, zmax = zlims
+        self.volume = quad(volume, zmin, zmax, args=(self.area))[0] # cMpc^3 
         
         return
 
     def nqso(self, lumfn, theta):
 
         psi = 10.0**lumfn.log10phi(theta, self.m)
-        tot = psi*self.p*self.volume*self.dz*self.dm
+        tot = psi*self.p*self.volume*self.dm
         
         return np.sum(tot)
-
-    def totvolume(self):
-        
-        return self.volume*self.dz # cMpc^3 
 
 class lf:
 
@@ -270,7 +261,7 @@ class lf:
 
     def volume_in_bin(self):
             
-        ns = [x.totvolume() for x in self.maps]
+        ns = [x.volume for x in self.maps]
         
         return sum(ns) # cMpc^3 
 
@@ -289,7 +280,6 @@ class lf:
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        # total_volume = np.sum(volume(z_plot, self.area)*self.dz)
         total_volume = self.volume_in_bin() 
         phi = nums/np.diff(h[1])/total_volume  
         logphi = np.log10(phi) # cMpc^-3 mag^-1
