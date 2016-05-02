@@ -75,8 +75,14 @@ class selmap:
 
         self.area = area
 
-        zmin, zmax = zlims
-        self.volume = quad(volume, zmin, zmax, args=(self.area))[0] # cMpc^3 
+        # zmin, zmax = zlims
+        # self.volume = quad(volume, zmin, zmax, args=(self.area))[0] # cMpc^3 
+
+        self.volume = volume(self.z, self.area)*self.dz # cMpc^-3
+
+        # z = np.unique(self.z)
+        # print z 
+        # self.volume = volume(z, self.area)*self.dz 
         
         return
 
@@ -261,7 +267,7 @@ class lf:
 
     def volume_in_bin(self):
             
-        ns = [x.volume for x in self.maps]
+        ns = [np.unique(x.volume) for x in self.maps]
         
         return sum(ns) # cMpc^3 
 
