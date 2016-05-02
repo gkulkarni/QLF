@@ -287,7 +287,8 @@ class lf:
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        total_volume = self.volume_in_bin() 
+        total_volume = self.volume_in_bin()
+        print total_volume 
         phi = nums/np.diff(h[1])/total_volume  
         logphi = np.log10(phi) # cMpc^-3 mag^-1
 
@@ -307,6 +308,11 @@ class lf:
 
     def plot_literature(self, ax, z_plot):
 
+        """
+        Magic number warning: the selection function below is set by hand! 
+
+        """
+        
         qlf_file = 'Data/allqlfs.dat'
         (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
          logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
@@ -348,7 +354,7 @@ class lf:
         return 
         
 
-    def draw(self, z_plot, composite=None, dirname=''):
+    def draw(self, z_plot, composite=None, dirname='', plotlit=False):
         """
         Plot data, best fit LF, and posterior LFs.
 
@@ -373,10 +379,11 @@ class lf:
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
-        self.plot_literature(ax, 3.75) 
+        if plotlit: 
+            self.plot_literature(ax, 3.75) 
         
-        ax.set_xlim(-28.0, -25.0)
-        ax.set_ylim(-9.0, -6.5) 
+        ax.set_xlim(-29.0, -22.0)
+        ax.set_ylim(-10.0, -5.0) 
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1})$')
