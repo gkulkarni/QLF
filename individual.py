@@ -73,10 +73,13 @@ class selmap:
         self.dz, self.dm, self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
         print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
 
+        if self.z.size == 0:
+            return # This selmap has no points in zlims 
+        
         self.area = area
 
         self.volume = volume(self.z, self.area)*self.dz # cMpc^-3
-
+        
         return
 
     def nqso(self, lumfn, theta):
@@ -107,7 +110,12 @@ class lf:
             self.dz = zlims[1]-zlims[0]
 
         self.maps = [selmap(x[0], x[1], zlims) for x in selection_maps]
-                
+
+        # Remove selection maps outside our redshift range 
+        for i, x in enumerate(self.maps):
+            if x.z.size == 0:
+                self.maps.pop(i)
+
         return
 
     def log10phi(self, theta, mag):
@@ -303,7 +311,7 @@ class lf:
         (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
          logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
         
-        selection = ((sample==1) & (z_bin==z_plot)) 
+        selection = ((sample==13) & (z_bin==z_plot)) 
         
         def select(a):
             return a[selection]
@@ -330,7 +338,7 @@ class lf:
 
         ax.scatter(M1450, logphi, c='#d7191c',
                    edgecolor='None', zorder=301,
-                   label=r'reported values at $\langle z\rangle=3.125$')
+                   label=r'reported values at $\langle z\rangle=3.75$')
         
         ax.errorbar(M1450, logphi, ecolor='#d7191c', capsize=0,
                     xerr=np.vstack((left, right)),
@@ -365,10 +373,10 @@ class lf:
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
-        self.plot_literature(ax, 3.125) 
+        self.plot_literature(ax, 3.75) 
         
-        ax.set_xlim(-28.0, -23.0)
-        ax.set_ylim(-9.0, -5.5) 
+        ax.set_xlim(-28.0, -25.0)
+        ax.set_ylim(-9.0, -6.5) 
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1})$')
