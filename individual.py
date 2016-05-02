@@ -75,15 +75,8 @@ class selmap:
 
         self.area = area
 
-        # zmin, zmax = zlims
-        # self.volume = quad(volume, zmin, zmax, args=(self.area))[0] # cMpc^3 
-
         self.volume = volume(self.z, self.area)*self.dz # cMpc^-3
 
-        # z = np.unique(self.z)
-        # print z 
-        # self.volume = volume(z, self.area)*self.dz 
-        
         return
 
     def nqso(self, lumfn, theta):
@@ -302,7 +295,50 @@ class lf:
         uperr = np.log10(nlims[1]) - logphi 
         downerr = logphi - np.log10(nlims[0])
         
-        return mags, dmags, logphi, uperr, downerr 
+        return mags, dmags, logphi, uperr, downerr
+
+    def plot_literature(self, ax, z_plot):
+
+        qlf_file = 'Data/allqlfs.dat'
+        (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
+         logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
+        
+        selection = ((sample==1) & (z_bin==z_plot)) 
+        
+        def select(a):
+            return a[selection]
+
+        z_bin   = select(z_bin)
+        z_min   = select(z_min)
+        z_max   = select(z_max)
+        z_mean  = select(z_mean)
+        M1450   = select(M1450)
+        left    = select(left)
+        right   = select(right) 
+        logphi  = select(logphi)
+        uperr   = select(uperr)
+        downerr = select(downerr)
+        nqso    = select(nqso)
+        Veff    = select(Veff)
+        P       = select(P)
+        sample  = select(sample)
+
+        print z_plot 
+        print z_bin
+        print M1450
+        print logphi
+
+        ax.scatter(M1450, logphi, c='#d7191c',
+                   edgecolor='None', zorder=301,
+                   label=r'reported values at $\langle z\rangle=3.125$')
+        
+        ax.errorbar(M1450, logphi, ecolor='#d7191c', capsize=0,
+                    xerr=np.vstack((left, right)),
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=302)
+
+        return 
+        
 
     def draw(self, z_plot, composite=None, dirname=''):
         """
@@ -328,12 +364,14 @@ class lf:
                     xerr=dmags,
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
+
+        self.plot_literature(ax, 3.125) 
         
-        ax.set_xlim(-28.0, -22.0)
-        ax.set_ylim(-9.2, -5.2) 
+        ax.set_xlim(-28.0, -23.0)
+        ax.set_ylim(-9.0, -5.5) 
 
         ax.set_xlabel(r'$M_{1450}$')
-        ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{Mpc}^{-3}\,\mathrm{mag}^{-1})$')
+        ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1})$')
 
         plt.legend(loc='lower right', fontsize=14, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
