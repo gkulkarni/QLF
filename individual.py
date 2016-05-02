@@ -23,7 +23,7 @@ def getqlums(lumfile, zlims=None):
     """Read quasar luminosities."""
 
     with open(lumfile,'r') as f: 
-        z, mag, p, area, sample = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
+        z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
 
     if zlims is None:
         select = None
@@ -31,7 +31,7 @@ def getqlums(lumfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>z_min) & (z<=z_max))
 
-    return z[select], mag[select], p[select], area[select]
+    return z[select], mag[select], p[select], area[select], sample_id[select]
 
 def getselfn(selfile, zlims=None):
 
@@ -83,7 +83,9 @@ class selmap:
         self.area = area
 
         volarr = volume(self.z, self.area)*self.dz
-        self.volume = np.unique(volarr) # cMpc^-3 
+        self.volume = np.unique(volarr)[0] # cMpc^-3
+        if len(np.unique(volarr)) != 1:
+            print 'More than one volume in selection map!' 
         
         return
 
@@ -99,17 +101,19 @@ class lf:
     def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
 
         for datafile in quasar_files:
-            z, m, p, area= getqlums(datafile, zlims=zlims)
+            z, m, p, area, sid = getqlums(datafile, zlims=zlims)
             try:
                 self.z=np.append(self.z,z)
                 self.M1450=np.append(self.M1450,m)
                 self.p=np.append(self.p,p)
                 self.area=np.append(self.area,area)
+                self.sid=np.append(self.sid,sid)
             except(AttributeError):
                 self.z=z
                 self.M1450=m
                 self.p=p
                 self.area=area
+                self.sid=sid
 
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
@@ -271,12 +275,12 @@ class lf:
 
         return
 
-    def volume_in_bin(self):
-            
-        ns = [x.volume for x in self.maps]
-        
-        return sum(ns) # cMpc^3 
+    def quasar_volume(self, sample_id):
 
+        smap = [x for x in self.maps if x.sid == sample_id]
+
+        return smap[0].volume # cMpc^3
+        
     def get_lf(self, z_plot):
 
         # Bin data.  This is only for visualisation and to compare with the
@@ -285,16 +289,16 @@ class lf:
 
         m = self.M1450[self.p!=0.0]
         p = self.p[self.p!=0.0]
-        
+        sid = self.sid[self.p!=0.0]
+        v = np.array([self.quasar_volume(s) for s in sid])
+
         nbins = int(np.ptp(m)/kbw(m))
-        h = np.histogram(m,bins=nbins,weights=1.0/p)
+        h = np.histogram(m,bins=nbins,weights=1.0/(p*v))
         nums = h[0]
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        total_volume = self.volume_in_bin()
-        print total_volume 
-        phi = nums/np.diff(h[1])/total_volume  
+        phi = nums/np.diff(h[1])
         logphi = np.log10(phi) # cMpc^-3 mag^-1
 
         # Calculate errorbars on our binned LF.  These have been estimated
