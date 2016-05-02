@@ -23,7 +23,7 @@ def getqlums(lumfile, zlims=None):
     """Read quasar luminosities."""
 
     with open(lumfile,'r') as f: 
-        z, mag, p, area = np.loadtxt(lumfile, usecols=(1,2,3,4), unpack=True)
+        z, mag, p, area, sample = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
 
     if zlims is None:
         select = None
@@ -68,8 +68,12 @@ def percentiles(x):
 
 class selmap:
 
-    def __init__(self, selection_map_file, area, zlims=None):
+    def __init__(self, x, zlims=None):
 
+        selection_map_file, area, sample_id = x
+
+        self.sid = sample_id 
+        
         self.dz, self.dm, self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
         print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
 
@@ -78,7 +82,8 @@ class selmap:
         
         self.area = area
 
-        self.volume = volume(self.z, self.area)*self.dz # cMpc^-3
+        volarr = volume(self.z, self.area)*self.dz
+        self.volume = np.unique(volarr) # cMpc^-3 
         
         return
 
@@ -109,7 +114,7 @@ class lf:
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
 
-        self.maps = [selmap(x[0], x[1], zlims) for x in selection_maps]
+        self.maps = [selmap(x, zlims) for x in selection_maps]
 
         # Remove selection maps outside our redshift range 
         for i, x in enumerate(self.maps):
@@ -268,7 +273,7 @@ class lf:
 
     def volume_in_bin(self):
             
-        ns = [np.unique(x.volume) for x in self.maps]
+        ns = [x.volume for x in self.maps]
         
         return sum(ns) # cMpc^3 
 
