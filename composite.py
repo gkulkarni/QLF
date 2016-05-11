@@ -180,7 +180,7 @@ class lf:
                                              self.lnprob)
 
         self.sampler.run_mcmc(pos, 1000)
-        self.samples = self.sampler.chain[:, 300:, :].reshape((-1, self.ndim))
+        self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return
 
