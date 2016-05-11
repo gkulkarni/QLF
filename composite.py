@@ -200,7 +200,7 @@ class lf:
             ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
         ax.axhline(self.bf.x[param], c='#CC9966', dashes=[7,2], lw=2) 
         ax.set_ylabel(ylabel)
-        if param != self.bf.x.size:
+        if param+1 != self.bf.x.size:
             ax.set_xticklabels('')
         else:
             ax.set_xlabel('step')
