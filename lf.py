@@ -36,7 +36,8 @@ elif case == 3:
 
 lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles)
 
-g = (-1.5, -3.5, -1.5, -23.5, -0.0, -3.0, -0.0, -2.0)
+# g = (0.2, -6.7, 1.1, -29, 0.1, -2.4, -0.6, -3.5)
+g = (-0.5, -3.5, -0.5, -23.5, -0.0, -3.0, -0.0, -2.0)
 
 b = lfg.bestfit(g, method=method)
 print b
