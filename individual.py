@@ -82,17 +82,22 @@ class selmap:
         
         self.area = area
 
-        volarr = volume(self.z, self.area)*self.dz
-        self.volume = np.unique(volarr)[0] # cMpc^-3
-        if len(np.unique(volarr)) != 1:
-            print 'More than one volume in selection map!' 
+        if self.sid == 15:
+            self.dz = 1.2
+
+        self.volarr = volume(self.z, self.area)*self.dz
+        self.volume = np.unique(self.volarr)[0] # cMpc^-3
+
+        if len(np.unique(self.volarr)) != 1:
+            print 'More than one volume in selection map!'
+            print np.unique(self.volarr)
         
         return
 
     def nqso(self, lumfn, theta):
 
         psi = 10.0**lumfn.log10phi(theta, self.m)
-        tot = psi*self.p*self.volume*self.dm
+        tot = psi*self.p*self.volarr*self.dm
         
         return np.sum(tot)
 
@@ -283,9 +288,9 @@ class lf:
         
     def get_lf(self, z_plot):
 
-        # Bin data.  This is only for visualisation and to compare with the
-        # binned values reported by BOSS.  The number of bins (nbins) has been
-        # estimated using Knuth's rule (astropy.stats.knuth_bin_width).
+        # Bin data.  This is only for visualisation and to compare
+        # with reported binned values.  The number of bins (nbins) is
+        # estimated by Knuth's rule (astropy.stats.knuth_bin_width).
 
         m = self.M1450[self.p!=0.0]
         p = self.p[self.p!=0.0]
@@ -392,7 +397,7 @@ class lf:
             self.plot_literature(ax, 3.75) 
         
         ax.set_xlim(-29.0, -22.0)
-        ax.set_ylim(-10.0, -5.0) 
+        ax.set_ylim(-10.0, -3.0) 
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1})$')
