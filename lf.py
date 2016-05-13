@@ -1,6 +1,7 @@
 from composite import lf
 import sys
-import time 
+import time
+from summary import summary_plot as sp
 
 # Defaults 
 case = 3
@@ -37,15 +38,22 @@ elif case == 3:
 lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles)
 
 # g = (0.2, -6.7, 1.1, -29, 0.1, -2.4, -0.6, -3.5)
-g = (-0.5, -3.5, -0.5, -23.5, -0.0, -3.0, -0.0, -2.0)
+# g = (-0.5, -3.5, -0.5, -23.5, -0.0, -3.0, -0.0, -2.0)
+
+# g = (0.2, -6.7, 1.1, -29, -2.5, -2.0)
+g = (-0.5, -3.5, -0.5, -23.5, -1.0,  -1.0) 
 
 b = lfg.bestfit(g, method=method)
 print b
 
 # lfg.create_param_range()
 import numpy as np 
-lfg.prior_min_values = (-3.0, -10.0, -3.0, -40.0, -1.0, -5.0, -1.0, -5.0)
-lfg.prior_max_values = ( 3.0,  -2.0,  3.0, -20.0,  1.0, 2.0,  1.0, 2.0)
+# lfg.prior_min_values = (-3.0, -10.0, -3.0, -40.0, -1.0, -5.0, -1.0, -5.0)
+# lfg.prior_max_values = ( 3.0,  -2.0,  3.0, -20.0,  1.0, 2.0,  1.0, 2.0)
+
+lfg.prior_min_values = (-3.0, -10.0, -3.0, -40.0, -6.0, -3.0)
+lfg.prior_max_values = ( 3.0,  -2.0,  3.0, -20.0,  1.0,  2.0)
+
 assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
 lfg.run_mcmc()
@@ -57,5 +65,11 @@ labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$',
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
+
+sp(lfg)
+
+zmin = 2.0
+zmax = 6.5 
+z = np.linspace(zmin, zmax, num=50) 
 
 
