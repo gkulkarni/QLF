@@ -83,11 +83,15 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
 
-        a0, a1 = p 
+        if len(p) == 2: 
+            a0, a1 = p
+        elif len(p) == 1:
+            a0 = 0
+            a1 = p 
 
         return a0*(1.0+z) + a1
 
-    def getparams(self, theta, pnum=2):
+    def getparams(self, theta, pnum=np.array([2,2,1,1])):
 
         if isinstance(pnum,int):
             # Evolution of each LF parameter described by 'atz' using same
