@@ -82,11 +82,13 @@ class selmap:
         
         self.area = area
 
-        if self.sid == 15:
-            self.dz = 1.2
-
         self.volarr = volume(self.z, self.area)*self.dz
-        self.volume = np.unique(self.volarr)[0] # cMpc^-3
+
+        if zlims is not None:
+            surveydz = zlims[1]-zlims[0]
+            self.volume = np.unique(self.volarr)[0]*(surveydz/self.dz) # cMpc^-3
+        else:
+            self.volume = np.unique(self.volarr)[0] # cMpc^-3
 
         if len(np.unique(self.volarr)) != 1:
             print 'More than one volume in selection map!'
