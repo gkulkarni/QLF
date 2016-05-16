@@ -98,10 +98,13 @@ class selmap:
 
     def nqso(self, lumfn, theta):
 
-        psi = 10.0**lumfn.log10phi(theta, self.m)
-        tot = psi*self.p*self.volarr*self.dm
-        
-        return np.sum(tot)
+        try: 
+            psi = 10.0**lumfn.log10phi(theta, self.m)
+            tot = psi*self.p*self.volarr*self.dm
+            return np.sum(tot)
+        except(AttributeError):
+            return 0 
+            
 
 class lf:
 
