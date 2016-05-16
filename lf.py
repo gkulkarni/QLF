@@ -2,6 +2,7 @@ from composite import lf
 import sys
 import time
 from summary import summary_plot as sp
+from gammapi import plot_gamma as pg 
 
 # Defaults 
 case = 3
@@ -40,8 +41,8 @@ lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles)
 # g = (0.2, -6.7, 1.1, -29, 0.1, -2.4, -0.6, -3.5)
 # g = (-0.5, -3.5, -0.5, -23.5, -0.0, -3.0, -0.0, -2.0)
 
-# g = (0.2, -6.7, 1.1, -29, -2.5, -2.0)
-g = (-0.5, -3.5, -0.5, -23.5, -1.0,  -1.0) 
+g = (0.2, -6.7, 1.1, -29, -2.5, -2.0)
+# g = (-0.5, -3.5, -0.5, -23.5, -1.0,  -1.0) 
 
 b = lfg.bestfit(g, method=method)
 print b
@@ -67,9 +68,5 @@ lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
 
 sp(lfg)
-
-zmin = 2.0
-zmax = 6.5 
-z = np.linspace(zmin, zmax, num=50) 
-
+pg(lfg) 
 
