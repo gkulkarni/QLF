@@ -67,6 +67,9 @@ labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$',
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
 
-sp(lfg)
-pg(lfg) 
+# pg(lfg) 
 
+import bins
+
+sp(lfg, individuals=bins.lfs)
+pg(lfg, individuals=bins.lfs) 
