@@ -372,7 +372,18 @@ class lf:
 
         return 
         
+    def plot_hopkins(self, ax, filename):
 
+        with open(filename, 'r') as f:
+            M1450, phi = np.loadtxt(f, usecols=(1,4), unpack=True)
+
+        # 0.4 changes from per units log_10(L) to per unit M
+        phi = np.log10(phi) - np.log10(0.4)
+        ax.plot(M1450, phi, lw=2, c='k', label='Hopkins')
+
+        return 
+
+    
     def draw(self, z_plot, composite=None, dirname='', plotlit=False):
         """
         Plot data, best fit LF, and posterior LFs.
