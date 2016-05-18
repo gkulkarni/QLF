@@ -337,7 +337,10 @@ class lf:
         (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
          logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
         
-        selection = ((sample==13) & (z_bin==z_plot)) 
+        # selection = ((sample==13) & (z_bin==z_plot))
+
+        # selection = ((sample==13) & (z_min<=z_plot) & (z_max>z_plot))
+        selection = ((z_min<=z_plot) & (z_max>z_plot)) 
         
         def select(a):
             return a[selection]
@@ -411,8 +414,10 @@ class lf:
                     fmt='None', zorder=4)
 
         if plotlit: 
-            self.plot_literature(ax, 3.75) 
-        
+            self.plot_literature(ax, z_plot) 
+            # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
+            # self.plot_hopkins(ax, 'hopkins2.dat')
+            
         ax.set_xlim(-29.0, -22.0)
         ax.set_ylim(-10.0, -3.0) 
 
