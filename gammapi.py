@@ -58,9 +58,9 @@ def Gamma_HI_singleslope(loglf, theta, z, fit='composite'):
     # Taken from Equation 11 of Lusso et al. 2015.
     em = emissivity(loglf, theta, z, (-30.0, -20.0), fit=fit_type)
     alpha_EUV = -1.7
-    return 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
+    return 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
-def plot_gamma(composite, zlims=(2.0,6.5), dirname=''):
+def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname=''):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -101,7 +101,26 @@ def plot_gamma(composite, zlims=(2.0,6.5), dirname=''):
     gm += 12.0 
     ax.errorbar(zm, gm, ecolor='#fdae61', capsize=0,
                 yerr=gm_sigma, fmt='o', zorder=4, mfc='#fdae61',
-                mec='#fdae61', mew=1, ms=5, label='Calverley et al.~2011') 
+                mec='#fdae61', mew=1, ms=5, label='Calverley et al.~2011')
+
+    if individuals is not None:
+        c = np.array([x.gammapi[2]+12.0 for x in individuals])
+        u = np.array([x.gammapi[0]+12.0 for x in individuals])
+        l = np.array([x.gammapi[1]+12.0 for x in individuals])
+        uyerr = u-c
+        lyerr = c-l 
+
+        zs = np.array([x.z.mean() for x in individuals])
+        uz = np.array([x.z.max() for x in individuals])
+        lz = np.array([x.z.min() for x in individuals])
+        uzerr = uz-zs
+        lzerr = zs-lz 
+        
+        ax.errorbar(zs, c, ecolor='#404040', capsize=0,
+                    yerr=np.vstack((uyerr,lyerr)),
+                    xerr=np.vstack((lzerr,uzerr)), fmt='o',
+                    mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                    ms=5, label='Individual Fits')
 
     plt.legend(loc='lower left',fontsize=12,handlelength=3,frameon=False,framealpha=0.0,
             labelspacing=.1,handletextpad=0.4,borderpad=0.2,numpoints=1)
