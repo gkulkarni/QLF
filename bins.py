@@ -1,4 +1,6 @@
 import numpy as np
+import individual
+reload(individual) 
 from individual import lf
 
 # Defaults 
@@ -52,6 +54,9 @@ for i, rs in enumerate(z[:-1]):
 
     lfi.run_mcmc()
     lfi.get_percentiles()
+    lfi.draw(lfi.z.mean(), dirname='set5/', plotlit=True)
+    lfi.get_gammapi_percentiles(lfi.z.mean()) 
+    
     lfs.append(lfi)
 
     
