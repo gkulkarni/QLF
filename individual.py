@@ -17,6 +17,7 @@ cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
          'omega_k_0':0.0,
          'h':0.70}
+import gammapi
 
 def getqlums(lumfile, zlims=None):
 
@@ -431,3 +432,22 @@ class lf:
         plt.close('all') 
 
         return 
+
+    def get_gammapi_percentiles(self, z):
+        """
+        Calculate photoionization rate posterior mean value and 1-sigma
+        percentile.
+
+        """
+
+        rindices = np.random.randint(len(self.samples), size=300)
+        g = np.array([np.log10(gammapi.Gamma_HI(self.log10phi, theta, z, fit='individual'))
+                      for theta
+                      in self.samples[rindices]])
+        u = np.percentile(g, 15.87) 
+        l = np.percentile(g, 84.13)
+        c = np.mean(g)
+        self.gammapi = [u, l, c]
+        
+        return 
+    
