@@ -14,15 +14,17 @@ def ppost(lf, mag, theta):
 
     return 10.0**lf.log10phi(theta, mag)/lf.lfnorm(theta)
 
-def ppostdist(lf, mag): 
+def ppostdist(lf, mag, S=100): 
     """
     Given a data point mag, return an array of probabilities under
     model parameters sampled from the posterior.  See, e.g., Equation
     (7.5) of BDA3.
 
+    S values are sampled from the posterior.
+
     """
     
-    n = np.random.randint(len(lf.samples), size=100)
+    n = np.random.randint(len(lf.samples), size=S)
     return(np.array([ppost(lf, mag, t) for t in lf.samples[n]]))
 
 def lnepost(lf, mag): 
