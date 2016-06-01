@@ -1,8 +1,10 @@
-import numpy as np
+import numpy as np 
 
-def ppost(lf, mag, z, theta):
+def ppost(lf, mag, z, thetas, norms):
     """
-    Likelihood of data point mag for model lf with parameters theta.
+    Creates an array of likelihoods of a given data point (mag, z) for
+    model lf with a set of parameters thetas and corresponding LF
+    normalisations norms.
 
     This likelihood is similar to, e.g., Equation (21) of Fan et
     al. 2001 (ApJ 121 54), but is different from the likelihood used
@@ -12,22 +14,9 @@ def ppost(lf, mag, z, theta):
 
     """
 
-    return 10.0**lf.log10phi(theta, mag, z)/lf.lfnorm(theta)
+    return [10.0**lf.log10phi(t, mag, z)/n for t, n in zip(thetas, norms)]
 
-def ppostdist(lf, mag, z, S=100): 
-    """
-    Given a data point mag, return an array of probabilities under
-    model parameters sampled from the posterior.  See, e.g., Equation
-    (7.5) of BDA3.
-
-    S values are sampled from the posterior.
-
-    """
-    
-    n = np.random.randint(len(lf.samples), size=S)
-    return(np.array([ppost(lf, mag, z, t) for t in lf.samples[n]]))
-
-def lnepost(lf, mag, z): 
+def lnepost(lf, mag, z, thetas, norms): 
     """
     Given a data point mag, return two things:
 
@@ -42,7 +31,7 @@ def lnepost(lf, mag, z):
 
     """
     
-    p = ppostdist(lf, mag, z) 
+    p = ppost(lf, mag, z, thetas, norms) 
     lnp = np.log(np.mean(p))
     var = np.var(np.log(p), ddof=1) 
 
@@ -57,11 +46,18 @@ def waic(lf):
 
     """
 
-    p = np.array([lnepost(lf, m, z) for m, z in zip(lf.M1450, lf.z)])
+    # Sample the posterior and calculate corresponding LF norms.  Note
+    # that this is done differently from waic.py to save time.  But
+    # the two codes are equivalent.
+    S = 100 
+    n = np.random.randint(len(lf.samples), size=S)
+    thetas = lf.samples[n]
+    norms = np.array([lf.lfnorm(theta) for theta in thetas])
+
+    p = np.array([lnepost(lf, m, z, thetas, norms) for m, z in zip(lf.M1450, lf.z)])
 
     lppd = np.sum(p[:,0]) # Equation (7.5) of BDA3 
     p_waic_2 = np.sum(p[:,1]) # Equation (7.12) of BDA3 
 
     return -2.0 * (lppd - p_waic_2)
     
-
