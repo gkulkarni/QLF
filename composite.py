@@ -62,8 +62,10 @@ class selmap:
             
 class lf:
 
-    def __init__(self, quasar_files=None, selection_maps=None):
+    def __init__(self, quasar_files=None, selection_maps=None, pnum=np.array([2,2,1,1])):
 
+        self.pnum = pnum 
+        
         for datafile in quasar_files:
             z, m, p = getqlums(datafile)
             try:
@@ -91,16 +93,16 @@ class lf:
 
         return a0*(1.0+z) + a1
 
-    def getparams(self, theta, pnum=np.array([2,2,1,1])):
+    def getparams(self, theta):
 
-        if isinstance(pnum,int):
+        if isinstance(self.pnum, int):
             # Evolution of each LF parameter described by 'atz' using same
-            # number 'pnum' of parameters.
-            splitlocs = pnum*np.array([1,2,3])
+            # number 'self.pnum' of parameters.
+            splitlocs = self.pnum*np.array([1,2,3])
         else:
             # Evolution of each LF parameter described by 'atz' using
-            # different number 'pnum[i]' of parameters.
-            splitlocs = np.cumsum(pnum)
+            # different number 'self.pnum[i]' of parameters.
+            splitlocs = np.cumsum(self.pnum)
 
         return np.split(theta,splitlocs)
 
@@ -183,8 +185,8 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 1000)
-        self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
+        self.sampler.run_mcmc(pos, 100)
+        self.samples = self.sampler.chain[:, 50:, :].reshape((-1, self.ndim))
 
         return
 
