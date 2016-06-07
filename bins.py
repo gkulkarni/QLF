@@ -2,6 +2,7 @@ import numpy as np
 import individual
 reload(individual) 
 from individual import lf
+from summary import get_percentiles
 
 # Defaults 
 case = 3
@@ -54,9 +55,18 @@ for i, rs in enumerate(z[:-1]):
 
     lfi.run_mcmc()
     lfi.get_percentiles()
-    lfi.draw(lfi.z.mean(), dirname='set5/', plotlit=True)
+    # lfi.draw(lfi.z.mean(), dirname='set5/', plotlit=True)
     lfi.get_gammapi_percentiles(lfi.z.mean()) 
     
     lfs.append(lfi)
 
+write_percentiles = True
+if write_percentiles:
+    zs = np.array([m.z.mean() for m in lfs])
+    phi_star = get_percentiles(lfs, param=1, individuals_isfile=False)
+    m_star   = get_percentiles(lfs, param=2, individuals_isfile=False)
+    alpha    = get_percentiles(lfs, param=3, individuals_isfile=False)
+    beta     = get_percentiles(lfs, param=4, individuals_isfile=False)
+    np.savez('percs.npz', zs=zs, phi_star=phi_star, m_star=m_star,
+             alpha=alpha, beta=beta)
     
