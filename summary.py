@@ -17,11 +17,19 @@ zlims=(2.0,6.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
-def get_percentiles(individuals, param):
+def get_percentiles(individuals, param, individuals_isfile=True):
     """
     1, 2, 3, 4 = phi_star, m_star, alpha, beta.
 
     """
+
+    if individuals_isfile:
+
+        data = np.load(individuals)
+        if param == 1: return data['phi_star']
+        if param == 2: return data['m_star']
+        if param == 3: return data['alpha']
+        if param == 4: return data['beta']
     
     if param == 1:
         
@@ -53,14 +61,18 @@ def get_percentiles(individuals, param):
 
     else:
         
-        raise ValueError('param must be 1, 2, 3 or 4')
-
+        raise ValueError('par    am must be 1, 2, 3 or 4')
+    
     return 
         
-def plot_individuals(ax, individuals, param=1):
+def plot_individuals(ax, individuals, param=1, individuals_isfile=True):
 
-    zs = np.array([m.z.mean() for m in individuals])
-    c, u, l = get_percentiles(individuals, param)
+    if individuals_isfile:
+        data = np.load(individuals)
+        zs = data['zs']
+    else:
+        zs = np.array([m.z.mean() for m in individuals])
+    c, u, l = get_percentiles(individuals, param, individuals_isfile=individuals_isfile)
     uyerr = u-c
     lyerr = c-l 
 
@@ -69,7 +81,7 @@ def plot_individuals(ax, individuals, param=1):
 
     return 
 
-def plot_phi_star(fig, composite, individuals=None):
+def plot_phi_star(fig, composite, individuals=None, individuals_isfile=True):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -87,7 +99,7 @@ def plot_phi_star(fig, composite, individuals=None):
     ax.plot(z, phi, color='k', zorder=2)
 
     if individuals is not None: 
-        plot_individuals(ax, individuals=individuals, param=1)
+        plot_individuals(ax, individuals=individuals, param=1, individuals_isfile=individuals_isfile)
 
     ax.set_xticks((2,3,4,5,6))
     ax.set_ylabel(r'$\log_{10}(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3})$')
@@ -95,7 +107,7 @@ def plot_phi_star(fig, composite, individuals=None):
 
     return
 
-def plot_m_star(fig, composite, individuals=None):
+def plot_m_star(fig, composite, individuals=None, individuals_isfile=True):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -116,7 +128,7 @@ def plot_m_star(fig, composite, individuals=None):
     ax.plot(z, M, color='k', zorder=4)
 
     if individuals is not None: 
-        plot_individuals(ax, individuals=individuals, param=2)
+        plot_individuals(ax, individuals=individuals, param=2, individuals_isfile=individuals_isfile)
         
     ax.set_xticks((2,3,4,5,6))
     ax.set_ylabel(r'$M_*$')
@@ -124,7 +136,7 @@ def plot_m_star(fig, composite, individuals=None):
 
     return
 
-def plot_alpha(fig, composite, individuals=None):
+def plot_alpha(fig, composite, individuals=None, individuals_isfile=True):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -142,7 +154,7 @@ def plot_alpha(fig, composite, individuals=None):
     ax.plot(z, alpha, color='k', zorder=4)
 
     if individuals is not None: 
-        plot_individuals(ax, individuals=individuals, param=3)
+        plot_individuals(ax, individuals=individuals, param=3, individuals_isfile=individuals_isfile)
     
     ax.set_xticks((2,3,4,5,6))
     ax.set_ylabel(r'$\alpha$')
@@ -150,7 +162,7 @@ def plot_alpha(fig, composite, individuals=None):
 
     return
 
-def plot_beta(fig, composite, individuals=None):
+def plot_beta(fig, composite, individuals=None, individuals_isfile=True):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -172,7 +184,7 @@ def plot_beta(fig, composite, individuals=None):
         ax.plot(z, beta, color='k', zorder=4)
 
     if individuals is not None: 
-        plot_individuals(ax, individuals=individuals, param=4)
+        plot_individuals(ax, individuals=individuals, param=4, individuals_isfile=individuals_isfile)
     
     ax.set_xticks((2,3,4,5,6))
     ax.set_ylabel(r'$\beta$')
@@ -180,7 +192,7 @@ def plot_beta(fig, composite, individuals=None):
 
     return 
 
-def summary_plot(composite, individuals=None, zlims=(2.0,6.0), dirname=''):
+def summary_plot(composite, individuals=None, zlims=(2.0,6.0), dirname='', individuals_isfile=True):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -198,10 +210,10 @@ def summary_plot(composite, individuals=None, zlims=(2.0,6.0), dirname=''):
     fig.subplots_adjust(left=lb, bottom=lb, right=tr, top=tr,
                         wspace=whspace, hspace=whspace)
 
-    plot_phi_star(fig, composite, individuals=individuals)
-    plot_m_star(fig, composite, individuals=individuals)
-    plot_alpha(fig, composite, individuals=individuals) 
-    plot_beta(fig, composite, individuals=individuals) 
+    plot_phi_star(fig, composite, individuals=individuals, individuals_isfile=individuals_isfile)
+    plot_m_star(fig, composite, individuals=individuals, individuals_isfile=individuals_isfile)
+    plot_alpha(fig, composite, individuals=individuals, individuals_isfile=individuals_isfile) 
+    plot_beta(fig, composite, individuals=individuals, individuals_isfile=individuals_isfile) 
 
     plt.savefig(dirname+'evolution.pdf',bbox_inches='tight')
 
