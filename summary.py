@@ -102,7 +102,7 @@ def plot_phi_star(fig, composite, individuals=None, individuals_isfile=True):
         plot_individuals(ax, individuals=individuals, param=1, individuals_isfile=individuals_isfile)
 
     ax.set_xticks((2,3,4,5,6))
-    ax.set_ylabel(r'$\log_{10}(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3})$')
+    ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
     ax.set_xticklabels('')
 
     return
@@ -118,7 +118,7 @@ def plot_m_star(fig, composite, individuals=None, individuals_isfile=True):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-28.0, -22.0)
+    ax.set_ylim(-28.0, -24.0)
 
     for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
         params = composite.getparams(theta) 
@@ -131,6 +131,7 @@ def plot_m_star(fig, composite, individuals=None, individuals_isfile=True):
         plot_individuals(ax, individuals=individuals, param=2, individuals_isfile=individuals_isfile)
         
     ax.set_xticks((2,3,4,5,6))
+    ax.set_yticks((-24, -25, -26, -27))
     ax.set_ylabel(r'$M_*$')
     ax.set_xticklabels('')
 
