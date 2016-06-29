@@ -36,38 +36,54 @@ elif case == 3:
                  ('Data/glikman11_selfunc_dls.dat',1.71),
                  ('Data/glikman11_selfunc_ndwfs.dat',2.05)]
 
-lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles)
+elif case == 4: 
 
-g = (0.2, -6.7, 1.1, -29, -2.5, -2.0)
+    qlumfiles = ['Data/bossdr9color.dat',
+                 'Data/new_data/dr7z3p7.dat',
+                 'Data/glikman11qso.dat',
+                 'Data/new_data/mcgreer13_s82sample.dat',
+                 'Data/new_data/mcgreer13_dr7sample.dat',
+                 'Data/new_data/mcgreer13_s82extend.dat']
+    
+    selnfiles = [('Data/ross13_selfunc2.dat',2236.0),
+                 ('Data/new_data/sdss_selfunchigh.dat',6248.0),
+                 ('Data/glikman11_selfunc_dls.dat',1.71),
+                 ('Data/glikman11_selfunc_ndwfs.dat',2.05),
+                 ('Data/new_data/mcgreer13_s82selfunc.dat',235.0),
+                 ('Data/new_data/mcgreer13_dr7selfunc.dat',6248.0)]
+    
+lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,3,3,3])
+
+# g = (0.2, -6.7, 1.1, -29, -2.5, -2.0)
+
+# g = [-6.7, 0.2, -2.6, 1.1, -2.5, -1.9]
+
+g = [-6.7, -1.8, 0.2, -26.0, -1.8, 0.2, -5.0, -1.8, -0.2, -1.6, -1.8, 0.6]
 
 b = lfg.bestfit(g, method=method)
-print b 
+print b
 
 # Uncomment if you want automatic priors 
 # lfg.create_param_range()
 
 import numpy as np 
-lfg.prior_min_values = (-3.0, -10.0, -3.0, -40.0, -6.0, -3.0)
-lfg.prior_max_values = ( 3.0,  -2.0,  3.0, -20.0,  1.0,  2.0)
+
+lfg.prior_min_values = np.array([-8.0, -3.0, -2.0, -30.0, -3.0, -1.0, -5.0, -3.0, -1.0, -3, -1.0, -1.0])
+lfg.prior_max_values = np.array([-5.0, -1.0, 0.4, -20.0, -1.0, 2.0, -1.0, -1.0, 3.0, -0.1, 0.0, 1.5])
 
 assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
 lfg.run_mcmc()
 
-labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$',
-          r'$a_0 [M_*]$', r'$a_1 [M_*]$',
-          r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
-          r'$a_0 [\beta]$', r'$a_1 [\beta]$']
+labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$', r'$a_0 [M_*]$', r'$a_1 [M_*]$', r'$a_2 [M_*]$', r'$a_0 [\alpha]$', r'$a_1 [\alpha]$', r'$a_2 [\alpha]$', r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
 
 # Uncomment if you want full individual calculation 
-# import bins
-
-sp(lfg, individuals='percs.npz')
-
-# pg(lfg, individuals=bins.lfs) 
+import bins
+sp(lfg, individuals=bins.lfs, individuals_isfile=False)
+pg(lfg, individuals=bins.lfs)
 
 from waic_composite import waic
 print 'WIAC=', waic(lfg)
