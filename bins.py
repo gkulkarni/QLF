@@ -5,7 +5,7 @@ from individual import lf
 from summary import get_percentiles
 
 # Defaults 
-case = 3
+case = 4
 method = 'Nelder-Mead'
 
 if case == 1:
@@ -33,6 +33,22 @@ elif case == 3:
                  ('Data/glikman11_selfunc_dls.dat',1.71,15),
                  ('Data/glikman11_selfunc_ndwfs.dat',2.05,6)]
 
+elif case == 4: 
+
+    qlumfiles = ['Data/bossdr9color.dat',
+                 'Data/new_data/dr7z3p7.dat',
+                 'Data/glikman11qso.dat',
+                 'Data/new_data/mcgreer13_s82sample.dat',
+                 'Data/new_data/mcgreer13_dr7sample.dat',
+                 'Data/new_data/mcgreer13_s82extend.dat']
+    
+    selnfiles = [('Data/ross13_selfunc2.dat',2236.0,1),
+                 ('Data/new_data/sdss_selfunchigh.dat',6248.0,13),
+                 ('Data/glikman11_selfunc_dls.dat',1.71,15),
+                 ('Data/glikman11_selfunc_ndwfs.dat',2.05,6),
+                 ('Data/new_data/mcgreer13_s82selfunc.dat',235.0,8),
+                 ('Data/new_data/mcgreer13_dr7selfunc.dat',6248.0,16)]
+    
 z = np.array([2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.5, 4.0, 4.5, 5.0])
 
 lfs = [] 
@@ -55,7 +71,7 @@ for i, rs in enumerate(z[:-1]):
 
     lfi.run_mcmc()
     lfi.get_percentiles()
-    # lfi.draw(lfi.z.mean(), dirname='set5/', plotlit=True)
+    lfi.draw(lfi.z.mean(), dirname='set5/', plotlit=True)
     lfi.get_gammapi_percentiles(lfi.z.mean()) 
     
     lfs.append(lfi)
@@ -67,6 +83,6 @@ if write_percentiles:
     m_star   = get_percentiles(lfs, param=2, individuals_isfile=False)
     alpha    = get_percentiles(lfs, param=3, individuals_isfile=False)
     beta     = get_percentiles(lfs, param=4, individuals_isfile=False)
-    np.savez('percs.npz', zs=zs, phi_star=phi_star, m_star=m_star,
+    np.savez('percs_newdata.npz', zs=zs, phi_star=phi_star, m_star=m_star,
              alpha=alpha, beta=beta)
     
