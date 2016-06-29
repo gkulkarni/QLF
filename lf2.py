@@ -32,13 +32,7 @@ elif case == 3:
                  ('Data/glikman11_selfunc_dls.dat',1.71,15),
                  ('Data/glikman11_selfunc_ndwfs.dat',2.05,6)]
 
-# zl = (2.2, 2.25)
-# zl = (3.1, 3.15)
-
-zl = (3.775, 3.825)
-# zl = (3.725, 3.875)
-
-# zl = (3.6, 4.0)
+zl = (4.0, 5.0) 
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 
 g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
