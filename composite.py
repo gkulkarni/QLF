@@ -14,6 +14,7 @@ cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
          'omega_k_0':0.0,
          'h':0.70}
+from numpy.polynomial import Chebyshev as T
 
 def getselfn(selfile):
 
@@ -84,14 +85,16 @@ class lf:
     def atz(self, z, p):
 
         """Redshift evolution of QLF parameters."""
+        
+        return T(p, domain=[2.0,6.0])(1+z)
+        
+        # if len(p) == 2: 
+        #     a0, a1 = p
+        # elif len(p) == 1:
+        #     a0 = 0
+        #     a1 = p 
 
-        if len(p) == 2: 
-            a0, a1 = p
-        elif len(p) == 1:
-            a0 = 0
-            a1 = p 
-
-        return a0*(1.0+z) + a1
+        # return a0*(1.0+z) + a1
 
     def getparams(self, theta):
 
@@ -185,8 +188,8 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 100)
-        self.samples = self.sampler.chain[:, 50:, :].reshape((-1, self.ndim))
+        self.sampler.run_mcmc(pos, 1000)
+        self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return
 
