@@ -367,7 +367,7 @@ class lf:
 
         ax.scatter(M1450, logphi, c='#d7191c',
                    edgecolor='None', zorder=301,
-                   label=r'reported values at $\langle z\rangle=3.75$')
+                   label=r'reported values')
         
         ax.errorbar(M1450, logphi, ecolor='#d7191c', capsize=0,
                     xerr=np.vstack((left, right)),
@@ -385,9 +385,8 @@ class lf:
         phi = np.log10(phi) - np.log10(0.4)
         ax.plot(M1450, phi, lw=2, c='k', label='Hopkins')
 
-        return 
+        return
 
-    
     def draw(self, z_plot, composite=None, dirname='', plotlit=False):
         """
         Plot data, best fit LF, and posterior LFs.
@@ -422,7 +421,7 @@ class lf:
         ax.set_ylim(-10.0, -3.0) 
 
         ax.set_xlabel(r'$M_{1450}$')
-        ax.set_ylabel(r'$\log_{10}(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1})$')
+        ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
 
         plt.legend(loc='lower right', fontsize=14, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
