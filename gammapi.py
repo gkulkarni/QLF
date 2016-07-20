@@ -107,6 +107,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
     ax.tick_params('both', which='minor', length=5, width=1)
 
     if lsa:
+
         rindices = np.random.randint(len(composite.samples), size=900)
         for theta in composite.samples[rindices]:
             g = np.array([Gamma_HI(composite.log10phi, theta, rs) for rs in z])
@@ -119,6 +120,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
         ax.plot(z, g, color='k', zorder=2)
 
     if rt:
+        
         if fast:
             data = np.load('gammapi.npz')
             z = data['z']
@@ -128,22 +130,26 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
             ax.fill_between(z, g_lowlim, g_uplim, color='#67a9cf', alpha=0.3, edgecolor='None', zorder=1) 
             ax.plot(z, g, color='k', zorder=2)
         else:
-            z = np.linspace(zmin, zmax, num=10) 
-
-            lowlim = np.percentile(composite.samples, 15.87, axis=0)
-            g_lowlim = np.array([rtg.gamma_HI(rs, composite.log10phi, lowlim) for rs in z])
-            g_lowlim = np.log10(g_lowlim)+12.0
-            uplim = np.percentile(composite.samples, 84.13, axis=0)
-            g_uplim = np.array([rtg.gamma_HI(rs, composite.log10phi, uplim) for rs in z])
-            g_uplim = np.log10(g_uplim)+12.0
-            ax.fill_between(z, g_lowlim, g_uplim, color='#67a9cf', alpha=0.3, edgecolor='None', zorder=1) 
-
+            theta = composite.samples[np.random.randint(len(composite.samples))]
+            ga = np.array([rtg.gamma_HI(rs, composite.log10phi, theta) for rs in z])
+            ga = np.log10(ga)+12.0
+            count = 1 
+            print count 
+            rindices = np.random.randint(len(composite.samples), size=100)
+            for theta in composite.samples[rindices]:
+                g = np.array([rtg.gamma_HI(rs, composite.log10phi, theta) for rs in z])
+                count += 1
+                print count 
+                g = np.log10(g)+12.0
+                ax.plot(z, g, color='#67a9cf', alpha=0.3, zorder=1)
+                ga = np.vstack((ga, g))
+                
             bf = composite.samples.mean(axis=0)
-            g = np.array([rtg.gamma_HI(rs, composite.log10phi, bf) for rs in z])
+            g = np.array([Gamma_HI(composite.log10phi, bf, rs) for rs in z])
             g = np.log10(g)+12.0
-            ax.plot(z, g, color='k', zorder=2, dashes=[7,2], label='radiative transfer')
+            ax.plot(z, g, color='k', zorder=2)
 
-            np.savez('gammapi', z=z, g=g, g_lowlim=g_lowlim, g_uplim=g_uplim)
+            np.savez('gammapi', z=z, ga=ga, g=g)
 
     ax.set_ylabel(r'$\log_{10}(\Gamma_\mathrm{HI}/10^{-12} \mathrm{s}^{-1})$')
     ax.set_xlabel('$z$')
@@ -167,6 +173,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
                 mec='#99CC66', mew=1, ms=5)
 
     if lsa:
+        
         if individuals is not None:
             c = np.array([x.gammapi[2]+12.0 for x in individuals])
             u = np.array([x.gammapi[0]+12.0 for x in individuals])
@@ -187,6 +194,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
                         ms=5, label='Individual Fits')
 
     if rt:
+        
         if individuals is not None:
             zs = np.array([x.z.mean() for x in individuals])
             uz = np.array([x.z.max() for x in individuals])
