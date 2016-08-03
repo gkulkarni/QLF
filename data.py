@@ -37,7 +37,8 @@ def plot_data(quasar_files):
 
     n = len(quasar_files)
 
-    cs = [(0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
+    cs = [(0.65371782148585622, 0.84708959004458262, 0.32827375098770734),
+          (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
           (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
           (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
           (0.90311419262605563, 0.54185316071790801, 0.76495195557089413),
@@ -47,9 +48,12 @@ def plot_data(quasar_files):
           (0.70196080207824707, 0.70196080207824707, 0.70196080207824707),
           (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
           (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
-          (0.55432528607985565, 0.62711267120697922, 0.79595541393055635)]
+          (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
+          (0.90311419262605563, 0.54185316071790801, 0.76495195557089413)]
+          
 
-    labels=['BOSS DR9 color-selected (Ross et al.\ 2013)',
+    labels=['SDSS DR7 with Richards et al.\ (2006) selection',
+            'BOSS DR9 color-selected (Ross et al.\ 2013)',
             'SDSS DR7 with Richards et al.\ (2006) selection',
             'Glikman et al.\ (2011)',
             'SDSS DR7 with McGreer et al.\ (2013) selection',
@@ -59,7 +63,8 @@ def plot_data(quasar_files):
             'SDSS Fan et al.\ (2006)',
             'SDSS Deep Jiang et al.\ (2009)',
             'SDSS Deep Jiang et al.\ (2008)',
-            'CFHQS Deep Survey Willott et al. (2010)']
+            'CFHQS Deep Survey Willott et al.\ (2010)',
+            'UKIDSS-DXS Kashikawa et al.\ (2015)']
     
     for i, datafile in enumerate(quasar_files):
         z, m, p = getqlums(datafile)
@@ -76,7 +81,8 @@ def plot_data(quasar_files):
     ax.set_xlabel(r'redshift')
     ax.set_ylabel(r'Number of quasars')
 
-    plt.ylim(7e-1, 1.0e4)
+    plt.ylim(7e-1, 5.0e4)
+    plt.xlim(0.7, 7.0)
 
     plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -86,7 +92,8 @@ def plot_data(quasar_files):
 
     return
 
-qlumfiles = ['Data/bossdr9color.dat',
+qlumfiles = ['Data/dr7z2p2.dat',
+             'Data/bossdr9color.dat',
              'Data/dr7z3p7.dat',
              'Data/glikman11qso.dat',
              'Data/mcgreer13_dr7sample.dat',
@@ -96,7 +103,8 @@ qlumfiles = ['Data/bossdr9color.dat',
              'Data/fan06_sample.dat',
              'Data/jiang09_sample.dat',
              'Data/jiang08_sample.dat',
-             'Data/willott10_cfhqsdeepsample.dat'
+             'Data/willott10_cfhqsdeepsample.dat',
+             'Data/kashikawa15_sample.dat'
              ]
 
 plot_data(qlumfiles)
