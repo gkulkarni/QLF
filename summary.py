@@ -89,7 +89,7 @@ def plot_phi_star(fig, composite, individuals=None, individuals_isfile=True):
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-8.5, -5.9)
+    ax.set_ylim(-9.5, -5.5)
 
     for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
         params = composite.getparams(theta) 
@@ -118,7 +118,7 @@ def plot_m_star(fig, composite, individuals=None, individuals_isfile=True):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-28.0, -24.0)
+    ax.set_ylim(-28.5, -23.0)
 
     for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
         params = composite.getparams(theta) 
@@ -131,7 +131,7 @@ def plot_m_star(fig, composite, individuals=None, individuals_isfile=True):
         plot_individuals(ax, individuals=individuals, param=2, individuals_isfile=individuals_isfile)
         
     ax.set_xticks((2,3,4,5,6))
-    ax.set_yticks((-24, -25, -26, -27))
+    #ax.set_yticks((-24, -25, -26, -27))
     ax.set_ylabel(r'$M_*$')
     ax.set_xticklabels('')
 
@@ -145,7 +145,7 @@ def plot_alpha(fig, composite, individuals=None, individuals_isfile=True):
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-6.0, -2.7)
+    ax.set_ylim(-7.0, -2.3)
 
     for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
         params = composite.getparams(theta)
@@ -158,7 +158,7 @@ def plot_alpha(fig, composite, individuals=None, individuals_isfile=True):
         plot_individuals(ax, individuals=individuals, param=3, individuals_isfile=individuals_isfile)
     
     ax.set_xticks((2,3,4,5,6))
-    ax.set_ylabel(r'$\alpha$')
+    ax.set_ylabel(r'$\alpha$ (bright end slope)')
     ax.set_xlabel('$z$')
 
     return
@@ -174,7 +174,7 @@ def plot_beta(fig, composite, individuals=None, individuals_isfile=True):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-2.1, -1.0)
+    ax.set_ylim(-2.5, -0.9)
 
     if composite is not None: 
         for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
@@ -188,7 +188,7 @@ def plot_beta(fig, composite, individuals=None, individuals_isfile=True):
         plot_individuals(ax, individuals=individuals, param=4, individuals_isfile=individuals_isfile)
     
     ax.set_xticks((2,3,4,5,6))
-    ax.set_ylabel(r'$\beta$')
+    ax.set_ylabel(r'$\beta$ (faint end slope)')
     ax.set_xlabel('$z$')
 
     return 
