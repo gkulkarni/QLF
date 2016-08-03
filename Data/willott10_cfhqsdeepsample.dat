@@ -1,0 +1,4 @@
+# Willott et al. (2010) uniform sample for CFHQS Deep Survey (4.47deg2)
+# corrected for cosmology in M1450
+# counter  z     M1450  p        area   sample
+        1  6.010 -22.16 0.20630    4.47 10
