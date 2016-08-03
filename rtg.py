@@ -124,14 +124,14 @@ def j(nu0, z0, *args, **kwargs):
     zmax = 6.6
     dz = 0.1
     
-    def integrand(z, *args):
+    def integrand(z, *args, **kwargs):
 
         nu = nu0*(1.0+z)/(1.0+z0)
         
-        return dlbydz(z)*vscale(z0,z)*emissivity(nu, z, *args)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
+        return dlbydz(z)*vscale(z0,z)*emissivity(nu, z, *args, **kwargs)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
 
     rs = np.arange(z0, zmax, dz)
-    j = np.array([integrand(r, *args) for r in rs])
+    j = np.array([integrand(r, *args, **kwargs) for r in rs])
     r = np.trapz(j, x=rs)
     r /= (4.0*np.pi)  
     
@@ -163,14 +163,14 @@ def gamma_HI(z, *args, **kwargs):
 
     lognu = np.arange(lognu_min, lognu_max, dnu)
 
-    def integrand(lognu, *args):
+    def integrand(lognu, *args, **kwargs):
 
         nu = np.exp(lognu) # Hz 
         hplanck = 6.626069e-34 # Js
         cmbympc = 3.24077928965e-25 
-        return nu * j(nu, z, *args) * sigma_HI(nu) * cmbympc**2 / (hplanck * 1.0e7 * nu) # s^-1 sr^-1 Hz^-1 
+        return nu * j(nu, z, *args, **kwargs) * sigma_HI(nu) * cmbympc**2 / (hplanck * 1.0e7 * nu) # s^-1 sr^-1 Hz^-1 
 
-    g = np.array([integrand(n, *args) for n in lognu])
+    g = np.array([integrand(n, *args, **kwargs) for n in lognu])
     r = np.trapz(g, x=lognu) # s^-1 sr^-1 
     r *= 4.0*np.pi # s^-1
 
