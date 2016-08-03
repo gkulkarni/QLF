@@ -18,6 +18,7 @@ cosmo = {'omega_M_0':0.3,
          'omega_k_0':0.0,
          'h':0.70}
 import gammapi
+import rtg
 
 def getqlums(lumfile, zlims=None):
 
@@ -437,21 +438,36 @@ class lf:
 
         return 
 
-    def get_gammapi_percentiles(self, z):
+    def get_gammapi_percentiles(self, z, rt=True):
         """
         Calculate photoionization rate posterior mean value and 1-sigma
         percentile.
 
         """
+        if rt:
+            rindices = np.random.randint(len(self.samples), size=100)
+            g = np.array([np.log10(rtg.gamma_HI(z, self.log10phi, theta,
+                                                individual=True))
+                          for theta
+                          in self.samples[rindices]])
+            u = np.percentile(g, 15.87) 
+            l = np.percentile(g, 84.13)
+            c = np.mean(g)
+            self.gammapi = [u, l, c]
 
-        rindices = np.random.randint(len(self.samples), size=300)
-        g = np.array([np.log10(gammapi.Gamma_HI(self.log10phi, theta, z, fit='individual'))
-                      for theta
-                      in self.samples[rindices]])
-        u = np.percentile(g, 15.87) 
-        l = np.percentile(g, 84.13)
-        c = np.mean(g)
-        self.gammapi = [u, l, c]
-        
+            gammafile = 'gammahi_z{0:.3f}'.format(z)
+            np.savez(gammafile, z=z, g=g, ulc=self.gammapi) 
+            
+        else:
+            rindices = np.random.randint(len(self.samples), size=300)
+            g = np.array([np.log10(gammapi.Gamma_HI(self.log10phi, theta, z,
+                                                    fit='individual'))
+                          for theta
+                          in self.samples[rindices]])
+            u = np.percentile(g, 15.87) 
+            l = np.percentile(g, 84.13)
+            c = np.mean(g)
+            self.gammapi = [u, l, c]
+            
         return 
     
