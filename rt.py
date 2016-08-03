@@ -75,7 +75,7 @@ def dlbydz(z):
     cmbympc = 3.24077928965e-25
     c = 2.998e10*yrbys*cmbympc # Mpc/yr 
     
-    return c/(1.0+z)/H(z) # Mpc 
+    return c/((1.0+z)*H(z)) # Mpc 
 
 def vscale(z0, z):
 
@@ -93,7 +93,9 @@ def emissivity(nu, z):
     c = 2.998e10 # cm/s 
     l = c*1.0e8/nu # Angstrom
     
-    return np.interp(l, wavelengths, emissivities_at_z(z)) # ergs/s/Mpc^3/Hz
+    e = np.interp(l, wavelengths, emissivities_at_z(z)) # ergs/s/cMpc^3/Hz
+    e *= (1.0+z)**3 # ergs/s/pMpc^3/Hz
+    return e 
 
 def j(nu0, z0, zmax=6.0, dz=0.1):
 
@@ -102,12 +104,24 @@ def j(nu0, z0, zmax=6.0, dz=0.1):
         nu = nu0*(1.0+z)/(1.0+z0)
         return dlbydz(z)*vscale(z0,z)*emissivity(nu, z)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
 
-    rs = np.arange(2.0, zmax, dz)
+    # rs = np.arange(2.0, zmax, dz)
+    rs = np.arange(z0, zmax, dz)
     j = np.array([integrand(r) for r in rs])
     r = np.trapz(j, x=rs)
     r /= (4.0*np.pi)  
     
     return r # ergs/s/Mpc^2/Hz/sr 
+
+def j2(nu0, z0, zmax=6.0):
+
+    def integrand(z):
+
+        nu = nu0*(1.0+z)/(1.0+z0)
+        return dlbydz(z)*vscale(z0,z)*emissivity(nu, z)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
+
+    r = quad(integrand, z0, zmax)
+    
+    return r[0]/(4.0*np.pi)   # ergs/s/Mpc^2/Hz/sr 
 
 # x = j(3.29e15, 2.0, dz=0.1)
 # print x 
@@ -307,4 +321,4 @@ def plot_tau_vs_z():
     plt.savefig('tauz.pdf',bbox_inches='tight')
     
 
-plot_tau_vs_z() 
+
