@@ -124,11 +124,12 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
         if fast:
             data = np.load('gammapi.npz')
             z = data['z']
-            g = data['g']
-            g_lowlim = data['g_lowlim']
-            g_uplim = data['g_uplim']
-            ax.fill_between(z, g_lowlim, g_uplim, color='#67a9cf', alpha=0.3, edgecolor='None', zorder=1) 
-            ax.plot(z, g, color='k', zorder=2)
+            ga = data['ga']
+            g_mean = np.mean(ga, axis=0)
+            g_up = np.percentile(ga, 15.87, axis=0)
+            g_low = np.percentile(ga, 100.0-15.87, axis=0)
+            ax.fill_between(z, g_low, g_up, color='#67a9cf', alpha=0.5, edgecolor='None', zorder=1) 
+            ax.plot(z, g_mean, color='k', zorder=2)
         else:
             theta = composite.samples[np.random.randint(len(composite.samples))]
             ga = np.array([rtg.gamma_HI(rs, composite.log10phi, theta) for rs in z])
@@ -154,7 +155,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
     ax.set_ylabel(r'$\log_{10}(\Gamma_\mathrm{HI}/10^{-12} \mathrm{s}^{-1})$')
     ax.set_xlabel('$z$')
     ax.set_xlim(2.,6.5)
-    ax.set_ylim(-2.,1.)
+    ax.set_ylim(-2.,0.5)
     ax.set_xticks((2,3,4,5,6))
     
     zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True) 
@@ -194,35 +195,61 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
                         ms=5, label='Individual Fits')
 
     if rt:
-        
+
         if individuals is not None:
-            zs = np.array([x.z.mean() for x in individuals])
-            uz = np.array([x.z.max() for x in individuals])
-            lz = np.array([x.z.min() for x in individuals])
-            uzerr = uz-zs
-            lzerr = zs-lz 
-            print zs
 
-            g = []
-            for x in individuals:
-                z = x.z.mean()
-                bf = x.samples.mean(axis=0)
-                rate = rtg.gamma_HI(z, x.log10phi, bf, individual=True)
-                rate = np.log10(rate)+12.0
-                g.append(rate)
+            if fast:
 
-            g = np.array(g)
-            ax.scatter(zs, g, s=32, c='#ffffff', edgecolor='#404040', zorder=3, label='Individual fits')
+                data = np.load('gammapi_individuals.npz')
+                zs = data['zs']
+                g = data['g']
+                uzerr = data['uzerr']
+                lzerr = data['lzerr']
+                uyerr = data['uyerr']
+                lyerr = data['lyerr']
 
-            g_up, g_low = get_gamma_error(individuals)
-            uyerr = g_up-g
-            lyerr = g-g_low
-            ax.errorbar(zs, g, ecolor='#404040', capsize=0,
-                        yerr=np.vstack((uyerr,lyerr)),
-                        xerr=np.vstack((lzerr,uzerr)),
-                        fmt='None',zorder=2)
+                uyerr[-1]=-0.1
+                uyerr[-2]=-0.1
 
-            np.savez('gammapi_individuals', zs=zs, g=g, uzerr=uzerr, lzerr=lzerr, uyerr=uyerr, lyerr=lyerr)
+
+                lyerr[-1]=-0.1
+                lyerr[-2]=-0.1
+                
+                ax.scatter(zs, g, s=32, c='#ffffff', edgecolor='#404040', zorder=3, label='Individual fits')
+                ax.errorbar(zs, g, ecolor='#404040', capsize=0,
+                            yerr=np.vstack((uyerr,lyerr)),
+                            xerr=np.vstack((lzerr,uzerr)),
+                            fmt='None',zorder=2)
+
+            else:
+                    
+                zs = np.array([x.z.mean() for x in individuals])
+                uz = np.array([x.z.max() for x in individuals])
+                lz = np.array([x.z.min() for x in individuals])
+                uzerr = uz-zs
+                lzerr = zs-lz 
+                print zs
+
+                g = []
+                for x in individuals:
+                    z = x.z.mean()
+                    bf = x.samples.mean(axis=0)
+                    rate = rtg.gamma_HI(z, x.log10phi, bf, individual=True)
+                    rate = np.log10(rate)+12.0
+                    g.append(rate)
+
+                g = np.array(g)
+                ax.scatter(zs, g, s=32, c='#ffffff', edgecolor='#404040', zorder=3, label='Individual fits')
+
+                g_up, g_low = get_gamma_error(individuals)
+                uyerr = g_up-g
+                lyerr = g-g_low
+                ax.errorbar(zs, g, ecolor='#404040', capsize=0,
+                            yerr=np.vstack((uyerr,lyerr)),
+                            xerr=np.vstack((lzerr,uzerr)),
+                            fmt='None',zorder=2)
+
+                np.savez('gammapi_individuals', zs=zs, g=g, uzerr=uzerr, lzerr=lzerr, uyerr=uyerr, lyerr=lyerr)
         
     plt.legend(loc='lower left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,
