@@ -37,7 +37,8 @@ def plot_data(quasar_files):
 
     n = len(quasar_files)
 
-    cs = [(0.65371782148585622, 0.84708959004458262, 0.32827375098770734),
+    cs = [(0.9986312957370983, 0.85096502233954041, 0.18488274134841617),
+          (0.65371782148585622, 0.84708959004458262, 0.32827375098770734),
           (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
           (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
           (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
@@ -49,10 +50,11 @@ def plot_data(quasar_files):
           (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
           (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
           (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
-          (0.90311419262605563, 0.54185316071790801, 0.76495195557089413)]
+          (0.90311419262605563, 0.54185316071790801, 0.76495195557089413),
+          'r','b','g']
           
-
     labels=['SDSS DR7 with Richards et al.\ (2006) selection',
+            'SDSS DR7 with Richards et al.\ (2006) selection',
             'BOSS DR9 color-selected (Ross et al.\ 2013)',
             'SDSS DR7 with Richards et al.\ (2006) selection',
             'Glikman et al.\ (2011)',
@@ -64,7 +66,10 @@ def plot_data(quasar_files):
             'SDSS Deep Jiang et al.\ (2009)',
             'SDSS Deep Jiang et al.\ (2008)',
             'CFHQS Deep Survey Willott et al.\ (2010)',
-            'UKIDSS-DXS Kashikawa et al.\ (2015)']
+            'UKIDSS-DXS Kashikawa et al.\ (2015)',
+            'Giallongo et al.\ (2015)',
+            'Yang et al.\ (2016)',
+            'Mortlock et al.\ (2011)']
     
     for i, datafile in enumerate(quasar_files):
         z, m, p = getqlums(datafile)
@@ -76,23 +81,34 @@ def plot_data(quasar_files):
         else:
             n, bins, patches = plt.hist(z, bins=nbins, color=cs[i],
                                         histtype='stepfilled', ec='none', label=labels[i])
-        
-        
+
+    i += 1 
+    z = 7.085
+    zlim = (z-bw/2.0, z+bw/2.0)
+    nbins = 1
+    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=cs[i],
+                                histtype='stepfilled', ec='none', label=labels[i])
+    
+            
     ax.set_xlabel(r'redshift')
     ax.set_ylabel(r'Number of quasars')
 
-    plt.ylim(7e-1, 5.0e4)
-    plt.xlim(0.7, 7.0)
+    plt.ylim(7e-1, 2.0e5)
+    plt.xlim(0., 9.0)
 
     plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.2)
 
+    # plt.title('Quasars included in analysis')
+        
     plt.savefig('qsos.pdf', bbox_inches='tight')
+
 
     return
 
-qlumfiles = ['Data/dr7z2p2.dat',
+qlumfiles = ['Data/dr7z0p8.dat',
+             'Data/dr7z2p2.dat',
              'Data/bossdr9color.dat',
              'Data/dr7z3p7.dat',
              'Data/glikman11qso.dat',
@@ -104,8 +120,9 @@ qlumfiles = ['Data/dr7z2p2.dat',
              'Data/jiang09_sample.dat',
              'Data/jiang08_sample.dat',
              'Data/willott10_cfhqsdeepsample.dat',
-             'Data/kashikawa15_sample.dat'
-             ]
+             'Data/kashikawa15_sample.dat',
+             'Data/giallongo15_sample.dat',
+             'Data/yang16_sample.dat']
 
 plot_data(qlumfiles)
 
