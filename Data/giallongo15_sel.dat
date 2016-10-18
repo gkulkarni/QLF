@@ -1,0 +1,14 @@
+# Giallongo et al. (2015, A&A, 578, A83) selection function
+# estimated from Giallongo's Table 3 comparing phi_obs and phi_corr
+# caution: bins are not equally spaced (4<z<4.5, 4.5<z<5.0, 5.0<z<6.5)
+# counter  z     M1450  p
+        1  4.250 -21.00 1.00000
+        2  4.250 -20.00 0.79400
+        3  4.250 -19.00 0.25100
+        4  4.750 -22.50 1.00000
+        5  4.750 -21.00 0.79400
+        6  4.750 -20.00 0.50100
+        7  4.750 -19.00 0.39800
+        8  5.750 -21.00 1.00000
+        9  5.750 -20.00 0.39800
+       10  5.750 -19.00 0.31600
