@@ -33,7 +33,7 @@ def plot_data(quasar_files):
     ax.set_yscale('log')
 
     # bin width = kbw(FULL quasar sample)
-    bw = 2*0.037433628318583878
+    bw = 3*0.037433628318583878
 
     n = len(quasar_files)
 
@@ -52,13 +52,21 @@ def plot_data(quasar_files):
           (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
           (0.90311419262605563, 0.54185316071790801, 0.76495195557089413),
           'r','b','g']
-          
+
+    # Seaborn "colorblind", "dark", and "bright"
+    cs = [u'#0072b2', u'#009e73', u'#7600a1', u'#cc79a7', u'#f0e442', u'#56b4e9',
+          u'#001c7f', u'#017517', u'#8c0900', u'#d55e00', u'#b8860b', u'#006374',
+          u'#003fff', u'#03ed3a', u'#e8000b', u'#8a2be2', u'#ffc400', u'#00d7ff']
+
+    cs[3], cs[9] = cs[9], cs[3] 
+
     labels=['SDSS DR7 with Richards et al.\ (2006) selection',
             'SDSS DR7 with Richards et al.\ (2006) selection',
             'BOSS DR9 color-selected (Ross et al.\ 2013)',
             'SDSS DR7 with Richards et al.\ (2006) selection',
             'Glikman et al.\ (2011)',
             'SDSS DR7 with McGreer et al.\ (2013) selection',
+            'Yang et al.\ (2016)',
             'Stripe 82 McGreer et al.\ (2013)',
             'Extended Stripe 82 McGreer et al.\ (2013)',
             'CFHQS Very Wide Survey Willott et al. (2010)',
@@ -66,9 +74,8 @@ def plot_data(quasar_files):
             'SDSS Deep Jiang et al.\ (2009)',
             'SDSS Deep Jiang et al.\ (2008)',
             'CFHQS Deep Survey Willott et al.\ (2010)',
-            'UKIDSS-DXS Kashikawa et al.\ (2015)',
             'Giallongo et al.\ (2015)',
-            'Yang et al.\ (2016)',
+            'UKIDSS-DXS Kashikawa et al.\ (2015)',
             'Mortlock et al.\ (2011)']
     
     for i, datafile in enumerate(quasar_files):
@@ -93,12 +100,12 @@ def plot_data(quasar_files):
     ax.set_xlabel(r'redshift')
     ax.set_ylabel(r'Number of quasars')
 
-    plt.ylim(7e-1, 2.0e5)
-    plt.xlim(0., 9.0)
+    plt.ylim(7e-1, 1.0e4)
+    plt.xlim(0., 8.)
 
-    plt.legend(loc='upper right', fontsize=14, handlelength=3,
+    plt.legend(loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.4, borderpad=0.2)
+               handletextpad=0.4, borderpad=0.2,markerscale=.5)
 
     # plt.title('Quasars included in analysis')
         
@@ -113,6 +120,7 @@ qlumfiles = ['Data/dr7z0p8.dat',
              'Data/dr7z3p7.dat',
              'Data/glikman11qso.dat',
              'Data/mcgreer13_dr7sample.dat',
+             'Data/yang16_sample.dat',
              'Data/mcgreer13_s82sample.dat',
              'Data/mcgreer13_s82extend.dat',
              'Data/willott10_cfhqsvwsample.dat',
@@ -120,9 +128,8 @@ qlumfiles = ['Data/dr7z0p8.dat',
              'Data/jiang09_sample.dat',
              'Data/jiang08_sample.dat',
              'Data/willott10_cfhqsdeepsample.dat',
-             'Data/kashikawa15_sample.dat',
              'Data/giallongo15_sample.dat',
-             'Data/yang16_sample.dat']
+             'Data/kashikawa15_sample.dat']
 
 plot_data(qlumfiles)
 
