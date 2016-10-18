@@ -31,7 +31,7 @@ def getqlums(lumfile, zlims=None):
         select = None
     else:
         z_min, z_max = zlims 
-        select = ((z>z_min) & (z<=z_max))
+        select = ((z>=z_min) & (z<z_max))
 
     return z[select], mag[select], p[select], area[select], sample_id[select]
 
@@ -49,7 +49,7 @@ def getselfn(selfile, zlims=None):
         select = None
     else:
         z_min, z_max = zlims 
-        select = ((z>z_min) & (z<=z_max))
+        select = ((z>=z_min) & (z<z_max))
 
     return dz, dm, z[select], mag[select], p[select]
 
@@ -319,6 +319,7 @@ class lf:
         # interval='frequentist-confidence' option to that astropy function is
         # exactly equal to the Gehrels formulas, although the documentation
         # does not say so.
+
         n = np.histogram(self.M1450,bins=nbins)[0]
         nlims = pci(n,interval='frequentist-confidence')
         nlims *= phi/n 
@@ -418,8 +419,8 @@ class lf:
             # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
             # self.plot_hopkins(ax, 'hopkins2.dat')
             
-        ax.set_xlim(-29.0, -22.0)
-        ax.set_ylim(-10.0, -3.0) 
+        ax.set_xlim(-30.0, -21.0)
+        ax.set_ylim(-12.0, -3.0) 
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
