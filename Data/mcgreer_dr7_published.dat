@@ -1,0 +1,9 @@
+# sid, M1450, M1450_lerr, M1450_uerr, phi, sigma_phi
+# McGreer et al. 2013 (ApJ 768 105) Table 4
+# This numbers are different from those in allqlfs.dat and are listed
+# here to compare my LF results with McGreer's published values.
+8  -28.05  0.25  0.25  -9.45  0.21
+8  -27.55  0.25  0.25  -9.24  0.26
+8  -27.05  0.25  0.25  -8.51  0.58
+8  -26.55  0.25  0.25  -8.20  0.92
+8  -26.05  0.25  0.25  -7.90  1.89 
