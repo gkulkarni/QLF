@@ -4,7 +4,7 @@ from individual import lf
 import waic 
 
 # Defaults 
-case = 8
+case = 9
 method = 'Nelder-Mead'
 
 if case == 1:
@@ -103,6 +103,39 @@ elif case == 8:
                  ('Data/kashikawa15_sel.dat',6.50,11),
                  ('Data/sdss_selfunclow.dat',6248.0,14),
                  ('Data/giallongo15_sel.dat',0.047,7)]
+
+elif case == 9:
+
+    # Same as case 8 but with McGreer's published quasars.  See
+    # Gabor's email of 20 October.
+
+    qlumfiles = ['Data/bossdr9color.dat',
+                 'Data/dr7z3p7.dat',
+                 'Data/glikman11qso.dat',
+                 'Data/mcgreer13_s82sample2.dat',
+                 'Data/mcgreer13_dr7sample2.dat',
+                 'Data/fan06_sample.dat',
+                 'Data/jiang08_sample.dat',
+                 'Data/jiang09_sample.dat',
+                 'Data/willott10_cfhqsdeepsample.dat',
+                 'Data/willott10_cfhqsvwsample.dat',
+                 'Data/kashikawa15_sample.dat',
+                 'Data/giallongo15_sample.dat']
+
+    selnfiles = [('Data/ross13_selfunc2.dat',2236.0,1),
+                 ('Data/sdss_selfunchigh.dat',6248.0,13),
+                 ('Data/glikman11_selfunc_ndwfs.dat',1.71,15),
+                 ('Data/glikman11_selfunc_dls.dat',2.05,6),
+                 ('Data/mcgreer13_s82selfunc2.dat',235.0,8),
+                 ('Data/mcgreer13_dr7selfunc2.dat',6248.0,16),
+                 ('Data/fan06_sel.dat',6600.0,17),
+                 ('Data/jiang08_sel.dat',260.0,9),
+                 ('Data/jiang09_sel.dat',195.0,18),
+                 ('Data/willott10_cfhqsvwsel.dat',494.0,19),
+                 ('Data/willott10_cfhqsdeepsel.dat',4.47,10),
+                 ('Data/kashikawa15_sel.dat',6.50,11),
+                 ('Data/sdss_selfunclow.dat',6248.0,14),
+                 ('Data/giallongo15_sel.dat',0.047,7)]
     
     
 zl = (4.7,5.1) 
@@ -121,6 +154,9 @@ lfi.create_param_range()
 # assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
 lfi.run_mcmc()
+
+sys.exit()
+
 lfi.get_percentiles()
 
 lfi.corner_plot()

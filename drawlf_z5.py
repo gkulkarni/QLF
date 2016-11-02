@@ -226,7 +226,7 @@ def draw(lf, z_plot, composite=None, dirname=''):
     plottitle = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
     plt.title(plottitle, size='medium', y=1.01)
 
-    plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)
+    plotfile = dirname+'lf_z{0:.3f}_2.pdf'.format(z_plot)
     plt.savefig(plotfile, bbox_inches='tight')
 
     plt.close('all') 
