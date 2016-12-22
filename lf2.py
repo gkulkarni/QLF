@@ -4,7 +4,7 @@ from individual import lf
 import waic 
 
 # Defaults 
-case = 9
+case = 12
 method = 'Nelder-Mead'
 
 if case == 1:
@@ -136,9 +136,31 @@ elif case == 9:
                  ('Data/kashikawa15_sel.dat',6.50,11),
                  ('Data/sdss_selfunclow.dat',6248.0,14),
                  ('Data/giallongo15_sel.dat',0.047,7)]
+
+elif case == 10:
+
+    qlumfiles = [ 'Data/r06miz2_sample.dat' ]
+
+    selnfiles = [ ('Data/r06miz2_selfunc.dat', 1622.0, 13)]
+
+elif case == 11:
+
+    qlumfiles = [ 'Data/r06miz2_orig.dat' ]
+
+    selnfiles = [ ('Data/r06miz2_selfunc.dat', 1622.0, 13)]
+
+elif case == 12:
+
+    qlumfiles = [ 'Data/r13miz2_sample.dat' ]
+
+    selnfiles = [ ('Data/r13miz2_selfunc.dat', 2236.0, 1)]
     
     
-zl = (4.7,5.1) 
+# zl = (3.5,4.0)
+# zl = (4.0,4.5)
+# zl = (4.5, 5.0)
+#zl = (3.0, 3.5)
+zl = (3.25, 3.50)
 
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 
