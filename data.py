@@ -6,13 +6,13 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
+from random import shuffle
 
 """
 
 Histogram of all quasar data used in this study.
 
 """
-
 
 def getqlums(lumfile):
 
@@ -23,7 +23,23 @@ def getqlums(lumfile):
         
     return z, mag, p
 
-def plot_data(quasar_files):
+class sample:
+
+    def __init__(self, sample_data_files, color='None', label=None):
+
+        for f in sample_data_files: 
+            z, m, p = getqlums(f)
+            try:
+                self.z = np.append(self.z, z)
+            except(AttributeError):
+                self.z = z
+        
+        self.color = color
+        self.label = label
+
+        return 
+
+def plot_data(data):
 
     fig = plt.figure(figsize=(14, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -32,105 +48,159 @@ def plot_data(quasar_files):
     ax.tick_params('both', which='minor', length=3, width=1)
     ax.set_yscale('log')
 
-    # bin width = kbw(FULL quasar sample)
-    bw = 3*0.037433628318583878
+    bin_width = 0.1
+    bins = np.arange(0.0, 7.0, bin_width)
 
-    n = len(quasar_files)
+    # seaborn.color_palette('husl', 16).as_hex()
+    cs = [u'#f77189', u'#f7754f', u'#dc8932', u'#c39532', u'#ae9d31', u'#97a431',
+          u'#77ab31', u'#31b33e', u'#33b07a', u'#35ae93', u'#36ada4', u'#37abb4',
+          u'#38a9c5', u'#3aa5df', u'#6e9bf4', u'#a48cf4', u'#cc7af4', u'#f45cf2',
+          u'#f565cc', u'#f66bad']
 
-    cs = [(0.9986312957370983, 0.85096502233954041, 0.18488274134841617),
-          (0.65371782148585622, 0.84708959004458262, 0.32827375098770734),
-          (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
-          (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
-          (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
-          (0.90311419262605563, 0.54185316071790801, 0.76495195557089413),
-          (0.65371782148585622, 0.84708959004458262, 0.32827375098770734),
-          (0.9986312957370983, 0.85096502233954041, 0.18488274134841617),
-          (0.89573241682613591, 0.76784315109252932, 0.58182240093455595),
-          (0.70196080207824707, 0.70196080207824707, 0.70196080207824707),
-          (0.40000000596046448, 0.7607843279838562, 0.64705884456634521),
-          (0.98131487965583808, 0.55538641635109398, 0.38740485135246722),
-          (0.55432528607985565, 0.62711267120697922, 0.79595541393055635),
-          (0.90311419262605563, 0.54185316071790801, 0.76495195557089413),
-          'r','b','g']
+    shuffle(cs)
+    print cs
 
-    # Seaborn "colorblind", "dark", and "bright"
-    cs = [u'#0072b2', u'#009e73', u'#7600a1', u'#cc79a7', u'#f0e442', u'#56b4e9',
-          u'#001c7f', u'#017517', u'#8c0900', u'#d55e00', u'#b8860b', u'#006374',
-          u'#003fff', u'#03ed3a', u'#e8000b', u'#8a2be2', u'#ffc400', u'#00d7ff']
+    cs = [u'#a48cf4', u'#f7754f', u'#3aa5df', u'#f565cc', u'#6e9bf4',
+          u'#31b33e', u'#33b07a', u'#dc8932', u'#f77189', u'#cc7af4',
+          u'#ae9d31', u'#77ab31', u'#35ae93', u'#97a431', u'#f45cf2',
+          u'#37abb4', u'#36ada4', u'#f66bad', u'#38a9c5', u'#c39532']
 
-    cs[3], cs[9] = cs[9], cs[3] 
-
-    labels=['SDSS DR7 with Richards et al.\ (2006) selection',
-            'SDSS DR7 with Richards et al.\ (2006) selection',
-            'BOSS DR9 color-selected (Ross et al.\ 2013)',
-            'SDSS DR7 with Richards et al.\ (2006) selection',
-            'Glikman et al.\ (2011)',
-            'SDSS DR7 with McGreer et al.\ (2013) selection',
-            'Yang et al.\ (2016)',
-            'Stripe 82 McGreer et al.\ (2013)',
-            'Extended Stripe 82 McGreer et al.\ (2013)',
-            'CFHQS Very Wide Survey Willott et al. (2010)',
-            'SDSS Fan et al.\ (2006)',
-            'SDSS Deep Jiang et al.\ (2009)',
-            'SDSS Deep Jiang et al.\ (2008)',
-            'CFHQS Deep Survey Willott et al.\ (2010)',
-            'Giallongo et al.\ (2015)',
-            'UKIDSS-DXS Kashikawa et al.\ (2015)',
-            'Mortlock et al.\ (2011)']
+    d = [x.z for x in data]
+    l = [x.label for x in data]
+    plt.hist(d, histtype='bar', stacked=True, rwidth=1.0, ec='None', bins=bins, color=cs, label=l, lw=0.0)
     
-    for i, datafile in enumerate(quasar_files):
-        z, m, p = getqlums(datafile)
-        nbins = int(np.ptp(z)/bw)+1
-        if z.size == 1:
-            zlim = (z-bw/2.0, z+bw/2.0)
-            n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=cs[i],
-                                        histtype='stepfilled', ec='none', label=labels[i])
-        else:
-            n, bins, patches = plt.hist(z, bins=nbins, color=cs[i],
-                                        histtype='stepfilled', ec='none', label=labels[i])
-
-    i += 1 
     z = 7.085
-    zlim = (z-bw/2.0, z+bw/2.0)
+    zlim = (z-bin_width/2.0, z+bin_width/2.0)
     nbins = 1
-    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=cs[i],
-                                histtype='stepfilled', ec='none', label=labels[i])
-    
+    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=u'#f77189', 
+                                histtype='stepfilled', ec='None', label='UKIDSS Mortlock et al.\ (2011)')
             
     ax.set_xlabel(r'redshift')
     ax.set_ylabel(r'Number of quasars')
 
-    plt.ylim(7e-1, 1.0e4)
+    plt.ylim(7e-1, 5.0e4)
     plt.xlim(0., 8.)
 
-    plt.legend(loc='upper right', fontsize=12, handlelength=3,
+    plt.legend(loc='upper right', fontsize=10, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.2,markerscale=.5)
 
-    # plt.title('Quasars included in analysis')
-        
-    plt.savefig('qsos.pdf', bbox_inches='tight')
-
+    plt.savefig('qsos4.pdf', bbox_inches='tight')
 
     return
 
-qlumfiles = ['Data/dr7z0p8.dat',
-             'Data/dr7z2p2.dat',
-             'Data/bossdr9color.dat',
-             'Data/dr7z3p7.dat',
-             'Data/glikman11qso.dat',
-             'Data/mcgreer13_dr7sample.dat',
-             'Data/yang16_sample.dat',
-             'Data/mcgreer13_s82sample.dat',
-             'Data/mcgreer13_s82extend.dat',
-             'Data/willott10_cfhqsvwsample.dat',
-             'Data/fan06_sample.dat',
-             'Data/jiang09_sample.dat',
-             'Data/jiang08_sample.dat',
-             'Data/willott10_cfhqsdeepsample.dat',
-             'Data/giallongo15_sample.dat',
-             'Data/kashikawa15_sample.dat']
+# seaborn.color_palette('husl', 16).as_hex()
+cs = [u'#f77189', u'#f7754f', u'#dc8932', u'#c39532', u'#ae9d31', u'#97a431',
+      u'#77ab31', u'#31b33e', u'#33b07a', u'#35ae93', u'#36ada4', u'#37abb4',
+      u'#38a9c5', u'#3aa5df', u'#6e9bf4', u'#a48cf4', u'#cc7af4', u'#f45cf2',
+      u'#f565cc', u'#f66bad']
 
-plot_data(qlumfiles)
+shuffle(cs)
 
+data = []
+
+f = ['Data_new/dr7z2p2_sample.dat']
+l = r'SDSS DR7 with Richards et al.\ (2006) selection function'
+s = sample(f, color=cs[0], label=l)
+data.append(s)
+
+f = ['Data_new/croom09sgp_sample.dat',
+     'Data_new/croom09ngp_sample.dat']
+l = r'2SLAQ NGP+SGP Croom et al.\ (2009a, 2009b)'
+s = sample(f, color=cs[1], label=l)
+data.append(s)
+
+f = ['Data_new/dr7z3p7_sample.dat']
+l = r'SDSS DR7 with Richards et al.\ (2006) selection function'
+s = sample(f, color=cs[0], label=l)
+# Use only up to z = 4.7 to avoid overlap with McGreer and Yang 
+s.z = s.z[s.z<4.7]
+data.append(s)
+
+f = ['Data_new/bossdr9color.dat']
+l = r'BOSS DR9 colour-selected Ross et al.\ (2013)'
+s = sample(f, color=cs[2], label=l)
+data.append(s)
+
+f = ['Data_new/yang16_sample.dat']
+l = r'SDSS+Wise Yang et al.\ (2016)'
+s = sample(f, color=cs[3], label=l)
+data.append(s)
+
+f = ['Data_new/mcgreer13_dr7sample.dat']
+l = r'SDSS DR7 McGreer et al.\ (2013)'
+s = sample(f, color=cs[4], label=l)
+data.append(s)
+
+f = ['Data_new/mcgreer13_s82sample.dat']
+l = r'SDSS Stripe 82 McGreer et al.\ (2013)'
+s = sample(f, color=cs[5], label=l)
+data.append(s)
+
+f = ['Data_new/mcgreer13_dr7extend.dat']
+l = r'SDSS DR7 extended McGreer et al.\ (2013)'
+s = sample(f, color=cs[6], label=l)
+data.append(s)
+
+f = ['Data_new/mcgreer13_s82extend.dat']
+l = r'SDSS Stripe 82 extended McGreer et al.\ (2013)'
+s = sample(f, color=cs[7], label=l)
+data.append(s)
+
+f = ['Data/glikman11qso.dat']
+l = r'NDWFS+DLS Glikman et al.\ (2011)'
+s = sample(f, color=cs[8], label=l)
+data.append(s)
+
+f = ['Data_new/giallongo15_sample.dat']
+l = r'CANDELS GOODS-S Giallongo et al.\ (2015)'
+s = sample(f, color=cs[9], label=l)
+data.append(s)
+
+f = ['Data_new/jiang08_sample.dat']
+l = r'SDSS Deep Jiang et al.\ (2008, 2009)'
+s = sample(f, color=cs[10], label=l)
+data.append(s)
+
+f = ['Data_new/jiang09_sample.dat']
+l = r'SDSS Deep Jiang et al.\ (2009)'
+s = sample(f, color=cs[10], label=l)
+data.append(s)
+
+f = ['Data_new/jiang16main_sample.dat']
+l = r'SDSS Main Jiang et al.\ (2016)'
+s = sample(f, color=cs[11], label=l)
+data.append(s)
+
+f = ['Data_new/fan06_sample.dat']
+l = r'SDSS Fan et al.\ (2006)'
+s = sample(f, color=cs[12], label=l)
+data.append(s)
+
+f = ['Data_new/jiang16overlap_sample.dat']
+l = r'SDSS Overlap Jiang et al.\ (2016)'
+s = sample(f, color=cs[13], label=l)
+data.append(s)
+
+f = ['Data_new/jiang16s82_sample.dat']
+l = r'SDSS Stripe 82 Jiang et al.\ (2016)'
+s = sample(f, color=cs[14], label=l)
+data.append(s)
+
+f = ['Data_new/willott10_cfhqsdeepsample.dat']
+l = r'CFHQS Deep Willott et al.\ (2010)'
+s = sample(f, color=cs[15], label=l)
+data.append(s)
+
+f = ['Data_new/willott10_cfhqsvwsample.dat']
+l = r'CFHQS Very Wide Willott et al.\ (2010)'
+s = sample(f, color=cs[16], label=l)
+data.append(s)
+
+f = ['Data_new/kashikawa15_sample.dat']
+l = r'Subaru High-$z$ Quasar Survey Kashikawa et al.\ (2010)'
+s = sample(f, color=cs[17], label=l)
+data.append(s)
+
+plot_data(data)
 
