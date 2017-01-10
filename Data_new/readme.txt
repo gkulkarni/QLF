@@ -36,3 +36,6 @@ Sample IDs from previous analysis on binned data, not all of these are used in t
 - ID=17	   SDSS+WISE z~5 survey (Yang et al. 2016, ApJ, 829, 33),
            4.7<=z<5.4, significant overlap with SDSS DR7 QSO catalog (i.e. Sample 8 and 13)
            -> limit 4.7<z<5.4 SDSS DR7 QSOs to M1450>-26.73 (our cosmology) when combining samples to avoid double-counting
+- ID=18	   SDSS z~6 survey compilation (SDSS Main, SDSS Overlap, SDSS Stripe 82; Jiang et al. 2016, arXiv:1610.05369)
+           selection functions provided by Linhua Jiang, samples and selection functions supersede previous SDSS results (ID=9 and ID=16)
+           one QSO overlaps with Willott sample (not easy to handle, we will count this oen twice)
