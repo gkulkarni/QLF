@@ -42,16 +42,13 @@ def getselfn(selfile, zlims=None):
     with open(selfile,'r') as f: 
         z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
 
-    dz = np.unique(np.diff(z))[-1]
-    dm = np.unique(np.diff(mag))[-1]
-
     if zlims is None:
         select = None
     else:
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    return dz, dm, z[select], mag[select], p[select]
+    return z[select], mag[select], p[select]
 
 def volume(z, area, cosmo=cosmo):
 
@@ -72,11 +69,13 @@ class selmap:
 
     def __init__(self, x, zlims=None):
 
-        selection_map_file, area, sample_id = x
+        selection_map_file, dm, dz, area, sample_id = x
 
-        self.sid = sample_id 
+        self.sid = sample_id
+        self.dz = dz
+        self.dm = dm 
         
-        self.dz, self.dm, self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
+        self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
         print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
 
         if self.z.size == 0:
