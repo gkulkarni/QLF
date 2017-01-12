@@ -19,6 +19,7 @@ cosmo = {'omega_M_0':0.3,
          'h':0.70}
 import gammapi
 import rtg
+import corner
 
 def getqlums(lumfile, zlims=None):
 
@@ -74,33 +75,19 @@ class selmap:
         self.sid = sample_id
         self.dz = dz
         self.dm = dm 
-        
         self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
-        print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
-
         if self.z.size == 0:
             return # This selmap has no points in zlims 
-        
         self.area = area
-
         self.volarr = volume(self.z, self.area)*self.dz
 
-        if zlims is not None:
-            surveydz = zlims[1]-zlims[0]
-            self.volume = np.unique(self.volarr)[0]*(surveydz/self.dz) # cMpc^-3
-        else:
-            self.volume = np.unique(self.volarr)[0] # cMpc^-3
-
-        if len(np.unique(self.volarr)) != 1:
-            print 'More than one volume in selection map!'
-            print np.unique(self.volarr)
-        
         return
 
     def nqso(self, lumfn, theta):
 
         try: 
             psi = 10.0**lumfn.log10phi(theta, self.m)
+            # self.dm is assumed to be constant here; may not be true.
             tot = psi*self.p*self.volarr*self.dm
             return np.sum(tot)
         except(AttributeError):
@@ -110,6 +97,8 @@ class selmap:
 class lf:
 
     def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
+
+        self.zlims = zlims
 
         for datafile in quasar_files:
             z, m, p, area, sid = getqlums(datafile, zlims=zlims)
@@ -214,6 +203,7 @@ class lf:
 
         self.sampler.run_mcmc(pos, 1000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
+        
 
         return
 
@@ -232,7 +222,8 @@ class lf:
     def corner_plot(self, labels=[r'$\phi_*$', r'$M_*$', r'$\alpha$', r'$\beta$'], dirname=''):
 
         mpl.rcParams['font.size'] = '14'
-        f = triangle.corner(self.samples, labels=labels, truths=self.bf.x)
+        self.means = np.mean(self.samples, axis=0)
+        f = corner.corner(self.samples, labels=labels, truths=self.means)
         plotfile = dirname+'triangle.png'
         f.savefig(plotfile)
         mpl.rcParams['font.size'] = '22'
@@ -243,7 +234,8 @@ class lf:
         ax = fig.add_subplot(self.bf.x.size, 1, param+1)
         for i in range(self.nwalkers): 
             ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
-        ax.axhline(self.bf.x[param], c='#CC9966', dashes=[7,2], lw=2) 
+        self.means = np.mean(self.samples, axis=0)
+        ax.axhline(self.means[param], c='#CC9966', dashes=[7,2], lw=2) 
         ax.set_ylabel(ylabel)
         if param+1 != self.bf.x.size:
             ax.set_xticklabels('')
@@ -291,25 +283,75 @@ class lf:
         smap = [x for x in self.maps if x.sid == sample_id]
 
         return smap[0].volume # cMpc^3
+
+    def binvol(self, m, zrange, bins, msel, psel, vsel, zsel, totv):
+
+        """
+
+        Calculate volume in the i'th bin.
+
+        """
+
+        total_vol = 0.0
+
+        idx = -1 
+        for i in range(len(bins)):
+            if (m > bins[i]) and (m < bins[i+1]):
+                idx = i 
+
+        idx = np.searchsorted(bins, m)
+
+        mlow = bins[idx-1]
+        mhigh = bins[idx]
+
+        dm = 0.1
+        n = int(abs(mhigh-mlow)/dm)
+
+        for i in xrange(msel.size):
+            if (msel[i] >= mlow) and (msel[i] < mhigh):
+                if (zsel[i] >= zrange[0]) and (zsel[i] < zrange[1]):
+                    total_vol += vsel[i]*psel[i]*dm
+
+        return total_vol
+    
         
-    def get_lf(self, z_plot):
+    def get_lf(self, sid, z_plot):
 
         # Bin data.  This is only for visualisation and to compare
         # with reported binned values.  The number of bins (nbins) is
         # estimated by Knuth's rule (astropy.stats.knuth_bin_width).
 
-        m = self.M1450[self.p!=0.0]
-        p = self.p[self.p!=0.0]
-        sid = self.sid[self.p!=0.0]
-        v = np.array([self.quasar_volume(s) for s in sid])
+        z = self.z[self.sid==sid]
+        m = self.M1450[self.sid==sid]
+        p = self.p[self.sid==sid]
 
-        nbins = int(np.ptp(m)/kbw(m))
-        h = np.histogram(m,bins=nbins,weights=1.0/(p*v))
+        for x in self.maps:
+            if x.sid == sid:
+                selmap = x
+
+        zv = np.linspace(self.zlims[0], self.zlims[1], 50)
+        dzv = np.diff(zv)[0]
+        v = volume(zv, x.area*np.ones_like(zv))*dzv
+        self.totvol = np.sum(v)
+
+        # bug: self.totvol can be a problem if survey zrange is smaller than zlims
+        bins = np.arange(-32.0, -21.0, 0.3)
+        v1 = np.array([self.binvol(q, self.zlims, bins, x.m, x.p, x.volarr, x.z, self.totvol) for q in m])
+
+        v1_nonzero = v1[np.where(v1>0.0)]
+        m = m[np.where(v1>0.0)]
+
+        #nbins = int(np.ptp(m)/kbw(m))        
+        h = np.histogram(m,bins=bins,weights=1.0/(v1_nonzero))
+
         nums = h[0]
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        phi = nums/np.diff(h[1])
+        left = mags - h[1][:-1]
+        right = h[1][1:] - mags
+        
+        phi = nums
         logphi = np.log10(phi) # cMpc^-3 mag^-1
 
         # Calculate errorbars on our binned LF.  These have been estimated
@@ -318,14 +360,13 @@ class lf:
         # interval='frequentist-confidence' option to that astropy function is
         # exactly equal to the Gehrels formulas, although the documentation
         # does not say so.
-
-        n = np.histogram(self.M1450,bins=nbins)[0]
+        n = np.histogram(self.M1450, bins=bins)[0]
         nlims = pci(n,interval='frequentist-confidence')
         nlims *= phi/n 
         uperr = np.log10(nlims[1]) - logphi 
         downerr = logphi - np.log10(nlims[0])
         
-        return mags, dmags, logphi, uperr, downerr
+        return mags, left, right, logphi, uperr, downerr
 
     def plot_literature(self, ax, z_plot):
 
@@ -402,24 +443,33 @@ class lf:
 
         mag_plot = np.linspace(-30.0,-22.0,num=100) 
         self.plot_posterior_sample_lfs(ax, mag_plot, lw=1,
-                                       c='#d8b365', alpha=0.1, zorder=2) 
+                                       c='#ffbf00', alpha=0.1, zorder=2) 
         self.plot_bestfit_lf(ax, mag_plot, lw=2,
-                             c='#d8b365', label='individual', zorder=3)
+                             c='#ffbf00', label='individual', zorder=3)
 
-        mags, dmags, logphi, uperr, downerr = self.get_lf(z_plot)
-        ax.scatter(mags, logphi, c='#191cd7', edgecolor='None', zorder=4)
-        ax.errorbar(mags, logphi, ecolor='#191cd7', capsize=0,
-                    xerr=dmags,
-                    yerr=np.vstack((uperr, downerr)),
-                    fmt='None', zorder=4)
+        sids = np.unique(self.sid)
+        for i in sids:
+            mags, left, right, logphi, uperr, downerr = self.get_lf(i, z_plot)
+            ax.scatter(mags, logphi, c='r', edgecolor='None', zorder=4, s=35)
+            ax.errorbar(mags, logphi, ecolor='r', capsize=0,
+                        xerr=np.vstack((left, right)), 
+                        yerr=np.vstack((uperr, downerr)),
+                        fmt='None', zorder=4)
+            
+        # mags, left, right, logphi, uperr, downerr = self.get_lf(z_plot)
+        # ax.scatter(mags, logphi, c='r', edgecolor='None', zorder=4, s=35)
+        # ax.errorbar(mags, logphi, ecolor='r', capsize=0,
+        #             xerr=np.vstack((left, right)), 
+        #             yerr=np.vstack((uperr, downerr)),
+        #             fmt='None', zorder=4)
 
         if plotlit: 
             self.plot_literature(ax, z_plot) 
             # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
             # self.plot_hopkins(ax, 'hopkins2.dat')
             
-        ax.set_xlim(-30.0, -21.0)
-        ax.set_ylim(-12.0, -3.0) 
+        ax.set_xlim(-21.0, -30.0)
+        ax.set_ylim(-10.0, -5.0) 
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
