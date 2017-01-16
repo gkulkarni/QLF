@@ -4,3 +4,6 @@
 *.pyc
 *.pdf
 Scratch
+.DS_Store
+Notes
+Review 
