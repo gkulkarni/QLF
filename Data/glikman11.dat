@@ -1,0 +1,13 @@
+# Glikman et al. 2011, ApJ, 728, L26, Table 1
+# list mean magnitude instead of bin center, magnitude bins indicated by left/right errors, phi in 10^-8 Mpc^-3mag^-1, first four points are SDSS (M1450 from spectrophotometry)
+# 3.8<z<5.2, median z is 4.15
+#M1450	left	right	phi	up	down
+-28.45	0.55	0.45	0.008	0.011	0.005
+-27.33	0.67	0.33	0.200	0.040	0.030
+-26.46	0.54	0.46	0.930	0.070	0.070
+-25.70	0.30	0.70	4.300	0.500	0.500
+-25.37	0.63	0.37	24.00	13.00	9.000
+-24.71	0.29	0.71	8.800	8.500	4.800
+-23.47	0.53	0.47	143.0	77.00	53.00
+-22.61	0.39	0.61	307.0	208.0	133.0
+-21.61	0.39	0.61	434.0	572.0	280.0
