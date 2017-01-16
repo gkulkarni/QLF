@@ -34,6 +34,14 @@ def getqlums(lumfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
+    try:
+        if sample_id[0] == 8:
+            # Restrict McGreer's DR7 sample to faint quasars to avoid overlap with Yang.
+            print 'restricting dr7 sample to mag>-26.73' 
+            select = ((z>=z_min) & (z<z_max) & (mag>-26.73))
+    except(IndexError):
+        pass
+            
     return z[select], mag[select], p[select], area[select], sample_id[select]
 
 def getselfn(selfile, zlims=None):
@@ -62,7 +70,7 @@ def percentiles(x):
     
     u = np.percentile(x, 15.87) 
     l = np.percentile(x, 84.13)
-    c = np.mean(x) 
+    c = np.median(x) 
 
     return [u, l, c] 
 
@@ -70,8 +78,9 @@ class selmap:
 
     def __init__(self, x, zlims=None):
 
-        selection_map_file, dm, dz, area, sample_id = x
+        selection_map_file, dm, dz, area, sample_id, label = x
 
+        self.label = label
         self.sid = sample_id
         self.dz = dz
         self.dm = dm 
@@ -284,7 +293,7 @@ class lf:
 
         return smap[0].volume # cMpc^3
 
-    def binvol(self, m, zrange, bins, msel, psel, vsel, zsel, totv):
+    def binvol(self, m, dm, zrange, bins, msel, psel, vsel, zsel):
 
         """
 
@@ -294,18 +303,10 @@ class lf:
 
         total_vol = 0.0
 
-        idx = -1 
-        for i in range(len(bins)):
-            if (m > bins[i]) and (m < bins[i+1]):
-                idx = i 
-
         idx = np.searchsorted(bins, m)
 
         mlow = bins[idx-1]
         mhigh = bins[idx]
-
-        dm = 0.1
-        n = int(abs(mhigh-mlow)/dm)
 
         for i in xrange(msel.size):
             if (msel[i] >= mlow) and (msel[i] < mhigh):
@@ -329,14 +330,9 @@ class lf:
             if x.sid == sid:
                 selmap = x
 
-        zv = np.linspace(self.zlims[0], self.zlims[1], 50)
-        dzv = np.diff(zv)[0]
-        v = volume(zv, x.area*np.ones_like(zv))*dzv
-        self.totvol = np.sum(v)
-
         # bug: self.totvol can be a problem if survey zrange is smaller than zlims
-        bins = np.arange(-32.0, -21.0, 0.3)
-        v1 = np.array([self.binvol(q, self.zlims, bins, x.m, x.p, x.volarr, x.z, self.totvol) for q in m])
+        bins = np.arange(-30.9, -17.3, 0.6)
+        v1 = np.array([self.binvol(x, selmap.dm, self.zlims, bins, selmap.m, selmap.p, selmap.volarr, selmap.z) for x in m])
 
         v1_nonzero = v1[np.where(v1>0.0)]
         m = m[np.where(v1>0.0)]
@@ -360,7 +356,7 @@ class lf:
         # interval='frequentist-confidence' option to that astropy function is
         # exactly equal to the Gehrels formulas, although the documentation
         # does not say so.
-        n = np.histogram(self.M1450, bins=bins)[0]
+        n = np.histogram(m, bins=bins)[0]
         nlims = pci(n,interval='frequentist-confidence')
         nlims *= phi/n 
         uperr = np.log10(nlims[1]) - logphi 
@@ -441,44 +437,47 @@ class lf:
         ax.tick_params('both', which='major', length=7, width=1)
         ax.tick_params('both', which='minor', length=3, width=1)
 
-        mag_plot = np.linspace(-30.0,-22.0,num=100) 
+        mag_plot = np.linspace(-30.0,-20.0,num=100) 
         self.plot_posterior_sample_lfs(ax, mag_plot, lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
         self.plot_bestfit_lf(ax, mag_plot, lw=2,
-                             c='#ffbf00', label='individual', zorder=3)
+                             c='#ffbf00', label='fit', zorder=3)
+
+        cs = {13: 'r', 15:'g', 2:'b', 1:'m', 3:'c', 6:'#ff7f0e', 17:'#8c564b', 4:'#7f7f7f', 8:'#17becf', 9:'r', 5:'g', 18:'b', 16:'m', 19:'c', 20:'k', 10:'#ff7f0e', 21:'#8c564b', 11:'#7f7f7f'}
+
+        def dsl(i):
+            for x in self.maps:
+                if x.sid == i:
+                    return x.label
+            return
 
         sids = np.unique(self.sid)
         for i in sids:
             mags, left, right, logphi, uperr, downerr = self.get_lf(i, z_plot)
-            ax.scatter(mags, logphi, c='r', edgecolor='None', zorder=4, s=35)
-            ax.errorbar(mags, logphi, ecolor='r', capsize=0,
+            ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=35, label=dsl(i))
+            ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
                         xerr=np.vstack((left, right)), 
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
-            
-        # mags, left, right, logphi, uperr, downerr = self.get_lf(z_plot)
-        # ax.scatter(mags, logphi, c='r', edgecolor='None', zorder=4, s=35)
-        # ax.errorbar(mags, logphi, ecolor='r', capsize=0,
-        #             xerr=np.vstack((left, right)), 
-        #             yerr=np.vstack((uperr, downerr)),
-        #             fmt='None', zorder=4)
 
         if plotlit: 
             self.plot_literature(ax, z_plot) 
             # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
             # self.plot_hopkins(ax, 'hopkins2.dat')
             
-        ax.set_xlim(-21.0, -30.0)
-        ax.set_ylim(-10.0, -5.0) 
+        ax.set_xlim(-21.0, -31.0)
+        ax.set_ylim(-12.0, -5.0)
+        ax.set_xticks(np.arange(-31,-20, 2))
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
 
-        plt.legend(loc='lower right', fontsize=14, handlelength=3,
+        legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+        plt.legend(loc='lower left', fontsize=12, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
-                   handletextpad=0.4, borderpad=0.2, scatterpoints=1)
+                   handletextpad=0.4, borderpad=0.2, scatterpoints=1, title=legend_title)
 
-        plottitle = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+        plottitle = r'${:g}\leq z<{:g}$'.format(self.zlims[0], self.zlims[1]) 
         plt.title(plottitle, size='medium', y=1.01)
 
         plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)
