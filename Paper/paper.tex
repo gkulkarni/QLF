@@ -1,0 +1,338 @@
+\documentclass[a4paper,fleqn,usenatbib]{mnras}
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{graphicx}	
+\usepackage{amsmath}	
+\usepackage{amssymb}
+\usepackage{pdflscape}
+
+\title[AGN luminosity function]{Evolution of the AGN UV luminosity function}
+
+\author[Kulkarni et al.]{{Girish Kulkarni$^{1}$\thanks{Email:
+      kulkarni@ast.cam.ac.uk}, G\'abor Worseck$^{2}$ and Joseph
+    F.~Hennawi$^{3}$} \\ $^1$Institute of Astronomy and Kavli
+  Institute of Cosmology, University of Cambridge, Madingley Road,
+  Cambridge CB3 0HA, UK \\ $^2$Max Planck Institute for Astronomy,
+  K\"onigstuhl 17, D-69117 Heidelberg, Germany\\ $^3$Department of
+  Physics, Broida Hall, UC Santa Barbara, Santa Barbara, CA 93106-9530
+  USA}
+
+\date{Accepted ---. Received ---; in original form ---}
+
+\pubyear{2016}
+
+\begin{document}
+\label{firstpage}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+\maketitle
+
+\begin{abstract}
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+  eget nisi augue. Vivamus quis purus quis massa tempor posuere non
+  quis magna. Aenean eleifend, metus eget facilisis faucibus, turpis
+  erat suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse
+  luctus eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec
+  massa ultrices, porttitor nulla at, euismod diam. In ultricies
+  malesuada mauris ac facilisis. Nulla quis suscipit diam, vitae
+  semper tortor. Proin nec nulla at massa egestas porta. Cras ac arcu
+  in velit placerat facilisis fringilla in sem. Mauris finibus, mauris
+  ut pretium malesuada, massa urna mattis nibh, at placerat ligula
+  elit ac odio.  Nunc vel leo arcu. Nullam sagittis tincidunt
+  interdum. Mauris sed lacus cursus, dapibus enim non, sagittis
+  leo. Aliquam sit amet ex ut quam iaculis sollicitudin. Vivamus ut
+  pharetra dolor. Vivamus id nibh leo. Vestibulum consectetur eu lorem
+  eu tincidunt. Sed eget nibh orci. Pellentesque sit amet blandit
+  massa, vel tempor neque.
+\end{abstract}
+
+\begin{keywords}
+quasars
+\end{keywords}
+
+%% \section{Introduction}
+
+%% Possible outline of paper:
+
+%% \begin{enumerate}
+%% \item Introduction 
+%% \item Data set
+%% \item QLF 
+%%   \begin{enumerate}
+%%   \item at specific redshifts 
+%%   \item global model 
+%%   \end{enumerate}
+%% \item Contribution to reionizatin 
+%% \item Conclusion 
+%% \end{enumerate}
+
+%% \noindent Optional possibilities:
+
+%% \begin{enumerate}
+%% \item Bolometric LF
+%% \item PLE, PDE, etc?
+%% \item Quantitative model fit test 
+%% \item BH growth 
+%% \item Comparison with galaxies 
+%% \end{enumerate}
+
+\section{Luminosity function}
+
+In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
+  bin $[z_\mathrm{min}, z_\mathrm{max})$, we define the luminosity
+    function as \citep{2000MNRAS.311..433P}
+  \begin{equation}
+    \phi \equiv \frac{N}{V_\mathrm{bin}},
+  \end{equation}
+  where $N$ is the number of quasars with magnitude
+  $M_\mathrm{min}\leq M<M_\mathrm{max}$ and redshift
+  $z_\mathrm{min}\leq z<z_\mathrm{max}$, and
+  \begin{equation}
+    V_\mathrm{bin} = \int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, f(M, z)\,\frac{dV}{dz},
+    \label{eqn:vi}
+  \end{equation}
+  is the effective volume of the bin.  Here $f(M,z)$ is the quasar
+  selection probability, which includes incompleteness.  Inclusion of
+  the selection probability in Equation~(\ref{eqn:vi}) accounts for
+  what have been referred to as ``incomplete bins'' in the literature.
+  The comoving volume element $dV/dz$ is given by
+  \begin{equation}
+    \frac{dV}{dz}=\frac{dV}{dz\,d\Omega}\cdot A\cdot\frac{4\pi}{41253},
+  \end{equation}
+  where $A$ is the survey area in deg$^2$, and \citep{1999astro.ph..5116H}
+  \begin{equation}
+    \frac{dV}{dz\,d\Omega}=\frac{c}{H_0}\frac{d_L(z)^2}{(1+z)^2\sqrt{\Omega_m(1+z)^3+\Omega_\Lambda}},
+    \label{eqn:dvdzdo}
+  \end{equation}
+  denotes the comoving volume element per unit solid angle.  The
+  luminosity distance $d_L$ is given by
+  \begin{equation}
+    d_L(z)=(1+z)\frac{c}{H_0}\int_0^z\frac{dz}{\sqrt{\Omega_m(1+z)^3+\Omega_\Lambda}}.
+    \label{eqn:dl}
+  \end{equation}
+  Equations~(\ref{eqn:dvdzdo}) and (\ref{eqn:dl}) assume a flat
+  Universe ($\Omega_k=0$).  The luminosity function $\phi$ has units
+  of $\mathrm{cMpc}^{-3}\mathrm{mag}^{-1}$.  We evaluate the double
+  integral in Equation~(\ref{eqn:vi}) by the Euler method, i.e., by
+  simply summing over the ``tiles'' of the selection function map.  We
+  do not interpolate between the redshift and luminosity values of
+  neighbouring tiles.  This may result in $V_i=0$ for some quasars, in
+  which case we remove them from our analysis.  Figure~\ref{fig:boss}
+  shows the luminosity function derived in this way for the BOSS DR9
+  colour-selected sample of 23,301 quasars, in comparison with the
+  published luminosity function of \citet{2013ApJ...773...14R}.
+  Figure~\ref{fig:sdss} shows the luminosity function of a sample of
+  15,179 quasars from the SDSS DR3 in comparison with the published
+  luminosity function of \citet{2006AJ....131.2766R}.
+
+  % Describe how we derive error bars.
+
+  \section{Fitting procedure}
+
+  We model the quasar luminosity function as a double power law given
+  by \citep[e.g.,][]{2013ApJ...773...14R}
+  \begin{equation}
+    \phi(M) = \frac{\phi_*}{10^{0.4(\alpha+1)(M-M_*)}+10^{0.4(\beta+1)(M-M_*)}},
+\label{eqn:dpl}
+\end{equation}
+where all magnitudes are absolute magnitudes at rest-frame 1450~{\AA}.
+The luminosity function $\phi$ gives the comoving number density of
+quasars per unit magnitude.  It usually has units of
+mag$^{-1}$cMpc$^{-3}$.  Equation~(\ref{eqn:dpl}) has four free
+parameters: the amplitude $\phi_*$, the ``break'' $M_*$, the faint-end
+slope $\beta$, and the bright-end slope $\alpha$.  The likelihood
+function can be written as \citep{2001AJ....121...54F}
+\begin{equation}
+  \mathcal{L}=\prod_{i,j}\frac{e^{-\mu_{ij}}\mu_{ij}^{n_{ij}}}{n_{ij}!},
+  \label{eqn:lhood}
+\end{equation}
+where $n_{ij}$ is the number of quasars observed in the $(M_i, z_j)$
+bin, and
+\begin{equation}
+  \mu_{ij}= \int_{M_i}^{M_{i+1}}dM\int_{z_i}^{z_{i+1}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
+\end{equation}
+is the average number of quasars expected in the $(M_i, z_j)$ bin
+given the luminosity function $\phi(M,z)$.  To obtain the maximum
+likelihood solution for the luminosity functin parameters, we minimise
+the function
+\begin{equation}
+  S = -2\ln\mathcal{L}.
+\end{equation}
+In the limit of infinitesimal bins, $n_{ij}=0$ or $1$, in which case
+Equation~(\ref{eqn:lhood}) can be simplified and we can write
+\begin{multline}
+  S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
+\end{multline}
+where $N$ is the total number of quasars in the sample and the integral in the second term on the right hand side is now on the full range of $M$ and $z$.
+  
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth,keepaspectratio]{boss.pdf}
+  \end{center}
+  \caption{Comparison of LF derived by our method with the published
+    LF of \citet{2013ApJ...773...14R} for the BOSS DR9 color-selected
+    sample. There are 23,301 quasars in this sample ($2.2<z<3.5$).  Of
+    these, 231 quasars have $V_i=0$ and are dropped from the
+    analysis.}
+  \label{fig:boss}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth,keepaspectratio]{sdss.pdf}
+  \end{center}
+  \caption{Comparison with the published LF of
+    \citet{2013ApJ...768..105M} for SDSS DR3.  There are 15,343
+    quasars in this sample, of which 155 quasars have $z<0.3$ and 9
+    quasars have $z>5$.  Of the remaining 15179 quasars with
+    $0.3<z<5$, 60 quasars have $V_i=0$ and are dropped from the
+    analysis.  As a result, the green points above contain 15,119
+    quasars.  The red circles contain 14,953 quasars.}
+  \label{fig:sdss}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,keepaspectratio]{mcgreer.pdf}
+  \end{center}
+  \caption{Comparison with the published LF of
+    \citet{2013ApJ...768..105M} for $4.7\leq z<5.1$.  There are 148
+    quasars in their DR7 sample and 52 quasars in the Stripe 82
+    sample. Of these 1 quasar from the Stripe 82 sample has $V_i=0$.
+    The published samples of \citet{2013ApJ...768..105M} have 146 and
+    51 quasars.}
+  \label{fig:mcgreer}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,keepaspectratio]{glikman.pdf}
+  \end{center}
+  \caption{Comparison with the published LF of
+    \citet{2011ApJ...728L..26G} for $3.5<z<5.2$.  There are 24 
+    quasars in their two samples (NDWFS and DLS).}
+  \label{fig:mcgreer}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{qsos.pdf}
+  \end{center}
+  \caption{Quasar samples.}
+  \label{fig:qsos}
+\end{figure*}
+
+\begin{landscape}
+  \begin{table}
+    % In published version of this table, we could remove file names and add data homogenisation in Notes.
+    % Add z ~ 7 qso when you add it to analysis
+    \caption{Quasar data sets}
+    \label{tab:samples}
+    \begin{tabular}{cccllcclll}
+      \hline
+      & ID & $z$ & Survey & Reference & Number & Area & Sample file & Selection map file & Notes \\
+      & & & & & of quasars & (deg$^2$) & & & \\
+      \hline
+      1. & 13 & 0.1--2.2 & SDSS DR7 & \citet{2006AJ....131.2766R} & 48664 & 6248.0 & \texttt{dr7z2p2\_sample.dat} & \texttt{dr7z2p2\_selfunc.dat} &  \\
+      2. & 15 & 0.4--2.6 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 3663 & 64.2 & \texttt{croom09sgp\_sample.dat} & \texttt{croom09sgp\_selfunc.dat} & \\ 
+      3. &  2 & 0.4--2.6 & --- NGP & \citet{2009MNRAS.392...19C} & 8153 & 127.7 & \texttt{croom09ngp\_sample.dat} & \texttt{croom09ngp\_selfunc.dat} & \\
+      4. &  1 & 2.2--3.5 & BOSS DR9 & \citet{2013ApJ...773...14R} & 23301 & 2236.0 & \texttt{bossdr9color.dat} & \texttt{ross13\_selfunc2.dat} & \\
+      5. & 13 & 3.7--4.7 & SDSS DR7 & \citet{2006AJ....131.2766R} & 1785 & 6248.0 & \texttt{dr7z3p7\_sample.dat} & \texttt{dr7z3p7\_selfunc.dat} & Sample restricted to $z<4.7$ \\
+      6. & 17 & 4.7--5.4 & SDSS+WISE & \citet{2016ApJ...829...33Y} & 99 & 14555.0 & \texttt{yang16\_sample.dat} & \texttt{yang16\_sel.dat} & Overlaps with 8 for $M_{1450}>-26.73$? \\
+      7. &  8 & 4.7--5.1 & SDSS DR7 & \citet{2013ApJ...768..105M} & 148 & 6248.0 & \texttt{mcgreer13\_dr7sample.dat} & \texttt{mcgreer13\_dr7selfunc.dat} & \\
+      8. &  4 & 4.7--5.1 & --- Stripe 82 & \citet{2013ApJ...768..105M} & 52 & 235.0 & \texttt{mcgreer13\_s82sample.dat} & \texttt{mcgreer13\_s82selfunc.dat} & \\
+      9. &  8 & 5.1--5.5 & --- DR7 Extended & \citet{2013ApJ...768..105M} & 28 & 6248.0 & \texttt{mcgreer13\_dr7extend.dat} & \texttt{mcgreer13\_dr7selfunc.dat} & \\
+      10. & 4 & 5.1--5.4 & ---  Stripe 82 Extended & \citet{2013ApJ...768..105M} & 10 & 235.0 & \texttt{mcgreer13\_s82extend.dat} & \texttt{mcgreer13\_s82selfunc.dat} & \\
+      11. & 3 & 3.7--4.8 & NDWFS & \citet{2011ApJ...728L..26G} & 12 & 1.71 & \texttt{glikman11qso.dat} & \texttt{glikman11\_selfunc\_ndwfs\_old.dat} & \\
+%         &  &  &  &  &  &  & \texttt{glikman11debug.dat} & \texttt{glikman11\_selfunc\_ndwfs.dat} & \\ 
+      12. & 6 & 3.8--5.1 & DLS & \citet{2011ApJ...728L..26G} & 12 & 2.05 & \texttt{glikman11qso.dat} & \texttt{glikman11\_selfunc\_dls\_old.dat} & \\
+%      &  &  &  &  &  &  & \texttt{glikman11debug.dat} & \texttt{glikman11\_selfunc\_ndwfs.dat} & \\
+      13. & 7 & 4.1--6.3 & CANDELS GOODS-S & \citet{2015AA...578A..83G} & 19 & 0.047 & \texttt{giallongo15\_sample.dat} & \texttt{giallongo15\_sel.dat} &  \\
+      14. & 9 & 5.9--6.1 & SDSS Deep & \citet{2008AJ....135.1057J} & 6 & 260.0 & \texttt{jiang08\_sample.dat} & \texttt{jiang08\_sel.dat} \\
+      15. & 5 & 5.8--6.0 & --- Deep & \citet{2009AJ....138..305J} & 4 & 195.0 & \texttt{jiang09\_sample.dat} & \texttt{jiang09\_sel.dat} \\
+      16. & 18 & 5.8--6.4 & --- Main & \citet{2016ApJ...833..222J} & 24 & 11240.0 & \texttt{jiang16main\_sample.dat} & \texttt{jiang16main\_selfunc.dat} \\
+      17. & 16 & 5.8--6.4 & --- Main & \citet{2006AJ....131.1203F} & 14 & 6600.0 & \texttt{fan06\_sample.dat} & \texttt{fan06\_sel.dat} & Any overlap with 18? \\
+      18. & 19 & 5.9--6.1 & --- Overlap & \citet{2016ApJ...833..222J} & 10 & 4223.0 & \texttt{jiang16overlap\_sample.dat} & \texttt{jiang16overlap\_selfunc.dat} \\
+      19. & 20 & 5.7--6.1 & --- Stripe 82 & \citet{2016ApJ...833..222J} & 13 & 277.0 & \texttt{jiang16s82\_sample.dat} & \texttt{jiang16s82\_selfunc.dat} \\
+      20. & 10 & 6.0 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 & \texttt{willott10\_cfhqsdeepsample.dat} & \texttt{willott10\_cfhqsdeepsel.dat} \\
+      21. & 21 & 5.9--6.4 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 & \texttt{willott10\_cfhqsvwsample.dat} & \texttt{willott10\_cfhqsvwsel.dat} \\
+      22. & 11 & 6.0--6.2 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 & \texttt{kashikawa15\_sample.dat} & \texttt{kashikawa15\_sel.dat} \\ 
+      
+    \end{tabular}
+  \end{table}
+\end{landscape}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z0.495}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z0.881}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z1.252}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z1.626}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z1.987}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.254}.pdf} \\
+    \end{tabular}
+  \end{center}
+  \caption{Individual fits.  Something wrong with Croom's SGP data?}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.348}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.446}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.548}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.645}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.746}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z2.901}.pdf} \\
+    \end{tabular}
+  \end{center}
+  \caption{Individual fits.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z3.119}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z3.333}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z3.831}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z4.196}.pdf} \\
+      
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z4.837}.pdf} &
+      \includegraphics[width=0.4\textwidth,keepaspectratio]{{lf_z6.001}.pdf} \\
+    \end{tabular}
+  \end{center}
+  \caption{Individual fits.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+  \end{center}
+  \caption{Parameter evolution from individual fits.  Giallongo's qsos not included.}
+\end{figure*}
+
+
+\section*{Acknowledgements}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+eget nisi augue. Vivamus quis purus quis massa tempor posuere non quis
+magna. Aenean eleifend, metus eget facilisis faucibus, turpis erat
+suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse luctus
+eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec massa
+ultrices, porttitor nulla at, euismod diam. In ultricies
+
+\bibliographystyle{mnras}
+\bibliography{refs}
+
+
+\bsp
+\label{lastpage}
+\end{document}
+
+

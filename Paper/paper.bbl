@@ -1,0 +1,103 @@
+\begin{thebibliography}{}
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href
+  {http://dx.doi.org/#2} {doi:#2}\else \href {http://dx.doi.org/#2} {#1}\fi
+  \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {{\tt arXiv:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[\protect\citeauthoryear{{Croom} et~al.,}{{Croom}
+  et~al.}{2009}]{2009MNRAS.392...19C}
+{Croom} S.~M.,  et~al., 2009, \mn@doi [\mnras]
+  {10.1111/j.1365-2966.2008.14052.x}, \href
+  {http://adsabs.harvard.edu/abs/2009MNRAS.392...19C} {392, 19}
+
+\bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
+  et~al.}{2001}]{2001AJ....121...54F}
+{Fan} X.,  et~al., 2001, \mn@doi [\aj] {10.1086/318033}, \href
+  {http://adsabs.harvard.edu/abs/2001AJ....121...54F} {121, 54}
+
+\bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
+  et~al.}{2006}]{2006AJ....131.1203F}
+{Fan} X.,  et~al., 2006, \mn@doi [\aj] {10.1086/500296}, \href
+  {http://adsabs.harvard.edu/abs/2006AJ....131.1203F} {131, 1203}
+
+\bibitem[\protect\citeauthoryear{{Giallongo} et~al.,}{{Giallongo}
+  et~al.}{2015}]{2015AA...578A..83G}
+{Giallongo} E.,  et~al., 2015, \mn@doi [\aap] {10.1051/0004-6361/201425334},
+  578, A83
+
+\bibitem[\protect\citeauthoryear{{Glikman}, {Djorgovski}, {Stern}, {Dey},
+  {Jannuzi}  \& {Lee}}{{Glikman} et~al.}{2011}]{2011ApJ...728L..26G}
+{Glikman} E.,  {Djorgovski} S.~G.,  {Stern} D.,  {Dey} A.,  {Jannuzi} B.~T.,
+  {Lee} K.-S.,  2011, \mn@doi [\apjl] {10.1088/2041-8205/728/2/L26}, \href
+  {http://adsabs.harvard.edu/abs/2011ApJ...728L..26G} {728, L26}
+
+\bibitem[\protect\citeauthoryear{{Hogg}}{{Hogg}}{1999}]{1999astro.ph..5116H}
+{Hogg} D.~W.,  1999, ArXiv Astrophysics e-prints, \href
+  {http://adsabs.harvard.edu/abs/1999astro.ph..5116H} {}
+
+\bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
+  et~al.}{2008}]{2008AJ....135.1057J}
+{Jiang} L.,  et~al., 2008, \mn@doi [\aj] {10.1088/0004-6256/135/3/1057}, \href
+  {http://adsabs.harvard.edu/abs/2008AJ....135.1057J} {135, 1057}
+
+\bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
+  et~al.}{2009}]{2009AJ....138..305J}
+{Jiang} L.,  et~al., 2009, \mn@doi [\aj] {10.1088/0004-6256/138/1/305}, \href
+  {http://adsabs.harvard.edu/abs/2009AJ....138..305J} {138, 305}
+
+\bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
+  et~al.}{2016}]{2016ApJ...833..222J}
+{Jiang} L.,  et~al., 2016, \mn@doi [\apj] {10.3847/1538-4357/833/2/222}, \href
+  {http://adsabs.harvard.edu/abs/2016ApJ...833..222J} {833, 222}
+
+\bibitem[\protect\citeauthoryear{{Kashikawa} et~al.,}{{Kashikawa}
+  et~al.}{2015}]{2015ApJ...798...28K}
+{Kashikawa} N.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/798/1/28},
+  \href {http://adsabs.harvard.edu/abs/2015ApJ...798...28K} {798, 28}
+
+\bibitem[\protect\citeauthoryear{{McGreer} et~al.,}{{McGreer}
+  et~al.}{2013}]{2013ApJ...768..105M}
+{McGreer} I.~D.,  et~al., 2013, \mn@doi [\apj] {10.1088/0004-637X/768/2/105},
+  \href {http://adsabs.harvard.edu/abs/2013ApJ...768..105M} {768, 105}
+
+\bibitem[\protect\citeauthoryear{{Page} \& {Carrera}}{{Page} \&
+  {Carrera}}{2000}]{2000MNRAS.311..433P}
+{Page} M.~J.,  {Carrera} F.~J.,  2000, \mn@doi [\mnras]
+  {10.1046/j.1365-8711.2000.03105.x}, \href
+  {http://adsabs.harvard.edu/abs/2000MNRAS.311..433P} {311, 433}
+
+\bibitem[\protect\citeauthoryear{{Richards} et~al.,}{{Richards}
+  et~al.}{2006}]{2006AJ....131.2766R}
+{Richards} G.~T.,  et~al., 2006, \mn@doi [\aj] {10.1086/503559}, \href
+  {http://adsabs.harvard.edu/abs/2006AJ....131.2766R} {131, 2766}
+
+\bibitem[\protect\citeauthoryear{{Ross} et~al.,}{{Ross}
+  et~al.}{2013}]{2013ApJ...773...14R}
+{Ross} N.~P.,  et~al., 2013, \mn@doi [\apj] {10.1088/0004-637X/773/1/14}, \href
+  {http://adsabs.harvard.edu/abs/2013ApJ...773...14R} {773, 14}
+
+\bibitem[\protect\citeauthoryear{{Willott} et~al.,}{{Willott}
+  et~al.}{2010}]{2010AJ....139..906W}
+{Willott} C.~J.,  et~al., 2010, \mn@doi [\aj] {10.1088/0004-6256/139/3/906},
+  \href {http://adsabs.harvard.edu/abs/2010AJ....139..906W} {139, 906}
+
+\bibitem[\protect\citeauthoryear{{Yang} et~al.,}{{Yang}
+  et~al.}{2016}]{2016ApJ...829...33Y}
+{Yang} J.,  et~al., 2016, \mn@doi [\apj] {10.3847/0004-637X/829/1/33}, \href
+  {http://adsabs.harvard.edu/abs/2016ApJ...829...33Y} {829, 33}
+
+\makeatother
+\end{thebibliography}
