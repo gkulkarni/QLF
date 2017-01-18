@@ -8,7 +8,8 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
-import triangle 
+import triangle
+import corner
 import cosmolopy.distance as cd
 cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
@@ -196,7 +197,7 @@ class lf:
     def corner_plot(self, labels=None, dirname=''):
 
         mpl.rcParams['font.size'] = '14'
-        f = triangle.corner(self.samples, labels=labels, truths=self.bf.x)
+        f = corner.corner(self.samples, labels=labels, truths=self.bf.x)
         plotfile = dirname+'triangle.png'
         f.savefig(plotfile)
         mpl.rcParams['font.size'] = '22'
