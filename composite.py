@@ -87,7 +87,7 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
-        return T(p, domain=[0.5,6.0])(1+z)
+        return T(p, domain=[0.,7.])(1+z)
         
         # if len(p) == 2: 
         #     a0, a1 = p
