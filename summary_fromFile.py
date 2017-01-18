@@ -18,13 +18,22 @@ zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
         
-def plot_phi_star(fig):
+def plot_phi_star(fig, composite):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-10.5, -5.5)
+
+    if composite is not None: 
+        bf = composite.getparams(composite.samples.mean(axis=0))
+        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+            params = composite.getparams(theta) 
+            phi = composite.atz(z, params[0]) 
+            ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
+        phi = composite.atz(z, bf[0]) 
+        ax.plot(z, phi, color='k', zorder=2)
 
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
     left = zmean-zl
@@ -43,7 +52,7 @@ def plot_phi_star(fig):
 
     return
 
-def plot_m_star(fig):
+def plot_m_star(fig, composite):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -54,6 +63,15 @@ def plot_m_star(fig):
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-28.5, -23.0)
 
+    if composite is not None: 
+        bf = composite.getparams(composite.samples.mean(axis=0))
+        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+            params = composite.getparams(theta) 
+            M = composite.atz(z, params[1]) 
+            ax.plot(z, M, color=colors[1], alpha=0.02, zorder=3)
+        M = composite.atz(z, bf[1]) 
+        ax.plot(z, M, color='k', zorder=4)
+    
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
@@ -73,7 +91,7 @@ def plot_m_star(fig):
 
     return
 
-def plot_alpha(fig):
+def plot_alpha(fig, composite):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -81,6 +99,15 @@ def plot_alpha(fig):
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-5.5, -2.3)
 
+    if composite is not None: 
+        bf = composite.getparams(composite.samples.mean(axis=0))
+        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+            params = composite.getparams(theta)
+            alpha = composite.atz(z, params[2])
+            ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=3) 
+        alpha = composite.atz(z, bf[2]) 
+        ax.plot(z, alpha, color='k', zorder=4)
+    
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
@@ -98,7 +125,7 @@ def plot_alpha(fig):
 
     return
 
-def plot_beta(fig):
+def plot_beta(fig, composite):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -109,6 +136,15 @@ def plot_beta(fig):
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-2.5, -0.5)
 
+    if composite is not None: 
+        bf = composite.getparams(composite.samples.mean(axis=0))
+        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+            params = composite.getparams(theta)
+            beta = composite.atz(z, params[3]) 
+            ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=3) 
+        beta = composite.atz(z, bf[3]) 
+        ax.plot(z, beta, color='k', zorder=4)
+    
     zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
@@ -126,7 +162,7 @@ def plot_beta(fig):
 
     return 
 
-def summary_plot():
+def summary_plot(composite=None):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -148,10 +184,10 @@ def summary_plot():
 
     print 'plotting now'
     
-    plot_phi_star(fig)
-    plot_m_star(fig)
-    plot_alpha(fig)
-    plot_beta(fig)
+    plot_phi_star(fig, composite)
+    plot_m_star(fig, composite)
+    plot_alpha(fig, composite)
+    plot_beta(fig, composite)
 
     plt.savefig('evolution.pdf',bbox_inches='tight')
 
