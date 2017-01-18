@@ -42,13 +42,13 @@ def volume(z, area, cosmo=cosmo):
 
 class selmap:
 
-    def __init__(self, selection_map_file, area):
+    def __init__(self, selection_map_file, dm, dz, area):
 
         self.z, self.m, self.p = getselfn(selection_map_file)
 
-        self.dz = np.unique(np.diff(self.z))[-1]
-        self.dm = np.unique(np.diff(self.m))[-1]
-        # print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
+        self.dz = dz
+        self.dm = dm 
+        print 'dz={:.3f}, dm={:.3f}'.format(dz, dm)
 
         self.area = area
         self.volume = volume(self.z, self.area) 
@@ -79,7 +79,7 @@ class lf:
                 self.M1450=m
                 self.p=p
 
-        self.maps = [selmap(x[0], x[1]) for x in selection_maps]
+        self.maps = [selmap(*x) for x in selection_maps]
 
         return
 
