@@ -63,26 +63,28 @@ assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
 lfi.run_mcmc()
 
-lfi.get_percentiles()
+# lfi.get_percentiles()
 
-with open('phi_star.dat', 'a') as f:
-    f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
-    f.write('\n')
+write=False 
+if write: 
+    with open('phi_star.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
+        f.write('\n')
 
-with open('M_star.dat', 'a') as f:
-    f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
-    f.write('\n')
+    with open('M_star.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
+        f.write('\n')
 
-with open('alpha.dat', 'a') as f:
-    f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
-    f.write('\n')
+    with open('alpha.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
+        f.write('\n')
 
-with open('beta.dat', 'a') as f:
-    f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
-    f.write('\n')
+    with open('beta.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
+        f.write('\n')
     
-lfi.corner_plot()
-lfi.chains()
+# lfi.corner_plot()
+# lfi.chains()
 
-lfi.draw(lfi.z.mean())
+# lfi.draw(lfi.z.mean())
 
