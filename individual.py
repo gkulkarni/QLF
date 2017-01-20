@@ -293,52 +293,64 @@ class lf:
 
         return smap[0].volume # cMpc^3
 
-    def binvol(self, m, dm, zrange, bins, msel, psel, vsel, zsel):
+    def binVol(self, selmap, mrange, zrange):
 
         """
 
-        Calculate volume in the i'th bin.
+        Calculate volume in an M-z bin for *one* selmap.
 
         """
 
-        total_vol = 0.0
+        v = 0.0
+        for i in xrange(selmap.m.size):
+            if (selmap.m[i] >= mrange[0]) and (selmap.m[i] < mrange[1]):
+                if (selmap.z[i] >= zrange[0]) and (selmap.z[i] < zrange[1]):
+                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm
 
-        idx = np.searchsorted(bins, m)
+        return v
 
-        mlow = bins[idx-1]
-        mhigh = bins[idx]
+    def totBinVol(self, m, mbins, selmaps):
 
-        for i in xrange(msel.size):
-            if (msel[i] >= mlow) and (msel[i] < mhigh):
-                if (zsel[i] >= zrange[0]) and (zsel[i] < zrange[1]):
-                    total_vol += vsel[i]*psel[i]*dm
+        """
+        
+        Given magnitude bins mbins and a list of selection maps
+        selmaps, compute the volume for an object with magnitude m.
+
+        """
+
+        idx = np.searchsorted(mbins, m)
+        mlow = mbins[idx-1]
+        mhigh = mbins[idx]
+        mrange = (mlow, mhigh)
+
+        v = np.array([self.binVol(x, mrange, self.zlims) for x in selmaps])
+        total_vol = v.sum() 
 
         return total_vol
     
-        
     def get_lf(self, sid, z_plot):
 
         # Bin data.  This is only for visualisation and to compare
-        # with reported binned values.  The number of bins (nbins) is
-        # estimated by Knuth's rule (astropy.stats.knuth_bin_width).
+        # with reported binned values.  
 
         z = self.z[self.sid==sid]
         m = self.M1450[self.sid==sid]
         p = self.p[self.sid==sid]
 
-        for x in self.maps:
-            if x.sid == sid:
-                selmap = x
+        selmaps = [x for x in self.maps if x.sid == sid]
 
-        # bug: self.totvol can be a problem if survey zrange is smaller than zlims
-        bins = np.arange(-30.9, -17.3, 0.6)
-        v1 = np.array([self.binvol(x, selmap.dm, self.zlims, bins, selmap.m, selmap.p, selmap.volarr, selmap.z) for x in m])
+        if sid==6:
+            # Glikman's sample needs wider bins.
+            bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+        else:
+            bins = np.arange(-30.9, -17.3, 0.6)
+        
+        v1 = np.array([self.totBinVol(x, bins, selmaps) for x in m])
 
         v1_nonzero = v1[np.where(v1>0.0)]
         m = m[np.where(v1>0.0)]
 
-        #nbins = int(np.ptp(m)/kbw(m))        
-        h = np.histogram(m,bins=bins,weights=1.0/(v1_nonzero))
+        h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
 
         nums = h[0]
         mags = (h[1][:-1] + h[1][1:])*0.5
@@ -443,7 +455,8 @@ class lf:
         self.plot_bestfit_lf(ax, mag_plot, lw=2,
                              c='#ffbf00', label='fit', zorder=3)
 
-        cs = {13: 'r', 15:'g', 2:'b', 1:'m', 3:'c', 6:'#ff7f0e', 17:'#8c564b', 4:'#7f7f7f', 8:'#17becf', 9:'r', 5:'g', 18:'b', 16:'m', 19:'c', 20:'k', 10:'#ff7f0e', 21:'#8c564b', 11:'#7f7f7f'}
+        cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
+              7:'#8c564b', 18:'#7f7f7f', 10:'#17becf', 11:'r'}
 
         def dsl(i):
             for x in self.maps:
@@ -465,9 +478,9 @@ class lf:
             # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
             # self.plot_hopkins(ax, 'hopkins2.dat')
             
-        ax.set_xlim(-21.0, -31.0)
+        ax.set_xlim(-17.0, -31.0)
         ax.set_ylim(-12.0, -5.0)
-        ax.set_xticks(np.arange(-31,-20, 2))
+        ax.set_xticks(np.arange(-31,-16, 2))
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')

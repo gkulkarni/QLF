@@ -1,6 +1,7 @@
 import sys
 import numpy as np 
-from individual import lf 
+from individual import lf
+import drawlf
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
@@ -21,20 +22,20 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/kashikawa15_sample.dat']
 
 selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
-             ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'2SLAQ SGP Croom et al.\ 2009'),
-             ('Data_new/croom09ngp_selfunc.dat', 0.3, 0.05, 127.7, 2, r'2SLAQ NGP Croom et al.\ 2009'),
+             ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'2SLAQ Croom et al.\ 2009'),
+             ('Data_new/croom09ngp_selfunc.dat', 0.3, 0.05, 127.7, 15, r'2SLAQ Croom et al.\ 2009'),
              ('Data_new/ross13_selfunc2.dat', 0.1, 0.05, 2236.0, 1, r'BOSS DR9 Ross et al.\ 2013'),
-             ('Data_new/dr7z3p7_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
-             ('Data_new/glikman11_selfunc_ndwfs.dat', 0.05, 0.02, 1.71, 3, r'NDWFS Glikman et al.\ 2011'),
-             ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'DLS Glikman et al.\ 2011'),
+#             ('Data_new/dr7z3p7_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
+             ('Data_new/glikman11_selfunc_ndwfs.dat', 0.05, 0.02, 1.71, 6, r'NDWFS+DLS Glikman et al.\ 2011'),
+             ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'NDWFS+DLS Glikman et al.\ 2011'),
              ('Data_new/yang16_sel.dat', 0.1, 0.05, 14555.0, 17, r'SDSS+WISE Yang et al.\ 2016'),
-             ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'SDSS DR7 McGreer et al.\ 2013'),
-             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 4, r'SDSS S82 McGreer et al.\ 2013'),
-             ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'SDSS Main Jiang et al.\ 2016'),
-             ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 19, r'SDSS Overlap Jiang et al.\ 2016'),
-             ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 20, r'SDSS S82 Jiang et al.\ 2016'),
-             ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'CFHQS Deep Willott et al.\ 2010'),
-             ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 21, r'CFHQS Very Wide Willott et al.\ 2010'),
+             ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'SDSS McGreer et al.\ 2013'),
+             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 8, r'SDSS McGreer et al.\ 2013'),
+             ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'SDSS Jiang et al.\ 2016'),
+             ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 18, r'SDSS Jiang et al.\ 2016'),
+             ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'SDSS Jiang et al.\ 2016'),
+             ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'CFHQS Willott et al.\ 2010'),
+             ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10, r'CFHQS Willott et al.\ 2010'),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015')]
 
 method = 'Nelder-Mead'
@@ -43,7 +44,6 @@ zmin = float(sys.argv[1])
 zmax = float(sys.argv[2]) 
 
 zl = (zmin, zmax) 
-# zl = (2.6, 2.7)
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 print '{:d} quasars in this bin.'.format(lfi.z.size)
 
@@ -52,12 +52,11 @@ b = lfi.bestfit(g, method=method)
 print b
 
 lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
-lfi.prior_max_values = np.array([-6.0, -23.0, -2.0, -1.0])
+lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
 assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
 lfi.run_mcmc()
-
-# lfi.get_percentiles()
+lfi.get_percentiles()
 
 write=False 
 if write: 
@@ -77,8 +76,8 @@ if write:
         f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
         f.write('\n')
     
-# lfi.corner_plot()
-# lfi.chains()
+lfi.corner_plot()
+lfi.chains()
+drawlf.draw(lfi)
 
-# lfi.draw(lfi.z.mean())
 
