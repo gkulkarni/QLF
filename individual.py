@@ -36,12 +36,20 @@ def getqlums(lumfile, zlims=None):
 
     try:
         if sample_id[0] == 8:
-            # Restrict McGreer's DR7 sample to faint quasars to avoid overlap with Yang.
-            print 'restricting dr7 sample to mag>-26.73' 
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
             select = ((z>=z_min) & (z<z_max) & (mag>-26.73))
     except(IndexError):
         pass
-            
+
+    try:
+        if sample_id[0] == 13:
+            # Restrict SDSS DR7 sample to z < 4.7 to avoid overlap
+            # with McGreer and Yang.
+            select = ((z>=z_min) & (z<z_max) & (z<4.7))
+    except(IndexError):
+        pass
+    
     return z[select], mag[select], p[select], area[select], sample_id[select]
 
 def getselfn(selfile, zlims=None):
