@@ -93,8 +93,26 @@ class selmap:
         self.dz = dz
         self.dm = dm 
         self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
+
+        if sample_id == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = (self.m>-26.73)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 13:
+            # Restrict DR7 sample to z < 4.7 to avoid overlap with
+            # McGreer and Yang.
+            select = (self.z<4.7)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
         if self.z.size == 0:
-            return # This selmap has no points in zlims 
+            return # This selmap has no points in zlims
+            
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
 
