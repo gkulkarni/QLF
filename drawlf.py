@@ -151,7 +151,7 @@ def render(ax, lf):
     sids = np.unique(lf.sid)
     for i in sids:
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
-        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=35, label=dsl(i))
+        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=16, label=dsl(i))
         ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
                     xerr=np.vstack((left, right)), 
                     yerr=np.vstack((uperr, downerr)),
