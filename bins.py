@@ -39,7 +39,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
 
 method = 'Nelder-Mead'
 z = np.array([0.3, 0.68, 1.06, 1.44, 1.82, 2.2, 2.3, 2.4, 2.5, 2.6,
-              2.7, 2.8, 3.0, 3.25, 3.7, 4.1, 4.7, 5.1, 5.5, 6.5])
+              2.7, 2.8, 3.0, 3.25, 3.7, 4.1, 4.7, 5.5, 6.5])
 lfs = [] 
 
 for i, rs in enumerate(z[:-1]):
@@ -55,7 +55,7 @@ for i, rs in enumerate(z[:-1]):
     print b
 
     lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
-    lfi.prior_max_values = np.array([-6.0, -23.0, -2.0, -1.0])
+    lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])    
     assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
     lfi.run_mcmc()
