@@ -1,0 +1,21 @@
+# Giallongo et al. (2015, A&A, 578, A83) selection function
+# estimated from Giallongo's Table 3 comparing phi_obs and phi_corr
+# caution: bins are not equally spaced (4<z<4.5, 4.5<z<5.0, 5.0<z<6.5)
+# The actual selection probability is p/corr.  The factors corr
+# account for the sensitivity limit, which for other surveys is
+# usually included in p.  corr was calculated by taking the ratio of
+# derived phi (using uncorrected selection probabilities) with
+# Giallongo's published phi.
+# counter  z     M1450  p       corr 
+        1  4.250 -21.00 1.00000 1.96940
+        2  4.250 -20.00 0.79400 1.65220
+        3  4.250 -19.00 0.25100 3.12635
+        4  4.750 -22.50 1.00000 2.36004
+        5  4.750 -21.00 0.79400 1.48412
+        6  4.750 -20.00 0.50100 1.48148
+        7  4.750 -19.00 0.39800 2.21131
+        8  5.750 -21.00 1.00000 1.26077
+        9  5.750 -20.00 0.39800 1.49072
+       10  5.750 -19.00 0.31600 3.55076
+
+
