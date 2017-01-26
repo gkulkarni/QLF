@@ -39,7 +39,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     return
 
-def binVol(lf, selmap, mrange, zrange):
+def binVol(self, selmap, mrange, zrange):
 
     """
 
@@ -51,7 +51,10 @@ def binVol(lf, selmap, mrange, zrange):
     for i in xrange(selmap.m.size):
         if (selmap.m[i] >= mrange[0]) and (selmap.m[i] < mrange[1]):
             if (selmap.z[i] >= zrange[0]) and (selmap.z[i] < zrange[1]):
-                v += selmap.volarr[i]*selmap.p[i]*selmap.dm
+                if selmap.sid == 7: # Giallongo 
+                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm[i]
+                else:
+                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm
 
     return v
 
@@ -89,6 +92,8 @@ def get_lf(lf, sid, z_plot):
     if sid==6:
         # Glikman's sample needs wider bins.
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+    elif sid == 7:
+        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -140,7 +145,7 @@ def render(ax, lf):
                          c='#ffbf00', zorder=3)
 
     cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
-          7:'#8c564b', 18:'#7f7f7f', 10:'#17becf', 11:'r'}
+          7:'#8c564b', 18:'#7f7f7f', 10:'k', 11:'r', 7:'g'}
 
     def dsl(i):
         for x in lf.maps:
@@ -177,7 +182,7 @@ def draw(lf, composite=None, dirname=''):
     render(ax, lf)
 
     ax.set_xlim(-17.0, -31.0)
-    ax.set_ylim(-12.0, -5.0)
+    ax.set_ylim(-12.0, -4.0)
     ax.set_xticks(np.arange(-31,-16, 2))
 
     ax.set_xlabel(r'$M_{1450}$')
@@ -186,7 +191,7 @@ def draw(lf, composite=None, dirname=''):
     legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
     plt.legend(loc='lower left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.4, borderpad=0.2, scatterpoints=1, title=legend_title)
+               handletextpad=-0.4, borderpad=0.2, scatterpoints=1, title=legend_title)
 
     plottitle = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
     plt.title(plottitle, size='medium', y=1.01)
