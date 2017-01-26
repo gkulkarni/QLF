@@ -57,7 +57,7 @@ def getselfn(selfile, zlims=None):
     """Read selection map."""
 
     with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
+        z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
 
     if zlims is None:
         select = None
@@ -91,9 +91,34 @@ class selmap:
         self.label = label
         self.sid = sample_id
         self.dz = dz
-        self.dm = dm 
+        self.dm = dm
+        if sample_id == 7:
+            # Giallongo's sample needs special treatment due to
+            # non-uniform selection map grid.  Here, we are assuming
+            # that np.diff(zlims) is smaller than the delta-z values
+            # in Giallongo's selection maps.
+            self.dz = np.diff(zlims)
+            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+            with open(selection_map_file, 'r') as f: 
+                z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+            z_min, z_max = zlims 
+            select = ((z>=z_min) & (z<z_max))
+            self.dm = self.dm[select]
+            
         self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
 
+        if sample_id == 7:
+            # Correct Giallongo's p values to match published LF.  See
+            # comments in giallongo15_sel_correction.dat.
+            with open(selection_map_file, 'r') as f: 
+                z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+            z_min, z_max = zlims 
+            select = ((z>=z_min) & (z<z_max))
+            with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
+                corr = np.loadtxt(f, usecols=(4,), unpack=True)
+            corr = corr[select]
+            self.p = self.p/corr 
+        
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
             # overlap with Yang.
@@ -115,20 +140,21 @@ class selmap:
             
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
-
+        print self.dm, self.dz
+        
         return
 
     def nqso(self, lumfn, theta):
 
         try: 
             psi = 10.0**lumfn.log10phi(theta, self.m)
-            # self.dm is assumed to be constant here; may not be true.
+            # Except for Giallongo's sample, self.dm is assumed to be
+            # constant here; may not be true.
             tot = psi*self.p*self.volarr*self.dm
             return np.sum(tot)
         except(AttributeError):
             return 0 
             
-
 class lf:
 
     def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
@@ -331,7 +357,10 @@ class lf:
         for i in xrange(selmap.m.size):
             if (selmap.m[i] >= mrange[0]) and (selmap.m[i] < mrange[1]):
                 if (selmap.z[i] >= zrange[0]) and (selmap.z[i] < zrange[1]):
-                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm
+                    if selmap.sid == 7:
+                        v += selmap.volarr[i]*selmap.p[i]*selmap.dm[i]
+                    else:
+                        v += selmap.volarr[i]*selmap.p[i]*selmap.dm
 
         return v
 
