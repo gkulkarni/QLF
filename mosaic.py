@@ -23,7 +23,7 @@ def plot(lf, ax, yticklabels=False, xticklabels=False,
     render(ax, lf)
 
     ax.set_xlim(-18.0, -30.0)
-    ax.set_ylim(-12.0, -5.0)
+    ax.set_ylim(-12.0, -3.0)
     # ax.set_xticks(np.arange(-31,-16, 2))
     ax.set_xticks(np.arange(-30, -16, 3))
 
