@@ -43,7 +43,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(loglf, theta, z, (-23.0, -20.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-23.0, -18.0), fit=fit_type)
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -251,6 +251,93 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
 
                 np.savez('gammapi_individuals', zs=zs, g=g, uzerr=uzerr, lzerr=lzerr, uyerr=uyerr, lyerr=lyerr)
         
+    plt.legend(loc='lower left', fontsize=14, handlelength=1,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+    
+    plt.savefig('gammapi.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+def draw(individuals, zlims):
+
+    """
+    Calculates and plots HI photoionization rate. 
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    
+    ax.set_ylim(1.0e-2,10)
+    ax.set_yscale('log')
+    # ax.set_xticks((2,3,4,5,6))
+
+    locs = (1.0e-2, 1.0e-1, 1.0, 10.0)
+    labels = ('0.01', '0.1', '1', '10')
+    plt.yticks(locs, labels)
+
+    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True)
+    
+    gml = 10.0**gm
+    gml_up = 10.0**(gm+gm_up)-10.0**gm
+    gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
+
+    ax.scatter(zm, gml, c='#d7191c', edgecolor='None', label='Becker and Bolton 2013', s=64)
+    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=2, capthick=2,
+                yerr=np.vstack((gml_low, gml_up)),
+                fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
+                mew=1, ms=5)
+
+    zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
+    gm += 12.0
+
+    gml = 10.0**gm
+    gml_up = 10.0**(gm+gm_sigma)-10.0**gm
+    gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
+    
+    ax.scatter(zm, gml, c='#99cc66', edgecolor='None', label='Calverley et al.~2011', s=64) 
+    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=2, capthick=2,
+                yerr=np.vstack((gml_low, gml_up)), fmt='None', zorder=1, mfc='#99CC66',
+                mec='#99CC66', mew=1, ms=5)
+
+    c = np.array([x.gammapi[2]+12.0 for x in individuals])
+    u = np.array([x.gammapi[0]+12.0 for x in individuals])
+    l = np.array([x.gammapi[1]+12.0 for x in individuals])
+
+    gml = 10.0**c
+    gml_up = 10.0**u-10.0**c
+    gml_low = 10.0**c - 10.0**l
+    
+    zs = np.array([x.z.mean() for x in individuals])
+    uz = np.array([x.z.max() for x in individuals])
+    lz = np.array([x.z.min() for x in individuals])
+
+
+    uz = np.array([x[0] for x in zlims])
+    lz = np.array([x[1] for x in zlims])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
+               label='Individual fits ($M<-18$, local source approximation)',
+               s=44, zorder=4, linewidths=2) 
+    ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=2,
+                yerr=np.vstack((gml_low,gml_up)),
+                xerr=np.vstack((lzerr,uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+
     plt.legend(loc='lower left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.1, borderpad=0.01, scatterpoints=1)
