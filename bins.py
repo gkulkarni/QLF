@@ -51,14 +51,20 @@ lfs = []
 
 for i, zl in enumerate(zls):
 
-    print zl[0]
+    print 'z =', zl
 
     lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
     print '{:d} quasars in this bin.'.format(lfi.z.size)
 
+    print 'sids: '+'  '.join(['{:2d}'.format(x.sid) for x in lfi.maps])
+    print 'size: '+'  '.join(['{:5}'.format(x.z.size) for x in lfi.maps])
+    print 'pmax: '+'  '.join(['{:.6f}'.format(x.p.max()) for x in lfi.maps])
+    print 'pmin: '+'  '.join(['{:.6f}'.format(x.p.min()) for x in lfi.maps])
+    print ' '
+    
     g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
     b = lfi.bestfit(g, method=method)
-    print b
+    print b 
 
     lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
     lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])    
@@ -67,29 +73,28 @@ for i, zl in enumerate(zls):
     lfi.run_mcmc()
     lfi.get_percentiles()
 
-    write=False
+    write=True
     if write: 
-        with open('phi_star.dat', 'a') as f:
+        with open('phi_stars.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
             f.write('\n')
 
-        with open('M_star.dat', 'a') as f:
+        with open('M_stars.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
             f.write('\n')
 
-        with open('alpha.dat', 'a') as f:
+        with open('alphas.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
             f.write('\n')
 
-        with open('beta.dat', 'a') as f:
+        with open('betas.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.beta[0], lfi.beta[1], lfi.beta[2]))
             f.write('\n')
-
-
+            
     lfs.append(lfi)
 
-mosaic.draw(lfs)
+# mosaic.draw(lfs)
