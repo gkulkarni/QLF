@@ -2,6 +2,7 @@ import sys
 import numpy as np 
 from individual import lf
 import drawlf
+import cProfile
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
@@ -50,6 +51,7 @@ lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 print '{:d} quasars in this bin.'.format(lfi.z.size)
 
 g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
+
 b = lfi.bestfit(g, method=method)
 print b
 
@@ -60,7 +62,7 @@ assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 lfi.run_mcmc()
 lfi.get_percentiles()
 
-write=True 
+write=False
 if write: 
     with open('phi_starg.dat', 'a') as f:
         f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
