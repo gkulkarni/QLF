@@ -8,7 +8,6 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
-import triangle
 import corner
 import cosmolopy.distance as cd
 cosmo = {'omega_M_0':0.3,
@@ -30,8 +29,27 @@ def getqlums(lumfile):
     """Read quasar luminosities."""
 
     with open(lumfile,'r') as f: 
-        z, mag, p = np.loadtxt(lumfile, usecols=(1,2,3), unpack=True)
-    return z, mag, p
+        z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
+
+    select = None 
+        
+    try:
+        if sample_id[0] == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = (mag>-26.73)
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 13:
+            # Restrict SDSS DR7 sample to z < 4.7 to avoid overlap
+            # with McGreer and Yang.
+            select = (z<4.7)
+    except(IndexError):
+        pass
+        
+    return z[select], mag[select], p[select]
 
 def volume(z, area, cosmo=cosmo):
 
@@ -42,13 +60,37 @@ def volume(z, area, cosmo=cosmo):
 
 class selmap:
 
-    def __init__(self, selection_map_file, dm, dz, area):
+    def __init__(self, selection_map_file, dm, dz, area, sample_id):
 
         self.z, self.m, self.p = getselfn(selection_map_file)
 
         self.dz = dz
         self.dm = dm 
         print 'dz={:.3f}, dm={:.3f}'.format(dz, dm)
+
+        self.sid = sample_id 
+
+        if sample_id == 7:
+            # Giallongo's sample needs special treatment due to
+            # non-uniform selection map grid.  
+            self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5])
+            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+
+        if sample_id == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = (self.m>-26.73)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 13:
+            # Restrict DR7 sample to z < 4.7 to avoid overlap with
+            # McGreer and Yang.
+            select = (self.z<4.7)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
 
         self.area = area
         self.volume = volume(self.z, self.area) 
@@ -89,14 +131,6 @@ class lf:
         
         return T(p, domain=[0.,7.])(1+z)
         
-        # if len(p) == 2: 
-        #     a0, a1 = p
-        # elif len(p) == 1:
-        #     a0 = 0
-        #     a1 = p 
-
-        # return a0*(1.0+z) + a1
-
     def getparams(self, theta):
 
         if isinstance(self.pnum, int):
