@@ -137,11 +137,18 @@ class selmap:
 
         if self.z.size == 0:
             return # This selmap has no points in zlims
-            
+
+        p_threshold = 0.20
+        select = (self.p > p_threshold)
+        self.z = self.z[select]
+        self.m = self.m[select]
+        self.p = self.p[select]
+
+        if self.z.size == 0:
+            return # This selmap has no points with the current p_threshold
+
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
-        print self.dm, self.dz
-        
         return
 
     def nqso(self, lumfn, theta):
@@ -176,16 +183,22 @@ class lf:
                 self.area=area
                 self.sid=sid
 
+        p_threshold = 0.20
+        select = (self.p > p_threshold)
+        self.z = self.z[select]
+        self.M1450 = self.M1450[select]
+        self.p = self.p[select]
+        self.area = self.area[select]
+        self.sid = self.sid[select]
+
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
 
         self.maps = [selmap(x, zlims) for x in selection_maps]
 
-        # Remove selection maps outside our redshift range 
-        for i, x in enumerate(self.maps):
-            if x.z.size == 0:
-                self.maps.pop(i)
-
+        # Remove selection maps that lie outside our redshift range.
+        self.maps = [x for x in self.maps if x.z.size > 0]
+        
         return
 
     def log10phi(self, theta, mag):
@@ -464,11 +477,6 @@ class lf:
         Veff    = select(Veff)
         P       = select(P)
         sample  = select(sample)
-
-        print z_plot 
-        print z_bin
-        print M1450
-        print logphi
 
         ax.scatter(M1450, logphi, c='#d7191c',
                    edgecolor='None', zorder=301,
