@@ -18,21 +18,22 @@ zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
         
-def plot_phi_star(fig, composite):
+def plot_phi_star(fig, composite, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-10.5, -5.5)
+    ax.set_ylim(-11, -5)
 
     if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta) 
-            phi = composite.atz(z, params[0]) 
-            ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
-        phi = composite.atz(z, bf[0]) 
+        bf = composite.bf.x
+        if sample:
+            for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+                params = composite.getparams(theta) 
+                phi = composite.atz(z, params[0]) 
+                ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
+        phi = composite.atz(z, composite.getparams(bf)[0])
         ax.plot(z, phi, color='k', zorder=2)
 
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
@@ -52,7 +53,7 @@ def plot_phi_star(fig, composite):
 
     return
 
-def plot_m_star(fig, composite):
+def plot_m_star(fig, composite, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -61,15 +62,16 @@ def plot_m_star(fig, composite):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-28.5, -23.0)
+    ax.set_ylim(-31, -21)
 
     if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta) 
-            M = composite.atz(z, params[1]) 
-            ax.plot(z, M, color=colors[1], alpha=0.02, zorder=3)
-        M = composite.atz(z, bf[1]) 
+        bf = composite.bf.x
+        if sample:
+            for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+                params = composite.getparams(theta) 
+                M = composite.atz(z, params[1]) 
+                ax.plot(z, M, color=colors[1], alpha=0.02, zorder=3)
+        M = composite.atz(z, composite.getparams(bf)[1])
         ax.plot(z, M, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
@@ -85,27 +87,27 @@ def plot_m_star(fig, composite):
     
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
-    #ax.set_yticks((-24, -25, -26, -27))
     ax.set_ylabel(r'$M_*$')
     ax.set_xticklabels('')
 
     return
 
-def plot_alpha(fig, composite):
+def plot_alpha(fig, composite, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-5.5, -2.3)
+    ax.set_ylim(-6, -1)
 
     if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta)
-            alpha = composite.atz(z, params[2])
-            ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=3) 
-        alpha = composite.atz(z, bf[2]) 
+        bf = composite.bf.x
+        if sample:
+            for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+                params = composite.getparams(theta)
+                alpha = composite.atz(z, params[2])
+                ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=3) 
+        alpha = composite.atz(z, composite.getparams(bf)[2])
         ax.plot(z, alpha, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
@@ -125,7 +127,7 @@ def plot_alpha(fig, composite):
 
     return
 
-def plot_beta(fig, composite):
+def plot_beta(fig, composite, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -134,15 +136,16 @@ def plot_beta(fig, composite):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-2.5, -0.5)
+    ax.set_ylim(-3, 0)
 
     if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta)
-            beta = composite.atz(z, params[3]) 
-            ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=3) 
-        beta = composite.atz(z, bf[3]) 
+        bf = composite.bf.x
+        if sample: 
+            for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+                params = composite.getparams(theta)
+                beta = composite.atz(z, params[3]) 
+                ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=3) 
+        beta = composite.atz(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
@@ -162,7 +165,7 @@ def plot_beta(fig, composite):
 
     return 
 
-def summary_plot(composite=None):
+def summary_plot(composite=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -174,7 +177,7 @@ def summary_plot(composite=None):
     factor = 2.0           # size of one side of one panel
     lbdim = 0.5 * factor   # size of left/bottom margin
     trdim = 0.2 * factor   # size of top/right margin
-    whspace = 0.05         # w/hspace size
+    whspace = 0.1         # w/hspace size
     plotdim = factor * K + factor * (K - 1.) * whspace
     dim = lbdim + plotdim + trdim
     lb = lbdim / dim
@@ -184,10 +187,10 @@ def summary_plot(composite=None):
 
     print 'plotting now'
     
-    plot_phi_star(fig, composite)
-    plot_m_star(fig, composite)
-    plot_alpha(fig, composite)
-    plot_beta(fig, composite)
+    plot_phi_star(fig, composite, sample=sample)
+    plot_m_star(fig, composite, sample=sample)
+    plot_alpha(fig, composite, sample=sample)
+    plot_beta(fig, composite, sample=sample)
 
     plt.savefig('evolution.pdf',bbox_inches='tight')
 
@@ -195,5 +198,5 @@ def summary_plot(composite=None):
     
     return
 
-summary_plot()
+#summary_plot()
 
