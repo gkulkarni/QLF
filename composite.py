@@ -93,7 +93,7 @@ class selmap:
             self.p = self.p[select]
 
         self.area = area
-        self.volume = volume(self.z, self.area) 
+        self.volume = volume(self.z, self.area) # cMpc^3 dz^-1 
 
         return
 
@@ -159,8 +159,8 @@ class lf:
 
     def lfnorm(self, theta):
 
-        ns = [x.nqso(self, theta) for x in self.maps]
-        return sum(ns) 
+        ns = np.array([x.nqso(self, theta) for x in self.maps])
+        return np.sum(ns) 
         
     def neglnlike(self, theta):
 
