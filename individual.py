@@ -138,14 +138,19 @@ class selmap:
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
-        p_threshold = 0.20
-        select = (self.p > p_threshold)
-        self.z = self.z[select]
-        self.m = self.m[select]
-        self.p = self.p[select]
+        # Things may break down if thresholding is enabled.  Also see
+        # below in lf.
+        thresholding = False 
+        if thresholding: 
+            p_threshold = 0.20
+            select = (self.p > p_threshold)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
 
-        if self.z.size == 0:
-            return # This selmap has no points with the current p_threshold
+            if self.z.size == 0:
+                return # This selmap has no points with the current
+                       # p_threshold
 
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
@@ -183,13 +188,17 @@ class lf:
                 self.area=area
                 self.sid=sid
 
-        p_threshold = 0.20
-        select = (self.p > p_threshold)
-        self.z = self.z[select]
-        self.M1450 = self.M1450[select]
-        self.p = self.p[select]
-        self.area = self.area[select]
-        self.sid = self.sid[select]
+        # Things may break down if thresholding is enabled.  Also see
+        # above in selmap.
+        thresholding = False 
+        if thresholding: 
+            p_threshold = 0.20
+            select = (self.p > p_threshold)
+            self.z = self.z[select]
+            self.M1450 = self.M1450[select]
+            self.p = self.p[select]
+            self.area = self.area[select]
+            self.sid = self.sid[select]
 
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
