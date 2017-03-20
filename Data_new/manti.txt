@@ -1,0 +1,28 @@
+# QLF parameter from fits of Manti et al. 2017 (MNRAS 466 1160, Table
+# 1).  Note that I have used the labels alpha and beta following *our*
+# convention.  Manti calls my alpha beta and my beta alpha.  Also note
+# that the lower bound of for each parameter is (parameter_value -
+# parameter_downerr).  This is true also for m_star.
+#
+# col 1: z
+# col 2: phi_star
+# col 3: phi_star_uperr
+# col 4: phi_star_downerr
+# col 5: m_star
+# col 6: m_star_uperr
+# col 7: m_star_downerr
+# col 8: beta
+# col 9: beta_uperr
+# col 10: beta_downerr
+# col 11: alpha
+# col 12: alpha_uperr
+# col 13: alpha_downerr
+
+0.50  -6.22  0.13  0.13  -23.13  0.21  0.22  -1.63  0.34  0.35  -3.36  0.58  0.55
+1.25  -5.92  0.13  0.13  -24.16  0.18  0.19  -1.56  0.37  0.37  -3.40  0.30  0.30
+2.00  -5.87  0.13  0.13  -24.85  0.18  0.19  -1.31  0.33  0.33  -3.48  0.31  0.30
+2.50  -5.99  0.12  0.12  -25.03  0.16  0.17  -1.24  0.37  0.37  -3.43  0.24  0.23 
+3.20  -5.73  0.14  0.14  -24.24  0.26  0.28  -1.30  0.39  0.40  -2.84  0.29  0.28
+4.00  -5.90  0.19  0.19  -24.16  0.25  0.26  -1.74  0.41  0.42  -3.10  0.25  0.24 
+4.75  -5.87  0.15  0.15  -24.06  0.18  0.18  -1.76  0.49  0.24  -3.21  0.17  0.16
+6.00  -5.06  0.20  0.20  -22.11  0.25  0.24  -1.33  0.88  0.93  -3.16  0.11  0.11
