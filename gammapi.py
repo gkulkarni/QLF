@@ -29,7 +29,20 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
         farr = f(loglf, theta, m, z, fit='individual')
     else:
         farr = f(loglf, theta, m, z)
-    return np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3 
+    return np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3
+
+def get_emissivity(lfi, z):
+
+    rindices = np.random.randint(len(lfi.samples), size=300)
+    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -18.0), fit='individual')
+                          for theta
+                          in lfi.samples[rindices]])
+    u = np.percentile(e, 15.87) 
+    l = np.percentile(e, 84.13)
+    c = np.mean(e)
+    lfi.emissivity = [u, l, c]
+
+    return 
 
 def Gamma_HI(loglf, theta, z, fit='composite'):
 
@@ -346,4 +359,113 @@ def draw(individuals, zlims):
     plt.close('all')
 
     return
+
+def emissivity_MH15(z):
+
+    # Madau and Haardt 2015 Equation (1) 
+    
+    loge = 25.15*np.exp(-0.0026*z) - 1.5*np.exp(-1.3*z)
+
+    return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_HM12(z):
+
+    # Haardt and Madau 2012 Equation (37) 
+    
+    e = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z) / (np.exp(1.77*z)+26.3)
+
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_Manti17(z):
+
+    # Manti et al. 2017 (MNRAS 466 1160) Equation (9) 
+
+    loge = 23.59 + 0.55*z - 0.062*z**2 + 0.0047*z**3 - 0.0012*z**4
+    
+    return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
+
+
+def draw_emissivity(individuals, zlims):
+
+    """
+    Calculates and plots LyC emissivity.
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\epsilon_{912}$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e23, 1.0e26)
+
+    for x in individuals:
+        get_emissivity(x, x.z.mean())
+    
+    c = np.array([x.emissivity[2] for x in individuals])
+    u = np.array([x.emissivity[0] for x in individuals])
+    l = np.array([x.emissivity[1] for x in individuals])
+
+    em = c
+    em_up = u - c
+    em_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals])
+    uz = np.array([x[0] for x in zlims])
+    lz = np.array([x[1] for x in zlims])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, em, c='#ffffff', edgecolor='k',
+               label='Our fits ($M<-18$)',
+               s=44, zorder=4, linewidths=2) 
+
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=2,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+    ax.scatter(zg, eg, c='tomato', edgecolor='None',
+               label='Giallongo et al.\ 2015',
+               s=72, zorder=4)
+
+    ax.errorbar(zg, eg, ecolor='tomato', capsize=0, fmt='None', elinewidth=2,
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                yerr=np.vstack((eg_lerr, eg_uerr)), 
+                zorder=3, mew=1)
+                
+    
+    
+    z = np.linspace(0, 7)
+    e_MH15 = emissivity_MH15(z)
+    ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015')
+
+    e_HM12 = emissivity_HM12(z)
+    ax.plot(z, e_HM12, lw=2, c='dodgerblue', label='Haardt and Madau 2012')
+
+    e_M17 = emissivity_Manti17(z)
+    ax.plot(z, e_M17, lw=2, c='goldenrod', label='Manti et al.\ 2017')
+    
+    plt.legend(loc='upper right', fontsize=14, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+    
+    plt.savefig('emissivity.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
 
