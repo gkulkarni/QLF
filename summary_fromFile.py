@@ -24,13 +24,13 @@ def plot_phi_star(fig, composite, sample=False):
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-11, -5)
+    ax.set_ylim(-11, -4)
 
     if composite is not None: 
         bf = composite.bf.x
         if sample:
             for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-                params = composite.getparams(theta) 
+                params = composite.getparams(theta)
                 phi = composite.atz(z, params[0]) 
                 ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
         phi = composite.atz(z, composite.getparams(bf)[0])
@@ -46,7 +46,13 @@ def plot_phi_star(fig, composite, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
-    
+
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
+
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
     ax.set_xticklabels('')
@@ -84,7 +90,12 @@ def plot_m_star(fig, composite, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
-    
+
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,4,5,6), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -118,6 +129,12 @@ def plot_alpha(fig, composite, sample=False):
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=2)
     ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
                 xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
+
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,10,11,12), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
@@ -156,6 +173,12 @@ def plot_beta(fig, composite, sample=False):
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=2)
     ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
+
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,7,8,9), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
     
