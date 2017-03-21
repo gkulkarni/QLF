@@ -73,7 +73,7 @@ for i, zl in enumerate(zls):
     lfi.run_mcmc()
     lfi.get_percentiles()
 
-    write=True
+    write=False
     if write: 
         with open('phi_stars.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
