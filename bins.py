@@ -73,24 +73,24 @@ for i, zl in enumerate(zls):
     lfi.run_mcmc()
     lfi.get_percentiles()
 
-    write=False
+    write=True
     if write: 
-        with open('phi_stars.dat', 'a') as f:
+        with open('phi_star.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
             f.write('\n')
 
-        with open('M_stars.dat', 'a') as f:
+        with open('M_star.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
             f.write('\n')
 
-        with open('alphas.dat', 'a') as f:
+        with open('alpha.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
             f.write('\n')
 
-        with open('betas.dat', 'a') as f:
+        with open('beta.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
                                          lfi.beta[0], lfi.beta[1], lfi.beta[2]))
             f.write('\n')
