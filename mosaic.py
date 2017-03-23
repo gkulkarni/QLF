@@ -4,7 +4,7 @@ mpl.use('Agg')
 mpl.rcParams['text.usetex'] = True 
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '16'
+mpl.rcParams['font.size'] = '14'
 import matplotlib.pyplot as plt
 from drawlf import render 
 
@@ -88,7 +88,7 @@ def draw(lfs):
         ax = fig.add_subplot(nplots_y, nplots_x, i+1)
         print 'plotting', i
 
-        idx_offset=9
+        idx_offset=0
         
         if i in set([0,3]):
             plot(lfs[i+idx_offset], ax, yticklabels=True)
