@@ -35,6 +35,25 @@ def getqlums(lumfile, zlims=None):
         select = ((z>=z_min) & (z<z_max))
 
     try:
+        if sample_id[0] == 13:
+            if z_min < 3.5: 
+                # Restrict Richard's sample to z < 2.2.  There are only
+                # three qsos with z = 2.2.
+                select = ((z>=z_min) & (z<z_max) & (z<2.2))
+            else:
+                select = ((z>=z_min) & (z<z_max) & (p>0.9))
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 15:
+            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+            # above this redshift.
+            select = ((z>=z_min) & (z<z_max) & (z<2.2))
+    except(IndexError):
+        pass
+
+    try:
         if sample_id[0] == 8:
             # Restrict McGreer's samples to faint quasars to avoid
             # overlap with Yang.
@@ -117,7 +136,35 @@ class selmap:
             with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
                 corr = np.loadtxt(f, usecols=(4,), unpack=True)
             corr = corr[select]
-            self.p = self.p/corr 
+            self.p = self.p/corr
+
+
+            if z_min < 3.5: 
+                # Restrict Richard's sample to z < 2.2.  There are only
+                # three qsos with z = 2.2.
+                select = ((z>=z_min) & (z<z_max) & (z<2.2))
+            else:
+                select = ((z>=z_min) & (z<z_max) & (p>0.8))
+            
+        if sample_id == 13:
+            # Restrict Richard's sample to z < 2.2.  There are only
+            # three qsos with z = 2.2.
+            z_min, z_max = zlims 
+            if z_min < 3.5: 
+                select = (self.z<2.2)
+            else:
+                select = (self.p>0.9)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 15:
+            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+            # above this redshift.
+            select = (self.z<2.2)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
         
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
