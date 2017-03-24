@@ -15,6 +15,7 @@ cosmo = {'omega_M_0':0.3,
          'omega_k_0':0.0,
          'h':0.70}
 from numpy.polynomial import Chebyshev as T
+from numpy.polynomial.polynomial import polyval
 
 def getselfn(selfile):
 
@@ -32,7 +33,28 @@ def getqlums(lumfile):
         z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
 
     select = None 
-        
+
+    try:
+        if sample_id[0] == 13:
+            # Restrict Richards sample.
+            select = ((z<2.2) | ((z>=3.5) & (p>0.9) & (z < 4.7)))
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 15:
+            # Restrict Croom sample.
+            select = (((z < 2.2) & (z >= 0.68)) | ((z < 0.68) & (p > 0.5)))
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 1:
+            # Restrict BOSS sample.
+            select = ((z < 2.2) | (z >= 2.8))
+    except(IndexError):
+        pass
+    
     try:
         if sample_id[0] == 8:
             # Restrict McGreer's samples to faint quasars to avoid
@@ -41,15 +63,16 @@ def getqlums(lumfile):
     except(IndexError):
         pass
 
-    try:
-        if sample_id[0] == 13:
-            # Restrict SDSS DR7 sample to z < 4.7 to avoid overlap
-            # with McGreer and Yang.
-            select = (z<4.7)
-    except(IndexError):
-        pass
+    z = z[select]
+    mag = mag[select]
+    p = p[select]
+
+    select = (z < 5.5) 
+    z = z[select]
+    mag = mag[select]
+    p = p[select]
         
-    return z[select], mag[select], p[select]
+    return z, mag, p 
 
 def volume(z, area, cosmo=cosmo):
 
@@ -66,7 +89,7 @@ class selmap:
 
         self.dz = dz
         self.dm = dm 
-        print 'dz={:.3f}, dm={:.3f}'.format(dz, dm)
+        print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
 
         self.sid = sample_id 
 
@@ -76,6 +99,27 @@ class selmap:
             self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5])
             self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
 
+        if sample_id == 1:
+            # Restrict BOSS sample 
+            select = ((self.z<2.2) | (self.z>=2.8))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+            
+        if sample_id == 13:
+            # Restrict Richards sample 
+            select = ((self.z<2.2) | ((self.z>=3.5) & (self.p>0.9) & (self.z<4.7)))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 15:
+            # Restrict Croom sample
+            select = (((self.z < 2.2) & (self.z >= 0.68)) | ((self.z < 0.68) & (self.p > 0.5)))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+            
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
             # overlap with Yang.
@@ -84,13 +128,13 @@ class selmap:
             self.m = self.m[select]
             self.p = self.p[select]
 
-        if sample_id == 13:
-            # Restrict DR7 sample to z < 4.7 to avoid overlap with
-            # McGreer and Yang.
-            select = (self.z<4.7)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
+        select = (self.z < 5.5)
+        self.z = self.z[select]
+        self.m = self.m[select]
+        self.p = self.p[select]
+
+        if self.z.size == 0:
+            return # This selmap has no points in zlims
 
         self.area = area
         self.volume = volume(self.z, self.area) # cMpc^3 dz^-1 
@@ -129,7 +173,8 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
-        return T(p, domain=[0.,7.])(1+z)
+        # return T(p, domain=[0.,7.])(1+z)
+        return T(p)(1+z)
         
     def getparams(self, theta):
 
