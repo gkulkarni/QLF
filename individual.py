@@ -40,16 +40,19 @@ def getqlums(lumfile, zlims=None):
                 # Restrict Richard's sample to z < 2.2.  There are only
                 # three qsos with z = 2.2.
                 select = ((z>=z_min) & (z<z_max) & (z<2.2))
-            else:
+            elif z_min >= 3.5:
                 select = ((z>=z_min) & (z<z_max) & (p>0.9))
     except(IndexError):
         pass
 
     try:
         if sample_id[0] == 15:
-            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
-            # above this redshift.
-            select = ((z>=z_min) & (z<z_max) & (z<2.2))
+            if z_min < 0.68:
+                select = ((z>=z_min) & (z<z_max) & (p > 0.5))
+            else:
+                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+                # above this redshift.
+                select = ((z>=z_min) & (z<z_max) & (z<2.2))
     except(IndexError):
         pass
 
@@ -150,18 +153,24 @@ class selmap:
             # Restrict Richard's sample to z < 2.2.  There are only
             # three qsos with z = 2.2.
             z_min, z_max = zlims 
-            if z_min < 3.5: 
+            if z_min < 3.5 and z_min > 0.6: 
                 select = (self.z<2.2)
-            else:
+            elif z_min >= 3.5:
                 select = (self.p>0.9)
+            else:
+                select = (self.m<-22.0)
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
 
         if sample_id == 15:
-            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
-            # above this redshift.
-            select = (self.z<2.2)
+            z_min, z_max = zlims 
+            if z_min < 0.68:
+                select = (self.p>0.5)
+            else:
+                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+                # above this redshift.
+                select = (self.z<2.2)
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
