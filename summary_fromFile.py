@@ -36,7 +36,7 @@ def plot_phi_star(fig, composite, sample=False):
         phi = composite.atz(z, composite.getparams(bf)[0])
         ax.plot(z, phi, color='k', zorder=2)
 
-    zmean, zl, zu, u, l, c = np.loadtxt('phi_stars.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -47,11 +47,11 @@ def plot_phi_star(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
-    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    ax.errorbar(zm, cm, ecolor='k', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=2)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
+    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=2)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
@@ -80,7 +80,7 @@ def plot_m_star(fig, composite, sample=False):
         M = composite.atz(z, composite.getparams(bf)[1])
         ax.plot(z, M, color='k', zorder=4)
     
-    zmean, zl, zu, u, l, c = np.loadtxt('M_stars.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -91,11 +91,11 @@ def plot_m_star(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,4,5,6), unpack=True)
-    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    ax.errorbar(zm, cm, ecolor='k', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=2)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,4,5,6), unpack=True)
+    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=2)
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -121,7 +121,7 @@ def plot_alpha(fig, composite, sample=False):
         alpha = composite.atz(z, composite.getparams(bf)[2])
         ax.plot(z, alpha, color='k', zorder=4)
     
-    zmean, zl, zu, u, l, c = np.loadtxt('alphas.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -132,11 +132,11 @@ def plot_alpha(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,10,11,12), unpack=True)
-    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2, label='Manti et al.\ 2017')
-    ax.errorbar(zm, cm, ecolor='k', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=2)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,10,11,12), unpack=True)
+    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2, label='Manti et al.\ 2017')
+    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=2)
 
     plt.legend(loc='upper left', fontsize=10, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -169,7 +169,7 @@ def plot_beta(fig, composite, sample=False):
         beta = composite.atz(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=4)
     
-    zmean, zl, zu, u, l, c = np.loadtxt('betas.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -180,11 +180,11 @@ def plot_beta(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,7,8,9), unpack=True)
-    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    ax.errorbar(zm, cm, ecolor='k', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=2)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,7,8,9), unpack=True)
+    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=2)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\beta$ (faint end slope)')
