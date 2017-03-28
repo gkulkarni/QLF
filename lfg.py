@@ -65,32 +65,27 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
 
 lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,2,3])
 
-g = [-7.8770486, 1.15711097, -0.11976685,
-     -22.97815842,  -0.89310005, 
-     -3.25695911, -0.26493254,
-     -1.55066318, 0.03225602, -0.01327061]
+g = np.array([-7.8770486, 1.15711097, -0.11976685, -22.97815842, -0.89310005, -3.25695911, -0.26493254, -1.55066318, 0.03225602, -0.01327061])
 
-method = 'Nelder-Mead'
-b = lfg.bestfit(g, method=method)
-print b
-
-sys.exit()
+# method = 'Nelder-Mead'
+# b = lfg.bestfit(g, method=method)
+# print b
 
 lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
 
-lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 0.0, 2.0])
+lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
 
 assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
 lfg.run_mcmc()
 
-# labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$',  r'$a_3 [\phi_*]$',
-#           r'$a_0 [M_*]$', r'$a_1 [M_*]$', r'$a_2 [M_*]$', r'$a_3 [M_*]$',
-#           r'$a_0 [\alpha]$', r'$a_1 [\alpha]$', r'$a_2 [\alpha]$', r'$a_3 [\alpha]$',
-#           r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$', r'$a_3 [\beta]$']
+labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$',
+          r'$a_0 [M_*]$', r'$a_1 [M_*]$',
+          r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
+          r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
 
-labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$', r'$a_0 [M_*]$', r'$a_1 [M_*]$', r'$a_0 [\alpha]$', r'$a_1 [\alpha]$', r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
+# lfg.corner_plot(labels=labels)
+# lfg.chains(labels=labels)
+# sp(composite=lfg, sample=False)
 
-lfg.corner_plot(labels=labels)
-lfg.chains(labels=labels)
-sp(composite=lfg, sample=False)
+
