@@ -39,7 +39,7 @@ if case == 0:
 
     z = np.linspace(0, 7, 500)
 
-    coeffs = chebfit(zmean+1.0, c, 1)
+    coeffs = chebfit(zmean[:-1]+1.0, c[:-1], 1)
     print coeffs
     plt.plot(z, T(coeffs)(z+1), lw=2, c='forestgreen') 
 
