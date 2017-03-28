@@ -181,6 +181,12 @@ def draw(lf, composite=None, dirname=''):
 
     render(ax, lf)
 
+    if composite is not None:
+
+        mags = np.linspace(-32.0, -16.0, num=200) 
+        phi_fit = composite.log10phi(composite.bf.x, mags, z_plot)
+        ax.plot(mags, phi_fit, lw=3, c='k')
+
     ax.set_xlim(-17.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
     ax.set_xticks(np.arange(-31,-16, 2))
