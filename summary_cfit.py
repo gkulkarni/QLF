@@ -54,11 +54,11 @@ def plot_phi_star(fig, composite, sample=False):
     print coeffs
     plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod') 
 
-    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
-    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
-    #             fmt='None', zorder=2)
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
@@ -98,11 +98,11 @@ def plot_m_star(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,4,5,6), unpack=True)
-    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
-    #             fmt='None', zorder=2)
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,4,5,6), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
 
     zc = np.linspace(0, 7, 500)
 
@@ -145,11 +145,11 @@ def plot_alpha(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,10,11,12), unpack=True)
-    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2, label='Manti et al.\ 2017')
-    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
-    #             fmt='None', zorder=2)
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,10,11,12), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2, label='Manti et al.\ 2017')
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
 
     zc = np.linspace(0, 7, 500)
 
@@ -199,11 +199,11 @@ def plot_beta(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=2)
 
-    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,7,8,9), unpack=True)
-    # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
-    # ax.errorbar(zm, cm, ecolor='k', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
-    #             fmt='None', zorder=2)
+    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,7,8,9), unpack=True)
+    ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
+    ax.errorbar(zm, cm, ecolor='k', capsize=0,
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=2)
 
     zc = np.linspace(0, 7, 500)
     coeffs = chebfit(zmean+1, c, 2)
