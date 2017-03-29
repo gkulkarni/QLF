@@ -128,7 +128,7 @@ def get_lf(lf, sid, z_plot):
 
     return mags, left, right, logphi, uperr, downerr
 
-def render(ax, lf):
+def render(ax, lf, composite=None):
 
     """
 
@@ -142,7 +142,17 @@ def render(ax, lf):
     plot_posterior_sample_lfs(lf, ax, mag_plot, lw=1,
                                    c='#ffbf00', alpha=0.1, zorder=2) 
     plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-                         c='#ffbf00', zorder=3)
+                         c='#ffbf00', zorder=3, label='individual fit')
+
+    if composite is not None:
+        mags = np.linspace(-32.0, -16.0, num=200)
+        bf = np.median(composite.samples, axis=0)
+        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+            phi = composite.log10phi(theta, mags, z_plot)
+            ax.plot(mags, phi, lw=1, c='forestgreen', alpha=0.1)
+        phi_fit = composite.log10phi(bf, mags, z_plot)
+        ax.plot(mags, phi_fit, lw=2, c='forestgreen', label='global fit')
+        ax.plot(mags, phi_fit, lw=1, c='k')
 
     cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
           7:'#8c564b', 18:'#7f7f7f', 10:'k', 11:'r', 7:'g'}
@@ -179,13 +189,7 @@ def draw(lf, composite=None, dirname=''):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=3, width=1)
 
-    render(ax, lf)
-
-    if composite is not None:
-
-        mags = np.linspace(-32.0, -16.0, num=200) 
-        phi_fit = composite.log10phi(composite.bf.x, mags, z_plot)
-        ax.plot(mags, phi_fit, lw=3, c='k')
+    render(ax, lf, composite=composite)
 
     ax.set_xlim(-17.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
