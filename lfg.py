@@ -67,9 +67,9 @@ lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,2,3])
 
 g = np.array([-7.8770486, 1.15711097, -0.11976685, -22.97815842, -0.89310005, -3.25695911, -0.26493254, -1.55066318, 0.03225602, -0.01327061])
 
-# method = 'Nelder-Mead'
-# b = lfg.bestfit(g, method=method)
-# print b
+method = 'Nelder-Mead'
+b = lfg.bestfit(g, method=method)
+print b
 
 lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
 
