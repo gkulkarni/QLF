@@ -8,7 +8,7 @@ mpl.rcParams['font.size'] = '14'
 import matplotlib.pyplot as plt
 from drawlf import render 
 
-def plot(lf, ax, yticklabels=False, xticklabels=False,
+def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
          nofirstylabel=True, nolastxlabel=True, legend=True):
 
     """
@@ -19,8 +19,8 @@ def plot(lf, ax, yticklabels=False, xticklabels=False,
 
     z_plot = lf.z.mean()
     print z_plot
-    
-    render(ax, lf)
+
+    render(ax, lf, composite=composite)
 
     ax.set_xlim(-18.0, -30.0)
     ax.set_ylim(-12.0, -3.0)
@@ -43,13 +43,13 @@ def plot(lf, ax, yticklabels=False, xticklabels=False,
         legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
         l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
-                   handletextpad=-0.5, borderpad=0.2, scatterpoints=1,
+                   handletextpad=0.1, borderpad=0.2, scatterpoints=1,
                    title=legend_title)
         plt.setp(l.get_title(),fontsize=10)
         
     return 
     
-def draw(lfs):
+def draw(lfs, composite=None):
 
     nplots_x = 3
     nplots_y = 3
@@ -91,17 +91,17 @@ def draw(lfs):
         idx_offset=0
         
         if i in set([0,3]):
-            plot(lfs[i+idx_offset], ax, yticklabels=True)
+            plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True)
         elif i == 7:
-            plot(lfs[i+idx_offset], ax, xticklabels=True)
+            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True)
         elif i == 8:
-            plot(lfs[i+idx_offset], ax, xticklabels=True, nolastxlabel=False)
+            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False)
         elif i == 6:
-            plot(lfs[i+idx_offset], ax, yticklabels=True, xticklabels=True, nofirstylabel=False)
+            plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, xticklabels=True, nofirstylabel=False)
         elif i == 2:
-            plot(lfs[i+idx_offset], ax)
+            plot(lfs[i+idx_offset], ax, composite=composite)
         else:
-            plot(lfs[i+idx_offset], ax)
+            plot(lfs[i+idx_offset], ax, composite=composite)
         
     fig.text(0.5, 0.02, r'$M_{1450}$', transform=fig.transFigure,
              horizontalalignment='center', verticalalignment='center')
