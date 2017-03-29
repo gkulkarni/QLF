@@ -268,7 +268,7 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 1000)
+        self.sampler.run_mcmc(pos, 10000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return
