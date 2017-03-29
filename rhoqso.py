@@ -234,7 +234,7 @@ def draw_withGlobal(composite, individuals, zlims):
                 zorder=3, mew=1, ms=5)
 
     z = np.linspace(0, 7, 50)
-    bf = composite.bf.x
+    bf = np.median(composite.samples, axis=0)
     r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
     ax.plot(z, r, color='k', zorder=7)
 
@@ -274,7 +274,7 @@ def draw_withGlobal(composite, individuals, zlims):
                 xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
 
     z = np.linspace(0, 7, 50)
-    bf = composite.bf.x
+    bf = np.median(composite.samples, axis=0)
     r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
     ax.plot(z, r, color='k', zorder=7)
 
@@ -314,7 +314,7 @@ def draw_withGlobal(composite, individuals, zlims):
                 xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
 
     z = np.linspace(0, 7, 50)
-    bf = composite.bf.x
+    bf = np.median(composite.samples, axis=0)
     r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
     ax.plot(z, r, color='k', zorder=7)
 
@@ -354,7 +354,7 @@ def draw_withGlobal(composite, individuals, zlims):
                 xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
 
     z = np.linspace(0, 7, 50)
-    bf = composite.bf.x
+    bf = np.median(composite.samples, axis=0)
     r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
     ax.plot(z, r, color='k', zorder=7)
 
