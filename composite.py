@@ -37,14 +37,14 @@ def getqlums(lumfile):
     try:
         if sample_id[0] == 13:
             # Restrict Richards sample.
-            select = ((z<2.2) | ((z>=3.5) & (p>0.9) & (z < 4.7)))
+            select = (((z < 2.2) & (z >= 0.6) & (mag < -23.0)) | ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
     except(IndexError):
         pass
 
     try:
         if sample_id[0] == 15:
             # Restrict Croom sample.
-            select = (((z < 2.2) & (z >= 0.68)) | ((z < 0.68) & (p > 0.5)))
+            select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
     except(IndexError):
         pass
 
@@ -107,15 +107,16 @@ class selmap:
             self.p = self.p[select]
             
         if sample_id == 13:
-            # Restrict Richards sample 
-            select = ((self.z<2.2) | ((self.z>=3.5) & (self.p>0.9) & (self.z<4.7)))
+            # Restrict Richards sample
+            select = (((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0)) |
+                      ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
 
         if sample_id == 15:
             # Restrict Croom sample
-            select = (((self.z < 2.2) & (self.z >= 0.68)) | ((self.z < 0.68) & (self.p > 0.5)))
+            select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
@@ -268,7 +269,7 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 10000)
+        self.sampler.run_mcmc(pos, 1000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return
