@@ -36,12 +36,13 @@ def getqlums(lumfile, zlims=None):
 
     try:
         if sample_id[0] == 13:
-            if z_min < 3.5: 
-                # Restrict Richard's sample to z < 2.2.  There are only
-                # three qsos with z = 2.2.
-                select = ((z>=z_min) & (z<z_max) & (z<2.2))
-            elif z_min >= 3.5:
-                select = ((z>=z_min) & (z<z_max) & (p>0.9))
+            # Restrict Richards sample (1) to z < 2.2 as there are
+            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+            # host galaxy contamination; (3) to m > -23 at low z to
+            # avoid incompleteness; and (4) to m < -26 at high z to
+            # avoid incompleteness.  Also see selmap below.
+            select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
+                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.9)))
     except(IndexError):
         pass
 
@@ -150,15 +151,16 @@ class selmap:
                 select = ((z>=z_min) & (z<z_max) & (p>0.8))
             
         if sample_id == 13:
-            # Restrict Richard's sample to z < 2.2.  There are only
-            # three qsos with z = 2.2.
+            # Restrict Richards sample (1) to z < 2.2 as there are
+            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+            # host galaxy contamination; (3) to m > -23 at low z to
+            # avoid incompleteness; and (4) to m < -26 at high z to
+            # avoid incompleteness.  Also see getqlums above.
+
             z_min, z_max = zlims 
-            if z_min < 3.5 and z_min > 0.6: 
-                select = (self.z<2.2)
-            elif z_min >= 3.5:
-                select = (self.p>0.9)
-            else:
-                select = (self.m<-22.0)
+            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
+                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.9)))
+            
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
