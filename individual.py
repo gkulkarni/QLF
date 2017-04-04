@@ -142,7 +142,6 @@ class selmap:
             corr = corr[select]
             self.p = self.p/corr
 
-
             if z_min < 3.5: 
                 # Restrict Richard's sample to z < 2.2.  There are only
                 # three qsos with z = 2.2.
@@ -363,8 +362,8 @@ class lf:
     def corner_plot(self, labels=[r'$\phi_*$', r'$M_*$', r'$\alpha$', r'$\beta$'], dirname=''):
 
         mpl.rcParams['font.size'] = '14'
-        self.means = np.mean(self.samples, axis=0)
-        f = corner.corner(self.samples, labels=labels, truths=self.means)
+        self.medians = np.median(self.samples, axis=0)
+        f = corner.corner(self.samples, labels=labels, truths=self.medians)
         plotfile = dirname+'triangle.png'
         f.savefig(plotfile)
         mpl.rcParams['font.size'] = '22'
@@ -375,8 +374,8 @@ class lf:
         ax = fig.add_subplot(self.bf.x.size, 1, param+1)
         for i in range(self.nwalkers): 
             ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
-        self.means = np.mean(self.samples, axis=0)
-        ax.axhline(self.means[param], c='#CC9966', dashes=[7,2], lw=2) 
+        self.medians = np.median(self.samples, axis=0)
+        ax.axhline(self.medians[param], c='#CC9966', dashes=[7,2], lw=2) 
         ax.set_ylabel(ylabel)
         if param+1 != self.bf.x.size:
             ax.set_xticklabels('')
