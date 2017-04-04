@@ -55,9 +55,17 @@ g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
 b = lfi.bestfit(g, method=method)
 print b
 
-lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
-lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
+lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -4.0])
+if zmin > 5.4:
+    # Special priors for z = 6 data.
+    lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
+    # Change result of optimize.minimize so that emcee works.
+    lfi.bf.x[2] = -5.0
+else:
+    lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
 assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
+
+
 
 lfi.run_mcmc()
 lfi.get_percentiles()
