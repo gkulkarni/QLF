@@ -142,12 +142,6 @@ class selmap:
             corr = corr[select]
             self.p = self.p/corr
 
-            if z_min < 3.5: 
-                # Restrict Richard's sample to z < 2.2.  There are only
-                # three qsos with z = 2.2.
-                select = ((z>=z_min) & (z<z_max) & (z<2.2))
-            else:
-                select = ((z>=z_min) & (z<z_max) & (p>0.8))
             
         if sample_id == 13:
             # Restrict Richards sample (1) to z < 2.2 as there are
@@ -180,14 +174,6 @@ class selmap:
             # Restrict McGreer's samples to faint quasars to avoid
             # overlap with Yang.
             select = (self.m>-26.73)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
-
-        if sample_id == 13:
-            # Restrict DR7 sample to z < 4.7 to avoid overlap with
-            # McGreer and Yang.
-            select = (self.z<4.7)
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
