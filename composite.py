@@ -29,49 +29,36 @@ def getqlums(lumfile):
 
     """Read quasar luminosities."""
 
-    with open(lumfile,'r') as f: 
-        z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
+    z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5),
+                                            unpack=True)
+
+    sample_id = np.atleast_1d(sample_id)
 
     select = None 
 
-    try:
-        if sample_id[0] == 13:
-            # Restrict Richards sample.
-            select = (((z < 2.2) & (z >= 0.6) & (mag < -23.0)) | ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
-    except(IndexError):
-        pass
+    if sample_id[0] == 13:
+        # Restrict Richards (SDSS) sample.
+        select = (((z < 2.2) & (z >= 0.6) & (mag < -23.0)) |
+                  ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
 
-    try:
-        if sample_id[0] == 15:
-            # Restrict Croom sample.
-            select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
-    except(IndexError):
-        pass
+    if sample_id[0] == 15:
+        # Restrict Croom (2SLAQ) sample.
+        # select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
+        select = ((z < 2.2) & (z >= 0.6) & (p > 0.5))
 
-    try:
-        if sample_id[0] == 1:
-            # Restrict BOSS sample.
-            select = ((z < 2.2) | (z >= 2.8))
-    except(IndexError):
-        pass
+    if sample_id[0] == 1:
+        # Restrict BOSS sample.
+        select = ((z < 2.2) | (z >= 2.8))
     
-    try:
-        if sample_id[0] == 8:
-            # Restrict McGreer's samples to faint quasars to avoid
-            # overlap with Yang.
-            select = (mag>-26.73)
-    except(IndexError):
-        pass
+    if sample_id[0] == 8:
+        # Restrict McGreer's samples to faint quasars to avoid
+        # overlap with Yang.
+        select = (mag>-26.73)
 
     z = z[select]
     mag = mag[select]
     p = p[select]
 
-    # select = (z < 5.5) 
-    # z = z[select]
-    # mag = mag[select]
-    # p = p[select]
-        
     return z, mag, p 
 
 def volume(z, area, cosmo=cosmo):
