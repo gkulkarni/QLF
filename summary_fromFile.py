@@ -51,7 +51,7 @@ def plot_phi_star(fig, composite, sample=False):
 
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean[:-1]+1, c[:-1], 2)
+        coeffs = chebfit(zmean+1, c, 2)
         plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], label='Least-square Chebyshev French curve', zorder=3) 
 
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
@@ -107,7 +107,7 @@ def plot_m_star(fig, composite, sample=False):
         
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean[:-1]+1, c[:-1], 1)
+        coeffs = chebfit(zmean+1, c, 1)
         plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
@@ -153,7 +153,7 @@ def plot_alpha(fig, composite, sample=False):
 
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean[:-1]+1.0, c[:-1], 1)
+        coeffs = chebfit(zmean+1.0, c, 1)
         plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], label='Chebyshev French curve', zorder=3) 
 
     plt.legend(loc='upper left', fontsize=10, handlelength=3,
