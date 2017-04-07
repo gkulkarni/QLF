@@ -207,7 +207,7 @@ class lf:
     def bestfit(self, guess, method='Nelder-Mead'):
         result = op.minimize(self.neglnlike,
                              guess,
-                             method=method, options={'ftol': 1.0e-10})
+                             method=method, options={'maxfev': 4000, 'maxiter': 4000, 'disp': True})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'
