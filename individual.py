@@ -65,14 +65,6 @@ def getqlums(lumfile, zlims=None):
     except(IndexError):
         pass
 
-    try:
-        if sample_id[0] == 13:
-            # Restrict SDSS DR7 sample to z < 4.7 to avoid overlap
-            # with McGreer and Yang.
-            select = ((z>=z_min) & (z<z_max) & (z<4.7))
-    except(IndexError):
-        pass
-    
     return z[select], mag[select], p[select], area[select], sample_id[select]
 
 def getselfn(selfile, zlims=None):
@@ -507,9 +499,6 @@ class lf:
         (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
          logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
         
-        # selection = ((sample==13) & (z_bin==z_plot))
-
-        # selection = ((sample==13) & (z_min<=z_plot) & (z_max>z_plot))
         selection = ((z_min<=z_plot) & (z_max>z_plot)) 
         
         def select(a):
