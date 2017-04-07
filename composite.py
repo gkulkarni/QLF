@@ -109,7 +109,8 @@ class selmap:
 
         if sample_id == 15:
             # Restrict Croom sample
-            select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
+            # select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
+            select = ((self.z < 2.2) & (self.z >= 0.6) & (self.p > 0.5))
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
