@@ -86,6 +86,12 @@ class selmap:
             self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5])
             self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
 
+            # Correct Giallongo's p values to match published LF.  See
+            # comments in giallongo15_sel_correction.dat.
+            with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
+                corr = np.loadtxt(f, usecols=(4,), unpack=True)
+            self.p = self.p/corr
+
         if sample_id == 1:
             # Restrict BOSS sample 
             select = ((self.z<2.2) | (self.z>=2.8))
