@@ -230,8 +230,14 @@ class lf:
         Set up uniform priors.
 
         """
+
+        params = self.getparams(theta)
+        alpha = params[2]
+        alpha_atz6 = self.atz(6.0, alpha) 
+        
         if (np.all(theta < self.prior_max_values) and
-            np.all(theta > self.prior_min_values)):
+            np.all(theta > self.prior_min_values) and
+            alpha_atz6 < -4.0):
             return 0.0 
 
         return -np.inf
