@@ -123,11 +123,6 @@ class selmap:
             self.m = self.m[select]
             self.p = self.p[select]
 
-        # select = (self.z < 5.5)
-        # self.z = self.z[select]
-        # self.m = self.m[select]
-        # self.p = self.p[select]
-
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
