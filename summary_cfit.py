@@ -8,6 +8,7 @@ mpl.rcParams['font.size'] = '14'
 import matplotlib.pyplot as plt
 from numpy.polynomial.chebyshev import chebfit
 from numpy.polynomial import Chebyshev as T
+from scipy.optimize import curve_fit
 
 colors = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a'] 
 nplots_x = 2
@@ -19,6 +20,7 @@ zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
+
         
 def plot_phi_star(fig, composite, sample=False):
 
@@ -26,7 +28,7 @@ def plot_phi_star(fig, composite, sample=False):
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-11, -4)
+    ax.set_ylim(-13, -5)
 
     if composite is not None: 
         bf = composite.bf.x
@@ -52,7 +54,15 @@ def plot_phi_star(fig, composite, sample=False):
     zc = np.linspace(0, 7, 500)
     coeffs = chebfit(zmean+1, c, 2)
     print coeffs
-    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod') 
+    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
+
+    def func(z, p0, p1, p2):
+        return T([p0, p1, p2])(z)
+
+    sigma = uperr + downerr 
+    popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+    print popt
+    plt.plot(zc, func(zc+1, *popt), lw=2, c='r', dashes=[8,3])
 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt', usecols=(0,1,2,3), unpack=True)
     # ax.scatter(zm, cm, color='k', edgecolor='None', zorder=2)
@@ -75,7 +85,7 @@ def plot_m_star(fig, composite, sample=False):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-31, -21)
+    ax.set_ylim(-32, -23)
 
     if composite is not None: 
         bf = composite.bf.x
@@ -108,7 +118,15 @@ def plot_m_star(fig, composite, sample=False):
 
     coeffs = chebfit(zmean+1, c, 1)
     print coeffs
-    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod') 
+    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
+
+    def func(z, p0, p1):
+        return T([p0, p1])(z)
+
+    sigma = np.abs(uperr + downerr)
+    popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+    print popt
+    plt.plot(zc, func(zc+1, *popt), lw=2, c='r', dashes=[8,3])
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -122,7 +140,7 @@ def plot_alpha(fig, composite, sample=False):
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-6, -1)
+    ax.set_ylim(-6.5, -3)
 
     if composite is not None: 
         bf = composite.bf.x
@@ -153,13 +171,22 @@ def plot_alpha(fig, composite, sample=False):
 
     zc = np.linspace(0, 7, 500)
 
-    coeffs = chebfit(zmean+1.0, c, 1)
+    coeffs = chebfit(zmean+1.0, c, 2)
     print coeffs
-    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod') 
+    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
 
-    plt.legend(loc='upper left', fontsize=10, handlelength=1,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+    def func(z, p0, p1, p2):
+        return T([p0, p1, p2])(z)
+
+    sigma = uperr + downerr
+    popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+    print popt
+    plt.plot(zc, func(zc+1, *popt), lw=2, c='r', dashes=[8,3])
+    
+
+    # plt.legend(loc='upper left', fontsize=10, handlelength=1,
+    #            frameon=False, framealpha=0.0, labelspacing=.1,
+    #            handletextpad=0.1, borderpad=0.01, scatterpoints=1)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
@@ -176,7 +203,7 @@ def plot_beta(fig, composite, sample=False):
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-3, 0)
+    ax.set_ylim(-3, -1)
 
     if composite is not None: 
         bf = composite.bf.x
@@ -206,10 +233,18 @@ def plot_beta(fig, composite, sample=False):
     #             fmt='None', zorder=2)
 
     zc = np.linspace(0, 7, 500)
-    coeffs = chebfit(zmean+1, c, 2)
+    coeffs = chebfit(zmean+1, c, 3)
     print coeffs
-    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod') 
-    
+    plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
+
+    def func(z, p0, p1, p2, p3):
+        return T([p0, p1, p2, p3])(z)
+
+    sigma = uperr + downerr 
+    popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+    print popt
+    plt.plot(zc, func(zc+1, *popt), lw=2, c='r', dashes=[8,3])
+
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\beta$ (faint-end slope)')
     ax.set_xlabel('$z$')
