@@ -255,7 +255,7 @@ class lf:
 
     def lfnorm(self, theta):
 
-        ns = [x.nqso(self, theta) for x in self.maps]
+        ns = np.array([x.nqso(self, theta) for x in self.maps])
         return sum(ns) 
 
     def neglnlike(self, theta):
