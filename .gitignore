@@ -4,6 +4,9 @@
 *.pyc
 *.pdf
 Scratch
+chains
+Results
 .DS_Store
 Notes
 Review 
+.tramp_history

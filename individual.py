@@ -19,6 +19,7 @@ cosmo = {'omega_M_0':0.3,
          'h':0.70}
 import gammapi
 import rtg
+import corner
 
 def getqlums(lumfile, zlims=None):
 
@@ -33,6 +34,37 @@ def getqlums(lumfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
+    try:
+        if sample_id[0] == 13:
+            # Restrict Richards sample (1) to z < 2.2 as there are
+            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+            # host galaxy contamination; (3) to m > -23 at low z to
+            # avoid incompleteness; and (4) to m < -26 at high z to
+            # avoid incompleteness.  Also see selmap below.
+            select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
+                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.9)))
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 15:
+            if z_min < 0.68:
+                select = ((z>=z_min) & (z<z_max) & (p > 0.5))
+            else:
+                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+                # above this redshift.
+                select = ((z>=z_min) & (z<z_max) & (z<2.2))
+    except(IndexError):
+        pass
+
+    try:
+        if sample_id[0] == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = ((z>=z_min) & (z<z_max) & (mag>-26.73))
+    except(IndexError):
+        pass
+
     return z[select], mag[select], p[select], area[select], sample_id[select]
 
 def getselfn(selfile, zlims=None):
@@ -40,10 +72,7 @@ def getselfn(selfile, zlims=None):
     """Read selection map."""
 
     with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
-
-    dz = np.unique(np.diff(z))[-1]
-    dm = np.unique(np.diff(mag))[-1]
+        z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
 
     if zlims is None:
         select = None
@@ -51,7 +80,7 @@ def getselfn(selfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    return dz, dm, z[select], mag[select], p[select]
+    return z[select], mag[select], p[select]
 
 def volume(z, area, cosmo=cosmo):
 
@@ -64,7 +93,7 @@ def percentiles(x):
     
     u = np.percentile(x, 15.87) 
     l = np.percentile(x, 84.13)
-    c = np.mean(x) 
+    c = np.median(x) 
 
     return [u, l, c] 
 
@@ -72,45 +101,112 @@ class selmap:
 
     def __init__(self, x, zlims=None):
 
-        selection_map_file, area, sample_id = x
+        selection_map_file, dm, dz, area, sample_id, label = x
 
-        self.sid = sample_id 
+        self.label = label
+        self.sid = sample_id
+        self.dz = dz
+        self.dm = dm
+        if sample_id == 7:
+            # Giallongo's sample needs special treatment due to
+            # non-uniform selection map grid.  Here, we are assuming
+            # that np.diff(zlims) is smaller than the delta-z values
+            # in Giallongo's selection maps.
+            self.dz = np.diff(zlims)
+            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+            with open(selection_map_file, 'r') as f: 
+                z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+            z_min, z_max = zlims 
+            select = ((z>=z_min) & (z<z_max))
+            self.dm = self.dm[select]
+            
+        self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
+
+        if sample_id == 7:
+            # Correct Giallongo's p values to match published LF.  See
+            # comments in giallongo15_sel_correction.dat.
+            with open(selection_map_file, 'r') as f: 
+                z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+            z_min, z_max = zlims 
+            select = ((z>=z_min) & (z<z_max))
+            with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
+                corr = np.loadtxt(f, usecols=(4,), unpack=True)
+            corr = corr[select]
+            self.p = self.p/corr
+
+            
+        if sample_id == 13:
+            # Restrict Richards sample (1) to z < 2.2 as there are
+            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+            # host galaxy contamination; (3) to m > -23 at low z to
+            # avoid incompleteness; and (4) to m < -26 at high z to
+            # avoid incompleteness.  Also see getqlums above.
+
+            z_min, z_max = zlims 
+            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
+                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.9)))
+            
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 15:
+            z_min, z_max = zlims 
+            if z_min < 0.68:
+                select = (self.p>0.5)
+            else:
+                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+                # above this redshift.
+                select = (self.z<2.2)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
         
-        self.dz, self.dm, self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
-        print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
+        if sample_id == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = (self.m>-26.73)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
 
         if self.z.size == 0:
-            return # This selmap has no points in zlims 
-        
+            return # This selmap has no points in zlims
+
+        # Things may break down if thresholding is enabled.  Also see
+        # below in lf.
+        thresholding = False 
+        if thresholding: 
+            p_threshold = 0.20
+            select = (self.p > p_threshold)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+            if self.z.size == 0:
+                return # This selmap has no points with the current
+                       # p_threshold
+
         self.area = area
-
         self.volarr = volume(self.z, self.area)*self.dz
-
-        if zlims is not None:
-            surveydz = zlims[1]-zlims[0]
-            self.volume = np.unique(self.volarr)[0]*(surveydz/self.dz) # cMpc^-3
-        else:
-            self.volume = np.unique(self.volarr)[0] # cMpc^-3
-
-        if len(np.unique(self.volarr)) != 1:
-            print 'More than one volume in selection map!'
-            print np.unique(self.volarr)
-        
         return
 
     def nqso(self, lumfn, theta):
 
         try: 
             psi = 10.0**lumfn.log10phi(theta, self.m)
+            # Except for Giallongo's sample, self.dm is assumed to be
+            # constant here; may not be true.
             tot = psi*self.p*self.volarr*self.dm
             return np.sum(tot)
         except(AttributeError):
             return 0 
             
-
 class lf:
 
     def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
+
+        self.zlims = zlims
 
         for datafile in quasar_files:
             z, m, p, area, sid = getqlums(datafile, zlims=zlims)
@@ -127,16 +223,26 @@ class lf:
                 self.area=area
                 self.sid=sid
 
+        # Things may break down if thresholding is enabled.  Also see
+        # above in selmap.
+        thresholding = False 
+        if thresholding: 
+            p_threshold = 0.20
+            select = (self.p > p_threshold)
+            self.z = self.z[select]
+            self.M1450 = self.M1450[select]
+            self.p = self.p[select]
+            self.area = self.area[select]
+            self.sid = self.sid[select]
+
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
 
         self.maps = [selmap(x, zlims) for x in selection_maps]
 
-        # Remove selection maps outside our redshift range 
-        for i, x in enumerate(self.maps):
-            if x.z.size == 0:
-                self.maps.pop(i)
-
+        # Remove selection maps that lie outside our redshift range.
+        self.maps = [x for x in self.maps if x.z.size > 0]
+        
         return
 
     def log10phi(self, theta, mag):
@@ -149,7 +255,7 @@ class lf:
 
     def lfnorm(self, theta):
 
-        ns = [x.nqso(self, theta) for x in self.maps]
+        ns = np.array([x.nqso(self, theta) for x in self.maps])
         return sum(ns) 
 
     def neglnlike(self, theta):
@@ -215,6 +321,7 @@ class lf:
 
         self.sampler.run_mcmc(pos, 1000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
+        
 
         return
 
@@ -233,7 +340,8 @@ class lf:
     def corner_plot(self, labels=[r'$\phi_*$', r'$M_*$', r'$\alpha$', r'$\beta$'], dirname=''):
 
         mpl.rcParams['font.size'] = '14'
-        f = triangle.corner(self.samples, labels=labels, truths=self.bf.x)
+        self.medians = np.median(self.samples, axis=0)
+        f = corner.corner(self.samples, labels=labels, truths=self.medians)
         plotfile = dirname+'triangle.png'
         f.savefig(plotfile)
         mpl.rcParams['font.size'] = '22'
@@ -244,7 +352,8 @@ class lf:
         ax = fig.add_subplot(self.bf.x.size, 1, param+1)
         for i in range(self.nwalkers): 
             ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
-        ax.axhline(self.bf.x[param], c='#CC9966', dashes=[7,2], lw=2) 
+        self.medians = np.median(self.samples, axis=0)
+        ax.axhline(self.medians[param], c='#CC9966', dashes=[7,2], lw=2) 
         ax.set_ylabel(ylabel)
         if param+1 != self.bf.x.size:
             ax.set_xticklabels('')
@@ -292,25 +401,77 @@ class lf:
         smap = [x for x in self.maps if x.sid == sample_id]
 
         return smap[0].volume # cMpc^3
+
+    def binVol(self, selmap, mrange, zrange):
+
+        """
+
+        Calculate volume in an M-z bin for *one* selmap.
+
+        """
+
+        v = 0.0
+        for i in xrange(selmap.m.size):
+            if (selmap.m[i] >= mrange[0]) and (selmap.m[i] < mrange[1]):
+                if (selmap.z[i] >= zrange[0]) and (selmap.z[i] < zrange[1]):
+                    if selmap.sid == 7:
+                        v += selmap.volarr[i]*selmap.p[i]*selmap.dm[i]
+                    else:
+                        v += selmap.volarr[i]*selmap.p[i]*selmap.dm
+
+        return v
+
+    def totBinVol(self, m, mbins, selmaps):
+
+        """
         
-    def get_lf(self, z_plot):
+        Given magnitude bins mbins and a list of selection maps
+        selmaps, compute the volume for an object with magnitude m.
+
+        """
+
+        idx = np.searchsorted(mbins, m)
+        mlow = mbins[idx-1]
+        mhigh = mbins[idx]
+        mrange = (mlow, mhigh)
+
+        v = np.array([self.binVol(x, mrange, self.zlims) for x in selmaps])
+        total_vol = v.sum() 
+
+        return total_vol
+    
+    def get_lf(self, sid, z_plot):
 
         # Bin data.  This is only for visualisation and to compare
-        # with reported binned values.  The number of bins (nbins) is
-        # estimated by Knuth's rule (astropy.stats.knuth_bin_width).
+        # with reported binned values.  
 
-        m = self.M1450[self.p!=0.0]
-        p = self.p[self.p!=0.0]
-        sid = self.sid[self.p!=0.0]
-        v = np.array([self.quasar_volume(s) for s in sid])
+        z = self.z[self.sid==sid]
+        m = self.M1450[self.sid==sid]
+        p = self.p[self.sid==sid]
 
-        nbins = int(np.ptp(m)/kbw(m))
-        h = np.histogram(m,bins=nbins,weights=1.0/(p*v))
+        selmaps = [x for x in self.maps if x.sid == sid]
+
+        if sid==6:
+            # Glikman's sample needs wider bins.
+            bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+        else:
+            bins = np.arange(-30.9, -17.3, 0.6)
+        
+        v1 = np.array([self.totBinVol(x, bins, selmaps) for x in m])
+
+        v1_nonzero = v1[np.where(v1>0.0)]
+        m = m[np.where(v1>0.0)]
+
+        h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
+
         nums = h[0]
         mags = (h[1][:-1] + h[1][1:])*0.5
         dmags = np.diff(h[1])*0.5
 
-        phi = nums/np.diff(h[1])
+        left = mags - h[1][:-1]
+        right = h[1][1:] - mags
+        
+        phi = nums
         logphi = np.log10(phi) # cMpc^-3 mag^-1
 
         # Calculate errorbars on our binned LF.  These have been estimated
@@ -319,14 +480,13 @@ class lf:
         # interval='frequentist-confidence' option to that astropy function is
         # exactly equal to the Gehrels formulas, although the documentation
         # does not say so.
-
-        n = np.histogram(self.M1450,bins=nbins)[0]
+        n = np.histogram(m, bins=bins)[0]
         nlims = pci(n,interval='frequentist-confidence')
         nlims *= phi/n 
         uperr = np.log10(nlims[1]) - logphi 
         downerr = logphi - np.log10(nlims[0])
         
-        return mags, dmags, logphi, uperr, downerr
+        return mags, left, right, logphi, uperr, downerr
 
     def plot_literature(self, ax, z_plot):
 
@@ -339,9 +499,6 @@ class lf:
         (counter, sample, z_bin, z_min, z_max, z_mean, M1450, left, right,
          logphi, uperr, downerr, nqso, Veff, P) = np.loadtxt(qlf_file, unpack=True)
         
-        # selection = ((sample==13) & (z_bin==z_plot))
-
-        # selection = ((sample==13) & (z_min<=z_plot) & (z_max>z_plot))
         selection = ((z_min<=z_plot) & (z_max>z_plot)) 
         
         def select(a):
@@ -361,11 +518,6 @@ class lf:
         Veff    = select(Veff)
         P       = select(P)
         sample  = select(sample)
-
-        print z_plot 
-        print z_bin
-        print M1450
-        print logphi
 
         ax.scatter(M1450, logphi, c='#d7191c',
                    edgecolor='None', zorder=301,
@@ -401,35 +553,48 @@ class lf:
         ax.tick_params('both', which='major', length=7, width=1)
         ax.tick_params('both', which='minor', length=3, width=1)
 
-        mag_plot = np.linspace(-30.0,-22.0,num=100) 
+        mag_plot = np.linspace(-30.0,-20.0,num=100) 
         self.plot_posterior_sample_lfs(ax, mag_plot, lw=1,
-                                       c='#d8b365', alpha=0.1, zorder=2) 
+                                       c='#ffbf00', alpha=0.1, zorder=2) 
         self.plot_bestfit_lf(ax, mag_plot, lw=2,
-                             c='#d8b365', label='individual', zorder=3)
+                             c='#ffbf00', label='fit', zorder=3)
 
-        mags, dmags, logphi, uperr, downerr = self.get_lf(z_plot)
-        ax.scatter(mags, logphi, c='#191cd7', edgecolor='None', zorder=4)
-        ax.errorbar(mags, logphi, ecolor='#191cd7', capsize=0,
-                    xerr=dmags,
-                    yerr=np.vstack((uperr, downerr)),
-                    fmt='None', zorder=4)
+        cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
+              7:'#8c564b', 18:'#7f7f7f', 10:'#17becf', 11:'r'}
+
+        def dsl(i):
+            for x in self.maps:
+                if x.sid == i:
+                    return x.label
+            return
+
+        sids = np.unique(self.sid)
+        for i in sids:
+            mags, left, right, logphi, uperr, downerr = self.get_lf(i, z_plot)
+            ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=35, label=dsl(i))
+            ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
+                        xerr=np.vstack((left, right)), 
+                        yerr=np.vstack((uperr, downerr)),
+                        fmt='None', zorder=4)
 
         if plotlit: 
             self.plot_literature(ax, z_plot) 
             # self.plot_hopkins(ax, 'hopkins_bol_z3.8.dat')
             # self.plot_hopkins(ax, 'hopkins2.dat')
             
-        ax.set_xlim(-30.0, -21.0)
-        ax.set_ylim(-12.0, -3.0) 
+        ax.set_xlim(-17.0, -31.0)
+        ax.set_ylim(-12.0, -5.0)
+        ax.set_xticks(np.arange(-31,-16, 2))
 
         ax.set_xlabel(r'$M_{1450}$')
         ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
 
-        plt.legend(loc='lower right', fontsize=14, handlelength=3,
+        legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+        plt.legend(loc='lower left', fontsize=12, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
-                   handletextpad=0.4, borderpad=0.2, scatterpoints=1)
+                   handletextpad=0.4, borderpad=0.2, scatterpoints=1, title=legend_title)
 
-        plottitle = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+        plottitle = r'${:g}\leq z<{:g}$'.format(self.zlims[0], self.zlims[1]) 
         plt.title(plottitle, size='medium', y=1.01)
 
         plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)

@@ -1,0 +1,24 @@
+# Giallongo et al. (2015, A&A, 578, A83) sample
+# 19 AGN candidates from Table 2 in their paper, area 0.047deg2
+# Table 2 lists 3 more objects: one z~9 object excluded by Giallongo, two others excluded due to faintness (comparing Giallongo's Table 2 and 3)
+# selection function estimated from Giallongo's Table 3 comparing phi_obs and phi_corr
+# counter  z     M1450  p         area   sample
+        1  4.130 -20.72 1.00000   0.047  7
+        2  4.230 -19.19 0.25100   0.047  7
+        3  4.280 -20.22 0.79400   0.047  7
+        4  4.320 -20.20 0.79400   0.047  7
+        5  4.410 -20.16 0.79400   0.047  7
+        6  4.497 -20.93 1.00000   0.047  7
+        7  4.520 -18.97 0.39800   0.047  7
+        8  4.520 -19.04 0.39800   0.047  7
+        9  4.620 -20.60 0.79400   0.047  7
+       10  4.730 -19.60 0.50100   0.047  7
+       11  4.762 -21.37 0.79400   0.047  7
+       12  4.823 -22.51 1.00000   0.047  7
+       13  4.940 -20.48 0.50100   0.047  7
+       14  4.980 -19.19 0.39800   0.047  7
+       15  5.230 -21.06 1.00000   0.047  7
+       16  5.390 -20.23 0.39800   0.047  7
+       17  5.700 -19.87 0.39800   0.047  7
+       18  6.060 -19.62 0.39800   0.047  7
+       19  6.260 -19.03 0.31600   0.047  7

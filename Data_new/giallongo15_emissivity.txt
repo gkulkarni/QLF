@@ -1,0 +1,12 @@
+# QSO emissivity from Giallongo et al. 2015 (A&A 578 A83).
+#
+# col 1: z
+# col 2: LyC emissivity (10^24 erg s^-1 Hz^-1 Mpc^-3)
+# col 3: z_downerr
+# col 4: z_uperr
+# col 5: emissivity_downerr
+# col 6: emissivity_uperr 
+#
+5.754	2.530	0.753	0.741	1.283	2.627
+4.748	5.946	0.250	0.256	0.910	2.282
+4.249	6.771	0.247	0.258	0.950	2.581

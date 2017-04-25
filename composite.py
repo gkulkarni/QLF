@@ -8,13 +8,14 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
-import triangle 
+import corner
 import cosmolopy.distance as cd
 cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
          'omega_k_0':0.0,
          'h':0.70}
 from numpy.polynomial import Chebyshev as T
+from numpy.polynomial.polynomial import polyval
 
 def getselfn(selfile):
 
@@ -28,9 +29,37 @@ def getqlums(lumfile):
 
     """Read quasar luminosities."""
 
-    with open(lumfile,'r') as f: 
-        z, mag, p = np.loadtxt(lumfile, usecols=(1,2,3), unpack=True)
-    return z, mag, p
+    z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5),
+                                            unpack=True)
+
+    sample_id = np.atleast_1d(sample_id)
+
+    select = None 
+
+    if sample_id[0] == 13:
+        # Restrict Richards (SDSS) sample.
+        select = (((z < 2.2) & (z >= 0.6) & (mag < -23.0)) |
+                  ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
+
+    if sample_id[0] == 15:
+        # Restrict Croom (2SLAQ) sample.
+        # select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
+        select = ((z < 2.2) & (z >= 0.6) & (p > 0.5))
+
+    if sample_id[0] == 1:
+        # Restrict BOSS sample.
+        select = ((z < 2.2) | (z >= 2.8))
+    
+    if sample_id[0] == 8:
+        # Restrict McGreer's samples to faint quasars to avoid
+        # overlap with Yang.
+        select = (mag>-26.73)
+
+    z = z[select]
+    mag = mag[select]
+    p = p[select]
+
+    return z, mag, p 
 
 def volume(z, area, cosmo=cosmo):
 
@@ -41,16 +70,64 @@ def volume(z, area, cosmo=cosmo):
 
 class selmap:
 
-    def __init__(self, selection_map_file, area):
+    def __init__(self, selection_map_file, dm, dz, area, sample_id):
 
         self.z, self.m, self.p = getselfn(selection_map_file)
 
-        self.dz = np.unique(np.diff(self.z))[-1]
-        self.dm = np.unique(np.diff(self.m))[-1]
-        # print 'dz={0:.3f}, dm={1:.3f}'.format(self.dz,self.dm)
+        self.dz = dz
+        self.dm = dm 
+        print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
+
+        self.sid = sample_id 
+
+        if sample_id == 7:
+            # Giallongo's sample needs special treatment due to
+            # non-uniform selection map grid.  
+            self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5])
+            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+
+            # Correct Giallongo's p values to match published LF.  See
+            # comments in giallongo15_sel_correction.dat.
+            with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
+                corr = np.loadtxt(f, usecols=(4,), unpack=True)
+            self.p = self.p/corr
+
+        if sample_id == 1:
+            # Restrict BOSS sample 
+            select = ((self.z<2.2) | (self.z>=2.8))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+            
+        if sample_id == 13:
+            # Restrict Richards sample
+            select = (((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0)) |
+                      ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if sample_id == 15:
+            # Restrict Croom sample
+            # select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
+            select = ((self.z < 2.2) & (self.z >= 0.6) & (self.p > 0.5))
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+            
+        if sample_id == 8:
+            # Restrict McGreer's samples to faint quasars to avoid
+            # overlap with Yang.
+            select = (self.m>-26.73)
+            self.z = self.z[select]
+            self.m = self.m[select]
+            self.p = self.p[select]
+
+        if self.z.size == 0:
+            return # This selmap has no points in zlims
 
         self.area = area
-        self.volume = volume(self.z, self.area) 
+        self.volume = volume(self.z, self.area) # cMpc^3 dz^-1 
 
         return
 
@@ -78,7 +155,7 @@ class lf:
                 self.M1450=m
                 self.p=p
 
-        self.maps = [selmap(x[0], x[1]) for x in selection_maps]
+        self.maps = [selmap(*x) for x in selection_maps]
 
         return
 
@@ -86,16 +163,10 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
-        return T(p, domain=[0.5,6.0])(1+z)
+        # return T(p, domain=[0.,7.])(1+z)
+        # return T(p)(1+z)
+        return T(p, domain=[3.7,7.])(1+z)
         
-        # if len(p) == 2: 
-        #     a0, a1 = p
-        # elif len(p) == 1:
-        #     a0 = 0
-        #     a1 = p 
-
-        # return a0*(1.0+z) + a1
-
     def getparams(self, theta):
 
         if isinstance(self.pnum, int):
@@ -124,8 +195,8 @@ class lf:
 
     def lfnorm(self, theta):
 
-        ns = [x.nqso(self, theta) for x in self.maps]
-        return sum(ns) 
+        ns = np.array([x.nqso(self, theta) for x in self.maps])
+        return np.sum(ns) 
         
     def neglnlike(self, theta):
 
@@ -137,7 +208,7 @@ class lf:
     def bestfit(self, guess, method='Nelder-Mead'):
         result = op.minimize(self.neglnlike,
                              guess,
-                             method=method, options={'ftol': 1.0e-10})
+                             method=method, options={'maxfev': 4000, 'maxiter': 4000, 'disp': True})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'
@@ -160,8 +231,14 @@ class lf:
         Set up uniform priors.
 
         """
+
+        params = self.getparams(theta)
+        alpha = params[2]
+        alpha_atz6 = self.atz(6.0, alpha) 
+        
         if (np.all(theta < self.prior_max_values) and
-            np.all(theta > self.prior_min_values)):
+            np.all(theta > self.prior_min_values) and
+            alpha_atz6 < -4.0):
             return 0.0 
 
         return -np.inf
@@ -196,7 +273,7 @@ class lf:
     def corner_plot(self, labels=None, dirname=''):
 
         mpl.rcParams['font.size'] = '14'
-        f = triangle.corner(self.samples, labels=labels, truths=self.bf.x)
+        f = corner.corner(self.samples, labels=labels, truths=self.bf.x)
         plotfile = dirname+'triangle.png'
         f.savefig(plotfile)
         mpl.rcParams['font.size'] = '22'

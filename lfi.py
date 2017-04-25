@@ -1,7 +1,8 @@
-import sys 
-import numpy as np
+import sys
+import numpy as np 
 from individual import lf
-import mosaic
+import drawlf
+import cProfile
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
@@ -42,67 +43,53 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
 
 method = 'Nelder-Mead'
 
-# zls = [(0.6, 0.68), (0.68, 1.06), (1.06, 1.44), (1.44, 1.82), (1.82, 2.2),
-#        (2.2, 2.3), (2.3, 2.4), (2.4, 2.5), (2.5, 2.6), (2.6, 2.7), (2.7, 2.8),
-#        (2.8, 3.0), (3.0, 3.25), (3.25, 3.5), (3.7, 4.1), (4.1, 4.7),
-#        (4.7, 5.5)], (5.5, 6.5)]
+zmin = float(sys.argv[1])
+zmax = float(sys.argv[2]) 
 
-zls = [(0.6, 0.68), (0.68, 0.8), (0.8, 1.06), (1.06, 1.2), (1.2, 1.44), (1.44, 1.6), (1.6, 1.82), (1.82, 2.0), (2.0, 2.2),
-       (2.2, 2.25), (2.25, 2.3), (2.3, 2.35), (2.35, 2.4), (2.4, 2.45),
-       (2.45, 2.5), (2.5, 2.55), (2.55, 2.6), (2.6, 2.65), (2.65, 2.7), (2.7, 2.75), (2.75, 2.8),
-       (2.8, 2.9), (2.9, 3.0), (3.0, 3.15), (3.15, 3.25), (3.25, 3.35),
-       (3.35, 3.5), (3.7, 3.85), (3.85, 4.1), (4.1, 4.3), (4.3, 4.7),
-       (4.7, 5.0), (5.0, 5.5), (5.5, 6.0), (6.0, 6.5)]
+zl = (zmin, zmax) 
+lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
+print '{:d} quasars in this bin.'.format(lfi.z.size)
 
-lfs = [] 
+g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
 
-for i, zl in enumerate(zls):
+b = lfi.bestfit(g, method=method)
+print b
 
-    print 'z =', zl
+lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -4.0])
+if zmin > 5.4:
+    # Special priors for z = 6 data.
+    lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
+    # Change result of optimize.minimize so that emcee works.
+    lfi.bf.x[2] = -5.0
+else:
+    lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
+assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
-    lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 
-    print '{:d} quasars in this bin.'.format(lfi.z.size)
 
-    print 'sids: '+'  '.join(['{:2d}'.format(x.sid) for x in lfi.maps])
-    print 'size: '+'  '.join(['{:5}'.format(x.z.size) for x in lfi.maps])
-    print 'pmax: '+'  '.join(['{:.6f}'.format(x.p.max()) for x in lfi.maps])
-    print 'pmin: '+'  '.join(['{:.6f}'.format(x.p.min()) for x in lfi.maps])
-    print ' '
+lfi.run_mcmc()
+lfi.get_percentiles()
+
+write=False
+if write: 
+    with open('phi_starg.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
+        f.write('\n')
+
+    with open('M_starg.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
+        f.write('\n')
+
+    with open('alphag.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
+        f.write('\n')
+
+    with open('betag.dat', 'a') as f:
+        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
+        f.write('\n')
     
-    g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
-    b = lfi.bestfit(g, method=method)
-    print b 
+lfi.corner_plot()
+lfi.chains()
+drawlf.draw(lfi)
 
-    lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
-    lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])    
-    assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
-    lfi.run_mcmc()
-    lfi.get_percentiles()
-
-    write=True
-    if write: 
-        with open('phi_star_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
-            f.write('\n')
-
-        with open('M_star_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
-            f.write('\n')
-
-        with open('alpha_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
-            f.write('\n')
-
-        with open('beta_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.beta[0], lfi.beta[1], lfi.beta[2]))
-            f.write('\n')
-            
-    lfs.append(lfi)
-
-    # mosaic.draw(lfs)
