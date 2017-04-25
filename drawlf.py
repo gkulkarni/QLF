@@ -33,7 +33,8 @@ def plot_posterior_sample_lfs(lf, ax, mags, **kwargs):
 
 def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
-    phi_fit = lf.log10phi(lf.bf.x, mags)
+    bf = np.median(lf.samples, axis=0)
+    phi_fit = lf.log10phi(bf, mags)
     ax.plot(mags, phi_fit, **kwargs)
     ax.plot(mags, phi_fit, lw=1, c='k', zorder=kwargs['zorder'])
 
