@@ -42,7 +42,7 @@ def plot_phi_star(fig, composite, sample=False):
         phi = composite.atz(z, composite.getparams(composite.bf.x)[0])
         ax.plot(z, phi, color='g', zorder=2, dashes=[7,2])
         
-    zmean, zl, zu, u, l, c = np.loadtxt('phi_star_fineBins.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -106,7 +106,7 @@ def plot_m_star(fig, composite, sample=False):
         M = composite.atz(z, composite.getparams(composite.bf.x)[1])
         ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
     
-    zmean, zl, zu, u, l, c = np.loadtxt('M_star_fineBins.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -167,7 +167,7 @@ def plot_alpha(fig, composite, sample=False):
         ax.plot(z, alpha, color='g', zorder=2, dashes=[7,2],
                 label='Likelihood maximum')
     
-    zmean, zl, zu, u, l, c = np.loadtxt('alpha_fineBins.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -236,7 +236,7 @@ def plot_beta(fig, composite, sample=False):
         beta = composite.atz(z, composite.getparams(composite.bf.x)[3])
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
     
-    zmean, zl, zu, u, l, c = np.loadtxt('beta_fineBins.dat', unpack=True)
+    zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
