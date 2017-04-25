@@ -20,8 +20,6 @@ zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
-
-        
 def plot_phi_star(fig, composite, sample=False):
 
     mpl.rcParams['font.size'] = '14'
@@ -41,6 +39,15 @@ def plot_phi_star(fig, composite, sample=False):
         ax.plot(z, phi, color='k', zorder=2)
 
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
+
+    select = zmean > 3.6
+    zl = zl[select]
+    zu = zu[select]
+    u = u[select]
+    l = l[select]
+    c = c[select]
+    zmean = zmean[select]
+
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -98,6 +105,15 @@ def plot_m_star(fig, composite, sample=False):
         ax.plot(z, M, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
+
+    select = zmean > 3.6
+    zl = zl[select]
+    zu = zu[select]
+    u = u[select]
+    l = l[select]
+    c = c[select]
+    zmean = zmean[select]
+    
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -153,6 +169,15 @@ def plot_alpha(fig, composite, sample=False):
         ax.plot(z, alpha, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
+
+    select = zmean > 3.6
+    zl = zl[select]
+    zu = zu[select]
+    u = u[select]
+    l = l[select]
+    c = c[select]
+    zmean = zmean[select]
+    
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -171,12 +196,12 @@ def plot_alpha(fig, composite, sample=False):
 
     zc = np.linspace(0, 7, 500)
 
-    coeffs = chebfit(zmean+1.0, c, 2)
+    coeffs = chebfit(zmean+1.0, c, 1)
     print coeffs
     plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
 
-    def func(z, p0, p1, p2):
-        return T([p0, p1, p2])(z)
+    def func(z, p0, p1):
+        return T([p0, p1])(z)
 
     sigma = uperr + downerr
     popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -216,6 +241,15 @@ def plot_beta(fig, composite, sample=False):
         ax.plot(z, beta, color='k', zorder=4)
     
     zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
+
+    select = zmean > 3.6
+    zl = zl[select]
+    zu = zu[select]
+    u = u[select]
+    l = l[select]
+    c = c[select]
+    zmean = zmean[select]
+    
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -233,12 +267,12 @@ def plot_beta(fig, composite, sample=False):
     #             fmt='None', zorder=2)
 
     zc = np.linspace(0, 7, 500)
-    coeffs = chebfit(zmean+1, c, 3)
+    coeffs = chebfit(zmean+1, c, 2)
     print coeffs
     plt.plot(zc, T(coeffs)(zc+1), lw=2, c='goldenrod')
 
-    def func(z, p0, p1, p2, p3):
-        return T([p0, p1, p2, p3])(z)
+    def func(z, p0, p1, p2):
+        return T([p0, p1, p2])(z)
 
     sigma = uperr + downerr 
     popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
