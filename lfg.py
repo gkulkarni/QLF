@@ -40,35 +40,20 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
              ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7)]
 
-lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,3,4])
+lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,2,3])
 
-# g = np.array([-7.73388053, 1.06477161, -0.11304974,
-#               -22.75923587, -0.96452704,
-#               -3.22779072, -0.27456505,
-#               -1.53566144, 0.02274886, -0.0125998]) 
-
-g = np.array([-8.4312489, 1.48352466, -0.14255848, -23.07419422,  -0.91502736, -3.79904767,  0.0485053,  -0.02002263, -2.85724627,  1.03598097, -0.13644424,  0.00469155])
-
+g = np.array([-7.73388053, 1.06477161, -0.11304974,
+              -22.75923587, -0.96452704,
+              -3.22779072, -0.27456505,
+              -1.53566144, 0.02274886, -0.0125998]) 
+      
 method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
 
-lfg.prior_min_values = np.array([-11.0, -5.0, -5.0,
-                                 -30.0, -10.0,
-                                 -5.0, -5.0, -5.0, 
-                                 -5.0, -2.0, -2.0, -2.0])
-lfg.prior_max_values = np.array([-4.0, 5.0, 2.0,
-                                 -10.0, 5.0,
-                                 -1.0, 5.0, 5.0, 
-                                 5.0, 2.0, 2.0, 2.0])
+lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
+lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
 assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
-
-# # Set bf.x. to different value to start MCMC from this value.  This is
-# # the best fit from Chebyshev French curve fit with sigma.
-# lfg.bf.x = np.array([-8.4312489, 1.48352466, -0.14255848,
-#             -23.07419422, -0.91502736,
-#             -3.43699074, -0.19373464,
-#             -1.83439393,  0.19554403, -0.02286045])
 
 lfg.run_mcmc()
 
@@ -76,9 +61,6 @@ labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$',
           r'$a_0 [M_*]$', r'$a_1 [M_*]$',
           r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
           r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
-
-# Restore bf.x value for plotting 
-# lfg.bf.x = b.x 
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
