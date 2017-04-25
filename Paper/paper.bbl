@@ -17,6 +17,25 @@
   {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
   mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
 
+\bibitem[\protect\citeauthoryear{{Becker} \& {Bolton}}{{Becker} \&
+  {Bolton}}{2013}]{2013MNRAS.436.1023B}
+{Becker} G.~D.,  {Bolton} J.~S.,  2013, \mn@doi [\mnras]
+  {10.1093/mnras/stt1610}, \href
+  {http://adsabs.harvard.edu/abs/2013MNRAS.436.1023B} {436, 1023}
+
+\bibitem[\protect\citeauthoryear{{Boyle}, {Shanks}  \& {Peterson}}{{Boyle}
+  et~al.}{1988}]{1988MNRAS.235..935B}
+{Boyle} B.~J.,  {Shanks} T.,   {Peterson} B.~A.,  1988, \mn@doi [\mnras]
+  {10.1093/mnras/235.3.935}, \href
+  {http://adsabs.harvard.edu/abs/1988MNRAS.235..935B} {235, 935}
+
+\bibitem[\protect\citeauthoryear{{Boyle}, {Shanks}, {Croom}, {Smith}, {Miller},
+  {Loaring}  \& {Heymans}}{{Boyle} et~al.}{2000}]{2000MNRAS.317.1014B}
+{Boyle} B.~J.,  {Shanks} T.,  {Croom} S.~M.,  {Smith} R.~J.,  {Miller} L.,
+  {Loaring} N.,   {Heymans} C.,  2000, \mn@doi [\mnras]
+  {10.1046/j.1365-8711.2000.03730.x}, \href
+  {http://adsabs.harvard.edu/abs/2000MNRAS.317.1014B} {317, 1014}
+
 \bibitem[\protect\citeauthoryear{{Croom} et~al.,}{{Croom}
   et~al.}{2009}]{2009MNRAS.392...19C}
 {Croom} S.~M.,  et~al., 2009, \mn@doi [\mnras]
@@ -27,11 +46,6 @@
   et~al.}{2001}]{2001AJ....121...54F}
 {Fan} X.,  et~al., 2001, \mn@doi [\aj] {10.1086/318033}, \href
   {http://adsabs.harvard.edu/abs/2001AJ....121...54F} {121, 54}
-
-\bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
-  et~al.}{2006}]{2006AJ....131.1203F}
-{Fan} X.,  et~al., 2006, \mn@doi [\aj] {10.1086/500296}, \href
-  {http://adsabs.harvard.edu/abs/2006AJ....131.1203F} {131, 1203}
 
 \bibitem[\protect\citeauthoryear{{Giallongo} et~al.,}{{Giallongo}
   et~al.}{2015}]{2015AA...578A..83G}
@@ -44,19 +58,14 @@
   {Lee} K.-S.,  2011, \mn@doi [\apjl] {10.1088/2041-8205/728/2/L26}, \href
   {http://adsabs.harvard.edu/abs/2011ApJ...728L..26G} {728, L26}
 
+\bibitem[\protect\citeauthoryear{{Haardt} \& {Madau}}{{Haardt} \&
+  {Madau}}{2012}]{2012ApJ...746..125H}
+{Haardt} F.,  {Madau} P.,  2012, \mn@doi [\apj] {10.1088/0004-637X/746/2/125},
+  \href {http://adsabs.harvard.edu/abs/2012ApJ...746..125H} {746, 125}
+
 \bibitem[\protect\citeauthoryear{{Hogg}}{{Hogg}}{1999}]{1999astro.ph..5116H}
 {Hogg} D.~W.,  1999, ArXiv Astrophysics e-prints, \href
   {http://adsabs.harvard.edu/abs/1999astro.ph..5116H} {}
-
-\bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
-  et~al.}{2008}]{2008AJ....135.1057J}
-{Jiang} L.,  et~al., 2008, \mn@doi [\aj] {10.1088/0004-6256/135/3/1057}, \href
-  {http://adsabs.harvard.edu/abs/2008AJ....135.1057J} {135, 1057}
-
-\bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
-  et~al.}{2009}]{2009AJ....138..305J}
-{Jiang} L.,  et~al., 2009, \mn@doi [\aj] {10.1088/0004-6256/138/1/305}, \href
-  {http://adsabs.harvard.edu/abs/2009AJ....138..305J} {138, 305}
 
 \bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
   et~al.}{2016}]{2016ApJ...833..222J}
@@ -68,16 +77,43 @@
 {Kashikawa} N.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/798/1/28},
   \href {http://adsabs.harvard.edu/abs/2015ApJ...798...28K} {798, 28}
 
+\bibitem[\protect\citeauthoryear{{Lusso}, {Worseck}, {Hennawi}, {Prochaska},
+  {Vignali}, {Stern}  \& {O'Meara}}{{Lusso} et~al.}{2015}]{2015MNRAS.449.4204L}
+{Lusso} E.,  {Worseck} G.,  {Hennawi} J.~F.,  {Prochaska} J.~X.,  {Vignali} C.,
+   {Stern} J.,   {O'Meara} J.~M.,  2015, \mn@doi [\mnras]
+  {10.1093/mnras/stv516}, \href
+  {http://adsabs.harvard.edu/abs/2015MNRAS.449.4204L} {449, 4204}
+
+\bibitem[\protect\citeauthoryear{{Marshall}, {Tananbaum}, {Avni}  \&
+  {Zamorani}}{{Marshall} et~al.}{1983}]{1983ApJ...269...35M}
+{Marshall} H.~L.,  {Tananbaum} H.,  {Avni} Y.,   {Zamorani} G.,  1983, \mn@doi
+  [\apj] {10.1086/161016}, \href
+  {http://adsabs.harvard.edu/abs/1983ApJ...269...35M} {269, 35}
+
 \bibitem[\protect\citeauthoryear{{McGreer} et~al.,}{{McGreer}
   et~al.}{2013}]{2013ApJ...768..105M}
 {McGreer} I.~D.,  et~al., 2013, \mn@doi [\apj] {10.1088/0004-637X/768/2/105},
   \href {http://adsabs.harvard.edu/abs/2013ApJ...768..105M} {768, 105}
+
+\bibitem[\protect\citeauthoryear{{Oke} \& {Gunn}}{{Oke} \&
+  {Gunn}}{1983}]{1983ApJ...266..713O}
+{Oke} J.~B.,  {Gunn} J.~E.,  1983, \mn@doi [\apj] {10.1086/160817}, \href
+  {http://adsabs.harvard.edu/abs/1983ApJ...266..713O} {266, 713}
+
+\bibitem[\protect\citeauthoryear{{Osterbrock} \& {Ferland}}{{Osterbrock} \&
+  {Ferland}}{2006}]{2006agna.book.....O}
+{Osterbrock} D.~E.,  {Ferland} G.~J.,  2006, {Astrophysics of gaseous nebulae
+  and active galactic nuclei}
 
 \bibitem[\protect\citeauthoryear{{Page} \& {Carrera}}{{Page} \&
   {Carrera}}{2000}]{2000MNRAS.311..433P}
 {Page} M.~J.,  {Carrera} F.~J.,  2000, \mn@doi [\mnras]
   {10.1046/j.1365-8711.2000.03105.x}, \href
   {http://adsabs.harvard.edu/abs/2000MNRAS.311..433P} {311, 433}
+
+\bibitem[\protect\citeauthoryear{{Pei}}{{Pei}}{1995}]{1995ApJ...438..623P}
+{Pei} Y.~C.,  1995, \mn@doi [\apj] {10.1086/175105}, \href
+  {http://adsabs.harvard.edu/abs/1995ApJ...438..623P} {438, 623}
 
 \bibitem[\protect\citeauthoryear{{Richards} et~al.,}{{Richards}
   et~al.}{2006}]{2006AJ....131.2766R}
@@ -89,10 +125,21 @@
 {Ross} N.~P.,  et~al., 2013, \mn@doi [\apj] {10.1088/0004-637X/773/1/14}, \href
   {http://adsabs.harvard.edu/abs/2013ApJ...773...14R} {773, 14}
 
+\bibitem[\protect\citeauthoryear{{Scott}, {Kriss}, {Brotherton}, {Green},
+  {Hutchings}, {Shull}  \& {Zheng}}{{Scott} et~al.}{2004}]{2004ApJ...615..135S}
+{Scott} J.~E.,  {Kriss} G.~A.,  {Brotherton} M.,  {Green} R.~F.,  {Hutchings}
+  J.,  {Shull} J.~M.,   {Zheng} W.,  2004, \mn@doi [\apj] {10.1086/422336},
+  \href {http://adsabs.harvard.edu/abs/2004ApJ...615..135S} {615, 135}
+
 \bibitem[\protect\citeauthoryear{{Willott} et~al.,}{{Willott}
   et~al.}{2010}]{2010AJ....139..906W}
 {Willott} C.~J.,  et~al., 2010, \mn@doi [\aj] {10.1088/0004-6256/139/3/906},
   \href {http://adsabs.harvard.edu/abs/2010AJ....139..906W} {139, 906}
+
+\bibitem[\protect\citeauthoryear{{Worseck} et~al.,}{{Worseck}
+  et~al.}{2014}]{2014MNRAS.445.1745W}
+{Worseck} G.,  et~al., 2014, \mn@doi [\mnras] {10.1093/mnras/stu1827}, \href
+  {http://adsabs.harvard.edu/abs/2014MNRAS.445.1745W} {445, 1745}
 
 \bibitem[\protect\citeauthoryear{{Yang} et~al.,}{{Yang}
   et~al.}{2016}]{2016ApJ...829...33Y}
