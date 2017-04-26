@@ -57,8 +57,8 @@ def plot_phi_star(fig, composite, sample=False):
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 2)
         print coeffs 
-        plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2],
-                 label='Least-square Chebyshev French curve', zorder=3)
+        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2],
+        #          label='Least-square Chebyshev French curve', zorder=3)
 
         def func(z, p0, p1, p2):
             return T([p0, p1, p2])(z)
@@ -129,7 +129,7 @@ def plot_m_star(fig, composite, sample=False):
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 1)
         print coeffs
-        plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
+        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
 
         def func(z, p0, p1):
             return T([p0, p1])(z)
@@ -165,7 +165,7 @@ def plot_alpha(fig, composite, sample=False):
         ax.plot(z, alpha, color='k', zorder=2)
         alpha = composite.atz(z, composite.getparams(composite.bf.x)[2])
         ax.plot(z, alpha, color='g', zorder=2, dashes=[7,2],
-                label='Likelihood maximum')
+                label='likelihood maximum')
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
@@ -190,8 +190,8 @@ def plot_alpha(fig, composite, sample=False):
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1.0, c, 1)
         print coeffs
-        plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k',
-                 dashes=[7,2], label='Chebyshev French curve', zorder=3)
+        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k',
+        #          dashes=[7,2], label='Chebyshev French curve', zorder=3)
 
         def func(z, p0, p1):
             return T([p0, p1])(z)
@@ -200,7 +200,7 @@ def plot_alpha(fig, composite, sample=False):
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='r', dashes=[7,2],
-                 label=r'Chebyshev French curve with $\sigma$')
+                 label=r'Chebyshev French curve')
         
     plt.legend(loc='upper left', fontsize=10, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -251,7 +251,7 @@ def plot_beta(fig, composite, sample=False):
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 2)
         print coeffs
-        plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
+        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
         def func(z, p0, p1, p2):
             return T([p0, p1, p2])(z)
