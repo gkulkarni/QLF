@@ -47,12 +47,7 @@ method = 'Nelder-Mead'
 #        (2.8, 3.0), (3.0, 3.25), (3.25, 3.5), (3.7, 4.1), (4.1, 4.7),
 #        (4.7, 5.5)], (5.5, 6.5)]
 
-zls = [(0.6, 0.68), (0.68, 0.8), (0.8, 1.06), (1.06, 1.2), (1.2, 1.44), (1.44, 1.6), (1.6, 1.82), (1.82, 2.0), (2.0, 2.2),
-       (2.2, 2.25), (2.25, 2.3), (2.3, 2.35), (2.35, 2.4), (2.4, 2.45),
-       (2.45, 2.5), (2.5, 2.55), (2.55, 2.6), (2.6, 2.65), (2.65, 2.7), (2.7, 2.75), (2.75, 2.8),
-       (2.8, 2.9), (2.9, 3.0), (3.0, 3.15), (3.15, 3.25), (3.25, 3.35),
-       (3.35, 3.5), (3.7, 3.85), (3.85, 4.1), (4.1, 4.3), (4.3, 4.7),
-       (4.7, 5.0), (5.0, 5.5), (5.5, 6.0), (6.0, 6.5)]
+zls = [(3.7, 4.1), (4.1, 4.7), (4.7, 5.5), (5.5, 6.5)]
 
 lfs = [] 
 
@@ -74,14 +69,21 @@ for i, zl in enumerate(zls):
     b = lfi.bestfit(g, method=method)
     print b 
 
-    lfi.prior_min_values = np.array([-10.0, -29.0, -7.0, -4.0])
-    lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])    
+    lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -4.0])
+    zmin, zmax = zl 
+    if zmin > 5.4:
+        # Special priors for z = 6 data.
+        lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
+        # Change result of optimize.minimize so that emcee works.
+        lfi.bf.x[2] = -5.0
+    else:
+        lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
     assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
     lfi.run_mcmc()
     lfi.get_percentiles()
 
-    write=True
+    write=False
     if write: 
         with open('phi_star_fineBins.dat', 'a') as f:
             f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
