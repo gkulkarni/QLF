@@ -1,7 +1,9 @@
 import sys
 import numpy as np 
 from composite import lf
-from summary_fromFile import summary_plot as sp
+# from summary_fromFile import summary_plot as sp
+from summary_cfit_highz import summary_plot as sp
+import drawlf
 
 # qlumfiles = ['Data_new/dr7z2p2_sample.dat',
 #              'Data_new/croom09sgp_sample.dat',
@@ -86,7 +88,7 @@ method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
 
-sys.exit()
+# sys.exit()
 
 lfg.prior_min_values = np.array([-20.0, -100.0, -30.0, -200.0, -7.0, -20.0, -5.0, -5.0])
 lfg.prior_max_values = np.array([20.0, 5.0, 10.0, 5.0, 7.0, 20.0, 5.0, 5.0])
@@ -106,4 +108,8 @@ labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_0 [M_*]$', r'$a_1 [M_*]$', 
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
-sp(composite=lfg, sample=True)
+
+import bins
+sp(composite=lfg, sample=True, lfs=bins.lfs)
+for x in bins.lfs:
+    drawlf.draw(x, composite=lfg)
