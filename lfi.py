@@ -43,8 +43,11 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
 
 method = 'Nelder-Mead'
 
-zmin = float(sys.argv[1])
-zmax = float(sys.argv[2]) 
+# zmin = float(sys.argv[1])
+# zmax = float(sys.argv[2])
+
+zmin = 3.7
+zmax = 4.1
 
 zl = (zmin, zmax) 
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
@@ -65,10 +68,9 @@ else:
     lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
 assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
-
-
 lfi.run_mcmc()
 lfi.get_percentiles()
+print lfi.alpha
 
 write=False
 if write: 
@@ -88,8 +90,8 @@ if write:
         f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
         f.write('\n')
     
-lfi.corner_plot()
-lfi.chains()
-drawlf.draw(lfi)
+# lfi.corner_plot()
+# lfi.chains()
+# drawlf.draw(lfi)
 
 
