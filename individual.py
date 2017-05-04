@@ -134,7 +134,6 @@ class selmap:
             corr = corr[select]
             self.p = self.p/corr
 
-            
         if sample_id == 13:
             # Restrict Richards sample (1) to z < 2.2 as there are
             # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
