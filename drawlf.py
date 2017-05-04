@@ -215,7 +215,7 @@ def get_lf_sample(lf, sid, z_plot):
 
     return mags, left, right, logphi, uperr, downerr
 
-def render(ax, lf, composite=None):
+def render(ax, lf, composite=None, showMockSample=False):
 
     """
 
@@ -259,18 +259,18 @@ def render(ax, lf, composite=None):
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
-
-    for i in sids:
-        mags, left, right, logphi, uperr, downerr = get_lf_sample(lf, i, z_plot)
-        ax.scatter(mags, logphi, c='k', edgecolor='None', zorder=4, s=16, label=dsl(i))
-        ax.errorbar(mags, logphi, ecolor='k', capsize=0,
-                    xerr=np.vstack((left, right)), 
-                    yerr=np.vstack((uperr, downerr)),
-                    fmt='None', zorder=4)
+    if showMockSample:
+        for i in sids:
+            mags, left, right, logphi, uperr, downerr = get_lf_sample(lf, i, z_plot)
+            ax.scatter(mags, logphi, c='k', edgecolor='None', zorder=4, s=16, label=dsl(i))
+            ax.errorbar(mags, logphi, ecolor='k', capsize=0,
+                        xerr=np.vstack((left, right)), 
+                        yerr=np.vstack((uperr, downerr)),
+                        fmt='None', zorder=4)
         
     return 
 
-def draw(lf, composite=None, dirname=''):
+def draw(lf, composite=None, dirname='', showMockSample=False):
 
     """
 
@@ -285,7 +285,7 @@ def draw(lf, composite=None, dirname=''):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=3, width=1)
 
-    render(ax, lf, composite=composite)
+    render(ax, lf, composite=composite, showMockSample=showMockSample)
 
     ax.set_xlim(-17.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
