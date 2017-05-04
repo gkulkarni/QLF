@@ -110,6 +110,10 @@ lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
 
 import bins
-sp(composite=lfg, sample=True, lfs=bins.lfs)
+import bins_mockData
+lfs_mockData = bins_mockData.bins(lfg)
+
+sp(composite=lfg, sample=True, lfs=bins.lfs, lfsMock=lfs_mockData)
+
 for x in bins.lfs:
     drawlf.draw(x, composite=lfg)
