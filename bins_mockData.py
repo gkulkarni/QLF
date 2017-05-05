@@ -67,11 +67,11 @@ def bins(composite):
     for i, zl in enumerate(zls):
 
         print 'z =', zl
-        zmid = (zl[0]+zl[1])/2
-        t = theta(composite, zmid)
-        print zmid, t
+        # zmid = (zl[0]+zl[1])/2
+        # t = theta(composite, zmid)
+        # print zmid, t
         
-        lfi = lf(t, quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
+        lfi = lf(composite.bf.x, composite, quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 
         print '{:d} quasars in this bin.'.format(lfi.z.size)
 

@@ -20,7 +20,7 @@ cosmo = {'omega_M_0':0.3,
 import gammapi
 import rtg
 import corner
-from drawlf import lfsample
+from lfsample import lfsampleComp
 
 def getqlums(lumfile, zlims=None):
 
@@ -190,7 +190,7 @@ class selmap:
             
 class lf:
 
-    def __init__(self, theta, quasar_files=None, selection_maps=None, zlims=None):
+    def __init__(self, theta, composite, quasar_files=None, selection_maps=None, zlims=None):
 
         self.zlims = zlims
 
@@ -200,10 +200,10 @@ class lf:
             n = m.size
             if n > 0: 
                 mlims = (m.min(), m.max())
-                m = lfsample(theta, n, mlims)
+                zlims = (z.min(), z.max())
+                m, z = lfsampleComp(theta, composite, n, mlims, zlims)
             
             try:
-
                 self.z=np.append(self.z,z)
                 self.M1450=np.append(self.M1450,m)
                 self.p=np.append(self.p,p)
@@ -215,7 +215,6 @@ class lf:
                 self.p=p
                 self.area=area
                 self.sid=sid
-
 
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
