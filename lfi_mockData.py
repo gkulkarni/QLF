@@ -71,4 +71,4 @@ def lmd(lfg, zmin, zmax):
     # lfi.chains()
     drawlf.draw(lfi)
 
-    return
+    return lfi 
