@@ -247,9 +247,10 @@ def plot_beta(fig, composite, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
 
+    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(np.log10(zmean+1), c, 2)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
@@ -257,9 +258,16 @@ def plot_beta(fig, composite, sample=False):
             return T([p0, p1, p2])(z)
 
         sigma = u - l 
-        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=[coeffs])
         print popt
-        plt.plot(zc, func(zc+1, *popt), lw=1, c='r', dashes=[7,2])
+        plt.plot(zc, func(np.log10(zc+1), *popt), lw=1, c='r', dashes=[7,2])
+
+    # polyfit = True
+    # if polyfit:
+    #     zc = np.linspace(0, 7, 500)
+    #     p = np.polyfit(np.log10(zmean+1), c, 3)
+    #     print p
+    #     plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='k', dashes=[7,2], zorder=3)
         
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,7,8,9), unpack=True)
@@ -307,5 +315,5 @@ def summary_plot(composite=None, sample=False):
     
     return
 
-#summary_plot()
+# summary_plot()
 
