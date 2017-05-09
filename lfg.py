@@ -88,8 +88,6 @@ method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
 
-# sys.exit()
-
 lfg.prior_min_values = np.array([-20.0, -100.0, -30.0, -200.0, -7.0, -20.0, -5.0, -5.0])
 lfg.prior_max_values = np.array([20.0, 5.0, 10.0, 5.0, 7.0, 20.0, 5.0, 5.0])
 
@@ -104,10 +102,14 @@ labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$',
           r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
           r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
 
-labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_0 [M_*]$', r'$a_1 [M_*]$', r'$a_0 [\alpha]$', r'$a_1 [\alpha]$', r'$a_0 [\beta]$', r'$a_1 [\beta]$']
+labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_0 [M_*]$',
+          r'$a_1 [M_*]$', r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
+          r'$a_0 [\beta]$', r'$a_1 [\beta]$']
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)
+
+sys.exit() 
 
 import bins
 import bins_mockData
