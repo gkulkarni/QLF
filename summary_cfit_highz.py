@@ -98,23 +98,23 @@ def plot_phi_star(fig, composite, sample=False, lfs=None, lfsMock=None):
         l = np.array([x.phi_star[1] for x in lfsMock])
         c = np.array([x.phi_star[2] for x in lfsMock])
 
-    select = zmean > 3.6
-    zl = zl[select]
-    zu = zu[select]
-    u = u[select]
-    l = l[select]
-    c = c[select]
-    zmean = zmean[select]
+        select = zmean > 3.6
+        zl = zl[select]
+        zu = zu[select]
+        u = u[select]
+        l = l[select]
+        c = c[select]
+        zmean = zmean[select]
 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
-    ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+        left = zmean-zl
+        right = zu-zmean
+        uperr = u-c
+        downerr = c-l
+        ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
+        ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
+                    xerr=np.vstack((left, right)), 
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=5)
     
     plt.legend(loc='lower left', fontsize=8, handlelength=2.5,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -202,23 +202,23 @@ def plot_m_star(fig, composite, sample=False, lfs=None, lfsMock=None):
         l = np.array([x.M_star[1] for x in lfsMock])
         c = np.array([x.M_star[2] for x in lfsMock])
 
-    select = zmean > 3.6
-    zl = zl[select]
-    zu = zu[select]
-    u = u[select]
-    l = l[select]
-    c = c[select]
-    zmean = zmean[select]
+        select = zmean > 3.6
+        zl = zl[select]
+        zu = zu[select]
+        u = u[select]
+        l = l[select]
+        c = c[select]
+        zmean = zmean[select]
 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
-    ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+        left = zmean-zl
+        right = zu-zmean
+        uperr = u-c
+        downerr = c-l
+        ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
+        ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
+                    xerr=np.vstack((left, right)), 
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=5)
     
 
     return
@@ -305,23 +305,23 @@ def plot_alpha(fig, composite, sample=False, lfs=None, lfsMock=None):
         l = np.array([x.alpha[1] for x in lfsMock])
         c = np.array([x.alpha[2] for x in lfsMock])
 
-    select = zmean > 3.6
-    zl = zl[select]
-    zu = zu[select]
-    u = u[select]
-    l = l[select]
-    c = c[select]
-    zmean = zmean[select]
+        select = zmean > 3.6
+        zl = zl[select]
+        zu = zu[select]
+        u = u[select]
+        l = l[select]
+        c = c[select]
+        zmean = zmean[select]
 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
-    ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+        left = zmean-zl
+        right = zu-zmean
+        uperr = u-c
+        downerr = c-l
+        ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
+        ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
+                    xerr=np.vstack((left, right)), 
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=5)
     
 
     return
@@ -405,23 +405,23 @@ def plot_beta(fig, composite, sample=False, lfs=None, lfsMock=None):
         l = np.array([x.beta[1] for x in lfsMock])
         c = np.array([x.beta[2] for x in lfsMock])
 
-    select = zmean > 3.6
-    zl = zl[select]
-    zu = zu[select]
-    u = u[select]
-    l = l[select]
-    c = c[select]
-    zmean = zmean[select]
+        select = zmean > 3.6
+        zl = zl[select]
+        zu = zu[select]
+        u = u[select]
+        l = l[select]
+        c = c[select]
+        zmean = zmean[select]
 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
-    ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+        left = zmean-zl
+        right = zu-zmean
+        uperr = u-c
+        downerr = c-l
+        ax.scatter(zmean, c, color='cornflowerblue', edgecolor='None', zorder=5, s=36, label='mock data')
+        ax.errorbar(zmean, c, ecolor='cornflowerblue', capsize=0,
+                    xerr=np.vstack((left, right)), 
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None', zorder=5)
     
 
     return 
