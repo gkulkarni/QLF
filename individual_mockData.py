@@ -198,10 +198,11 @@ class lf:
             z, m, p, area, sid = getqlums(datafile, zlims=zlims)
 
             n = m.size
-            if n > 0: 
-                mlims = (m.min(), m.max())
-                zlims = (z.min(), z.max())
-                m, z = lfsampleComp(theta, composite, n, mlims, zlims)
+            
+            if n > 1: 
+                ml = (m.min(), m.max())
+                zl = (z.min(), z.max())
+                m, z = lfsampleComp(theta, composite, n, ml, zl)
             
             try:
                 self.z=np.append(self.z,z)
