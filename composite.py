@@ -164,8 +164,7 @@ class lf:
         """Redshift evolution of QLF parameters."""
         
         # return T(p, domain=[0.,7.])(1+z)
-        # return T(p)(1+z)
-        return T(p, domain=[3.7,7.])(1+z)
+        return T(p)(1+z)
         
     def getparams(self, theta):
 
