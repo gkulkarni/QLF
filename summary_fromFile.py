@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from numpy.polynomial.chebyshev import chebfit
 from numpy.polynomial import Chebyshev as T
 from scipy.optimize import curve_fit
+from scipy.interpolate import UnivariateSpline
 
 colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown'] 
 nplots_x = 2
@@ -250,24 +251,45 @@ def plot_beta(fig, composite, sample=False):
     cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(np.log10(zmean+1), c, 2)
+        coeffs = chebfit(zmean+1, c, 2)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1, p2):
-            return T([p0, p1, p2])(z)
+        def func(z, p0, p1, p2, p3, p4, p5):
+            if z < np.log10(3.0):
+                return -1.6
+            else:
+                return T([p0, p1, p2, p3, p4, p5])(z)
 
         sigma = u - l 
-        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=[coeffs])
+        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print popt
+        plt.plot(zc, func(zc+1, *popt), lw=1, c='r', dashes=[7,2])
+
+    polyfit = True
+    if polyfit:
+        zc = np.linspace(0, 7, 500)
+        p = np.polyfit(np.log10(zmean+1), c, 3)
+        print p
+        plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='k', dashes=[7,2], zorder=3)
+
+        def func(z, p0, p1, p2, p3):
+            # return T([p0, p1, p2, p3])(z))
+            # r = np.where(z < np.log10(3.0), np.polyval((p0,), z), np.polyval((p0, p1, p2, p3), z))
+            r = np.where(z < np.log10(3.0), np.polyval((p0, p1, p2, p3), 10.0**z), np.polyval((p0, p1, p2, p3), z))
+            return r 
+            
+        sigma = u - l 
+        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=p)
         print popt
         plt.plot(zc, func(np.log10(zc+1), *popt), lw=1, c='r', dashes=[7,2])
 
-    # polyfit = True
-    # if polyfit:
+    # spline = True
+    # if spline:
     #     zc = np.linspace(0, 7, 500)
-    #     p = np.polyfit(np.log10(zmean+1), c, 3)
-    #     print p
-    #     plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='k', dashes=[7,2], zorder=3)
+    #     spl = UnivariateSpline(np.log(10+zmean), c, k=2)
+    #     plt.plot(zc, spl(np.log(zc+10)), lw=1, c='g', dashes=[7,2])
+    
         
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,7,8,9), unpack=True)
