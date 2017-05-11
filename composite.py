@@ -191,8 +191,8 @@ class lf:
 
         params = self.getparams(theta)
 
-        log10phi_star = self.atz(z, params[0])
-        M_star = self.atz(z, params[1])
+        log10phi_star = self.atz_beta(z, params[0])
+        M_star = self.atz_beta(z, params[1])
         alpha = self.atz_beta(z, params[2])
         # beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])
@@ -216,7 +216,7 @@ class lf:
     def bestfit(self, guess, method='Nelder-Mead'):
         result = op.minimize(self.neglnlike,
                              guess,
-                             method=method, options={'maxfev': 6000, 'maxiter': 4000, 'disp': True})
+                             method=method, options={'maxfev': 8000, 'maxiter': 8000, 'disp': True})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'
