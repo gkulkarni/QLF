@@ -40,10 +40,10 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
              ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7)]
 
-lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[5,3,2,5])
+lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,5])
 
-g = np.array([-12.18043375, 6.55961174, 4.56354602, 4.89863732, -0.12941229,
-               -20.59636136,  -7.80842761,   1.24723814,
+g = np.array([-7.73388053, 1.06477161, -0.11304974,
+               -1.96740317e+01,  -3.60163185e+00,   3.45950105e-01,  -1.36387048e-02,
               -3.22779072, -0.27456505,
               -2.52870151, 1.08701021, 3.48991378, 6.20831541, -0.21475542])
 
@@ -51,14 +51,14 @@ method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
 
-sys.exit() 
+# sys.exit() 
 
 # lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
 # lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
 # assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
-lfg.prior_min_values = np.array([-20.0, 3.0,1.0, 0.0, -5.0, -32.0, -10.0, -5.0, -8.0, -4.0, -5.0, -5.0, 0.0, 0.0, -5.0])
-lfg.prior_max_values = np.array([-5.0, 15.0, 10.0, 7.0, 5.0, -20.0, -5.0, 5.0, 8.0, 4.0, 5.0, 5.0, 5.0, 100.0, 5.0])
+lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -5.0, 0.0, 1.0, 1.0, -2.0])
+lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 0.0, 5.0, 5.0, 10.0, 2.0])
 assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
 lfg.run_mcmc()
@@ -68,7 +68,7 @@ lfg.run_mcmc()
 #           r'$a_0 [\alpha]$', r'$a_1 [\alpha]$',
 #           r'$a_0 [\beta]$', r'$a_1 [\beta]$', r'$a_2 [\beta]$']
 
-labels = 15*['a']
+labels = 14*['a']
 
 lfg.corner_plot(labels=labels)
 lfg.chains(labels=labels)

@@ -165,12 +165,12 @@ class lf:
         
         return T(p)(1+z)
 
-    def atz_mstar(self, z, p):
+    # def atz_mstar(self, z, p):
 
-        """Redshift evolution of QLF parameters."""
+    #     """Redshift evolution of QLF parameters."""
 
-        zeta = np.log10((1.0+z)/(1.0+3.5))
-        return T(p)(10.0**zeta)
+    #     zeta = np.log10((1.0+z)/(1.0+3.5))
+    #     return T(p)(10.0**zeta)
     
     def atz_beta(self, z, p):
 
@@ -197,8 +197,8 @@ class lf:
 
         params = self.getparams(theta)
 
-        log10phi_star = self.atz_beta(z, params[0])
-        M_star = self.atz_mstar(z, params[1])
+        log10phi_star = self.atz(z, params[0])
+        M_star = self.atz(z, params[1])
         alpha = self.atz(z, params[2])
         # beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])
@@ -279,7 +279,7 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 5000)
+        self.sampler.run_mcmc(pos, 1000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return

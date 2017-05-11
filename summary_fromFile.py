@@ -20,7 +20,7 @@ plot_number = 0
 zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
-cfit = True 
+cfit = False
         
 def plot_phi_star(fig, composite, compOpt=None, sample=False):
 
@@ -31,7 +31,7 @@ def plot_phi_star(fig, composite, compOpt=None, sample=False):
     ax.set_ylim(-13, -4)
 
     if compOpt is not None: 
-        phi = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[0])
+        phi = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[0])
         ax.plot(z, phi, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None: 
@@ -40,10 +40,10 @@ def plot_phi_star(fig, composite, compOpt=None, sample=False):
             for theta in composite.samples[np.random.randint(len(composite.samples),
                                                              size=900)]:
                 params = composite.getparams(theta)
-                phi = composite.atz_beta(z, params[0]) 
+                phi = composite.atz(z, params[0]) 
                 ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
-        phi = composite.atz_beta(z, composite.getparams(bf)[0])
-        # ax.plot(z, phi, color='k', zorder=2)
+        phi = composite.atz(z, composite.getparams(bf)[0])
+        ax.plot(z, phi, color='k', zorder=2, lw=2)
         
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
     left = zmean-zl
@@ -71,7 +71,7 @@ def plot_phi_star(fig, composite, compOpt=None, sample=False):
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
 
-    curvefit = True
+    curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -110,7 +110,7 @@ def plot_m_star(fig, composite, compOpt=None, sample=False):
     ax.set_ylim(-32, -21)
 
     if compOpt is not None:
-        M = compOpt.atz_mstar(z, compOpt.getparams(compOpt.bf.x)[1])
+        M = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[1])
         ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
@@ -119,12 +119,11 @@ def plot_m_star(fig, composite, compOpt=None, sample=False):
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta) 
-                M = composite.atz_mstar(z, params[1]) 
-                ax.plot(z, M, color=colors[1], alpha=0.02, zorder=1)
-        M = composite.atz_mstar(z, composite.getparams(bf)[1])
-        # ax.plot(z, M, color='k', zorder=2)
-        M = composite.atz_mstar(z, composite.getparams(composite.bf.x)[1])
-        ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
+                M = composite.atz(z, params[1]) 
+                ax.plot(z, M, color='darkgrey', zorder=1)
+        M = composite.atz(z, composite.getparams(bf)[1])
+        ax.plot(z, M, color='k', zorder=2, lw=2)
+
     
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
     left = zmean-zl
@@ -144,22 +143,22 @@ def plot_m_star(fig, composite, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=4)
     ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
-        
+
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 1)
+        coeffs = chebfit(zmean+1, c, 3)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
 
-        def func(z, p0, p1):
-            return T([p0, p1])(z)
+        def func(z, p0, p1, p2, p3):
+            return T([p0, p1, p2, p3])(z)
 
         sigma = np.abs(u-l)
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
 
-    curvefit = True
+    curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -208,7 +207,7 @@ def plot_alpha(fig, composite, compOpt=None, sample=False):
                 alpha = composite.atz(z, params[2])
                 ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
         alpha = composite.atz(z, composite.getparams(bf)[2])
-        # ax.plot(z, alpha, color='k', zorder=2)
+        ax.plot(z, alpha, color='k', zorder=2, lw=2)
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
@@ -243,9 +242,9 @@ def plot_alpha(fig, composite, compOpt=None, sample=False):
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2],
-                 label=r'Chebyshev French curve')
+                 label=r'French curve')
 
-    curvefit = True
+    curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -293,9 +292,7 @@ def plot_beta(fig, composite, compOpt=None, sample=False):
                 beta = composite.atz_beta(z, params[3]) 
                 ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
         beta = composite.atz_beta(z, composite.getparams(bf)[3])
-        ax.plot(z, beta, color='k', zorder=2)
-        beta = composite.atz_beta(z, composite.getparams(composite.bf.x)[3])
-        ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
+        ax.plot(z, beta, color='k', zorder=2, lw=2)
     
     zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
     left = zmean-zl
@@ -334,7 +331,7 @@ def plot_beta(fig, composite, compOpt=None, sample=False):
         # plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='k', dashes=[7,2], zorder=3)
         plt.plot(zc, np.polyval(p, np.log10((zc+10))), lw=1, c='k', dashes=[7,2], zorder=3)
 
-    curvefit = True
+    curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -345,7 +342,7 @@ def plot_beta(fig, composite, compOpt=None, sample=False):
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
         print popt
-        plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
+        plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,7,8,9), unpack=True)
