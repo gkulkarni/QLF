@@ -40,16 +40,21 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
              ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7)]
 
-lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,2,3])
+lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,5,5])
 
 g = np.array([-7.73388053, 1.06477161, -0.11304974,
               -22.75923587, -0.96452704,
-              -3.22779072, -0.27456505,
-              -1.53566144, 0.02274886, -0.0125998]) 
-      
+              -4.92586951,   0.84440002,   3.54146224,  13.60029681,   0.29888257,
+              -2.52870151,  1.08701021,  3.48991378,  6.20831541, -0.21475542])
+#              -32.73657499,  67.24114905, -36.10558764])
+#              5.41331081, -9.73731098,  5.72473452, -2.49287918])
+#              -1.53566144, 0.02274886, -0.0125998]) 
+
 method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
+
+sys.exit()
 
 lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
 lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
