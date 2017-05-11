@@ -31,17 +31,16 @@ def plot_phi_star(fig, composite, sample=False):
     ax.set_ylim(-13, -4)
 
     if composite is not None: 
-        # bf = np.median(composite.samples, axis=0)
-        bf = composite.bf.x
+        bf = np.median(composite.samples, axis=0)
         if sample:
             for theta in composite.samples[np.random.randint(len(composite.samples),
                                                              size=900)]:
                 params = composite.getparams(theta)
-                phi = composite.atz(z, params[0]) 
+                phi = composite.atz_beta(z, params[0]) 
                 ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
-        phi = composite.atz(z, composite.getparams(bf)[0])
+        phi = composite.atz_beta(z, composite.getparams(bf)[0])
         # ax.plot(z, phi, color='k', zorder=2)
-        phi = composite.atz(z, composite.getparams(composite.bf.x)[0])
+        phi = composite.atz_beta(z, composite.getparams(composite.bf.x)[0])
         ax.plot(z, phi, color='g', zorder=2, dashes=[7,2])
         
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
@@ -69,7 +68,20 @@ def plot_phi_star(fig, composite, sample=False):
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
+
+    curvefit = True
+    if curvefit:
+        zc = np.linspace(0, 7, 500)
         
+        def func(z, h, f0, z0, a, b):
+            zeta = np.log10((1.0+z)/(1.0+z0))
+            return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
+
+        sigma = u - l 
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-12.2, 6.6, 4.6, 4.9, -0.1])
+        print popt
+        plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
+
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,1,2,3), unpack=True)
     ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -96,17 +108,16 @@ def plot_m_star(fig, composite, sample=False):
     ax.set_ylim(-32, -21)
 
     if composite is not None:
-        # bf = np.median(composite.samples, axis=0)
-        bf = composite.bf.x
+        bf = np.median(composite.samples, axis=0)
         if sample:
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta) 
-                M = composite.atz(z, params[1]) 
+                M = composite.atz_mstar(z, params[1]) 
                 ax.plot(z, M, color=colors[1], alpha=0.02, zorder=1)
-        M = composite.atz(z, composite.getparams(bf)[1])
+        M = composite.atz_mstar(z, composite.getparams(bf)[1])
         # ax.plot(z, M, color='k', zorder=2)
-        M = composite.atz(z, composite.getparams(composite.bf.x)[1])
+        M = composite.atz_mstar(z, composite.getparams(composite.bf.x)[1])
         ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
     
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
@@ -141,6 +152,23 @@ def plot_m_star(fig, composite, sample=False):
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
         print popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
+
+    curvefit = True
+    if curvefit:
+        zc = np.linspace(0, 7, 500)
+        
+        # def func(z, h, f0, z0, a, b):
+        #     zeta = np.log10((1.0+z)/(1.0+z0))
+        #     return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
+
+        def func(z, p0, p1, p2):
+            zeta = np.log10((1.0+z)/(1.0+3.5))
+            return T([p0, p1, p2])(zeta)
+
+        sigma = u - l 
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-22.,1,1])
+        print popt
+        plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -157,8 +185,7 @@ def plot_alpha(fig, composite, sample=False):
     ax.set_ylim(-7, -1)
 
     if composite is not None:
-        # bf = np.median(composite.samples, axis=0)
-        bf = composite.bf.x
+        bf = np.median(composite.samples, axis=0)
         if sample:
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
@@ -167,7 +194,7 @@ def plot_alpha(fig, composite, sample=False):
                 ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
         alpha = composite.atz(z, composite.getparams(bf)[2])
         # ax.plot(z, alpha, color='k', zorder=2)
-        alpha = composite.atz_beta(z, composite.getparams(composite.bf.x)[2])
+        alpha = composite.atz(z, composite.getparams(composite.bf.x)[2])
         ax.plot(z, alpha, color='g', zorder=2, dashes=[7,2],
                 label='likelihood maximum')
     
@@ -242,16 +269,15 @@ def plot_beta(fig, composite, sample=False):
     ax.set_ylim(-3, 0)
 
     if composite is not None:
-        # bf = np.median(composite.samples, axis=0)
-        bf = composite.bf.x
+        bf = np.median(composite.samples, axis=0)
         if sample: 
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta)
-                beta = composite.atz(z, params[3]) 
+                beta = composite.atz_beta(z, params[3]) 
                 ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
-        # beta = composite.atz(z, composite.getparams(bf)[3])
-        # ax.plot(z, beta, color='k', zorder=2)
+        beta = composite.atz_beta(z, composite.getparams(bf)[3])
+        ax.plot(z, beta, color='k', zorder=2)
         beta = composite.atz_beta(z, composite.getparams(composite.bf.x)[3])
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
     
@@ -351,5 +377,5 @@ def summary_plot(composite=None, sample=False):
     
     return
 
-summary_plot()
+# summary_plot()
 

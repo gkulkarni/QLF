@@ -38,13 +38,13 @@ def getqlums(lumfile):
 
     if sample_id[0] == 13:
         # Restrict Richards (SDSS) sample.
-        select = (((z < 2.2) & (z >= 0.6) & (mag < -23.0)) |
+        select = (((z < 2.2) & (z >= 0.68) & (mag < -23.0)) |
                   ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
 
     if sample_id[0] == 15:
         # Restrict Croom (2SLAQ) sample.
         # select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
-        select = ((z < 2.2) & (z >= 0.6) & (p > 0.5))
+        select = ((z < 2.2) & (z >= 0.68) & (p > 0.5))
 
     if sample_id[0] == 1:
         # Restrict BOSS sample.
@@ -101,7 +101,7 @@ class selmap:
             
         if sample_id == 13:
             # Restrict Richards sample
-            select = (((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0)) |
+            select = (((self.z < 2.2) & (self.z >= 0.68) & (self.m < -23.0)) |
                       ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
             self.z = self.z[select]
             self.m = self.m[select]
@@ -110,7 +110,7 @@ class selmap:
         if sample_id == 15:
             # Restrict Croom sample
             # select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
-            select = ((self.z < 2.2) & (self.z >= 0.6) & (self.p > 0.5))
+            select = ((self.z < 2.2) & (self.z >= 0.68) & (self.p > 0.5))
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
@@ -163,9 +163,15 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
-        # return T(p, domain=[0.,7.])(1+z)
         return T(p)(1+z)
 
+    def atz_mstar(self, z, p):
+
+        """Redshift evolution of QLF parameters."""
+
+        zeta = np.log10((1.0+z)/(1.0+3.5))
+        return T(p)(zeta)
+    
     def atz_beta(self, z, p):
 
         """Redshift evolution of QLF parameters."""
@@ -192,8 +198,8 @@ class lf:
         params = self.getparams(theta)
 
         log10phi_star = self.atz_beta(z, params[0])
-        M_star = self.atz_beta(z, params[1])
-        alpha = self.atz_beta(z, params[2])
+        M_star = self.atz_mstar(z, params[1])
+        alpha = self.atz(z, params[2])
         # beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])
         
@@ -273,7 +279,7 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 1000)
+        self.sampler.run_mcmc(pos, 5000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return
