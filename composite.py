@@ -170,7 +170,7 @@ class lf:
         """Redshift evolution of QLF parameters."""
 
         zeta = np.log10((1.0+z)/(1.0+3.5))
-        return T(p)(zeta)
+        return T(p)(10.0**zeta)
     
     def atz_beta(self, z, p):
 

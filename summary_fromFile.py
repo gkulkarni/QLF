@@ -22,13 +22,17 @@ zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 cfit = True 
         
-def plot_phi_star(fig, composite, sample=False):
+def plot_phi_star(fig, composite, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-13, -4)
+
+    if compOpt is not None: 
+        phi = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[0])
+        ax.plot(z, phi, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None: 
         bf = np.median(composite.samples, axis=0)
@@ -40,8 +44,6 @@ def plot_phi_star(fig, composite, sample=False):
                 ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
         phi = composite.atz_beta(z, composite.getparams(bf)[0])
         # ax.plot(z, phi, color='k', zorder=2)
-        phi = composite.atz_beta(z, composite.getparams(composite.bf.x)[0])
-        ax.plot(z, phi, color='g', zorder=2, dashes=[7,2])
         
     zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
     left = zmean-zl
@@ -96,7 +98,7 @@ def plot_phi_star(fig, composite, sample=False):
 
     return
 
-def plot_m_star(fig, composite, sample=False):
+def plot_m_star(fig, composite, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -106,6 +108,10 @@ def plot_m_star(fig, composite, sample=False):
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-32, -21)
+
+    if compOpt is not None:
+        M = compOpt.atz_mstar(z, compOpt.getparams(compOpt.bf.x)[1])
+        ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
@@ -161,9 +167,13 @@ def plot_m_star(fig, composite, sample=False):
         #     zeta = np.log10((1.0+z)/(1.0+z0))
         #     return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
 
+        # def func(z, p0, p1, p2):
+        #     zeta = np.log10((1.0+z)/(1.0+3.5))
+        #     return T([p0, p1, p2])(zeta)
+
         def func(z, p0, p1, p2):
             zeta = np.log10((1.0+z)/(1.0+3.5))
-            return T([p0, p1, p2])(zeta)
+            return T([p0, p1, p2])(1+z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-22.,1,1])
@@ -176,13 +186,18 @@ def plot_m_star(fig, composite, sample=False):
 
     return
 
-def plot_alpha(fig, composite, sample=False):
+def plot_alpha(fig, composite, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-7, -1)
+
+    if compOpt is not None: 
+        alpha = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[2])
+        ax.plot(z, alpha, color='g', zorder=2, dashes=[7,2],
+                label='likelihood maximum')
 
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
@@ -194,9 +209,6 @@ def plot_alpha(fig, composite, sample=False):
                 ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
         alpha = composite.atz(z, composite.getparams(bf)[2])
         # ax.plot(z, alpha, color='k', zorder=2)
-        alpha = composite.atz(z, composite.getparams(composite.bf.x)[2])
-        ax.plot(z, alpha, color='g', zorder=2, dashes=[7,2],
-                label='likelihood maximum')
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
@@ -257,7 +269,7 @@ def plot_alpha(fig, composite, sample=False):
 
     return
 
-def plot_beta(fig, composite, sample=False):
+def plot_beta(fig, composite, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
 
@@ -267,6 +279,10 @@ def plot_beta(fig, composite, sample=False):
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-3, 0)
+
+    if compOpt is not None:
+        beta = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[3])
+        ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
@@ -344,7 +360,7 @@ def plot_beta(fig, composite, sample=False):
 
     return 
 
-def summary_plot(composite=None, sample=False):
+def summary_plot(composite=None, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -366,10 +382,10 @@ def summary_plot(composite=None, sample=False):
 
     print 'plotting now'
     
-    plot_phi_star(fig, composite, sample=sample)
-    plot_m_star(fig, composite, sample=sample)
-    plot_alpha(fig, composite, sample=sample)
-    plot_beta(fig, composite, sample=sample)
+    plot_phi_star(fig, composite, compOpt=compOpt, sample=sample)
+    plot_m_star(fig, composite, compOpt=compOpt, sample=sample)
+    plot_alpha(fig, composite, compOpt=compOpt, sample=sample)
+    plot_beta(fig, composite, compOpt=compOpt, sample=sample)
 
     plt.savefig('evolution.pdf',bbox_inches='tight')
 
