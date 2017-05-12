@@ -42,7 +42,7 @@ def getqlums(lumfile, zlims=None):
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see selmap below.
             select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
-                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.9)))
+                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.94)))
     except(IndexError):
         pass
 
@@ -143,7 +143,7 @@ class selmap:
 
             z_min, z_max = zlims 
             select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
-                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.9)))
+                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.94)))
             
             self.z = self.z[select]
             self.m = self.m[select]
