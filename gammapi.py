@@ -385,7 +385,7 @@ def emissivity_Manti17(z):
     return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
 
 
-def draw_emissivity(individuals, zlims):
+def draw_emissivity(individuals, zlims, composite=None):
 
     """
     Calculates and plots LyC emissivity.
@@ -447,8 +447,6 @@ def draw_emissivity(individuals, zlims):
                 yerr=np.vstack((eg_lerr, eg_uerr)), 
                 zorder=3, mew=1)
                 
-    
-    
     z = np.linspace(0, 7)
     e_MH15 = emissivity_MH15(z)
     ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015')
@@ -458,6 +456,17 @@ def draw_emissivity(individuals, zlims):
 
     e_M17 = emissivity_Manti17(z)
     ax.plot(z, e_M17, lw=2, c='goldenrod', label='Manti et al.\ 2017')
+
+    if composite is not None:
+        zc = np.linspace(0, 7, 200)
+        bf = np.median(composite.samples, axis=0)
+        e = [emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc]
+        ax.plot(zc, e, c='k', lw=2) 
+        for theta in composite.samples[np.random.randint(len(composite.samples),
+                                                         size=100)]:
+            e = [emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc]
+            ax.plot(zc, e, c='k', alpha=0.1)
+            
     
     plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
