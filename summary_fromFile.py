@@ -84,12 +84,12 @@ def plot_phi_star(fig, composite, compOpt=None, sample=False):
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
-                                        usecols=(0,1,2,3), unpack=True)
-    ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=4)
-    ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
+    #                                     usecols=(0,1,2,3), unpack=True)
+    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=4)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}'+
@@ -120,11 +120,10 @@ def plot_m_star(fig, composite, compOpt=None, sample=False):
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta) 
                 M = composite.atz(z, params[1]) 
-                ax.plot(z, M, color='darkgrey', zorder=1)
+                ax.plot(z, M, color=colors[1], zorder=1, alpha=0.02)
         M = composite.atz(z, composite.getparams(bf)[1])
         ax.plot(z, M, color='k', zorder=2, lw=2)
 
-    
     zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
     left = zmean-zl
     right = zu-zmean
@@ -136,13 +135,12 @@ def plot_m_star(fig, composite, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
 
-
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
-                                        usecols=(0,4,5,6), unpack=True)
-    ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=4)
-    ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
+    #                                     usecols=(0,4,5,6), unpack=True)
+    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=4)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -205,9 +203,11 @@ def plot_alpha(fig, composite, compOpt=None, sample=False):
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta)
                 alpha = composite.atz(z, params[2])
-                ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
+                ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1)
+
         alpha = composite.atz(z, composite.getparams(bf)[2])
-        ax.plot(z, alpha, color='k', zorder=2, lw=2)
+        ax.plot(z, alpha, color='k', zorder=2, lw=2, label='Posterior median')
+
     
     zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
     left = zmean-zl
@@ -220,13 +220,13 @@ def plot_alpha(fig, composite, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
-                                        usecols=(0,10,11,12), unpack=True)
-    ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=4)
-    ax.scatter(zm, cm, color='#ffffff', edgecolor='grey',
-               zorder=4, label='Manti et al.\ 2017', s=30)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
+    #                                     usecols=(0,10,11,12), unpack=True)
+    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=4)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey',
+    #            zorder=4, label='Manti et al.\ 2017', s=30)
 
     if cfit: 
         zc = np.linspace(0, 7, 500)
@@ -258,9 +258,9 @@ def plot_alpha(fig, composite, compOpt=None, sample=False):
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
         
         
-    plt.legend(loc='upper left', fontsize=10, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+    leg = plt.legend(loc='upper left', fontsize=10, handlelength=3,
+                     frameon=False, framealpha=0.0, labelspacing=.1,
+                     handletextpad=0.1, borderpad=0.01, scatterpoints=1)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
@@ -344,12 +344,12 @@ def plot_beta(fig, composite, compOpt=None, sample=False):
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
-    zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
-                                        usecols=(0,7,8,9), unpack=True)
-    ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=4)
-    ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
+    #                                     usecols=(0,7,8,9), unpack=True)
+    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=4)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\beta$ (faint-end slope)')
