@@ -385,7 +385,7 @@ def emissivity_Manti17(z):
     return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
 
 
-def draw_emissivity(individuals, zlims, composite=None):
+def draw_emissivity(all_individuals, zlims, composite=None, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -405,6 +405,12 @@ def draw_emissivity(individuals, zlims, composite=None):
     ax.set_yscale('log')
     ax.set_ylim(1.0e23, 1.0e26)
 
+    if select: 
+        individuals = [x for x in all_individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+    else:
+        individuals = all_individuals
+    
+
     for x in individuals:
         get_emissivity(x, x.z.mean())
     
@@ -417,8 +423,8 @@ def draw_emissivity(individuals, zlims, composite=None):
     em_low = c - l 
     
     zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -461,12 +467,12 @@ def draw_emissivity(individuals, zlims, composite=None):
         zc = np.linspace(0, 7, 200)
         bf = np.median(composite.samples, axis=0)
         e = [emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc]
-        ax.plot(zc, e, c='k', lw=2) 
         for theta in composite.samples[np.random.randint(len(composite.samples),
-                                                         size=100)]:
+                                                         size=900)]:
             e = [emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc]
-            ax.plot(zc, e, c='k', alpha=0.1)
-            
+            ax.plot(zc, e, c='darkolivegreen', alpha=0.1)
+        ax.plot(zc, e, c='k', lw=2, label='Posterior median') 
+
     
     plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
