@@ -429,15 +429,15 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     uzerr = uz-zs
     lzerr = zs-lz 
 
-    ax.scatter(zs, em, c='#ffffff', edgecolor='k',
-               label='Our fits ($M<-18$)',
-               s=44, zorder=4, linewidths=2) 
+    # ax.scatter(zs, em, c='#ffffff', edgecolor='k',
+    #            label='Our fits ($M<-18$)',
+    #            s=44, zorder=4, linewidths=2) 
 
-    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=2,
-                yerr=np.vstack((em_low, em_up)),
-                xerr=np.vstack((lzerr, uzerr)), 
-                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
-                ms=5)
+    # ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=2,
+    #             yerr=np.vstack((em_low, em_up)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+    #             ms=5)
 
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
