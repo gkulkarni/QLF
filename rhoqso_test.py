@@ -30,8 +30,31 @@ def phi(z, m, *params):
     log10phiStar, mStar, alpha, beta = lfParams(z, *params)
     phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
                                  10.0**(0.4*(beta+1)*(m-mStar)))
-    return phi 
+    return phi
 
+def dlfParamsdz(z, pPhiStar, pMStar, pAlpha, pBeta):
+
+    dlog10phiStardz = T.deriv(T(pPhiStar))(1+z)
+    dmStarsz = T.deriv(T(pMStar))(1+z)
+    dalphadz = T.deriv(T(pAlpha))(1+z)
+
+    h, f0, z0, a, b = pBeta
+    zeta = np.log10((1.0+z)/(1.0+z0))
+    dbetadz = (-f0*(a*10.0**((a-1)*zeta)/(1.0+z0)
+                   + b*10.0**((b-1)*zeta)/(1.0+z0))/
+               (10.0**(a*zeta) + 10.0**(b*zeta))**2)
+
+    return dlog10phiStardz, dmStardz, dalphadz, dbetadz
+
+def dphidz(z, m, *params):
+
+    dphiStardz, dmStardz, dalphadz, dbetadz = dlfParamsdz(z, *params)
+    
+    return (dphidphiStar(z, m, *params)*dphiStardz(z, *params) +
+            dphidMStar(z, m, *params)*dmStardz(z, *params) +
+            dphidalpha(z, m, *params)*dalphadz(z, *params) +
+            dphidbeta(z, m, *params)*dbetadz(z, *params))
+    
 def plotLF(*params):
 
     m = np.linspace(-55., -10., num=500)
@@ -56,12 +79,16 @@ def plotLF(*params):
 
     return 
     
-plotLF(p_log10phiStar, p_MStar, p_alpha, p_beta)
-
 def rhoqso(mlim, z, *params):
 
     m = np.linspace(-35.0, mlim, num=1000)
     farr = phi(z, m, *params) 
+    return np.trapz(farr, m)
+
+def drhoqsodz(mlim, z, *params):
+
+    m = np.linspace(-35.0, mlim, num=1000)
+    farr = dphidz(z, m, *params) 
     return np.trapz(farr, m)
 
 def plotRhoQso(zmin, zmax): 
@@ -94,6 +121,38 @@ def plotRhoQso(zmin, zmax):
     ax.set_ylim(1.0e-12, 1.0e-3)
 
     plt.savefig('rhoqso_test.pdf',bbox_inches='tight')
+    return 
+
+def plotdRhoQsodz(zmin, zmax): 
+    fig = plt.figure(figsize=(7, 10), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$d\rho(z, M_{1450} < M_\mathrm{lim})/dz$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    zmin = 0
+    zmax = 15
+    ax.set_xlim(zmin, zmax)
+
+    zc = np.linspace(zmin, zmax, num=500)
+    rho = [drhoqsodz(-18, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
+    ax.plot(zc, rho, c='k', lw=2)
+
+    rho = [drhoqsodz(-21, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
+    ax.plot(zc, rho, c='k', lw=2)
+
+    rho = [drhoqsodz(-24, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
+    ax.plot(zc, rho, c='k', lw=2)
+
+    rho = [drhoqsodz(-27, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
+    ax.plot(zc, rho, c='k', lw=2)
+
+    ax.set_yscale('log')
+    # ax.set_ylim(1.0e-12, 1.0e-3)
+
+    plt.savefig('drhoqsodz_test.pdf',bbox_inches='tight')
     return 
 
 def plotParams(zmin, zmax): 
