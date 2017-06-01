@@ -35,7 +35,7 @@ def phi(z, m, *params):
 def dlfParamsdz(z, pPhiStar, pMStar, pAlpha, pBeta):
 
     dlog10phiStardz = T.deriv(T(pPhiStar))(1+z)
-    dmStarsz = T.deriv(T(pMStar))(1+z)
+    dmStardz = T.deriv(T(pMStar))(1+z)
     dalphadz = T.deriv(T(pAlpha))(1+z)
 
     h, f0, z0, a, b = pBeta
@@ -46,14 +46,46 @@ def dlfParamsdz(z, pPhiStar, pMStar, pAlpha, pBeta):
 
     return dlog10phiStardz, dmStardz, dalphadz, dbetadz
 
+def dphidphiStar(z, m, *params):
+
+    return phi(z, m, *params) * np.log(10.0)
+
+def dphidalpha(z, m, *params):
+
+    log10phiStar, mStar, alpha, beta = lfParams(z, *params)
+    phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                 10.0**(0.4*(beta+1)*(m-mStar)))
+    d = (- phi * np.log(10.0) * 0.4 * (m-mStar) *  10.0**(0.4*(alpha+1)*(m-mStar)) /
+         (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+    return d
+
+def dphidbeta(z, m, *params):
+
+    log10phiStar, mStar, alpha, beta = lfParams(z, *params)
+    phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                 10.0**(0.4*(beta+1)*(m-mStar)))
+    d = (- phi * np.log(10.0) * 0.4 * (m-mStar) *  10.0**(0.4*(beta+1)*(m-mStar)) /
+         (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+    return d
+    
+def dphidMStar(z, m, *params):
+    log10phiStar, mStar, alpha, beta = lfParams(z, *params)
+    phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                 10.0**(0.4*(beta+1)*(m-mStar)))
+    d1 = 10.0**(0.4*(alpha+1)*(m-mStar)) * np.log(10.0) * (-0.4*(alpha+1))
+    d2 = 10.0**(0.4*(beta+1)*(m-mStar)) * np.log(10.0) * (-0.4*(beta+1))
+    d = (- phi * (d1+d2) /
+         (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+    return d 
+    
 def dphidz(z, m, *params):
 
     dphiStardz, dmStardz, dalphadz, dbetadz = dlfParamsdz(z, *params)
     
-    return (dphidphiStar(z, m, *params)*dphiStardz(z, *params) +
-            dphidMStar(z, m, *params)*dmStardz(z, *params) +
-            dphidalpha(z, m, *params)*dalphadz(z, *params) +
-            dphidbeta(z, m, *params)*dbetadz(z, *params))
+    return (dphidphiStar(z, m, *params)*dphiStardz + 
+            dphidMStar(z, m, *params)*dmStardz + 
+            dphidalpha(z, m, *params)*dalphadz + 
+            dphidbeta(z, m, *params)*dbetadz)
     
 def plotLF(*params):
 
@@ -137,20 +169,35 @@ def plotdRhoQsodz(zmin, zmax):
     ax.set_xlim(zmin, zmax)
 
     zc = np.linspace(zmin, zmax, num=500)
-    rho = [drhoqsodz(-18, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
-    ax.plot(zc, rho, c='k', lw=2)
+    rho = np.array([drhoqsodz(-18, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
+    rhop = np.where(rho>0.0, rho, 0.0)
+    rhon = np.where(rho<0.0, -rho, 0.0)
+    ax.plot(zc, rhop, c='k', lw=2)
+    ax.plot(zc, rhon, c='tomato', lw=2)
 
-    rho = [drhoqsodz(-21, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
-    ax.plot(zc, rho, c='k', lw=2)
+    zc = np.linspace(zmin, zmax, num=500)
+    rho = np.array([drhoqsodz(-21, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
+    rhop = np.where(rho>0.0, rho, 0.0)
+    rhon = np.where(rho<0.0, -rho, 0.0)
+    ax.plot(zc, rhop, c='k', lw=2)
+    ax.plot(zc, rhon, c='tomato', lw=2)
 
-    rho = [drhoqsodz(-24, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
-    ax.plot(zc, rho, c='k', lw=2)
+    zc = np.linspace(zmin, zmax, num=500)
+    rho = np.array([drhoqsodz(-24, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
+    rhop = np.where(rho>0.0, rho, 0.0)
+    rhon = np.where(rho<0.0, -rho, 0.0)
+    ax.plot(zc, rhop, c='k', lw=2)
+    ax.plot(zc, rhon, c='tomato', lw=2)
 
-    rho = [drhoqsodz(-27, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
-    ax.plot(zc, rho, c='k', lw=2)
-
+    zc = np.linspace(zmin, zmax, num=500)
+    rho = np.array([drhoqsodz(-27, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
+    rhop = np.where(rho>0.0, rho, 0.0)
+    rhon = np.where(rho<0.0, -rho, 0.0)
+    ax.plot(zc, rhop, c='k', lw=2)
+    ax.plot(zc, rhon, c='tomato', lw=2)
+    
     ax.set_yscale('log')
-    # ax.set_ylim(1.0e-12, 1.0e-3)
+    ax.set_ylim(1.0e-20, 1.0e30)
 
     plt.savefig('drhoqsodz_test.pdf',bbox_inches='tight')
     return 
@@ -220,3 +267,6 @@ def plotParams(zmin, zmax):
     mpl.rcParams['font.size'] = '22'
 
     return
+
+# plotRhoQso(0, 15)
+plotdRhoQsodz(0, 15)
