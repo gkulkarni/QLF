@@ -161,20 +161,19 @@ class lf:
 
     def atz(self, z, p):
 
-        """Redshift evolution of QLF parameters."""
+        """Redshift evolution of QLF parameters.
+
+        See dlfParamsdz() below before changing.
+        """
         
         return T(p)(1+z)
 
-    # def atz_mstar(self, z, p):
-
-    #     """Redshift evolution of QLF parameters."""
-
-    #     zeta = np.log10((1.0+z)/(1.0+3.5))
-    #     return T(p)(10.0**zeta)
-    
     def atz_beta(self, z, p):
 
-        """Redshift evolution of QLF parameters."""
+        """Redshift evolution of QLF parameters.
+
+        See dlfParamsdz() below before changing.
+        """
 
         h, f0, z0, a, b = p 
         zeta = np.log10((1.0+z)/(1.0+z0))
@@ -200,7 +199,6 @@ class lf:
         log10phi_star = self.atz(z, params[0])
         M_star = self.atz(z, params[1])
         alpha = self.atz(z, params[2])
-        # beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])
         
         phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
@@ -229,7 +227,7 @@ class lf:
 
         self.bf = result 
         return result
-    
+
     def create_param_range(self):
 
         half = self.bf.x/2.0
@@ -240,23 +238,120 @@ class lf:
 
         return
 
+    def dlfParamsdz(self, z, theta):
+
+        params = self.getparams(theta)
+        pPhiStar = params[0]
+        pMStar = params[1]
+        pAlpha = params[2]
+        pBeta = params[3]
+        
+        dlog10phiStardz = T.deriv(T(pPhiStar))(1+z)
+        dmStardz = T.deriv(T(pMStar))(1+z)
+        dalphadz = T.deriv(T(pAlpha))(1+z)
+
+        h, f0, z0, a, b = pBeta
+        zeta = np.log10((1.0+z)/(1.0+z0))
+        dbetadz = (-f0*(a*10.0**((a-1)*zeta)/(1.0+z0)
+                       + b*10.0**((b-1)*zeta)/(1.0+z0))/
+                   (10.0**(a*zeta) + 10.0**(b*zeta))**2)
+
+        return dlog10phiStardz, dmStardz, dalphadz, dbetadz
+
+    def dphidphiStar(self, z, m, theta):
+
+        return 10.0**self.log10phi(theta, m, z) * np.log(10.0)
+
+    def dphidalpha(self, z, m, theta):
+
+        params = self.getparams(theta)
+        log10phiStar = self.atz(z, params[0])
+        mStar = self.atz(z, params[1])
+        alpha = self.atz(z, params[2])
+        beta = self.atz_beta(z, params[3])
+
+        phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                     10.0**(0.4*(beta+1)*(m-mStar)))
+        d = (- phi * np.log(10.0) * 0.4 * (m-mStar) *  10.0**(0.4*(alpha+1)*(m-mStar)) /
+             (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+        return d
+
+    def dphidbeta(self, z, m, theta):
+
+        params = self.getparams(theta)
+        log10phiStar = self.atz(z, params[0])
+        mStar = self.atz(z, params[1])
+        alpha = self.atz(z, params[2])
+        beta = self.atz_beta(z, params[3])
+        
+        phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                     10.0**(0.4*(beta+1)*(m-mStar)))
+        d = (- phi * np.log(10.0) * 0.4 * (m-mStar) *  10.0**(0.4*(beta+1)*(m-mStar)) /
+             (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+        return d
+
+    def dphidMStar(self, z, m, theta):
+
+        params = self.getparams(theta)
+        log10phiStar = self.atz(z, params[0])
+        mStar = self.atz(z, params[1])
+        alpha = self.atz(z, params[2])
+        beta = self.atz_beta(z, params[3])
+        
+        phi = 10.0**log10phiStar / (10.0**(0.4*(alpha+1)*(m-mStar)) +
+                                     10.0**(0.4*(beta+1)*(m-mStar)))
+        d1 = 10.0**(0.4*(alpha+1)*(m-mStar)) * np.log(10.0) * (-0.4*(alpha+1))
+        d2 = 10.0**(0.4*(beta+1)*(m-mStar)) * np.log(10.0) * (-0.4*(beta+1))
+        d = (- phi * (d1+d2) /
+             (10.0**(0.4*(alpha+1)*(m-mStar)) + 10.0**(0.4*(beta+1)*(m-mStar))))
+        return d 
+    
+    def dphidz(self, z, m, theta):
+
+        dphiStardz, dmStardz, dalphadz, dbetadz = self.dlfParamsdz(z, theta)
+
+        return (self.dphidphiStar(z, m, theta)*dphiStardz + 
+                self.dphidMStar(z, m, theta)*dmStardz + 
+                self.dphidalpha(z, m, theta)*dalphadz + 
+                self.dphidbeta(z, m, theta)*dbetadz)
+    
+    def drhoqsodz(self, z, theta):
+
+        mlim = -18.0 # choice should not matter 
+        m = np.linspace(-35.0, mlim, num=1000)
+        farr = self.dphidz(z, m, theta) 
+        return np.trapz(farr, m)
+    
+    # def lnprior(self, theta):
+    #     """
+    #     Set up uniform priors.
+
+    #     """
+
+    #     params = self.getparams(theta)
+    #     alpha = params[2]
+    #     alpha_atz6 = self.atz(6.0, alpha) 
+        
+    #     if (np.all(theta < self.prior_max_values) and
+    #         np.all(theta > self.prior_min_values) and
+    #         alpha_atz6 < -4.0):
+    #         return 0.0 
+
+    #     return -np.inf
+
     def lnprior(self, theta):
         """
         Set up uniform priors.
 
         """
 
-        params = self.getparams(theta)
-        alpha = params[2]
-        alpha_atz6 = self.atz(6.0, alpha) 
-        
         if (np.all(theta < self.prior_max_values) and
             np.all(theta > self.prior_min_values) and
-            alpha_atz6 < -4.0):
+            self.drhoqsodz(10.0, theta) < 0.0):
             return 0.0 
-
+        
         return -np.inf
-
+    
     def lnprob(self, theta):
 
         lp = self.lnprior(theta)
