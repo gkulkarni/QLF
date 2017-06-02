@@ -345,11 +345,19 @@ class lf:
 
         """
 
-        if (np.all(theta < self.prior_max_values) and
-            np.all(theta > self.prior_min_values) and
-            self.drhoqsodz(10.0, theta) < 0.0):
+        # if (np.all(theta < self.prior_max_values) and
+        #     np.all(theta > self.prior_min_values) and
+        #     self.drhoqsodz(10.0, theta) < 0.0):
+        #     return 0.0
+
+        z = np.linspace(5,20,num=10)
+        d = np.array([self.drhoqsodz(x, theta) for x in z])
+        if np.all(d<0.0):
             return 0.0 
         
+        # if self.drhoqsodz(10.0, theta) < 0.0:
+        #     return 0.0 
+
         return -np.inf
     
     def lnprob(self, theta):
@@ -374,7 +382,7 @@ class lf:
         self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
                                              self.lnprob)
 
-        self.sampler.run_mcmc(pos, 1000)
+        self.sampler.run_mcmc(pos, 10000)
         self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
 
         return

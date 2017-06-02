@@ -8,10 +8,16 @@ mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 from numpy.polynomial import Chebyshev as T
 
-p_log10phiStar = [-7.73388053, 1.06477161, -0.11304974]
-p_MStar = [-17.84979944, -4.90153699, 0.49748768, -0.01925119]
-p_alpha = [-3.22779072, -0.27456505]
-p_beta = [-2.42666272, 0.91088261, 3.48830563, 9.96182361, -0.1530638]
+# p_log10phiStar = [-7.73388053, 1.06477161, -0.11304974]
+# p_MStar = [-17.84979944, -4.90153699, 0.49748768, -0.01925119]
+# p_alpha = [-3.22779072, -0.27456505]
+# p_beta = [-2.42666272, 0.91088261, 3.48830563, 9.96182361, -0.1530638]
+
+p_log10phiStar = np.array([-8.73893404,  1.62542678, -0.14453768])
+p_MStar = np.array([-18.46966787,  -4.8580583 ,   0.57781389,  -0.02531129])
+p_alpha = np.array([-4.45250745,  0.20357239])
+p_beta = np.array([-2.33424594,  1.19579103,  3.01011911,  8.31975455, -1.02475454])
+
 
 def lfParams(z, pPhiStar, pMStar, pAlpha, pBeta):
 
@@ -130,7 +136,8 @@ def plotRhoQso(zmin, zmax):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
 
-    ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    # ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    ax.set_ylabel(r'$\rho_\mathrm{qso}$ [cMpc$^{-3}$]')
     ax.set_xlabel('$z$')
     zmin = 0
     zmax = 15
@@ -139,15 +146,19 @@ def plotRhoQso(zmin, zmax):
     zc = np.linspace(zmin, zmax, num=500)
     rho = [rhoqso(-18, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
     ax.plot(zc, rho, c='k', lw=2)
-
+    #plt.text(5.0, 3e-5, '$M<-18$', fontsize=16, rotation=-61)
+    
     rho = [rhoqso(-21, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
     ax.plot(zc, rho, c='k', lw=2)
+    #plt.text(4.5, 1.4e-6, '$M<-21$', fontsize=16, rotation=-63)
 
     rho = [rhoqso(-24, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
     ax.plot(zc, rho, c='k', lw=2)
-
+    #plt.text(4.2, 6.0e-8, '$M<-24$', fontsize=16, rotation=-64)
+    
     rho = [rhoqso(-27, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc]
     ax.plot(zc, rho, c='k', lw=2)
+    #plt.text(4.5, 6.0e-10, '$M<-27$', fontsize=16, rotation=-62)
 
     ax.set_yscale('log')
     ax.set_ylim(1.0e-12, 1.0e-3)
@@ -162,7 +173,8 @@ def plotdRhoQsodz(zmin, zmax):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
 
-    ax.set_ylabel(r'$d\rho(z, M_{1450} < M_\mathrm{lim})/dz$ [cMpc$^{-3}$]')
+    # ax.set_ylabel(r'$d\rho(z, M_{1450} < M_\mathrm{lim})/dz$ [cMpc$^{-3}$]')
+    ax.set_ylabel(r'$d\rho_\mathrm{qso}/dz$ [cMpc$^{-3}$]')
     ax.set_xlabel('$z$')
     zmin = 0
     zmax = 15
@@ -174,6 +186,7 @@ def plotdRhoQsodz(zmin, zmax):
     rhon = np.where(rho<0.0, -rho, 0.0)
     ax.plot(zc, rhop, c='k', lw=2)
     ax.plot(zc, rhon, c='tomato', lw=2)
+    #plt.text(9.0, 10, '$M<-18$', fontsize=16, rotation=52)
 
     zc = np.linspace(zmin, zmax, num=500)
     rho = np.array([drhoqsodz(-21, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
@@ -193,11 +206,16 @@ def plotdRhoQsodz(zmin, zmax):
     rho = np.array([drhoqsodz(-27, x, p_log10phiStar, p_MStar, p_alpha, p_beta) for x in zc])
     rhop = np.where(rho>0.0, rho, 0.0)
     rhon = np.where(rho<0.0, -rho, 0.0)
-    ax.plot(zc, rhop, c='k', lw=2)
-    ax.plot(zc, rhon, c='tomato', lw=2)
+    ax.plot(zc, rhop, c='k', lw=2, label=r'positive values')
+    ax.plot(zc, rhon, c='tomato', lw=2, label=r'negative values')
+    #plt.text(10.0, 1.0e-5, '$M<-27$', fontsize=16, rotation=55)
     
     ax.set_yscale('log')
     ax.set_ylim(1.0e-20, 1.0e30)
+
+    leg = plt.legend(loc='upper left', fontsize=14, handlelength=3,
+                     frameon=False, framealpha=0.0, labelspacing=.1,
+                     handletextpad=0.1, borderpad=0.5, scatterpoints=1)
 
     plt.savefig('drhoqsodz_test.pdf',bbox_inches='tight')
     return 
