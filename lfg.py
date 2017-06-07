@@ -50,20 +50,18 @@ g = np.array([-7.73388053, 1.06477161, -0.11304974,
 method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
-#sys.exit() 
 
-# lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -5.0, 0.0, 1.0, 1.0, -2.0])
-# lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 0.0, 5.0, 5.0, 10.0, 2.0])
+# sys.exit() 
+
+# lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
+# lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
 # assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
-# lfg.prior_min_values = np.array([-8.5, 1.6, -0.2, -18.8, -4.3, 0.5, 0.0, -3.5, -0.4, -3.0, 1.7, 2.8, 4.0, -0.9])
-# lfg.prior_max_values = np.array([-8.49, 1.62, -0.1, -18.7, -4.2, 0.6, 0.01, -3.1, 0.0, -2.6, 2.1, 3.2, 4.4, -0.5])
-
-# lfg.bf.x = np.array([-8.49, 1.62, -0.1, -18.7, -4.2, 0.6, 0.01, -3.1, 0.0, -2.6, 2.1, 3.2, 4.4, -0.5])
-lfg.bf.x = np.array([ -8.5, 1.6, -0.2, -18.8, 0.0, 0.0, 0.0, -3.3, -0.2, -2.8, 1.9, 3.0, 4.2, -0.7])
+lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -5.0, 0.0, 1.0, 1.0, -2.0])
+lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 0.0, 5.0, 5.0, 10.0, 2.0])
+assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
 lfg.run_mcmc()
-#sys.exit()
 
 # labels = [r'$a_0 [\phi_*]$', r'$a_1 [\phi_*]$', r'$a_2 [\phi_*]$',
 #           r'$a_0 [M_*]$', r'$a_1 [M_*]$',
