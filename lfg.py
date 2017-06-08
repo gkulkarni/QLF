@@ -1,7 +1,7 @@
 import sys
 import numpy as np 
 from composite import lf
-from summary_fromFile import summary_plot as sp
+from summary import summary_plot as sp
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
@@ -47,15 +47,16 @@ g = np.array([-7.73388053, 1.06477161, -0.11304974,
               -3.22779072, -0.27456505,
               -2.52870151, 1.08701021, 3.48991378, 6.20831541, -0.21475542])
 
+# g = np.array([-7.73388053, 1.06477161, -0.11304974,
+#               -45.54987107,  66.51882126, -37.01499714, -18.47003438,
+#               -3.22779072, -0.27456505,
+#               -2.52870151, 1.08701021, 3.48991378, 6.20831541, -0.21475542])
+
 method = 'Nelder-Mead'
 b = lfg.bestfit(g, method=method)
 print b
 
-# sys.exit() 
-
-# lfg.prior_min_values = np.array([-11.0, -5.0, -5.0, -30.0, -10.0, -5.0, -5.0, -5.0, -2.0, -2.0])
-# lfg.prior_max_values = np.array([-4.0, 5.0, 2.0, -10.0, 5.0, -1.0, 5.0, 5.0, 2.0, 2.0])
-# assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
+sys.exit()
 
 lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -5.0, 0.0, 1.0, 1.0, -2.0])
 lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 0.0, 5.0, 5.0, 10.0, 2.0])

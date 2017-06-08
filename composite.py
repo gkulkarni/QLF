@@ -165,12 +165,12 @@ class lf:
         
         return T(p)(1+z)
 
-    # def atz_mstar(self, z, p):
+    def atz_mstar(self, z, p):
 
-    #     """Redshift evolution of QLF parameters."""
+        """Redshift evolution of QLF parameters."""
 
-    #     zeta = np.log10((1.0+z)/(1.0+3.5))
-    #     return T(p)(10.0**zeta)
+        zeta = np.log10(1.0+z)
+        return np.polyval(p, zeta) 
     
     def atz_beta(self, z, p):
 
@@ -199,6 +199,7 @@ class lf:
 
         log10phi_star = self.atz(z, params[0])
         M_star = self.atz(z, params[1])
+        # M_star = self.atz_mstar(z, params[1])
         alpha = self.atz(z, params[2])
         # beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])

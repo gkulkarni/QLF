@@ -207,13 +207,13 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if polyfit:
         zc = np.linspace(0, 7, 500)
         
-        p = np.polyfit(np.log10(zmean+1), c, 3)
-        print 'mstar', p
-        plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='g', dashes=[7,2], zorder=3)
-
-        # p = np.polyfit(zmean+1, c, 3)
+        # p = np.polyfit(np.log10(zmean+1), c, 3)
         # print 'mstar', p
-        # plt.plot(zc, np.polyval(p, zc+1), lw=1, c='g', dashes=[7,2], zorder=3)
+        # plt.plot(zc, np.polyval(p, np.log10((zc+1))), lw=1, c='g', dashes=[7,2], zorder=3)
+
+        p = np.polyfit(zmean+1, c, 3)
+        print 'mstar', p
+        plt.plot(zc, np.polyval(p, zc+1), lw=1, c='g', dashes=[7,2], zorder=3)
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
