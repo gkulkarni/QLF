@@ -1,4 +1,5 @@
 import numpy as np
+import emcee
 import matplotlib as mpl
 mpl.use('Agg') 
 mpl.rcParams['text.usetex'] = True 
@@ -22,6 +23,41 @@ function in individual.py but is more flexible.
 
 """
 
+def lfsample(theta, n, mlims):
+
+    """
+    Return n qso magnitudes between mlims[0] and mlims[1] when the LF
+    is described by parameters theta.
+
+    """
+
+    mmin = mlims[0]
+    mmax = mlims[1]
+
+    def lnprob(x, theta):
+
+        if x < mmax and x > mmin: 
+            mag = x 
+            log10phi_star, M_star, alpha, beta = theta 
+            phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
+                                         10.0**(0.4*(beta+1)*(mag-M_star)))
+            return np.log(phi)
+        else:
+            return -np.inf 
+    
+    ndim = 1 
+    nwalkers = 250
+    dm = np.abs(mmin-mmax)
+    p0 = (np.random.rand(ndim*nwalkers)*dm + mmin).reshape((nwalkers, ndim))
+
+    sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=[theta])
+    pos, prob, state = sampler.run_mcmc(p0, 100)
+    sampler.reset()
+    sampler.run_mcmc(pos, 1000)
+    sample = sampler.flatchain[:,0]
+
+    return np.random.choice(sample, n)
+    
 def plot_posterior_sample_lfs(lf, ax, mags, **kwargs):
 
     random_thetas = lf.samples[np.random.randint(len(lf.samples), size=1000)]
@@ -84,9 +120,7 @@ def get_lf(lf, sid, z_plot):
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
 
-    z = lf.z[lf.sid==sid]
     m = lf.M1450[lf.sid==sid]
-    p = lf.p[lf.sid==sid]
 
     selmaps = [x for x in lf.maps if x.sid == sid]
 
@@ -129,7 +163,59 @@ def get_lf(lf, sid, z_plot):
 
     return mags, left, right, logphi, uperr, downerr
 
-def render(ax, lf, composite=None):
+def get_lf_sample(lf, sid, z_plot):
+
+    # Bin data.  This is only for visualisation and to compare
+    # with reported binned values.  
+
+    m = lf.M1450[lf.sid==sid]
+    n = m.size
+    mlims = (m.min(), m.max())
+    theta = np.median(lf.samples, axis=0)
+    m = lfsample(theta, n, mlims)
+
+    selmaps = [x for x in lf.maps if x.sid == sid]
+
+    if sid==6:
+        # Glikman's sample needs wider bins.
+        bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+    elif sid == 7:
+        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    else:
+        bins = np.arange(-30.9, -17.3, 0.6)
+
+    v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
+
+    v1_nonzero = v1[np.where(v1>0.0)]
+    m = m[np.where(v1>0.0)]
+
+    h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
+
+    nums = h[0]
+    mags = (h[1][:-1] + h[1][1:])*0.5
+    dmags = np.diff(h[1])*0.5
+
+    left = mags - h[1][:-1]
+    right = h[1][1:] - mags
+
+    phi = nums
+    logphi = np.log10(phi) # cMpc^-3 mag^-1
+
+    # Calculate errorbars on our binned LF.  These have been estimated
+    # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
+    # implemented in astropy.stats.poisson_conf_interval.  The
+    # interval='frequentist-confidence' option to that astropy function is
+    # exactly equal to the Gehrels formulas, although the documentation
+    # does not say so.
+    n = np.histogram(m, bins=bins)[0]
+    nlims = pci(n,interval='frequentist-confidence')
+    nlims *= phi/n 
+    uperr = np.log10(nlims[1]) - logphi 
+    downerr = logphi - np.log10(nlims[0])
+
+    return mags, left, right, logphi, uperr, downerr
+
+def render(ax, lf, composite=None, showMockSample=False):
 
     """
 
@@ -173,9 +259,18 @@ def render(ax, lf, composite=None):
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
+    if showMockSample:
+        for i in sids:
+            mags, left, right, logphi, uperr, downerr = get_lf_sample(lf, i, z_plot)
+            ax.scatter(mags, logphi, c='k', edgecolor='None', zorder=4, s=16, label=dsl(i))
+            ax.errorbar(mags, logphi, ecolor='k', capsize=0,
+                        xerr=np.vstack((left, right)), 
+                        yerr=np.vstack((uperr, downerr)),
+                        fmt='None', zorder=4)
+        
     return 
 
-def draw(lf, composite=None, dirname=''):
+def draw(lf, composite=None, dirname='', showMockSample=False):
 
     """
 
@@ -190,7 +285,7 @@ def draw(lf, composite=None, dirname=''):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=3, width=1)
 
-    render(ax, lf, composite=composite)
+    render(ax, lf, composite=composite, showMockSample=showMockSample)
 
     ax.set_xlim(-17.0, -31.0)
     ax.set_ylim(-12.0, -4.0)

@@ -37,7 +37,7 @@ def get_rhoqso(lfi, mlim, z, fit='individual'):
 
     return
 
-def draw(individuals, zlims):
+def draw(individuals, zlims, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -61,20 +61,25 @@ def draw(individuals, zlims):
     
     mlim = -18
 
-    for x in individuals:
+    if select: 
+        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+    else:
+        selected = individuals
+
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -92,20 +97,20 @@ def draw(individuals, zlims):
     
     mlim = -21
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -122,20 +127,20 @@ def draw(individuals, zlims):
     
     mlim = -24
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -152,20 +157,20 @@ def draw(individuals, zlims):
     
     mlim = -27
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -187,7 +192,7 @@ def draw(individuals, zlims):
 
     return
 
-def draw_withGlobal(composite, individuals, zlims):
+def draw_withGlobal(composite, individuals, zlims, select=False):
 
     fig = plt.figure(figsize=(7, 10), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -206,20 +211,25 @@ def draw_withGlobal(composite, individuals, zlims):
     
     mlim = -18
 
-    for x in individuals:
+    if select: 
+        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+    else:
+        selected = individuals
+    
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -247,20 +257,20 @@ def draw_withGlobal(composite, individuals, zlims):
     
     mlim = -21
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -287,20 +297,20 @@ def draw_withGlobal(composite, individuals, zlims):
     
     mlim = -24
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -327,20 +337,20 @@ def draw_withGlobal(composite, individuals, zlims):
     
     mlim = -27
 
-    for x in individuals:
+    for x in selected:
         get_rhoqso(x, mlim, x.z.mean())
     
-    c = np.array([x.rhoqso[2] for x in individuals])
-    u = np.array([x.rhoqso[0] for x in individuals])
-    l = np.array([x.rhoqso[1] for x in individuals])
+    c = np.array([x.rhoqso[2] for x in selected])
+    u = np.array([x.rhoqso[0] for x in selected])
+    l = np.array([x.rhoqso[1] for x in selected])
 
     rho = c
     rho_up = u - c
     rho_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    zs = np.array([x.z.mean() for x in selected])
+    uz = np.array([x.zlims[0] for x in selected])
+    lz = np.array([x.zlims[1] for x in selected])
     
     uzerr = uz-zs
     lzerr = zs-lz 

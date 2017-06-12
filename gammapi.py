@@ -34,7 +34,7 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
 def get_emissivity(lfi, z):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
-    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -18.0), fit='individual')
+    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -20.0), fit='individual')
                           for theta
                           in lfi.samples[rindices]])
     u = np.percentile(e, 15.87) 
@@ -385,7 +385,7 @@ def emissivity_Manti17(z):
     return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
 
 
-def draw_emissivity(individuals, zlims):
+def draw_emissivity(all_individuals, zlims, composite=None, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -400,10 +400,16 @@ def draw_emissivity(individuals, zlims):
 
     ax.set_ylabel(r'$\epsilon_{912}$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
     ax.set_xlabel('$z$')
-    ax.set_xlim(0.,7)
+    ax.set_xlim(0.,7.)
 
     ax.set_yscale('log')
     ax.set_ylim(1.0e23, 1.0e26)
+
+    if select: 
+        individuals = [x for x in all_individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+    else:
+        individuals = all_individuals
+    
 
     for x in individuals:
         get_emissivity(x, x.z.mean())
@@ -417,17 +423,17 @@ def draw_emissivity(individuals, zlims):
     em_low = c - l 
     
     zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
     
     uzerr = uz-zs
     lzerr = zs-lz 
 
     ax.scatter(zs, em, c='#ffffff', edgecolor='k',
-               label='Our fits ($M<-18$)',
-               s=44, zorder=4, linewidths=2) 
+               label='Individual fits ($M<-20$)',
+               s=48, zorder=4, linewidths=1.5) 
 
-    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=2,
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((em_low, em_up)),
                 xerr=np.vstack((lzerr, uzerr)), 
                 mfc='#ffffff', mec='#404040', zorder=3, mew=1,
@@ -439,7 +445,7 @@ def draw_emissivity(individuals, zlims):
     eg_lerr *= 1.0e24
     eg_uerr *= 1.0e24
     ax.scatter(zg, eg, c='tomato', edgecolor='None',
-               label='Giallongo et al.\ 2015',
+               label='Giallongo et al.\ 2015 ($M<-18$)',
                s=72, zorder=4)
 
     ax.errorbar(zg, eg, ecolor='tomato', capsize=0, fmt='None', elinewidth=2,
@@ -447,8 +453,6 @@ def draw_emissivity(individuals, zlims):
                 yerr=np.vstack((eg_lerr, eg_uerr)), 
                 zorder=3, mew=1)
                 
-    
-    
     z = np.linspace(0, 7)
     e_MH15 = emissivity_MH15(z)
     ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015')
@@ -457,9 +461,21 @@ def draw_emissivity(individuals, zlims):
     ax.plot(z, e_HM12, lw=2, c='dodgerblue', label='Haardt and Madau 2012')
 
     e_M17 = emissivity_Manti17(z)
-    ax.plot(z, e_M17, lw=2, c='goldenrod', label='Manti et al.\ 2017')
+    ax.plot(z, e_M17, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
+
+    if composite is not None:
+        zc = np.linspace(0, 7, 200)
+        bf = np.median(composite.samples, axis=0)
+        e = [emissivity(composite.log10phi, bf, x, (-30.0, -20.0)) for x in zc]
+        for theta in composite.samples[np.random.randint(len(composite.samples),
+                                                         size=300)]:
+            e = [emissivity(composite.log10phi, theta, x, (-30.0, -20.0)) for x in zc]
+            ax.plot(zc, e, c='goldenrod', alpha=0.1)
+        ax.plot(zc, e, c='goldenrod', lw=2, label='Global model ($M<-20$)')
+        ax.plot(zc, e, c='k', lw=2) 
+
     
-    plt.legend(loc='upper right', fontsize=14, handlelength=3,
+    plt.legend(loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.1, borderpad=0.01, scatterpoints=1)
     

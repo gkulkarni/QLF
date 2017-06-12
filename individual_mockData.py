@@ -20,6 +20,7 @@ cosmo = {'omega_M_0':0.3,
 import gammapi
 import rtg
 import corner
+from lfsample import lfsampleComp
 
 def getqlums(lumfile, zlims=None):
 
@@ -42,7 +43,7 @@ def getqlums(lumfile, zlims=None):
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see selmap below.
             select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
-                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.94)))
+                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.9)))
     except(IndexError):
         pass
 
@@ -143,7 +144,7 @@ class selmap:
 
             z_min, z_max = zlims 
             select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
-                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.94)))
+                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.9)))
             
             self.z = self.z[select]
             self.m = self.m[select]
@@ -172,20 +173,6 @@ class selmap:
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
-        # Things may break down if thresholding is enabled.  Also see
-        # below in lf.
-        thresholding = False 
-        if thresholding: 
-            p_threshold = 0.20
-            select = (self.p > p_threshold)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
-
-            if self.z.size == 0:
-                return # This selmap has no points with the current
-                       # p_threshold
-
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
         return
@@ -203,12 +190,20 @@ class selmap:
             
 class lf:
 
-    def __init__(self, quasar_files=None, selection_maps=None, zlims=None):
+    def __init__(self, theta, composite, quasar_files=None, selection_maps=None, zlims=None):
 
         self.zlims = zlims
 
         for datafile in quasar_files:
             z, m, p, area, sid = getqlums(datafile, zlims=zlims)
+
+            n = m.size
+            
+            if n > 1: 
+                ml = (m.min(), m.max())
+                zl = (z.min(), z.max())
+                m, z = lfsampleComp(theta, composite, n, ml, zl)
+            
             try:
                 self.z=np.append(self.z,z)
                 self.M1450=np.append(self.M1450,m)
@@ -221,18 +216,6 @@ class lf:
                 self.p=p
                 self.area=area
                 self.sid=sid
-
-        # Things may break down if thresholding is enabled.  Also see
-        # above in selmap.
-        thresholding = False 
-        if thresholding: 
-            p_threshold = 0.20
-            select = (self.p > p_threshold)
-            self.z = self.z[select]
-            self.M1450 = self.M1450[select]
-            self.p = self.p[select]
-            self.area = self.area[select]
-            self.sid = self.sid[select]
 
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
