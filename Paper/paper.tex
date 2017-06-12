@@ -440,14 +440,11 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
   \label{fig:giallongo}
 \end{figure*}
 
-
-
-
 \begin{figure*}
   \begin{center}
     \includegraphics[width=\textwidth,keepaspectratio]{mosaic.pdf}
   \end{center}
-  \caption{Luminosity function for $z=0.3$ to $2.6$.}
+  \caption{Individual luminosity function fits for $z=0.3$ to $2.6$.}
   \label{fig:mosaic}
 \end{figure*}
 
@@ -455,17 +452,92 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
   \begin{center}
     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2.pdf}
   \end{center}
-  \caption{Luminosity function for $z=2.6$ to $6.5$.}
+  \caption{Individual luminosity function fits for $z=2.6$ to $6.5$.}
   \label{fig:mosaic2}
 \end{figure*}
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
   \end{center}
-  \caption{Parameter evolution from individual fits.  Coloured points
-    show results when Giallongo quasars are not included.  Black
-    points show results when Giallongo quasars are included.}
+  \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
+  \label{fig:rhoqso_allz}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
+  \end{center}
+  \caption{Parameter evolution from individual fits in
+    Figures~\ref{fig:mosaic} and \ref{fig:mosaic2}.  Parameters from
+    BOSS quasars are seen to be systematically offset. \textbf{[Show
+        $z < 0.6$ point also?]}}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
+  \end{center}
+  \caption{AGN number density evolution with some BOSS quasars
+    removed.}
+  \label{fig:rhoqso}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_seldata.pdf}
+  \end{center}
+  \caption{Parameter evolution with some BOSS quasars removed.  We (1)
+    use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
+    $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
+  \end{center}
+  \caption{Individual and composite luminosity function fits for
+    $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
+    composite fit does not consider quasars at those redshifts.}
+  \label{fig:mosaic_withGlobal}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
+  \end{center}
+  \caption{Individual and composite luminosity function fits for
+    $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
+    composite fit does not consider quasars at those redshifts.}
+  \label{fig:mosaic2_withGlobal}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_global.pdf}
+  \end{center}
+  \caption{Luminosity function parameter evolution in the global model.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+  \end{center}
+  \caption{AGN number density evolution in the global model.}
+  \label{fig:rhoqso}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{LyC emissivity of AGN assuming 100\% escape fraction.
+    Model luminosity functions are integrated down to $M_{1450}=-18$
+    in the left panel and $-20$ in the right panel.}
+  \label{fig:gammapi}
 \end{figure*}
 
 \begin{figure*}
@@ -478,109 +550,11 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{emissivity.pdf}
+    \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
   \end{center}
-  \caption{LyC emissivity.}
-  \label{fig:gammapi}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution_global.pdf}
-  \end{center}
-  \caption{One possible global fit with a 12-parameter model.  Each
-    double power law parameter has a 4th-order Chebyshev polynomial
-    form.  Black points show result from Manti et al.~2017.}
-  \label{fig:global_fit}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
-  \end{center}
-  \caption{Shouldn't there be cosmic downsizing?}
-  \label{fig:rhoqso}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
-  \end{center}
-  \caption{Same as Figure~\ref{fig:rhoqso} but now with the global model.  This global model is the same as that shown in Figure~\ref{fig:global_fit}.}
-  \label{fig:rhoqso_withGlobal}
-\end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{triangle.png}
-%%   \end{center}
-%%   \caption{Posteriors corresponding to Figure~\ref{fig:global_fit}.}
-%%   \label{fig:triangle}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[height=\textheight]{chains.pdf}
-%%   \end{center}
-%%   \caption{MCMC chains corresponding to Figure~\ref{fig:global_fit}.}
-%%   \label{fig:chains}
-%% \end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution_cleaned.pdf}
-  \end{center}
-  \caption{Parameter evolution after making two changes to the
-    analysis: (1) use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and
-    (2) use only $p>0.9$ quasars in the $z>3.7$ sample of Richards.
-    The individual fits with these changes are shown in Figures
-    \ref{fig:mosaic} and \ref{fig:mosaic2}.}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution_model1.pdf}
-  \end{center}
-  \caption{My current global fit.  I am trying to understand why it is
-    so bad.  See Figures~17--21 for more on this.  Note that now I am
-    only trying to fit quasars with $z=0.6$--$2.2$ and $2.8$--$5.5$.
-    I am trying to fit straight lines for $M_*$ and $\alpha$ and
-    quadratics for $\phi_*$ and $\beta$.}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_model1.pdf}
-  \end{center}
-  \caption{The global fit is quite good at $z\sim 1$--$2$.}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.7\textwidth,keepaspectratio]{mosaic2_model1.pdf}
-  \end{center}
-  \caption{Previous figure continued.}
-\end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[height=\textheight,keepaspectratio]{chains_model1.pdf}
-%%   \end{center}
-%%   \caption{MCMC chains for the global model of Figures~16--18.}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{triangle_model1.png}
-%%   \end{center}
-%%   \caption{Posteriors for the global model of Figures~16--18.}
-%% \end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_model1.pdf}
-  \end{center}
-  \caption{Quasar number density in the global model of Figure~16.}
+  \caption{Parameter evolution from individual fits.  Coloured points
+    show results when Giallongo quasars are not included.  Black
+    points show results when Giallongo quasars are included.}
 \end{figure*}
 
 \section*{Acknowledgements}
