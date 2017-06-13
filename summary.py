@@ -203,7 +203,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
 
-    polyfit = True
+    polyfit = False
     if polyfit:
         zc = np.linspace(0, 7, 500)
         
