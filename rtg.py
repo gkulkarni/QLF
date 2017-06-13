@@ -188,7 +188,7 @@ def plot_gamma(composite, zlims=(2.0,6.5), dirname=''):
     ax.tick_params('both', which='major', length=4, width=1)
     ax.tick_params('both', which='minor', length=2, width=1)
 
-    bf = composite.samples.mean(axis=0)
+    bf = composite.samples.median(axis=0)
     g = np.array([gamma_HI(rs, composite.log10phi, bf) for rs in z])
     g = np.log10(g)+12.0
     ax.plot(z, g, color='k', zorder=2)
