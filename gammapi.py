@@ -56,7 +56,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(loglf, theta, z, (-23.0, -18.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-23.0, -20.0), fit=fit_type)
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -273,7 +273,7 @@ def plot_gamma(composite, individuals=None, zlims=(2.0,6.5), dirname='', fast=Tr
 
     return
 
-def draw(individuals, zlims):
+def draw(individuals, composite=None):
 
     """
     Calculates and plots HI photoionization rate. 
@@ -290,7 +290,6 @@ def draw(individuals, zlims):
     ax.set_xlabel('$z$')
     ax.set_xlim(0.,7)
 
-    
     ax.set_ylim(1.0e-2,10)
     ax.set_yscale('log')
     # ax.set_xticks((2,3,4,5,6))
@@ -299,6 +298,26 @@ def draw(individuals, zlims):
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
 
+    if composite is not None:
+        zmin = 2.
+        zmax = 6.5
+        z = np.linspace(zmin, zmax, num=10) 
+        theta = composite.samples[np.random.randint(len(composite.samples))]
+        ga = np.array([rtg.gamma_HI(rs, composite.log10phi, theta) for rs in z])
+
+        count = 1 
+        print count 
+        rindices = np.random.randint(len(composite.samples), size=100)
+        for theta in composite.samples[rindices]:
+            g = np.array([rtg.gamma_HI(rs, composite.log10phi, theta) for rs in z])
+            count += 1
+            print count 
+            ax.plot(z, g, color='#67a9cf', alpha=0.3, zorder=1)
+
+        bf = composite.samples.median(axis=0)
+        g = np.array([Gamma_HI(composite.log10phi, bf, rs) for rs in z])
+        ax.plot(z, g, color='k', zorder=2)
+        
     zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True)
     
     gml = 10.0**gm
@@ -306,7 +325,7 @@ def draw(individuals, zlims):
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
     ax.scatter(zm, gml, c='#d7191c', edgecolor='None', label='Becker and Bolton 2013', s=64)
-    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=2, capthick=2,
+    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
                 fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
                 mew=1, ms=5)
@@ -319,7 +338,7 @@ def draw(individuals, zlims):
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
     ax.scatter(zm, gml, c='#99cc66', edgecolor='None', label='Calverley et al.~2011', s=64) 
-    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=2, capthick=2,
+    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)), fmt='None', zorder=1, mfc='#99CC66',
                 mec='#99CC66', mew=1, ms=5)
 
@@ -336,16 +355,16 @@ def draw(individuals, zlims):
     lz = np.array([x.z.min() for x in individuals])
 
 
-    uz = np.array([x[0] for x in zlims])
-    lz = np.array([x[1] for x in zlims])
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
     
     uzerr = uz-zs
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-18$, local source approximation)',
-               s=44, zorder=4, linewidths=2) 
-    ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=2,
+               label='Individual fits ($M<-20$, local source approximation)',
+               s=44, zorder=4, linewidths=1.5) 
+    ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
                 xerr=np.vstack((lzerr,uzerr)), 
                 mfc='#ffffff', mec='#404040', zorder=3, mew=1,
