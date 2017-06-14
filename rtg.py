@@ -1,20 +1,25 @@
 import numpy as np
-from scipy.integrate import dblquad, quad 
-import matplotlib as mpl
-mpl.use('Agg') 
-mpl.rcParams['text.usetex'] = True 
-mpl.rcParams['font.family'] = 'serif'
-mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '22'
-import matplotlib.pyplot as plt
-from scipy import interpolate
+from scipy.integrate import dblquad
 
-"""
-scipy.integrate.quad and dblquad use qagse.f from FORTRAN QUADPACK.
-qagse is an adaptive integrator for definite integrations.  It is an
-upgrage of qags.f, which, according to Wikipedia, "uses global adaptive
-quadrature based on 21-point Gauss-Kronrod quadrature within each
-subinterval, with acceleration by Peter Wynn's epsilon algorithm."
+""" Functions for calculating the hydrogen photoionisation rate.
+
+Redshifting of radiation is taken into account.  Thus, we are mainly
+evaluating Equation (2) of Haardt and Madau 2012 (ApJ 746 125).  The
+main function here is gamma_HI(z, *args, *kwargs).
+
+Bugs: 
+
+-- Helium is ignored.  
+-- There are several magic numbers.  See function docstrings.
+-- Code is too slow.   
+-- Module filename could be better.
+
+A note on the integrator used: scipy.integrate.dblquad dblquad uses
+qagse.f from FORTRAN QUADPACK.  qagse is an adaptive integrator for
+definite integrations.  It is an upgrage of qags.f, which, according
+to Wikipedia, "uses global adaptive quadrature based on 21-point
+Gauss-Kronrod quadrature within each subinterval, with acceleration by
+Peter Wynn's epsilon algorithm."
 
 """
 
@@ -36,8 +41,10 @@ def f(N_HI, z):
 
 def sigma_HI(nu):
 
-    """
-    HI ionization cross-section.  See Osterbrock's book. 
+    """Calculate the HI ionization cross-section.  
+
+    This parameterisation is taken from Osterbrock and Ferland 2006
+    (Sausalito, California: University Science Books), Equation (2.4).
 
     """
     
@@ -55,6 +62,17 @@ def sigma_HI(nu):
 
 def tau_eff(nu0, z0, z):
 
+    """Calculate the effective opacity between redshifts z0 and z.
+
+    There are two magic numbers: N_HI_min, N_HI_max.  These should
+    ideally be 0 and infinity, but I have chosen to avoid improper
+    integrals here.
+
+    """
+    
+    N_HI_min = 1.0e13
+    N_HI_max = 1.0e22 
+    
     def integrand(logN_HI, z):
 
         N_HI = np.exp(logN_HI)
@@ -65,8 +83,10 @@ def tau_eff(nu0, z0, z):
 
         return i 
 
-    r = dblquad(integrand, z0, z, lambda x: np.log(1.0e13), lambda x: np.log(1.0e22))
-    return r[0]
+    r = dblquad(integrand, z0, z, lambda x: np.log(N_HI_min),
+                lambda x: np.log(N_HI_max))
+    
+    return r[0] # dimensionless 
 
 def H(z):
 
@@ -96,30 +116,47 @@ def luminosity(M):
 
 def emissivity_integrand(nu, z, loglf, theta, M, individual=False):
 
-    # SED power law index is from Beta's paper.
     L = luminosity(M)
 
-    c = 2.998e10 # cm/s 
+    c = 2.998e10 # cm s^-1  
     l = c*1.0e8/nu # Angstrom
 
+    # Far UV spectral index (0.61) is from Lusso et al. 2015 (MNRAS
+    # 449 4204).
     if individual:
-        return (10.0**loglf(theta, M))*L*((l/1450.0)**0.61) # ergs s^-1 Hz^-1 cMpc^-3 mag^-1
+        i = (10.0**loglf(theta, M))*L*((l/1450.0)**0.61) 
     else:
-        return (10.0**loglf(theta, M, z))*L*((l/1450.0)**0.61) # ergs s^-1 Hz^-1 cMpc^-3 mag^-1
+        i = (10.0**loglf(theta, M, z))*L*((l/1450.0)**0.61) 
+
+    return i # ergs s^-1 Hz^-1 cMpc^-3 mag^-1
     
         
 def emissivity(nu, z, loglf, theta, individual=False):
+
+    """Calculate the emissivity at frequency nu and redshift z.
+
+    Three magic numbers: mlims[0], mlims[1], and num.  See
+    emissivity_integrand() above for how the arguments are used.
+
+    """
 
     mlims = (-30.0, -20.0)
     m = np.linspace(mlims[0], mlims[1], num=1000)
     farr = emissivity_integrand(nu, z, loglf, theta, m, individual=individual)
 
-    e = np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3
+    e = np.trapz(farr, m) # erg s^-1 Hz^-1 cMpc^-3
     e *= (1.0+z)**3 # erg s^-1 Hz^-1 pMpc^-3
 
-    return e 
+    return e # erg s^-1 Hz^-1 pMpc^-3
 
 def j(nu0, z0, *args, **kwargs):
+
+    """Calculate the specific intensity at frequency nu0 and redshift z0.
+
+    Two magic numbers: zmax and dz, which can affect the result.  args
+    and kwargs are passed on to the emissivity() function above.
+
+    """
 
     zmax = 6.6
     dz = 0.1
@@ -128,95 +165,51 @@ def j(nu0, z0, *args, **kwargs):
 
         nu = nu0*(1.0+z)/(1.0+z0)
         
-        return dlbydz(z)*vscale(z0,z)*emissivity(nu, z, *args, **kwargs)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
+        return (dlbydz(z)*vscale(z0,z)*emissivity(nu, z, *args, **kwargs)
+                *np.exp(-tau_eff(nu0, z0, z))) # erg s^-1 Mpc^-2 Hz^-1
 
     rs = np.arange(z0, zmax, dz)
+    # j has units of erg s^-1 Mpc^-2 Hz^-1.
     j = np.array([integrand(r, *args, **kwargs) for r in rs])
-    r = np.trapz(j, x=rs)
-    r /= (4.0*np.pi)  
     
-    return r # ergs/s/Mpc^2/Hz/sr 
-
-# def j(nu0, z0, *args):
-
-#     zmax = 9.0
+    r = np.trapz(j, x=rs) # erg s^-1 Mpc^-2 Hz^-1 
+    r /= (4.0*np.pi) # erg s^-1 Mpc^-2 Hz^-1 sr^-1  
     
-#     def integrand(z, *args):
-
-#         nu = nu0*(1.0+z)/(1.0+z0)
-        
-#         return dlbydz(z)*vscale(z0,z)*emissivity(nu, z, *args)*np.exp(-tau_eff(nu0, z0, z)) # ergs/s/Mpc^2/Hz
-
-#     r = quad(integrand, z0, zmax, args=args)
-    
-#     return r[0]/(4.0*np.pi) # ergs/s/Mpc^2/Hz/sr 
+    return r # erg s^-1 Mpc^-2 Hz^-1 sr^-1  
 
 def gamma_HI(z, *args, **kwargs):
 
+    """Calculate the HI photoionisation rate.
+
+    There are two magic numbers: numax and dnu, which can affect the
+    convergence of the integral.  The integral is done over
+    log(frequency) instead of the frequency.  The positional and
+    keyword arguments are for the emissivity() function above. 
+
+    """
+
     numax=1.0e18
-
-    dnu=0.1
-
-    nu0 = 3.288e15 # Hz
+    nu0 = 3.288e15 # Hz; corresponds to 912 Ang
+    
     lognu_min = np.log(nu0) 
     lognu_max = np.log(numax)
-
+    dnu=0.1
     lognu = np.arange(lognu_min, lognu_max, dnu)
 
     def integrand(lognu, *args, **kwargs):
 
         nu = np.exp(lognu) # Hz 
         hplanck = 6.626069e-34 # Js
-        cmbympc = 3.24077928965e-25 
-        return nu * j(nu, z, *args, **kwargs) * sigma_HI(nu) * cmbympc**2 / (hplanck * 1.0e7 * nu) # s^-1 sr^-1 Hz^-1 
+        cmbympc = 3.24077928965e-25
+        # Note the additional factor of nu because the integral is
+        # going to be over log(nu).  This also reflects in the units.
+        return (nu * j(nu, z, *args, **kwargs) * sigma_HI(nu) *
+                cmbympc**2 / (hplanck * 1.0e7 * nu)) # s^-1 sr^-1 Hz^-1 Hz 
 
-    g = np.array([integrand(n, *args, **kwargs) for n in lognu])
+    g = np.array([integrand(n, *args, **kwargs) for n in lognu]) # s^-1 sr^-1 
     r = np.trapz(g, x=lognu) # s^-1 sr^-1 
     r *= 4.0*np.pi # s^-1
 
-    # print z, r 
-
     return r # s^-1 
-
-def plot_gamma(composite, zlims=(2.0,6.5), dirname=''):
-
-    zmin, zmax = zlims 
-    z = np.linspace(zmin, zmax, num=10) 
-
-    fig = plt.figure(figsize=(6, 6), dpi=100)
-    ax = fig.add_subplot(1, 1, 1)
-    ax.tick_params('both', which='major', length=4, width=1)
-    ax.tick_params('both', which='minor', length=2, width=1)
-
-    bf = composite.samples.median(axis=0)
-    g = np.array([gamma_HI(rs, composite.log10phi, bf) for rs in z])
-    g = np.log10(g)+12.0
-    ax.plot(z, g, color='k', zorder=2)
-
-    ax.set_ylabel(r'$\log_{10}(\Gamma_\mathrm{HI}/10^{-12} \mathrm{s}^{-1})$')
-    ax.set_xlabel('$z$')
-    ax.set_xlim(2.,6.5)
-    ax.set_ylim(-2.,1.)
-    ax.set_xticks((2,3,4,5,6))
-    
-    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True) 
-
-    ax.errorbar(zm, gm, ecolor='#d7191c', capsize=0,
-                yerr=np.vstack((gm_up, abs(gm_low))),
-                fmt='o', zorder=3, mfc='#d7191c', mec='#d7191c',
-                mew=1, ms=5, label='Becker and Bolton 2013')
-
-    zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
-    gm += 12.0 
-    ax.errorbar(zm, gm, ecolor='#fdae61', capsize=0,
-                yerr=gm_sigma, fmt='o', zorder=4, mfc='#fdae61',
-                mec='#fdae61', mew=1, ms=5, label='Calverley et al.~2011')
-
-    plt.legend(loc='lower left',fontsize=12,handlelength=3,frameon=False,framealpha=0.0,
-            labelspacing=.1,handletextpad=0.4,borderpad=0.2,numpoints=1)
-    
-    plt.savefig('gammapirt.pdf',bbox_inches='tight')
-
-    return
 
 
