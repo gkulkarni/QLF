@@ -7,13 +7,22 @@ mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
+from scipy.interpolate import RectBivariateSpline
+import sys
+
+z_HM12 = np.loadtxt('z_HM12.txt')
+e_HM12 = np.loadtxt('hm12.txt')
+wavelength = e_HM12[:,0]
+emissivity = RectBivariateSpline(wavelength, z_HM12, e_HM12[:,1:])
+
 
 def emissivity_HM12(nu, z):
 
     # Haardt and Madau 2012 Equation (37) 
 
     nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-    
+    wl = 2.998e18/nu
+
     e = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z) / (np.exp(1.77*z)+26.3)
     e = e*(nu/nu0)**-0.61 
 
@@ -32,16 +41,18 @@ def draw_emissivity():
     ax.set_xlim(0.,7.)
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e23, 1.0e26)
+    ax.set_ylim(0.1, 100)
 
     z = np.linspace(0, 7)
 
     nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-    e_HM12 = emissivity_HM12(nu0, z)
-    ax.plot(z, e_HM12, lw=2, c='dodgerblue', label=r'$\nu=\nu_0$')
+    e = emissivity(z, 3e18/nu0)/1.0e23
+    e2 = 
+    
+    ax.plot(z, e, lw=2, c='dodgerblue', label=r'$\nu=\nu_0$')
 
-    e_HM12 = emissivity_HM12(10.0*nu0, z)
-    ax.plot(z, e_HM12, lw=2, c='tomato', label=r'$\nu=10\nu_0$')
+    # e = emissivity(z, 3e17/nu0)
+    # ax.plot(z, e, lw=2, c='tomato', label=r'$\nu=10\nu_0$')
     
     plt.legend(loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -52,7 +63,8 @@ def draw_emissivity():
 
     return
 
-# draw_emissivity()
+draw_emissivity()
+sys.exit()
 
 yrbys = 3.154e7
 cmbympc = 3.24077928965e-25
@@ -61,7 +73,7 @@ c = 2.998e10*yrbys*cmbympc # Mpc/yr
 numax=1.0e18
 nu0 = 3.288e15 # Hz; corresponds to 912 Ang
 
-nu = np.logspace(np.log10(nu0), 18.0, num=1000)
+nu = np.logspace(np.log10(nu0), 18.0, num=100)
 j = np.zeros_like(nu)
 zmax = 7.0
 zmin = 0.0
@@ -165,7 +177,7 @@ def tau_eff(nu, z):
     integrals here.
 
     """
-    
+
     N_HI_min = 1.0e13
     N_HI_max = 1.0e22 
     
@@ -176,17 +188,50 @@ def tau_eff(nu, z):
 
         return N_HI * f(N_HI, z) * (1.0-np.exp(-tau))
 
-    n = np.linspace(np.log(N_HI_min), np.log(N_HI_max), num=1000)
-    return np.trapz(n, integrand(n))
+    n = np.linspace(np.log(N_HI_min), np.log(N_HI_max), num=100)
 
-nu0 = 3.288e15
-print tau_eff(nu0, 3.)
+    return np.trapz(integrand(n), x=n)
+
+# nu0 = 3.288e15
+# print nu0-nu[0]
+# print nu[0]
+# print tau_eff(nu[0], 3.0)
+print zs
+
+def draw_j(j, nu):
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$j$')
+    ax.set_xlabel(r'$\lambda$')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    #ax.set_ylim(1.0e23, 1.0e26)
+
+    ax.plot(nu, j, lw=2, c='k')
     
+    plt.savefig('j.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
 for z in zs:
 
     e = emissivity_HM12(nu, z)
-    j = j + e*c*dtdz(z)*dz/(4.0*np.pi)
+    j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)
 
     t = np.array([tau_eff(x, z) for x in nu])
-    print nu[1], t[1]
+    j = j*np.exp(-t)
+
+    j = j*(1.0+z)**3
+
+    # if z == 3.0:
+    #     draw_j(j, 2.998e18/nu)
+    
+    print z, nu[1], j[1]
     
