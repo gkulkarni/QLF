@@ -11,75 +11,18 @@ from scipy.interpolate import RectBivariateSpline
 import sys
 
 z_HM12 = np.loadtxt('z_HM12.txt')
-e_HM12 = np.loadtxt('hm12.txt')
-wavelength = e_HM12[:,0]
-emissivity = RectBivariateSpline(wavelength, z_HM12, e_HM12[:,1:])
+data_HM12 = np.loadtxt('hm12.txt')
+w_HM12 = data_HM12[:,0]
+e_HM12 = data_HM12[:,1:]
 
-
-def emissivity_HM12(nu, z):
-
-    # Haardt and Madau 2012 Equation (37) 
-
-    nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-    wl = 2.998e18/nu
-
-    e = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z) / (np.exp(1.77*z)+26.3)
-    e = e*(nu/nu0)**-0.61 
-
-    return e # erg s^-1 Hz^-1 Mpc^-3
-
-def draw_emissivity():
-
-    fig = plt.figure(figsize=(7, 7), dpi=100)
-    ax = fig.add_subplot(1, 1, 1)
-
-    ax.tick_params('both', which='major', length=7, width=1)
-    ax.tick_params('both', which='minor', length=5, width=1)
-
-    ax.set_ylabel(r'$\epsilon_{912}$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
-    ax.set_xlabel('$z$')
-    ax.set_xlim(0.,7.)
-
-    ax.set_yscale('log')
-    ax.set_ylim(0.1, 100)
-
-    z = np.linspace(0, 7)
-
-    nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-    e = emissivity(z, 3e18/nu0)/1.0e23
-    e2 = 
-    
-    ax.plot(z, e, lw=2, c='dodgerblue', label=r'$\nu=\nu_0$')
-
-    # e = emissivity(z, 3e17/nu0)
-    # ax.plot(z, e, lw=2, c='tomato', label=r'$\nu=10\nu_0$')
-    
-    plt.legend(loc='upper right', fontsize=12, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
-    
-    plt.savefig('emissivity.pdf',bbox_inches='tight')
-    plt.close('all')
-
-    return
-
-draw_emissivity()
-sys.exit()
+# kx=1 and ky=1 required here to get good interpolation at the Lyman
+# break.  Also remember that you will most likely need the
+# 'grid=False' option while invoking emissivity_HM12.
+emissivity_HM12 = RectBivariateSpline(w_HM12, z_HM12, e_HM12, kx=1, ky=1)
 
 yrbys = 3.154e7
 cmbympc = 3.24077928965e-25
 c = 2.998e10*yrbys*cmbympc # Mpc/yr 
-
-numax=1.0e18
-nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-
-nu = np.logspace(np.log10(nu0), 18.0, num=100)
-j = np.zeros_like(nu)
-zmax = 7.0
-zmin = 0.0
-dz = 0.5
-n = (zmax-zmin)/dz+1
-zs = np.linspace(7,0,num=n)
 
 omega_lambda = 0.7
 omega_nr = 0.3
@@ -138,36 +81,6 @@ def sigma_HI(nu):
         return (a0 * (nu0/nu)**4 * np.exp(4.0-4.0*np.arctan(eps)/eps) /
                 (1.0-np.exp(-2.0*np.pi/eps)))
 
-def draw_sigma():
-
-    fig = plt.figure(figsize=(7, 7), dpi=100)
-    ax = fig.add_subplot(1, 1, 1)
-
-    ax.tick_params('both', which='major', length=7, width=1)
-    ax.tick_params('both', which='minor', length=5, width=1)
-
-    ax.set_ylabel(r'$\sigma$')
-    ax.set_xlabel(r'$\nu$')
-
-    plt.xlim(0,6)
-    plt.ylim(0,8)
-
-    n = np.logspace(14, 18, num=500)
-    s_Osterbrock = [sigma_HI(x)/1.0e-18 for x in n]
-    s_HG97 = sigma_HI_HG97(n)/1.0e-18
-    
-    ax.plot(n/1.0e16, s_Osterbrock, lw=4, c='forestgreen', label=r'Osterbrock')
-    ax.plot(n/1.0e16, s_HG97, lw=2, c='royalblue', label=r'Gnedin')
-    
-    plt.legend(loc='upper right', fontsize=12, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
-    
-    plt.savefig('sigma.pdf',bbox_inches='tight')
-    plt.close('all')
-
-    return
-
 def tau_eff(nu, z):
 
     """Calculate the effective opacity between redshifts z0 and z.
@@ -192,46 +105,73 @@ def tau_eff(nu, z):
 
     return np.trapz(integrand(n), x=n)
 
-# nu0 = 3.288e15
-# print nu0-nu[0]
-# print nu[0]
-# print tau_eff(nu[0], 3.0)
-print zs
-
-def draw_j(j, nu):
+def draw_j(j, w):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
 
-    ax.set_ylabel(r'$j$')
+    ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
     ax.set_xlabel(r'$\lambda$')
 
     ax.set_yscale('log')
     ax.set_xscale('log')
-    #ax.set_ylim(1.0e23, 1.0e26)
-
-    ax.plot(nu, j, lw=2, c='k')
+    ax.set_ylim(1.0e-7, 1.0e3)
+    ax.set_xlim(5.0, 4.0e3)
+    plt.title('$z=7$')
     
-    plt.savefig('j.pdf',bbox_inches='tight')
+    ax.plot(w, j/1.0e-22, lw=2, c='k')
+    
+    plt.savefig('j_z7.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
 
+wmin = 5.0
+wmax = 5.0e3
+ws = np.logspace(0.0, 4.0, num=1000)
+nu = 2.998e18/ws 
+hplanck = 6.626069e-27 # erg s
+
+# numax=1.0e18
+# nu0 = 3.288e15 # Hz; corresponds to 912 Ang
+# nu = np.logspace(np.log10(nu0), 18.0, num=1000)
+
+j = np.zeros_like(nu)
+
+zmax = 7.0
+zmin = 0.0
+dz = 0.5
+n = (zmax-zmin)/dz+1
+zs = np.linspace(7, 0, num=n)
+
 for z in zs:
 
-    e = emissivity_HM12(nu, z)
+    # grid=False ensures that we get a flat array. 
+    e = emissivity_HM12(ws, z*np.ones_like(ws), grid=False)
     j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)
 
     t = np.array([tau_eff(x, z) for x in nu])
-    j = j*np.exp(-t)
+    #j = j*np.exp(-t*dz)
 
     j = j*(1.0+z)**3
 
-    # if z == 3.0:
-    #     draw_j(j, 2.998e18/nu)
+    j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1 
+
+    # if z == 7.0:
+    #     draw_j(j, ws)
     
-    print z, nu[1], j[1]
+    # print z, ws[1], nu[1], j[1]
+    
+    n = 4.0*np.pi*j/(hplanck*nu)
+    s = np.array([sigma_HI(x) for x in nu])
+
+    # There is a minus sign because nu = c/lambda is a decreasing
+    # array so dnu is negative.
+    g = -np.trapz(n*s, x=nu) # s^-1 
+    
+    print z, g 
     
