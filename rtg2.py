@@ -121,11 +121,11 @@ def draw_j(j, w):
     ax.set_xscale('log')
     ax.set_ylim(1.0e-7, 1.0e3)
     ax.set_xlim(5.0, 4.0e3)
-    plt.title('$z=7$')
+    plt.title('$z=6$')
     
     ax.plot(w, j/1.0e-22, lw=2, c='k')
     
-    plt.savefig('j_z7.pdf',bbox_inches='tight')
+    plt.savefig('j_z6.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
@@ -150,28 +150,30 @@ zs = np.linspace(7, 0, num=n)
 
 for z in zs:
 
+    if z < zmax:
+        vfactor = ((1.0+z)/(1.0+z-dz))**3 
+        j = j/vfactor 
+
     # grid=False ensures that we get a flat array. 
-    e = emissivity_HM12(ws, z*np.ones_like(ws), grid=False)
-    j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)
+    e = emissivity_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
+    j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)*(1.0+z)**3 
 
     t = np.array([tau_eff(x, z) for x in nu])
-    #j = j*np.exp(-t*dz)
-
-    j = j*(1.0+z)**3
+    # j = j*np.exp(-t*dz)
 
     j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1 
 
-    # if z == 7.0:
-    #     draw_j(j, ws)
+    if z == 6.0:
+        draw_j(j, ws*(1.0+z))
     
     # print z, ws[1], nu[1], j[1]
     
-    n = 4.0*np.pi*j/(hplanck*nu)
-    s = np.array([sigma_HI(x) for x in nu])
+    # n = 4.0*np.pi*j/(hplanck*nu)
+    # s = np.array([sigma_HI(x) for x in nu])
 
     # There is a minus sign because nu = c/lambda is a decreasing
     # array so dnu is negative.
-    g = -np.trapz(n*s, x=nu) # s^-1 
+    # g = -np.trapz(n*s, x=nu) # s^-1 
     
-    print z, g 
+    # print z, g 
     
