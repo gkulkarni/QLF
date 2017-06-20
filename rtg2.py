@@ -102,7 +102,7 @@ def tau_eff(nu, z):
     """
 
     N_HI_min = 1.0e13
-    N_HI_max = 1.0e22 
+    N_HI_max = 1.0e17
     
     def integrand(logN_HI):
 
@@ -175,8 +175,84 @@ for z in zs:
     # if z == 5.0:
     #     draw_j(j, ws*(1.0+z), z)
     
+    nu_local = 2.998e18/(ws*(1.0+z))
+    n = 4.0*np.pi*j/(hplanck*nu_local)
+    s = np.array([sigma_HI(x) for x in nu_local])
 
     # There is a minus sign because nu = c/lambda is a decreasing
     # array so dnu is negative.
+    g = -np.trapz(n*s, x=nu_local) # s^-1 
     
+    # Compare with HM12. 
+    j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
+    n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
+    s = np.array([sigma_HI(x) for x in nu_local])
     
+    g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
+
+    gs.append(g_hm12)
+
+    # print z, g, g_hm12, g_hm12/g
+
+    
+def draw_g(z, g):
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-1, 2)
+    ax.set_xlim(1.,7)
+
+    # locs = (1.0e-2, 1.0e-1, 1.0, 10.0)
+    # labels = ('0.01', '0.1', '1', '10')
+    # plt.yticks(locs, labels)
+
+    locs = (1.0e-1, 1.0, 2.0)
+    labels = ('0.1', '1', '2')
+    plt.yticks(locs, labels)
+    
+
+    ax.plot(z, g/1.0e-12, c='k', lw=2)
+    # ax.scatter(z, g/1.0e-12, c='#ffffff', edgecolor='k',
+    #            s=44, zorder=4, linewidths=1.5) 
+
+
+    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True)
+    
+    gml = 10.0**gm
+    gml_up = 10.0**(gm+gm_up)-10.0**gm
+    gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
+
+    ax.scatter(zm, gml, c='#d7191c', edgecolor='None', label='Becker and Bolton 2013', s=64)
+    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=1.5, capthick=1.5,
+                yerr=np.vstack((gml_low, gml_up)),
+                fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
+                mew=1, ms=5)
+
+    zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
+    gm += 12.0
+
+    gml = 10.0**gm
+    gml_up = 10.0**(gm+gm_sigma)-10.0**gm
+    gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
+    
+    ax.scatter(zm, gml, c='#99cc66', edgecolor='None', label='Calverley et al.~2011', s=64) 
+    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=1.5, capthick=1.5,
+                yerr=np.vstack((gml_low, gml_up)), fmt='None', zorder=1, mfc='#99CC66',
+                mec='#99CC66', mew=1, ms=5)
+    
+    plt.savefig('g.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+gs = np.array(gs)
+draw_g(zs,gs)
