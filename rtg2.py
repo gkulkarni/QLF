@@ -147,7 +147,7 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 4.0, num=10000)
+ws = np.logspace(0.0, 4.0, num=100)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -192,7 +192,7 @@ for z in zs:
 
     gs.append(g_hm12)
 
-    print z, g, g_hm12, g_hm12/g
+    # print z, g, g_hm12, g_hm12/g
 
 check_gamma_HM12 = False
 if check_gamma_HM12:
@@ -265,8 +265,8 @@ def draw_g(z, g):
 
     return
 
-gs = np.array(gs)
-draw_g(zs,gs)
+# gs = np.array(gs)
+# draw_g(zs,gs)
 
 def check_emissivity():
 
@@ -277,24 +277,58 @@ def check_emissivity():
     ax.tick_params('both', which='minor', length=5, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
-    ax.set_xlabel(r'$\lambda$')
+    ax.set_ylabel(r'comoving emissivity per log bandwidth [$10^{39}$~erg s$^{-1}$ cMpc$^{-3}$]', fontsize=14)
+    ax.set_xlabel(r'$E$~[eV]', fontsize=14)
 
     ax.set_yscale('log')
     ax.set_xscale('log')
-    ax.set_ylim(1.0e-7, 1.0e3)
-    ax.set_xlim(5.0, 4.0e3)
+    
+    ax.set_ylim(0.3, 3000.0)
+    ax.set_xlim(1.0, 60.0)
 
-    ax.plot(w, j/1.0e-22, lw=2, c='k')
-    j_hm12 = bkgintens_HM12(w, z*np.ones_like(w), grid=False)
-    ax.plot(w, j_hm12/1.0e-22, lw=2, c='tomato')
+    locs = (1.0, 5.0, 10.0, 50.0)
+    labels = ('1', '5', '10', '50')
+    plt.xticks(locs, labels)
 
-    ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
-    ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+    locs = (1.0, 10.0, 100.0, 1000.0)
+    labels = ('1', '10', '100', '1000')
+    plt.yticks(locs, labels)
+    
+    nu = np.logspace(13.0,17.0,num=10000)
 
-    plt.title('$z={:g}$'.format(z))
-    plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
+    dnu = np.diff(nu)
+    num = (nu[1:]+nu[:-1])/2.0
+    erg_to_eV = 6.2415091e11
+
+    dnu2 = np.diff(np.log10(nu))
+    print np.unique(dnu2)
+    
+    z = 1.1
+    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='k', label='$z=1.1$') 
+    
+    z = 3.0
+    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='r', label='$z=3.0$') 
+
+    z = 4.9
+    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='g', label='$z=4.9$') 
+
+    z = 8.1
+    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='b', label='$z=8.1$') 
+    
+    ax.axvline(13.6, lw=1, c='k', dashes=[7,2])
+
+    plt.legend(loc='lower left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+    
+    plt.savefig('e.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
+
+check_emissivity() 
     
