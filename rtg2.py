@@ -147,7 +147,7 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 4.0, num=1000)
+ws = np.logspace(0.0, 4.0, num=10000)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -155,7 +155,7 @@ j = np.zeros_like(nu)
 
 zmax = 15.0
 zmin = 0.0
-dz = 0.01
+dz = 0.1
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 
@@ -192,8 +192,19 @@ for z in zs:
 
     gs.append(g_hm12)
 
-    # print z, g, g_hm12, g_hm12/g
+    print z, g, g_hm12, g_hm12/g
 
+check_gamma_HM12 = False
+if check_gamma_HM12:
+    for z in zs:
+
+        nu_local = 2.998e18/(ws*(1.0+z))
+        j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
+        n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
+        s = np.array([sigma_HI(x) for x in nu_local])
+        
+        g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
+        gs.append(g_hm12)
     
 def draw_g(z, g):
 
@@ -256,3 +267,34 @@ def draw_g(z, g):
 
 gs = np.array(gs)
 draw_g(zs,gs)
+
+def check_emissivity():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
+    ax.set_xlabel(r'$\lambda$')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    ax.set_ylim(1.0e-7, 1.0e3)
+    ax.set_xlim(5.0, 4.0e3)
+
+    ax.plot(w, j/1.0e-22, lw=2, c='k')
+    j_hm12 = bkgintens_HM12(w, z*np.ones_like(w), grid=False)
+    ax.plot(w, j_hm12/1.0e-22, lw=2, c='tomato')
+
+    ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+
+    plt.title('$z={:g}$'.format(z))
+    plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+    
