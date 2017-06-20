@@ -268,7 +268,33 @@ def draw_g(z, g):
 # gs = np.array(gs)
 # draw_g(zs,gs)
 
-def check_emissivity():
+def qso_emissivity_hm12(nu, z):
+
+    """HM12 qso comoving emissivity.
+
+    This is given by equations (37) and (38) of HM12.
+
+    """
+
+    w = 2.998e18/nu
+    nu_912 = 2.998e18/912.0
+    nu_1300 = 2.998e18/1300.0
+    
+    a = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3)
+    b = a * (nu_1300/nu_912)**-1.57
+
+    if w > 1300.0:
+        e = b*(nu/nu_1300)**-0.44
+    else:
+        e = a*(nu/nu_912)**-1.57
+
+    return e
+
+def plot_qso_emissivity():
+
+    """Plot HM12 qso emissivity. 
+    
+    """
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -277,7 +303,62 @@ def check_emissivity():
     ax.tick_params('both', which='minor', length=5, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    ax.set_ylabel(r'comoving emissivity per log bandwidth [$10^{39}$~erg s$^{-1}$ cMpc$^{-3}$]', fontsize=14)
+    ax.set_ylabel(r'emissivity [$10^{39}$~erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel(r'$\nu$~[Hz]')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    
+    nu = np.logspace(13.0,17.0,num=10000)
+
+    z = 1.1
+    e = np.array([qso_emissivity_hm12(x, z) for x in nu])
+    ax.plot(nu, e, lw=2, c='k', label='$z=1.1$') 
+    
+    z = 3.0
+    e = np.array([qso_emissivity_hm12(x, z) for x in nu])
+    ax.plot(nu, e, lw=2, c='r', label='$z=3.0$') 
+
+    z = 4.9
+    e = np.array([qso_emissivity_hm12(x, z) for x in nu])
+    ax.plot(nu, e, lw=2, c='g', label='$z=4.9$') 
+
+    z = 8.1
+    e = np.array([qso_emissivity_hm12(x, z) for x in nu])
+    ax.plot(nu, e, lw=2, c='b', label='$z=8.1$')
+
+    ax.axvline(2.998e18/912.0, lw=1, c='k', dashes=[7,2])
+    
+    plt.legend(loc='lower left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+    
+    plt.savefig('e_qso.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+    
+def check_emissivity():
+
+    """Plot HM12 galaxy emissivity.
+
+    This for comparison with HM12 figure 15 (right panel).  Galaxy
+    emissivity is obtained by subtracting the qso emissivity from the
+    published total emissivity.
+
+    If show_qso_spectrum is set, also plots qsi emissivity.
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'comoving emissivity per log bandwidth '+
+                  '[$10^{39}$~erg s$^{-1}$ cMpc$^{-3}$]', fontsize=14)
     ax.set_xlabel(r'$E$~[eV]', fontsize=14)
 
     ax.set_yscale('log')
@@ -300,24 +381,46 @@ def check_emissivity():
     num = (nu[1:]+nu[:-1])/2.0
     erg_to_eV = 6.2415091e11
 
-    dnu2 = np.diff(np.log10(nu))
+    dnu2 = np.diff(np.log(nu))
     print np.unique(dnu2)
+
+    show_qso_spectrum = False
     
     z = 1.1
+    e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
     e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
-    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='k', label='$z=1.1$') 
+    if show_qso_spectrum: 
+        ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
+                lw=2, c='k', label='$z=1.1$', dashes=[7,2]) 
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*(e-e_qso)*dnu/dnu2,
+            lw=2, c='k', label='$z=1.1$') 
     
     z = 3.0
+    e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
     e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
-    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='r', label='$z=3.0$') 
+    if show_qso_spectrum: 
+        ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
+                lw=2, c='r', label='$z=3.0$', dashes=[7,2]) 
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*(e-e_qso)*dnu/dnu2,
+            lw=2, c='r', label='$z=3.0$') 
 
     z = 4.9
+    e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
     e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
-    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='g', label='$z=4.9$') 
+    if show_qso_spectrum: 
+        ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
+                lw=2, c='g', label='$z=4.9$', dashes=[7,2]) 
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*(e-e_qso)*dnu/dnu2,
+            lw=2, c='g', label='$z=4.9$') 
 
     z = 8.1
+    e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
     e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
-    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e*dnu/dnu2, lw=2, c='b', label='$z=8.1$') 
+    if show_qso_spectrum: 
+        ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
+                lw=2, c='b', label='$z=8.1$', dashes=[7,2]) 
+    ax.plot(hplanck*num*erg_to_eV, 1.0e-39*(e-e_qso)*dnu/dnu2,
+            lw=2, c='b', label='$z=8.1$') 
     
     ax.axvline(13.6, lw=1, c='k', dashes=[7,2])
 
@@ -330,5 +433,4 @@ def check_emissivity():
 
     return
 
-check_emissivity() 
     
