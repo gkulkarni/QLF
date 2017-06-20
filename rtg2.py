@@ -20,6 +20,16 @@ e_HM12 = data_HM12[:,1:]
 # 'grid=False' option while invoking emissivity_HM12.
 emissivity_HM12 = RectBivariateSpline(w_HM12, z_HM12, e_HM12, kx=1, ky=1)
 
+jdata_HM12 = np.loadtxt('j_HM12.txt')
+w_j_HM12 = jdata_HM12[:,0]
+
+# Remove lines with same wavelength so that RectBivariateSpline can
+# work.  Not sure why these lines occur in HM12 tables.
+w_j_HM12, idx = np.unique(w_j_HM12, return_index=True)
+j_HM12 = jdata_HM12[idx, 1:]
+
+bkgintens_HM12 = RectBivariateSpline(w_j_HM12, z_HM12, j_HM12, kx=1, ky=1)
+
 yrbys = 3.154e7
 cmbympc = 3.24077928965e-25
 c = 2.998e10*yrbys*cmbympc # Mpc/yr 
@@ -105,7 +115,7 @@ def tau_eff(nu, z):
 
     return np.trapz(integrand(n), x=n)
 
-def draw_j(j, w):
+def draw_j(j, w, z):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -121,11 +131,16 @@ def draw_j(j, w):
     ax.set_xscale('log')
     ax.set_ylim(1.0e-7, 1.0e3)
     ax.set_xlim(5.0, 4.0e3)
-    plt.title('$z=6$')
-    
+
     ax.plot(w, j/1.0e-22, lw=2, c='k')
-    
-    plt.savefig('j_z6.pdf',bbox_inches='tight')
+    j_hm12 = bkgintens_HM12(w, z*np.ones_like(w), grid=False)
+    ax.plot(w, j_hm12/1.0e-22, lw=2, c='tomato')
+
+    ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+
+    plt.title('$z={:g}$'.format(z))
+    plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
@@ -136,44 +151,32 @@ ws = np.logspace(0.0, 4.0, num=1000)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
-# numax=1.0e18
-# nu0 = 3.288e15 # Hz; corresponds to 912 Ang
-# nu = np.logspace(np.log10(nu0), 18.0, num=1000)
-
 j = np.zeros_like(nu)
 
-zmax = 7.0
+zmax = 15.0
 zmin = 0.0
-dz = 0.5
+dz = 0.01
 n = (zmax-zmin)/dz+1
-zs = np.linspace(7, 0, num=n)
+zs = np.linspace(zmax, zmin, num=n)
+
+gs = []
 
 for z in zs:
-
-    if z < zmax:
-        vfactor = ((1.0+z)/(1.0+z-dz))**3 
-        j = j/vfactor 
 
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
     j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)*(1.0+z)**3 
 
-    t = np.array([tau_eff(x, z) for x in nu])
-    # j = j*np.exp(-t*dz)
+    t = np.array([tau_eff(x, z) for x in 2.998e18/(ws*(1.0+z))])
+    j = j*np.exp(-t*dz)
 
-    j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1 
+    j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
-    if z == 6.0:
-        draw_j(j, ws*(1.0+z))
+    # if z == 5.0:
+    #     draw_j(j, ws*(1.0+z), z)
     
-    # print z, ws[1], nu[1], j[1]
-    
-    # n = 4.0*np.pi*j/(hplanck*nu)
-    # s = np.array([sigma_HI(x) for x in nu])
 
     # There is a minus sign because nu = c/lambda is a decreasing
     # array so dnu is negative.
-    # g = -np.trapz(n*s, x=nu) # s^-1 
     
-    # print z, g 
     
