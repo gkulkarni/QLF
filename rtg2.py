@@ -200,9 +200,59 @@ def plot_f():
     
     plt.savefig('f.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
+
+# plot_f()
+
+def plot_f_vs_z():
+
+    """Plot HM12 HI column density distribution evolution. 
+
+    Just to confirm continuity.
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\log_{10} f(N_\mathrm{HI},z)$')
+    ax.set_xlabel(r'$z$') 
+
+    n = 1.0e12
+    z = np.linspace(0,7,num=100)
+    f = vf_HM12(n, z)
+    ax.plot(z, np.log10(f), lw=2, c='g', label='$N_\mathrm{HI}=10^{12} \mathrm{cm}^{-2}$') 
     
-plot_f()
+    n = 1.0e16
+    z = np.linspace(0,7,num=100)
+    f = vf_HM12(n, z)
+    ax.plot(z, np.log10(f), lw=2, c='k', label='$N_\mathrm{HI}=10^{16} \mathrm{cm}^{-2}$') 
+
+    n = 1.0e18
+    z = np.linspace(0,7,num=100)
+    f = vf_HM12(n, z)
+    ax.plot(z, np.log10(f), lw=2, c='b', label='$N_\mathrm{HI}=10^{20} \mathrm{cm}^{-2}$') 
     
+    n = 1.0e20
+    z = np.linspace(0,7,num=100)
+    f = vf_HM12(n, z)
+    ax.plot(z, np.log10(f), lw=2, c='r', label='$N_\mathrm{HI}=10^{20} \mathrm{cm}^{-2}$') 
+
+    n = 1.0e22
+    z = np.linspace(0,7,num=100)
+    f = vf_HM12(n, z)
+    ax.plot(z, np.log10(f), lw=2, c='brown', label='$N_\mathrm{HI}=10^{22} \mathrm{cm}^{-2}$') 
+    
+    plt.legend(loc='lower left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+
+    plt.savefig('fz.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
 def sigma_HI(nu):
 
     """Calculate the HI ionization cross-section.  
