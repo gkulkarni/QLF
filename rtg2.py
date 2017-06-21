@@ -157,6 +157,12 @@ vf_HM12 = np.vectorize(f_HM12, otypes=[np.float])
 
 def plot_f():
 
+    """Plot HM12 HI column density distribution.
+
+    Compare result to left panel of Figure 1 of HM12. 
+
+    """
+
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
@@ -181,11 +187,11 @@ def plot_f():
     
     z = 2.0
     f = vf_HM12(n, z)
-    ax.plot(np.log10(n), np.log10(f/50), lw=2, c='r', label='$z=2$') 
+    ax.plot(np.log10(n), np.log10(f/50), lw=2, c='r', label='$z=2.0$') 
 
     z = 5.0
     f = vf_HM12(n, z)
-    ax.plot(np.log10(n), np.log10(f*50), lw=2, c='b', label='$z=5$')
+    ax.plot(np.log10(n), np.log10(f*50), lw=2, c='b', label='$z=5.0$')
 
     plt.legend(loc='lower left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
