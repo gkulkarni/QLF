@@ -153,8 +153,50 @@ def f_HM12(N_HI, z):
 
     return 0.0
 
-vf_HM12 = np.vectorize(f_HM12, otypes=[np.float]) 
+vf_HM12 = np.vectorize(f_HM12, otypes=[np.float])
 
+def plot_f():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\log_{10} f(N_\mathrm{HI},z)$')
+    ax.set_xlabel(r'$\log_{10}(N_\mathrm{HI}/\mathrm{cm}^{-2})$') 
+
+    ax.set_ylim(-25.0, -7.0)
+    ax.set_xlim(11.0, 21.5)
+
+    locs = range(-24, -6, 2)
+    labels = ['$'+str(x)+'$' for x in locs]
+    plt.yticks(locs, labels)
+
+    n = np.logspace(11.0,23.0,num=1000)
+    z = 3.5
+    f = vf_HM12(n, z)
+    ax.plot(np.log10(n), np.log10(f), lw=2, c='k', label='$z=3.5$') 
+    
+    z = 2.0
+    f = vf_HM12(n, z)
+    ax.plot(np.log10(n), np.log10(f/50), lw=2, c='r', label='$z=2$') 
+
+    z = 5.0
+    f = vf_HM12(n, z)
+    ax.plot(np.log10(n), np.log10(f*50), lw=2, c='b', label='$z=5$')
+
+    plt.legend(loc='lower left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+
+    
+    plt.savefig('f.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+    
+plot_f()
+    
 def sigma_HI(nu):
 
     """Calculate the HI ionization cross-section.  
