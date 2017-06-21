@@ -77,7 +77,7 @@ def f_HM12(N_HI, z):
     if z < 1.56:
         if 11.0 <= log10NHI < 15.0:
             a = 1.73e8 
-            b = 2
+            b = 1.5
             g = 0.16
         elif 15.0 <= log10NHI < 17.5:
             a = 5.49e15 
@@ -136,7 +136,7 @@ def f_HM12(N_HI, z):
         elif 17.5 <= log10NHI < 19.0:
             # f(N_HI) for log10NHI >= 17.5 not specified by HM12 at
             # these redshifts.  I am assuming same behaviour as low z.
-            f17p5 = 9.35e8 * (1+z)**9.9 * (10.0**17.5)**-3
+            f17p5 = 9.35e8 * (1+z)**9.9 * (10.0**17.5)**-2
             f19 = 0.45 * (1+z)**1.27 * (10.0**19)**-1.05
             b = np.log10(f17p5/f19)/1.5
             a = f17p5 * (10.0**17.5)**b
