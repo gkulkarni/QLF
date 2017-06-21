@@ -68,7 +68,95 @@ def f(N_HI, z):
     beta_z = 1.92
     N_LL = 10.0**17.2 # cm^-2 
 
-    return (A/N_LL) * ((N_HI/N_LL)**(-beta_N)) * (((1.0+z)/4.5)**beta_z) # cm^2 
+    return (A/N_LL) * ((N_HI/N_LL)**(-beta_N)) * (((1.0+z)/4.5)**beta_z) # cm^2
+
+def f_HM12(N_HI, z):
+
+    logNHI = np.log10(N_HI)
+
+    if z < 1.56:
+        if 11.0 <= log10NHI < 15.0:
+            a = 1.73e8 
+            b = 2
+            g = 0.16
+        elif 15.0 <= log10NHI < 17.5:
+            a = 5.49e15 
+            b = 2.0
+            g = 0.16 
+        elif 17.5 <= log10NHI < 19.0:
+            f17p5 = 5.49e15 * (1+z)**0.16 * N_HI**-2
+            f19 = 1.28 * (1+z)**0.16 * N_HI**-1.05
+            r = 19.0/17.5
+            b = np.log10(f17p5/f19)/np.log10(r)
+            a = f17p5 * N_HI**b
+            return a * N_HI**-b
+        elif 19.0 <= log10NHI < 20.3:
+            a = 1.28
+            b = 1.05 # Not specified by HM12; assuming same as high z
+            g = 0.16 
+        elif 20.3 <= log10NHI:
+            a = 2.47e19 
+            b = 2.0 # Not specified by HM12; assuming same as high z
+            g = 0.16 
+        return a * (1+z)**g * N_HI**-b
+    
+    elif 1.56 <= z < 5.5:
+        if 11.0 <= log10NHI < 15.0:
+            a = 1.2e7
+            b = 1.5
+            g = 3.0
+        elif 15.0 <= log10NHI < 17.5:
+            a = 3.8e14
+            b = 2.0
+            g = 3.0
+        elif 17.5 <= log10NHI < 19.0:
+            f17p5 = 3.8e14 * (1+z)**3 * N_HI**-2
+            f19 = 0.45 * (1+z)**1.27 * N_HI**-1.05
+            r = 19.0/17.5
+            b = np.log10(f17p5/f19)/np.log10(r)
+            a = f17p5 * N_HI**b
+            return a * N_HI**-b
+        elif 19.0 <= log10NHI < 20.3:
+            a = 0.45
+            b = 1.05
+            g = 1.27
+        elif 20.3 <= log10NHI:
+            a = 8.7e18
+            b = 2.0
+            g = 1.27
+        return a * (1+z)**g * N_HI**-b
+
+    elif 5.5 <= z:
+        if 11.0 <= log10NHI < 15.0:
+            a = 29.5
+            b = 1.5
+            g = 9.9
+        elif 15.0 <= log10NHI < 17.5:
+            a = 9.35e8 
+            b = 2
+            g = 9.9
+        elif 17.5 <= log10NHI < 19.0:
+            # f(N_HI) for log10NHI >= 17.5 not specified by HM12 at
+            # these redshifts.  I am assuming same behaviour as low z. 
+            f17p5 = 9.35e8 * (1+z)**2 * N_HI**-9.9
+            f19 = 0.45 * (1+z)**1.27 * N_HI**-1.05
+            r = 19.0/17.5
+            b = np.log10(f17p5/f19)/np.log10(r)
+            a = f17p5 * N_HI**b
+            return a * N_HI**-b
+        elif 19.0 <= log10NHI < 20.3:
+            a = 0.45
+            b = 1.05
+            g = 1.27
+        elif 20.3 <= log10NHI:
+            a = 8.7e18
+            b = 2.0
+            g = 1.27
+        return a * (1+z)**g * N_HI**-b
+
+    return 0.0
+
+vf_HM12 = np.vectorize(f_HM12, otypes=[np.float]) 
 
 def sigma_HI(nu):
 
@@ -434,3 +522,4 @@ def check_emissivity():
     return
 
     
+
