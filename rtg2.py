@@ -201,8 +201,6 @@ def plot_f():
     plt.savefig('f.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
-# plot_f()
-
 def plot_f_vs_z():
 
     """Plot HM12 HI column density distribution evolution. 
@@ -224,27 +222,32 @@ def plot_f_vs_z():
     n = 1.0e12
     z = np.linspace(0,7,num=100)
     f = vf_HM12(n, z)
-    ax.plot(z, np.log10(f), lw=2, c='g', label='$N_\mathrm{HI}=10^{12} \mathrm{cm}^{-2}$') 
+    ax.plot(z, np.log10(f), lw=2, c='g',
+            label='$N_\mathrm{HI}=10^{12} \mathrm{cm}^{-2}$') 
     
     n = 1.0e16
     z = np.linspace(0,7,num=100)
     f = vf_HM12(n, z)
-    ax.plot(z, np.log10(f), lw=2, c='k', label='$N_\mathrm{HI}=10^{16} \mathrm{cm}^{-2}$') 
+    ax.plot(z, np.log10(f), lw=2, c='k',
+            label='$N_\mathrm{HI}=10^{16} \mathrm{cm}^{-2}$') 
 
     n = 1.0e18
     z = np.linspace(0,7,num=100)
     f = vf_HM12(n, z)
-    ax.plot(z, np.log10(f), lw=2, c='b', label='$N_\mathrm{HI}=10^{20} \mathrm{cm}^{-2}$') 
+    ax.plot(z, np.log10(f), lw=2, c='b',
+            label='$N_\mathrm{HI}=10^{18} \mathrm{cm}^{-2}$') 
     
     n = 1.0e20
     z = np.linspace(0,7,num=100)
     f = vf_HM12(n, z)
-    ax.plot(z, np.log10(f), lw=2, c='r', label='$N_\mathrm{HI}=10^{20} \mathrm{cm}^{-2}$') 
+    ax.plot(z, np.log10(f), lw=2, c='r',
+            label='$N_\mathrm{HI}=10^{20} \mathrm{cm}^{-2}$') 
 
     n = 1.0e22
     z = np.linspace(0,7,num=100)
     f = vf_HM12(n, z)
-    ax.plot(z, np.log10(f), lw=2, c='brown', label='$N_\mathrm{HI}=10^{22} \mathrm{cm}^{-2}$') 
+    ax.plot(z, np.log10(f), lw=2, c='brown',
+            label='$N_\mathrm{HI}=10^{22} \mathrm{cm}^{-2}$') 
     
     plt.legend(loc='lower left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -284,19 +287,92 @@ def tau_eff(nu, z):
 
     """
 
-    N_HI_min = 1.0e13
-    N_HI_max = 1.0e17
+    N_HI_min = 1.0e11
+    N_HI_max = 1.0e23
+    n = np.logspace(np.log(N_HI_min), np.log(N_HI_max), num=1000, base=np.e)
+    fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu)))
+
+    return np.trapz(fn, x=np.log(n))
+
+def plot_dtaudn():
+
+    """Plot dtau_eff/dN_HI. 
+
+    Compare result to right panel of Figure 1 of HM12. 
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\log_{10} N_\mathrm{HI} f(N_\mathrm{HI},z) [1-\exp{(-N_\mathrm{HI}\sigma_{912})}]$')
+    ax.set_xlabel(r'$\log_{10}(N_\mathrm{HI}/\mathrm{cm}^{-2})$') 
+
+    ax.set_ylim(-3, 0)
+    ax.set_xlim(11.0, 21.5)
+
+    locs = range(-3, 1) 
+    labels = ['$'+str(x)+'$' for x in locs]
+    plt.yticks(locs, labels)
+
+    nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)        
     
-    def integrand(logN_HI):
+    n = np.logspace(11.0, 23.0, num=1000)
+    
+    z = 3.5
+    fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='k', label='$z=3.5$') 
 
-        N_HI = np.exp(logN_HI)
-        tau = sigma_HI(nu)*N_HI 
+    print 'z=', z
+    t1 = np.trapz(fn, x=np.log(n))
+    print 't1=', t1 
+    
+    fn = n * f(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='k', dashes=[7,2])
 
-        return N_HI * f(N_HI, z) * (1.0-np.exp(-tau))
+    t2 = np.trapz(fn, x=np.log(n))
+    print 't2=', t2
+    
+    z = 2.0
+    fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='r', label='$z=2.0$') 
 
-    n = np.linspace(np.log(N_HI_min), np.log(N_HI_max), num=100)
+    print 'z=', z
+    t1 = np.trapz(fn, x=np.log(n))
+    print 't1=', t1 
+    
+    fn = n * f(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='r', dashes=[7,2])
 
-    return np.trapz(integrand(n), x=n)
+    t2 = np.trapz(fn, x=np.log(n))
+    print 't2=', t2
+    
+    z = 5.0
+    fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='b', label='$z=5.0$')
+
+    print 'z=', z
+    t1 = np.trapz(fn, x=np.log(n))
+    print 't1=', t1 
+    
+    fn = n * f(n, z) * (1.0-np.exp(-n*sigma_HI(nu0)))
+    ax.plot(np.log10(n), np.log10(fn), lw=2, c='b', dashes=[7,2])
+
+    t2 = np.trapz(fn, x=np.log(n))
+    print 't2=', t2
+    
+    plt.legend(loc='upper left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+
+    plt.savefig('dtaudn.pdf'.format(z), bbox_inches='tight')
+    plt.close('all')
+
+    return 
 
 def draw_j(j, w, z):
 
@@ -323,22 +399,22 @@ def draw_j(j, w, z):
     ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
 
     plt.title('$z={:g}$'.format(z))
-    plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
+    plt.savefig('j2_z{:g}.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 4.0, num=100)
+ws = np.logspace(0.0, 4.0, num=1000)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
-zmax = 15.0
-zmin = 0.0
-dz = 0.1
+zmax = 7.0
+zmin = 5.0
+dz = 0.01
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 
@@ -355,8 +431,8 @@ for z in zs:
 
     j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
-    # if z == 5.0:
-    #     draw_j(j, ws*(1.0+z), z)
+    if z == 5.0:
+        draw_j(j, ws*(1.0+z), z)
     
     nu_local = 2.998e18/(ws*(1.0+z))
     n = 4.0*np.pi*j/(hplanck*nu_local)
@@ -375,7 +451,7 @@ for z in zs:
 
     gs.append(g_hm12)
 
-    # print z, g, g_hm12, g_hm12/g
+
 
 check_gamma_HM12 = False
 if check_gamma_HM12:
@@ -447,9 +523,6 @@ def draw_g(z, g):
     plt.close('all')
 
     return
-
-# gs = np.array(gs)
-# draw_g(zs,gs)
 
 def qso_emissivity_hm12(nu, z):
 
