@@ -289,7 +289,7 @@ def tau_eff(nu, z):
 
     N_HI_min = 1.0e11
     N_HI_max = 1.0e23
-    n = np.logspace(np.log(N_HI_min), np.log(N_HI_max), num=1000, base=np.e)
+    n = np.logspace(np.log(N_HI_min), np.log(N_HI_max), num=50, base=np.e)
     fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu)))
 
     return np.trapz(fn, x=np.log(n))
@@ -372,7 +372,53 @@ def plot_dtaudn():
     plt.savefig('dtaudn.pdf'.format(z), bbox_inches='tight')
     plt.close('all')
 
-    return 
+    return
+
+def check_z_refinement_emissivity():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    # ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
+    # ax.set_xlabel(r'$\lambda$')
+
+    ax.set_yscale('log')
+    # ax.set_ylim(1.0e-7, 1.0e3)
+    # ax.set_xlim(5.0, 4.0e3)
+
+    ws = 1231.55060329
+    
+    zmax = 7.0
+    zmin = 5.0
+    dz = 0.1
+    n = (zmax-zmin)/dz+1
+    zs = np.linspace(zmax, zmin, num=n)
+
+    e = emissivity_HM12(ws/(1.0+zs), zs, grid=False)
+    ax.plot(zs, e, lw=2, c='k')
+    plt.title('{:g}'.format(dz))
+
+    print np.sum(np.abs(dtdz(zs))*e*dz*c*(1.0+zs)**3*cmbympc**2/(4.0*np.pi))
+
+    j = 0.0
+    for z in zs:
+        e2 = emissivity_HM12(ws/(1.0+z), z, grid=False)
+        # j = j + np.abs(dtdz(z))*e2*dz*c*(1.0+z)**3/(4.0*np.pi)
+        j = j + (e2*c*np.abs(dtdz(z))*dz*(1.0+z)**3)/(4.0*np.pi)
+        j = j*cmbympc**2 
+    print j
+
+    plt.savefig('czre.pdf', bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+# check_z_refinement_emissivity()
+# sys.exit()
 
 def draw_j(j, w, z):
 
@@ -399,14 +445,14 @@ def draw_j(j, w, z):
     ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
 
     plt.title('$z={:g}$'.format(z))
-    plt.savefig('j2_z{:g}.pdf'.format(z),bbox_inches='tight')
+    plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 4.0, num=1000)
+ws = np.logspace(0.0, 5.0, num=200)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -414,44 +460,42 @@ j = np.zeros_like(nu)
 
 zmax = 7.0
 zmin = 5.0
-dz = 0.01
+dz = 0.001
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
-
 gs = []
 
 for z in zs:
 
     # grid=False ensures that we get a flat array. 
-    e = emissivity_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
-    j = j + e*c*np.abs(dtdz(z))*dz/(4.0*np.pi)*(1.0+z)**3 
+    e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
+    j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
-    t = np.array([tau_eff(x, z) for x in 2.998e18/(ws*(1.0+z))])
-    j = j*np.exp(-t*dz)
-
-    j = j*(cmbympc**2) # erg s^-1 Hz^-1 cm^-2 sr^-1
+    # t = np.array([tau_eff(x, z) for x in 2.998e18/(ws*(1.0+z))])
+    # j = j*np.exp(-t*dz)
 
     if z == 5.0:
-        draw_j(j, ws*(1.0+z), z)
+        draw_j(j, ws/(1.0+z), z)
+
+
+    # nu_local = 2.998e18/(ws*(1.0+z))
+    # n = 4.0*np.pi*j/(hplanck*nu_local)
+    # s = np.array([sigma_HI(x) for x in nu_local])
+
+    # # There is a minus sign because nu = c/lambda is a decreasing
+    # # array so dnu is negative.
+    # g = -np.trapz(n*s, x=nu_local) # s^-1 
     
-    nu_local = 2.998e18/(ws*(1.0+z))
-    n = 4.0*np.pi*j/(hplanck*nu_local)
-    s = np.array([sigma_HI(x) for x in nu_local])
-
-    # There is a minus sign because nu = c/lambda is a decreasing
-    # array so dnu is negative.
-    g = -np.trapz(n*s, x=nu_local) # s^-1 
+    # # Compare with HM12. 
+    # j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
+    # n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
+    # s = np.array([sigma_HI(x) for x in nu_local])
     
-    # Compare with HM12. 
-    j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
-    n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
-    s = np.array([sigma_HI(x) for x in nu_local])
-    
-    g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
+    # g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
 
-    gs.append(g_hm12)
+    # gs.append(g_hm12)
 
-
+sys.exit()
 
 check_gamma_HM12 = False
 if check_gamma_HM12:
