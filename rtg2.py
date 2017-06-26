@@ -383,12 +383,7 @@ def check_z_refinement_emissivity():
     ax.tick_params('both', which='minor', length=5, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    # ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
-    # ax.set_xlabel(r'$\lambda$')
-
     ax.set_yscale('log')
-    # ax.set_ylim(1.0e-7, 1.0e3)
-    # ax.set_xlim(5.0, 4.0e3)
 
     ws = 1231.55060329
     
@@ -407,7 +402,6 @@ def check_z_refinement_emissivity():
     j = 0.0
     for z in zs:
         e2 = emissivity_HM12(ws/(1.0+z), z, grid=False)
-        # j = j + np.abs(dtdz(z))*e2*dz*c*(1.0+z)**3/(4.0*np.pi)
         j = j + (e2*c*np.abs(dtdz(z))*dz*(1.0+z)**3)/(4.0*np.pi)
         j = j*cmbympc**2 
     print j
@@ -416,9 +410,6 @@ def check_z_refinement_emissivity():
     plt.close('all')
 
     return
-
-# check_z_refinement_emissivity()
-# sys.exit()
 
 def draw_j(j, w, z):
 
@@ -452,7 +443,7 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 5.0, num=100)
+ws = np.logspace(0.0, 5.0, num=1000)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -460,7 +451,7 @@ j = np.zeros_like(nu)
 
 zmax = 7.0
 zmin = 0.0
-dz = 0.01
+dz = 0.1
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 gs = []
@@ -476,8 +467,8 @@ for z in zs:
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
 
-    if z == 3.0:
-        draw_j(j, ws/(1.0+z), z)
+    # if z == 7.0:
+    #     draw_j(j, ws/(1.0+z), z)
         
     n = 4.0*np.pi*j/(hplanck*nu_rest)
     s = np.array([sigma_HI(x) for x in nu_rest])
@@ -486,15 +477,15 @@ for z in zs:
     # array so dnu is negative.
     g = -np.trapz(n*s, x=nu_rest) # s^-1 
     
-    # Compare with HM12.
-    nu_rest = 2.998e18/(ws*(1.0+z))
-    j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
-    n = 4.0*np.pi*j_hm12/(hplanck*nu_rest)
-    s = np.array([sigma_HI(x) for x in nu_rest])
-    
-    g_hm12 = -np.trapz(n*s, x=nu_rest) # s^-1
+    # Compare photoionisation rate with HM12.
+    nu_rest_hm12 = 2.998e18/ws 
+    j_hm12 = bkgintens_HM12(ws, z*np.ones_like(ws), grid=False)
+    n = 4.0*np.pi*j_hm12/(hplanck*nu_rest_hm12)
+    s = np.array([sigma_HI(x) for x in nu_rest_hm12])
+    g_hm12 = -np.trapz(n*s, x=nu_rest_hm12) # s^-1
 
-    gs.append(g_hm12)
+    # gs.append(g_hm12)
+    gs.append(g)
 
 gs = np.array(gs)
 
