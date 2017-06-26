@@ -452,18 +452,19 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 5.0, num=200)
+ws = np.logspace(0.0, 5.0, num=100)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
 zmax = 7.0
-zmin = 5.0
-dz = 0.001
+zmin = 0.0
+dz = 0.01
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 gs = []
+gs_HM12 = []
 
 for z in zs:
 
@@ -471,31 +472,31 @@ for z in zs:
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
     j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
-    # t = np.array([tau_eff(x, z) for x in 2.998e18/(ws*(1.0+z))])
-    # j = j*np.exp(-t*dz)
+    nu_rest = 2.998e18*(1.0+z)/ws 
+    t = np.array([tau_eff(x, z) for x in nu_rest])
+    j = j*np.exp(-t*dz)
 
-    if z == 5.0:
+    if z == 3.0:
         draw_j(j, ws/(1.0+z), z)
+        
+    n = 4.0*np.pi*j/(hplanck*nu_rest)
+    s = np.array([sigma_HI(x) for x in nu_rest])
 
-
-    # nu_local = 2.998e18/(ws*(1.0+z))
-    # n = 4.0*np.pi*j/(hplanck*nu_local)
-    # s = np.array([sigma_HI(x) for x in nu_local])
-
-    # # There is a minus sign because nu = c/lambda is a decreasing
-    # # array so dnu is negative.
-    # g = -np.trapz(n*s, x=nu_local) # s^-1 
+    # There is a minus sign because nu = c/lambda is a decreasing
+    # array so dnu is negative.
+    g = -np.trapz(n*s, x=nu_rest) # s^-1 
     
-    # # Compare with HM12. 
-    # j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
-    # n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
-    # s = np.array([sigma_HI(x) for x in nu_local])
+    # Compare with HM12.
+    nu_rest = 2.998e18/(ws*(1.0+z))
+    j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
+    n = 4.0*np.pi*j_hm12/(hplanck*nu_rest)
+    s = np.array([sigma_HI(x) for x in nu_rest])
     
-    # g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
+    g_hm12 = -np.trapz(n*s, x=nu_rest) # s^-1
 
-    # gs.append(g_hm12)
+    gs.append(g_hm12)
 
-sys.exit()
+gs = np.array(gs)
 
 check_gamma_HM12 = False
 if check_gamma_HM12:
@@ -549,7 +550,7 @@ def draw_g(z, g):
     ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
                 fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
-                mew=1, ms=5)
+                markeredgewidth=1, ms=5)
 
     zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
     gm += 12.0
@@ -561,12 +562,14 @@ def draw_g(z, g):
     ax.scatter(zm, gml, c='#99cc66', edgecolor='None', label='Calverley et al.~2011', s=64) 
     ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)), fmt='None', zorder=1, mfc='#99CC66',
-                mec='#99CC66', mew=1, ms=5)
+                mec='#99CC66', markeredgewidth=1, ms=5)
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
+
+draw_g(zs, gs)
 
 def qso_emissivity_hm12(nu, z):
 
