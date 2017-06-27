@@ -443,15 +443,15 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 5.0, num=1000)
+ws = np.logspace(0.0, 5.0, num=100)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
-zmax = 7.0
+zmax = 15.0
 zmin = 0.0
-dz = 0.1
+dz = 0.01
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 gs = []
@@ -461,14 +461,15 @@ for z in zs:
 
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
+    # e = np.where(ws/(1.0+z)<912.0/4, 0.0, e)
     j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
     nu_rest = 2.998e18*(1.0+z)/ws 
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
 
-    # if z == 7.0:
-    #     draw_j(j, ws/(1.0+z), z)
+    if z == 5.0:
+        draw_j(j, ws/(1.0+z), z)
         
     n = 4.0*np.pi*j/(hplanck*nu_rest)
     s = np.array([sigma_HI(x) for x in nu_rest])
@@ -476,31 +477,10 @@ for z in zs:
     # There is a minus sign because nu = c/lambda is a decreasing
     # array so dnu is negative.
     g = -np.trapz(n*s, x=nu_rest) # s^-1 
-    
-    # Compare photoionisation rate with HM12.
-    nu_rest_hm12 = 2.998e18/ws 
-    j_hm12 = bkgintens_HM12(ws, z*np.ones_like(ws), grid=False)
-    n = 4.0*np.pi*j_hm12/(hplanck*nu_rest_hm12)
-    s = np.array([sigma_HI(x) for x in nu_rest_hm12])
-    g_hm12 = -np.trapz(n*s, x=nu_rest_hm12) # s^-1
-
-    # gs.append(g_hm12)
     gs.append(g)
 
 gs = np.array(gs)
 
-check_gamma_HM12 = False
-if check_gamma_HM12:
-    for z in zs:
-
-        nu_local = 2.998e18/(ws*(1.0+z))
-        j_hm12 = bkgintens_HM12(ws*(1.0+z), z*np.ones_like(ws), grid=False)
-        n = 4.0*np.pi*j_hm12/(hplanck*nu_local)
-        s = np.array([sigma_HI(x) for x in nu_local])
-        
-        g_hm12 = -np.trapz(n*s, x=nu_local) # s^-1
-        gs.append(g_hm12)
-    
 def draw_g(z, g):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -517,19 +497,24 @@ def draw_g(z, g):
     ax.set_ylim(1.0e-1, 2)
     ax.set_xlim(1.,7)
 
-    # locs = (1.0e-2, 1.0e-1, 1.0, 10.0)
-    # labels = ('0.01', '0.1', '1', '10')
-    # plt.yticks(locs, labels)
-
     locs = (1.0e-1, 1.0, 2.0)
     labels = ('0.1', '1', '2')
     plt.yticks(locs, labels)
-    
 
+    # Compare photoionisation rate with HM12.
+    check_gamma_HM12 = True
+    if check_gamma_HM12:
+        zs = np.linspace(1.0, 7.0, num=200)
+        g_hm12 = []
+        for r in zs:
+            nu_rest_hm12 = 2.998e18/ws 
+            j_hm12 = bkgintens_HM12(ws, r*np.ones_like(ws), grid=False)
+            n = 4.0*np.pi*j_hm12/(hplanck*nu_rest_hm12)
+            s = np.array([sigma_HI(x) for x in nu_rest_hm12])
+            g_hm12.append(-np.trapz(n*s, x=nu_rest_hm12)) # s^-1
+        ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2, dashes=[7,2])
+            
     ax.plot(z, g/1.0e-12, c='k', lw=2)
-    # ax.scatter(z, g/1.0e-12, c='#ffffff', edgecolor='k',
-    #            s=44, zorder=4, linewidths=1.5) 
-
 
     zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True)
     
