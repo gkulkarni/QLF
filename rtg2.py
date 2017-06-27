@@ -291,7 +291,6 @@ def tau_eff(nu, z):
     N_HI_max = 1.0e23
     n = np.logspace(np.log(N_HI_min), np.log(N_HI_max), num=50, base=np.e)
     fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu)))
-
     return np.trapz(fn, x=np.log(n))
 
 def plot_dtaudn():
@@ -443,7 +442,7 @@ def draw_j(j, w, z):
 
 wmin = 5.0
 wmax = 5.0e3
-ws = np.logspace(0.0, 5.0, num=100)
+ws = np.logspace(0.0, 5.0, num=200)
 nu = 2.998e18/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -457,29 +456,54 @@ zs = np.linspace(zmax, zmin, num=n)
 gs = []
 gs_HM12 = []
 
+nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz) 
+
 for z in zs:
 
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-    # e = np.where(ws/(1.0+z)<912.0/4, 0.0, e)
     j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
     nu_rest = 2.998e18*(1.0+z)/ws 
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
-
-    if z == 5.0:
-        draw_j(j, ws/(1.0+z), z)
-        
     n = 4.0*np.pi*j/(hplanck*nu_rest)
-    s = np.array([sigma_HI(x) for x in nu_rest])
+    
+    # if z == 5.0:
+    #     draw_j(j, ws/(1.0+z), z)
+
+    
+    nu_int = np.logspace(15, 18, num=100)
+    nint = np.interp(nu_int, nu_rest[::-1], n[::-1])
+    s = np.array([sigma_HI(x) for x in nu_int])
 
     # There is a minus sign because nu = c/lambda is a decreasing
     # array so dnu is negative.
-    g = -np.trapz(n*s, x=nu_rest) # s^-1 
+    g = np.trapz(nint*s, x=nu_int) # s^-1 
     gs.append(g)
 
 gs = np.array(gs)
+
+def plot_evol(z, q):
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_yscale('log')
+    # ax.set_xscale('log')
+    # ax.set_ylim(1.0e-7, 1.0e3)
+    # ax.set_xlim(5.0, 4.0e3)
+
+    ax.plot(z, q, lw=2, c='k')
+
+    plt.savefig('evol.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
 
 def draw_g(z, g):
 
