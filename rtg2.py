@@ -32,7 +32,9 @@ bkgintens_HM12 = RectBivariateSpline(w_j_HM12, z_HM12, j_HM12, kx=1, ky=1)
 
 yrbys = 3.154e7
 cmbympc = 3.24077928965e-25
-c = 2.998e10*yrbys*cmbympc # Mpc/yr 
+c_mpcPerYr = 2.998e10*yrbys*cmbympc # Mpc/yr 
+c_angPerSec = 2.998e18
+nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
 
 omega_lambda = 0.7
 omega_nr = 0.3
@@ -269,7 +271,6 @@ def sigma_HI(nu):
 
     """
     
-    nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
     a0 = 6.3e-18 # cm^2
 
     if nu < nu0:
@@ -322,8 +323,6 @@ def plot_dtaudn():
     labels = ['$'+str(x)+'$' for x in locs]
     plt.yticks(locs, labels)
 
-    nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)        
-    
     n = np.logspace(11.0, 23.0, num=1000)
     
     z = 3.5
@@ -400,12 +399,12 @@ def check_z_refinement_emissivity():
     ax.plot(zs, e, lw=2, c='k')
     plt.title('{:g}'.format(dz))
 
-    print np.sum(np.abs(dtdz(zs))*e*dz*c*(1.0+zs)**3*cmbympc**2/(4.0*np.pi))
+    print np.sum(np.abs(dtdz(zs))*e*dz*c_mpcPerYr*(1.0+zs)**3*cmbympc**2/(4.0*np.pi))
 
     j = 0.0
     for z in zs:
         e2 = emissivity_HM12(ws/(1.0+z), z, grid=False)
-        j = j + (e2*c*np.abs(dtdz(z))*dz*(1.0+z)**3)/(4.0*np.pi)
+        j = j + (e2*c_mpcPerYr*np.abs(dtdz(z))*dz*(1.0+z)**3)/(4.0*np.pi)
         j = j*cmbympc**2 
     print j
 
@@ -446,63 +445,53 @@ def draw_j(j, w, z):
 
     return
 
-wmin = 5.0
-wmax = 5.0e3
-ws = np.logspace(0.0, 5.0, num=200)
-nu = 2.998e18/ws 
+ws = np.logspace(0.0, 5.0, num=1000)
+nu = c_angPerSec/ws 
 hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
-zmax = 6.9
-zmin = 0.0
+zmax = 15.5
+zmin = 3.0
 dz = 0.01
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
 gs = []
-gs_HM12 = []
-
-nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
-q = []
-
-idx = np.searchsorted(ws/6, 2.0e3)
 
 for z in zs:
 
-    # print '{:.2f}  {:.0f}'.format(z, ws[idx-1]/(1.0+z))
-    
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-    q.append(e[idx-1])
 
-    j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
+    # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
+    j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
 
-    nu_rest = 2.998e18*(1.0+z)/ws 
+    nu_rest = c_angPerSec*(1.0+z)/ws 
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
-    n = 4.0*np.pi*j/(hplanck*nu_rest)
-    
-    if z == 1.0:
-        draw_j(j, ws/(1.0+z), z)
+
+    # if z == 1.0:
+    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
 
     if z == 3.0:
-        draw_j(j, ws/(1.0+z), z)
+        draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
 
-    if z == 5.0:
-        draw_j(j, ws/(1.0+z), z)
+    # if z == 5.0:
+    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
 
-    if z == 7.0:
-        draw_j(j, ws/(1.0+z), z)
-        
+    # if z == 7.0:
+    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
+
+    n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)        
     nu_int = np.logspace(15, 18, num=100)
-    nint = np.interp(nu_int, nu_rest[::-1], n[::-1])
+    n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
     s = np.array([sigma_HI(x) for x in nu_int])
 
-    # There is a minus sign because nu = c/lambda is a decreasing
-    # array so dnu is negative.
-    g = np.trapz(nint*s, x=nu_int) # s^-1 
+    g = np.trapz(n_int*s, x=nu_int) # s^-1 
     gs.append(g)
 
+
+sys.exit()    
 gs = np.array(gs)
 
 def plot_evol(z, q):
@@ -525,9 +514,6 @@ def plot_evol(z, q):
     plt.close('all')
 
     return
-
-# plot_evol(zs, np.array(q))
-# sys.exit()
 
 def draw_g(z, g):
 
@@ -555,7 +541,7 @@ def draw_g(z, g):
         zs = np.linspace(1.0, 7.0, num=200)
         g_hm12 = []
         for r in zs:
-            nu_rest_hm12 = 2.998e18/ws 
+            nu_rest_hm12 = c_angPerSec/ws 
             j_hm12 = bkgintens_HM12(ws, r*np.ones_like(ws), grid=False)
             n = 4.0*np.pi*j_hm12/(hplanck*nu_rest_hm12)
             s = np.array([sigma_HI(x) for x in nu_rest_hm12])
@@ -603,9 +589,9 @@ def qso_emissivity_hm12(nu, z):
 
     """
 
-    w = 2.998e18/nu
-    nu_912 = 2.998e18/912.0
-    nu_1300 = 2.998e18/1300.0
+    w = c_angPerSec/nu
+    nu_912 = c_angPerSec/912.0
+    nu_1300 = c_angPerSec/1300.0
     
     a = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3)
     b = a * (nu_1300/nu_912)**-1.57
@@ -654,7 +640,7 @@ def plot_qso_emissivity():
     e = np.array([qso_emissivity_hm12(x, z) for x in nu])
     ax.plot(nu, e, lw=2, c='b', label='$z=8.1$')
 
-    ax.axvline(2.998e18/912.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(c_angPerSec/912.0, lw=1, c='k', dashes=[7,2])
     
     plt.legend(loc='lower left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
@@ -715,7 +701,7 @@ def check_emissivity():
     
     z = 1.1
     e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
-    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    e = emissivity_HM12(c_angPerSec/num, z*np.ones_like(num), grid=False)
     if show_qso_spectrum: 
         ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
                 lw=2, c='k', label='$z=1.1$', dashes=[7,2]) 
@@ -724,7 +710,7 @@ def check_emissivity():
     
     z = 3.0
     e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
-    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    e = emissivity_HM12(c_angPerSec/num, z*np.ones_like(num), grid=False)
     if show_qso_spectrum: 
         ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
                 lw=2, c='r', label='$z=3.0$', dashes=[7,2]) 
@@ -733,7 +719,7 @@ def check_emissivity():
 
     z = 4.9
     e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
-    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    e = emissivity_HM12(c_angPerSec/num, z*np.ones_like(num), grid=False)
     if show_qso_spectrum: 
         ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
                 lw=2, c='g', label='$z=4.9$', dashes=[7,2]) 
@@ -742,7 +728,7 @@ def check_emissivity():
 
     z = 8.1
     e_qso = np.array([qso_emissivity_hm12(x, z) for x in num])
-    e = emissivity_HM12(2.998e18/num, z*np.ones_like(num), grid=False)
+    e = emissivity_HM12(c_angPerSec/num, z*np.ones_like(num), grid=False)
     if show_qso_spectrum: 
         ax.plot(hplanck*num*erg_to_eV, 1.0e-39*e_qso*dnu/dnu2,
                 lw=2, c='b', label='$z=8.1$', dashes=[7,2]) 
@@ -792,7 +778,7 @@ def check_emissivity_evolution():
     ax.axvline(304.0, lw=1, c='k', dashes=[7,2])
     ax.axvline(228.0, lw=1, c='k', dashes=[7,2])
     
-    plt.savefig('e_evol.pdf'.format(z),bbox_inches='tight')
+    plt.savefig('e_evol.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
@@ -818,13 +804,13 @@ def check_tau_evolution():
 
     ws = np.logspace(0.0, 5.0, num=200)
     zref = 1.0
-    nu_rest = 2.998e18*(1.0+zref)/ws 
+    nu_rest = c_angPerSec*(1.0+zref)/ws 
     t = np.array([tau_eff(x, zref) for x in nu_rest])
     ax.plot(ws/(1.0+zref), t, lw=2, c='k')
 
     zs = np.arange(1.5, 10.)
     for z in zs:
-        nu_rest = 2.998e18*(1.0+z)/ws 
+        nu_rest = c_angPerSec*(1.0+z)/ws 
         t = np.array([tau_eff(x, z) for x in nu_rest])
         ax.plot(ws/(1.0+zref), t, lw=1, c='tomato')
         
@@ -833,9 +819,38 @@ def check_tau_evolution():
     ax.axvline(304.0, lw=1, c='k', dashes=[7,2])
     ax.axvline(228.0, lw=1, c='k', dashes=[7,2])
     
-    plt.savefig('tau_evol.pdf'.format(z),bbox_inches='tight')
+    plt.savefig('tau_evol.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
 
 # check_tau_evolution()
+
+def check_1Ry_emissivity_evolution():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'emissivity [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel(r'$z$')
+
+    ax.set_yscale('log')
+    
+    #ax.set_xlim(1.0, 1.0e4)
+
+    zs = np.arange(0.0, 10., 0.1)
+    e = emissivity_HM12(912.0*np.ones_like(zs), zs, grid=False)
+    ax.plot(zs, e, lw=2, c='k')
+
+    
+    plt.savefig('e_1ry_evol.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+#check_1Ry_emissivity_evolution()
+
