@@ -72,81 +72,85 @@ def f(N_HI, z):
 
 def f_HM12(N_HI, z):
 
+    """HI column density distribution from HM12.
+
+    See their Table 1 and Section 3.
+
+    """
+
     log10NHI = np.log10(N_HI)
 
     if z < 1.56:
         if 11.0 <= log10NHI < 15.0:
-            a = 1.73e8 
+            a = 1.729816e8 
             b = 1.5
             g = 0.16
         elif 15.0 <= log10NHI < 17.5:
-            a = 5.49e15 
+            a = 5.495409e15 
             b = 2.0
             g = 0.16 
         elif 17.5 <= log10NHI < 19.0:
-            f17p5 = 5.49e15 * (1+z)**0.16 * (10.0**17.5)**-2
-            f19 = 1.28 * (1+z)**0.16 * (10.0**19)**-1.05
+            f17p5 = 5.495409e15 * (1+z)**0.16 * (10.0**17.5)**-2.0
+            f19 = 1.279381 * (1+z)**0.16 * (10.0**19)**-1.05
             b = np.log10(f17p5/f19)/1.5
             a = f17p5 * (10.0**17.5)**b
             return a * N_HI**-b
         elif 19.0 <= log10NHI < 20.3:
-            a = 1.28
-            b = 1.05 # Not specified by HM12; assuming same as high z
+            a = 1.279381
+            b = 1.05 
             g = 0.16 
         elif 20.3 <= log10NHI:
-            a = 2.47e19 
-            b = 2.0 # Not specified by HM12; assuming same as high z
+            a = 2.471724e19 
+            b = 2.0 
             g = 0.16 
         return a * (1+z)**g * N_HI**-b
     
     elif 1.56 <= z < 5.5:
         if 11.0 <= log10NHI < 15.0:
-            a = 1.2e7
+            a = 1.199499e7
             b = 1.5
             g = 3.0
         elif 15.0 <= log10NHI < 17.5:
-            a = 3.8e14
+            a = 3.801894e14
             b = 2.0
             g = 3.0
         elif 17.5 <= log10NHI < 19.0:
-            f17p5 = 3.8e14 * (1+z)**3 * (10.0**17.5)**-2
-            f19 = 0.45 * (1+z)**1.27 * (10.0**19)**-1.05
+            f17p5 = 3.801894e14 * (1+z)**3.0 * (10.0**17.5)**-2.0
+            f19 = 0.449780 * (1+z)**1.27 * (10.0**19)**-1.05
             b = np.log10(f17p5/f19)/1.5
             a = f17p5 * (10.0**17.5)**b
             return a * N_HI**-b
         elif 19.0 <= log10NHI < 20.3:
-            a = 0.45
+            a = 0.449780
             b = 1.05
             g = 1.27
         elif 20.3 <= log10NHI:
-            a = 8.7e18
+            a = 8.709636e18
             b = 2.0
             g = 1.27
         return a * (1+z)**g * N_HI**-b
 
     elif 5.5 <= z:
         if 11.0 <= log10NHI < 15.0:
-            a = 29.5
+            a = 29.512092
             b = 1.5
             g = 9.9
         elif 15.0 <= log10NHI < 17.5:
-            a = 9.35e8 
-            b = 2
+            a = 9.332543e8 
+            b = 2.0
             g = 9.9
         elif 17.5 <= log10NHI < 19.0:
-            # f(N_HI) for log10NHI >= 17.5 not specified by HM12 at
-            # these redshifts.  I am assuming same behaviour as low z.
-            f17p5 = 9.35e8 * (1+z)**9.9 * (10.0**17.5)**-2
-            f19 = 0.45 * (1+z)**1.27 * (10.0**19)**-1.05
+            f17p5 = 9.332543e8 * (1+z)**9.9 * (10.0**17.5)**-2.0
+            f19 = 0.449780 * (1+z)**1.27 * (10.0**19)**-1.05
             b = np.log10(f17p5/f19)/1.5
             a = f17p5 * (10.0**17.5)**b
             return a * N_HI**-b
         elif 19.0 <= log10NHI < 20.3:
-            a = 0.45
+            a = 0.449780 
             b = 1.05
             g = 1.27
         elif 20.3 <= log10NHI:
-            a = 8.7e18
+            a = 8.709636e18
             b = 2.0
             g = 1.27
         return a * (1+z)**g * N_HI**-b
@@ -288,7 +292,7 @@ def tau_eff(nu, z):
     """
 
     N_HI_min = 1.0e11
-    N_HI_max = 1.0e23
+    N_HI_max = 10.0**21.55 # Limit taken in HM12 Table 1. 
     n = np.logspace(np.log(N_HI_min), np.log(N_HI_max), num=50, base=np.e)
     fn = n * vf_HM12(n, z) * (1.0-np.exp(-n*sigma_HI(nu)))
     return np.trapz(fn, x=np.log(n))
@@ -420,11 +424,11 @@ def draw_j(j, w, z):
     ax.tick_params('x', which='major', pad=6)
 
     ax.set_ylabel(r'$j_\nu$ [$10^{-22}$ erg s$^{-1}$ Hz$^{-1}$ sr$^{-1}$ cm$^{-2}$]')
-    ax.set_xlabel(r'$\lambda$')
+    ax.set_xlabel(r'$\lambda_\mathrm{rest}$ [\AA]')
 
     ax.set_yscale('log')
     ax.set_xscale('log')
-    ax.set_ylim(1.0e-7, 1.0e3)
+    ax.set_ylim(1.0e-5, 1.0e5)
     ax.set_xlim(5.0, 4.0e3)
 
     ax.plot(w, j/1.0e-22, lw=2, c='k')
@@ -457,11 +461,17 @@ gs = []
 gs_HM12 = []
 
 nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz) 
+q = []
+
+idx = np.searchsorted(ws/6, 2.0e3)
 
 for z in zs:
 
+    # print '{:.2f}  {:.0f}'.format(z, ws[idx-1]/(1.0+z))
+    
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
+    q.append(e[idx-1])
     j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
     nu_rest = 2.998e18*(1.0+z)/ws 
@@ -469,10 +479,9 @@ for z in zs:
     j = j*np.exp(-t*dz)
     n = 4.0*np.pi*j/(hplanck*nu_rest)
     
-    # if z == 5.0:
-    #     draw_j(j, ws/(1.0+z), z)
+    if z == 5.0:
+        draw_j(j, ws/(1.0+z), z)
 
-    
     nu_int = np.logspace(15, 18, num=100)
     nint = np.interp(nu_int, nu_rest[::-1], n[::-1])
     s = np.array([sigma_HI(x) for x in nu_int])
@@ -504,6 +513,9 @@ def plot_evol(z, q):
     plt.close('all')
 
     return
+
+# plot_evol(zs, np.array(q))
+# sys.exit()
 
 def draw_g(z, g):
 
@@ -737,4 +749,3 @@ def check_emissivity():
     return
 
     
-
