@@ -47,11 +47,11 @@ def H(z):
 
 def dzdt(z):
 
-    return -(1+z)*H(z) # yr^-1
+    return -(1.0+z)*H(z) # yr^-1
 
 def dtdz(z):
 
-    return 1/dzdt(z) # yr 
+    return 1.0/dzdt(z) # yr 
 
 
 def f(N_HI, z):
@@ -269,7 +269,7 @@ def sigma_HI(nu):
 
     """
     
-    nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)        
+    nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
     a0 = 6.3e-18 # cm^2
 
     if nu < nu0:
@@ -454,7 +454,7 @@ hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
-zmax = 15.0
+zmax = 6.9
 zmin = 0.0
 dz = 0.01
 n = (zmax-zmin)/dz+1
@@ -462,7 +462,7 @@ zs = np.linspace(zmax, zmin, num=n)
 gs = []
 gs_HM12 = []
 
-nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz) 
+nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
 q = []
 
 idx = np.searchsorted(ws/6, 2.0e3)
@@ -474,6 +474,7 @@ for z in zs:
     # grid=False ensures that we get a flat array. 
     e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
     q.append(e[idx-1])
+
     j = j + (e*c*np.abs(dtdz(z))*dz*(1.0+z)**3*cmbympc**2)/(4.0*np.pi) # erg s^-1 Hz^-1 cm^-2 sr^-1
 
     nu_rest = 2.998e18*(1.0+z)/ws 
@@ -797,3 +798,44 @@ def check_emissivity_evolution():
     return
 
 #check_emissivity_evolution()    
+
+def check_tau_evolution():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\bar\tau$')
+    ax.set_xlabel(r'$\lambda_\mathrm{rest}$ [\AA]')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    
+    ax.set_xlim(1.0, 1.0e4)
+
+    ws = np.logspace(0.0, 5.0, num=200)
+    zref = 1.0
+    nu_rest = 2.998e18*(1.0+zref)/ws 
+    t = np.array([tau_eff(x, zref) for x in nu_rest])
+    ax.plot(ws/(1.0+zref), t, lw=2, c='k')
+
+    zs = np.arange(1.5, 10.)
+    for z in zs:
+        nu_rest = 2.998e18*(1.0+z)/ws 
+        t = np.array([tau_eff(x, z) for x in nu_rest])
+        ax.plot(ws/(1.0+zref), t, lw=1, c='tomato')
+        
+    ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(304.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(228.0, lw=1, c='k', dashes=[7,2])
+    
+    plt.savefig('tau_evol.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+# check_tau_evolution()
