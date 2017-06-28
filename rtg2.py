@@ -430,13 +430,15 @@ def draw_j(j, w, z):
     ax.set_xscale('log')
     ax.set_ylim(1.0e-5, 1.0e5)
     ax.set_xlim(5.0, 4.0e3)
-
+    
     ax.plot(w, j/1.0e-22, lw=2, c='k')
     j_hm12 = bkgintens_HM12(w, z*np.ones_like(w), grid=False)
     ax.plot(w, j_hm12/1.0e-22, lw=2, c='tomato')
 
     ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
     ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(304.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(228.0, lw=1, c='k', dashes=[7,2])
 
     plt.title('$z={:g}$'.format(z))
     plt.savefig('j_z{:g}.pdf'.format(z),bbox_inches='tight')
@@ -479,9 +481,18 @@ for z in zs:
     j = j*np.exp(-t*dz)
     n = 4.0*np.pi*j/(hplanck*nu_rest)
     
+    if z == 1.0:
+        draw_j(j, ws/(1.0+z), z)
+
+    if z == 3.0:
+        draw_j(j, ws/(1.0+z), z)
+
     if z == 5.0:
         draw_j(j, ws/(1.0+z), z)
 
+    if z == 7.0:
+        draw_j(j, ws/(1.0+z), z)
+        
     nu_int = np.logspace(15, 18, num=100)
     nint = np.interp(nu_int, nu_rest[::-1], n[::-1])
     s = np.array([sigma_HI(x) for x in nu_int])
@@ -748,4 +759,41 @@ def check_emissivity():
 
     return
 
+def check_emissivity_evolution():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'emissivity [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel(r'$\lambda_\mathrm{rest}$ [\AA]')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
     
+    ax.set_xlim(1.0, 1.0e4)
+
+    ws = np.logspace(0.0, 5.0, num=200)
+    zref = 1.0
+    e = emissivity_HM12(ws/(1.0+zref), zref*np.ones_like(ws), grid=False)
+    ax.plot(ws/(1.0+zref), e, lw=2, c='k')
+
+    zs = np.arange(1.5, 10.)
+    for z in zs:
+        e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
+        ax.plot(ws/(1.0+zref), e, lw=1, c='tomato')
+        
+    ax.axvline(1216.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(912.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(304.0, lw=1, c='k', dashes=[7,2])
+    ax.axvline(228.0, lw=1, c='k', dashes=[7,2])
+    
+    plt.savefig('e_evol.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+#check_emissivity_evolution()    
