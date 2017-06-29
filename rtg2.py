@@ -445,14 +445,14 @@ def draw_j(j, w, z):
 
     return
 
-ws = np.logspace(0.0, 5.0, num=1000)
+ws = np.logspace(0.0, 5.0, num=200)
 nu = c_angPerSec/ws 
 hplanck = 6.626069e-27 # erg s
 
 j = np.zeros_like(nu)
 
 zmax = 15.5
-zmin = 3.0
+zmin = 0.0
 dz = 0.01
 n = (zmax-zmin)/dz+1
 zs = np.linspace(zmax, zmin, num=n)
@@ -470,17 +470,8 @@ for z in zs:
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
 
-    # if z == 1.0:
-    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
-    if z == 3.0:
+    if z == 1.0:
         draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
-    # if z == 5.0:
-    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
-    # if z == 7.0:
-    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
 
     n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)        
     nu_int = np.logspace(15, 18, num=100)
@@ -490,8 +481,6 @@ for z in zs:
     g = np.trapz(n_int*s, x=nu_int) # s^-1 
     gs.append(g)
 
-
-sys.exit()    
 gs = np.array(gs)
 
 def plot_evol(z, q):
@@ -504,9 +493,6 @@ def plot_evol(z, q):
     ax.tick_params('x', which='major', pad=6)
 
     ax.set_yscale('log')
-    # ax.set_xscale('log')
-    # ax.set_ylim(1.0e-7, 1.0e3)
-    # ax.set_xlim(5.0, 4.0e3)
 
     ax.plot(z, q, lw=2, c='k')
 
@@ -539,13 +525,13 @@ def draw_g(z, g):
     check_gamma_HM12 = True
     if check_gamma_HM12:
         zs = np.linspace(1.0, 7.0, num=200)
+        nu = np.logspace(np.log10(nu0), 18, num=1000)
         g_hm12 = []
         for r in zs:
-            nu_rest_hm12 = c_angPerSec/ws 
-            j_hm12 = bkgintens_HM12(ws, r*np.ones_like(ws), grid=False)
-            n = 4.0*np.pi*j_hm12/(hplanck*nu_rest_hm12)
-            s = np.array([sigma_HI(x) for x in nu_rest_hm12])
-            g_hm12.append(-np.trapz(n*s, x=nu_rest_hm12)) # s^-1
+            j_hm12 = bkgintens_HM12(c_angPerSec/nu, r*np.ones_like(nu), grid=False)
+            n = 4.0*np.pi*j_hm12/(hplanck*nu)
+            s = np.array([sigma_HI(x) for x in nu])
+            g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
         ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2, dashes=[7,2])
             
     ax.plot(z, g/1.0e-12, c='k', lw=2)
@@ -783,8 +769,6 @@ def check_emissivity_evolution():
 
     return
 
-#check_emissivity_evolution()    
-
 def check_tau_evolution():
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -824,8 +808,6 @@ def check_tau_evolution():
 
     return
 
-# check_tau_evolution()
-
 def check_1Ry_emissivity_evolution():
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -840,8 +822,6 @@ def check_1Ry_emissivity_evolution():
 
     ax.set_yscale('log')
     
-    #ax.set_xlim(1.0, 1.0e4)
-
     zs = np.arange(0.0, 10., 0.1)
     e = emissivity_HM12(912.0*np.ones_like(zs), zs, grid=False)
     ax.plot(zs, e, lw=2, c='k')
@@ -852,5 +832,4 @@ def check_1Ry_emissivity_evolution():
 
     return
 
-#check_1Ry_emissivity_evolution()
 
