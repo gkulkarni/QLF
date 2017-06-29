@@ -445,7 +445,7 @@ def draw_j(j, w, z):
 
     return
 
-ws = np.logspace(0.0, 5.0, num=200)
+ws = np.logspace(0.0, 5.0, num=800)
 nu = c_angPerSec/ws 
 hplanck = 6.626069e-27 # erg s
 
@@ -470,15 +470,16 @@ for z in zs:
     t = np.array([tau_eff(x, z) for x in nu_rest])
     j = j*np.exp(-t*dz)
 
-    if z == 1.0:
-        draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
+    # if z == 1.0:
+    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
 
-    n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)        
-    nu_int = np.logspace(15, 18, num=100)
+    n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)
+
+    nu_int = np.logspace(np.log10(nu0), 18, num=600)
     n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
     s = np.array([sigma_HI(x) for x in nu_int])
-
     g = np.trapz(n_int*s, x=nu_int) # s^-1 
+    
     gs.append(g)
 
 gs = np.array(gs)
