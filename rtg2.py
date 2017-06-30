@@ -35,6 +35,7 @@ cmbympc = 3.24077928965e-25
 c_mpcPerYr = 2.998e10*yrbys*cmbympc # Mpc/yr 
 c_angPerSec = 2.998e18
 nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
+hplanck = 6.626069e-27 # erg s
 
 omega_lambda = 0.7
 omega_nr = 0.3
@@ -445,44 +446,57 @@ def draw_j(j, w, z):
 
     return
 
-ws = np.logspace(0.0, 5.0, num=800)
-nu = c_angPerSec/ws 
-hplanck = 6.626069e-27 # erg s
+def j(emissivity):
 
-j = np.zeros_like(nu)
+    # ws = np.logspace(0.0, 5.0, num=800)
+    ws = np.logspace(0.0, 5.0, num=200)
+    nu = c_angPerSec/ws 
 
-zmax = 15.5
-zmin = 0.0
-dz = 0.01
-n = (zmax-zmin)/dz+1
-zs = np.linspace(zmax, zmin, num=n)
-gs = []
-
-for z in zs:
-
-    # grid=False ensures that we get a flat array. 
-    e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-
-    # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
-    j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
-
-    nu_rest = c_angPerSec*(1.0+z)/ws 
-    t = np.array([tau_eff(x, z) for x in nu_rest])
-    j = j*np.exp(-t*dz)
-
-    # if z == 1.0:
-    #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
-    n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)
-
-    nu_int = np.logspace(np.log10(nu0), 18, num=600)
-    n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
-    s = np.array([sigma_HI(x) for x in nu_int])
-    g = np.trapz(n_int*s, x=nu_int) # s^-1 
+    j = np.zeros_like(nu)
     
-    gs.append(g)
+    zmax = 15.5
+    zmin = 0.0
+    # dz = 0.01
+    dz = 0.1
+    n = (zmax-zmin)/dz+1
+    zs = np.linspace(zmax, zmin, num=n)
+    gs = []
 
-gs = np.array(gs)
+    for z in zs:
+
+        # grid=False ensures that we get a flat array. 
+        #e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
+        e = emissivity(ws/(1.0+z), z)
+        
+        # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
+        j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
+
+        nu_rest = c_angPerSec*(1.0+z)/ws 
+        t = np.array([tau_eff(x, z) for x in nu_rest])
+        j = j*np.exp(-t*dz)
+
+        # if z == 1.0:
+        #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
+
+        n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)
+
+        # nu_int = np.logspace(np.log10(nu0), 18, num=600)
+        nu_int = np.logspace(np.log10(nu0), 18, num=100)
+        n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
+        s = np.array([sigma_HI(x) for x in nu_int])
+        g = np.trapz(n_int*s, x=nu_int) # s^-1 
+
+        gs.append(g)
+
+    gs = np.array(gs)
+
+    return gs
+
+def em_hm12(w, z):
+
+    return emissivity_HM12(w, z*np.ones_like(w), grid=False)
+    
+gs = j(em_hm12)
 
 def plot_evol(z, q):
 
