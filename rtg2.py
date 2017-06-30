@@ -41,6 +41,30 @@ omega_lambda = 0.7
 omega_nr = 0.3
 h = 0.7
 
+def qso_emissivity_hm12(nu, z):
+
+    """HM12 qso comoving emissivity.
+
+    This is given by equations (37) and (38) of HM12.
+
+    """
+
+    w = c_angPerSec/nu
+    nu_912 = c_angPerSec/912.0
+    nu_1300 = c_angPerSec/1300.0
+    
+    a = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3)
+    b = a * (nu_1300/nu_912)**-1.57
+
+    if w > 1300.0:
+        e = b*(nu/nu_1300)**-0.44
+    else:
+        e = a*(nu/nu_912)**-1.57
+
+    return e
+
+vqso_emissivity_hm12 = np.vectorize(qso_emissivity_hm12, otypes=[np.float])
+
 def H(z):
 
     H0 = 1.023e-10*h
@@ -495,8 +519,13 @@ def j(emissivity):
 def em_hm12(w, z):
 
     return emissivity_HM12(w, z*np.ones_like(w), grid=False)
+
+def em_qso_hm12(w, z):
+
+    return vqso_emissivity_hm12(c_angPerSec/w, z)
     
-gs = j(em_hm12)
+# gs = j(em_hm12)
+gs = j(em_qso_hm12)
 
 def plot_evol(z, q):
 
@@ -581,28 +610,6 @@ def draw_g(z, g):
     return
 
 draw_g(zs, gs)
-
-def qso_emissivity_hm12(nu, z):
-
-    """HM12 qso comoving emissivity.
-
-    This is given by equations (37) and (38) of HM12.
-
-    """
-
-    w = c_angPerSec/nu
-    nu_912 = c_angPerSec/912.0
-    nu_1300 = c_angPerSec/1300.0
-    
-    a = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3)
-    b = a * (nu_1300/nu_912)**-1.57
-
-    if w > 1300.0:
-        e = b*(nu/nu_1300)**-0.44
-    else:
-        e = a*(nu/nu_912)**-1.57
-
-    return e
 
 def plot_qso_emissivity():
 
