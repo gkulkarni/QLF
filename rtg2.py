@@ -470,7 +470,41 @@ def draw_j(j, w, z):
 
     return
 
-def j(emissivity):
+def luminosity(M):
+
+    return 10.0**((51.60-M)/2.5) # ergs s^-1 Hz^-1 
+
+def fnu(nu, M):
+    
+    L = luminosity(M)
+    w = c_angPerSec / nu
+    nu_912 = c_angPerSec / 912.0
+    nu_1450 = c_angPerSec / 1450.0
+
+    a = L 
+    b = a * (912.0/1450.0)**0.61
+    
+    if w > 912.0:
+        e = a*(w/1450.0)**0.61
+    else:
+        e = b*(w/912.0)**1.57
+    
+    return e 
+
+vfnu = np.vectorize(fnu, excluded=['M'])
+
+def emissivity(w, z, loglf, theta):
+
+    mlims = (-30.0, -20.0)
+    m = np.linspace(mlims[0], mlims[1], num=1000)
+    nu = c_angPerSec/w
+
+    farr = np.array([10.0**loglf(theta, x, z)*vfnu(nu, x) for x in m])
+
+    return np.trapz(farr, m, axis=0) # erg s^-1 Hz^-1 Mpc^-3
+
+# def j(emissivity, lfg, theta):
+def j(lfg, theta):
 
     # ws = np.logspace(0.0, 5.0, num=800)
     ws = np.logspace(0.0, 5.0, num=200)
@@ -478,7 +512,7 @@ def j(emissivity):
 
     j = np.zeros_like(nu)
     
-    zmax = 15.5
+    zmax = 7#15.5
     zmin = 0.0
     # dz = 0.01
     dz = 0.1
@@ -490,7 +524,7 @@ def j(emissivity):
 
         # grid=False ensures that we get a flat array. 
         #e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-        e = emissivity(ws/(1.0+z), z)
+        e = emissivity(ws/(1.0+z), z, lfg.log10phi, theta)
         
         # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
         j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
@@ -525,7 +559,7 @@ def em_qso_hm12(w, z):
     return vqso_emissivity_hm12(c_angPerSec/w, z)
     
 # gs = j(em_hm12)
-gs = j(em_qso_hm12)
+#gs = j(em_qso_hm12)
 
 def plot_evol(z, q):
 
@@ -558,17 +592,17 @@ def draw_g(z, g):
     ax.set_xlabel('$z$')
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-1, 2)
-    ax.set_xlim(1.,7)
+    ax.set_ylim(1.0e-2, 10)
+    ax.set_xlim(0.,7)
 
-    locs = (1.0e-1, 1.0, 2.0)
-    labels = ('0.1', '1', '2')
-    plt.yticks(locs, labels)
+    # locs = (1.0e-1, 1.0, 2.0)
+    # labels = ('0.1', '1', '2')
+    # plt.yticks(locs, labels)
 
     # Compare photoionisation rate with HM12.
     check_gamma_HM12 = True
     if check_gamma_HM12:
-        zs = np.linspace(1.0, 7.0, num=200)
+        zs = np.linspace(0.0, 7.0, num=200)
         nu = np.logspace(np.log10(nu0), 18, num=1000)
         g_hm12 = []
         for r in zs:
@@ -609,7 +643,7 @@ def draw_g(z, g):
 
     return
 
-draw_g(zs, gs)
+#draw_g(zs, gs)
 
 def plot_qso_emissivity():
 
