@@ -185,6 +185,7 @@ def f_HM12(N_HI, z):
     return 0.0
 
 vf_HM12 = np.vectorize(f_HM12, otypes=[np.float])
+#vf_HM12 = np.vectorize(f, otypes=[np.float])
 
 def sigma_HI(nu):
 
@@ -318,13 +319,13 @@ def calverley(ax):
     gml_up = 10.0**(gm+gm_sigma)-10.0**gm
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
-    ax.scatter(zm, gml, c='#99cc66', edgecolor='None',
+    ax.scatter(zm, gml, c='darkorange', edgecolor='None',
                label='Calverley et al.~(2011)', s=64) 
-    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5,
+    ax.errorbar(zm, gml, ecolor='darkorange', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
-                fmt='None', zorder=1, mfc='#99CC66',
-                mec='#99CC66', markeredgewidth=1, ms=5)
+                fmt='None', zorder=1, mfc='darkorange',
+                mec='darkorange', markeredgewidth=1, ms=5)
 
     return
 
@@ -358,7 +359,7 @@ def g_hm12_total(ax):
         s = np.array([sigma_HI(x) for x in nu])
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
-    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='goldenrod', lw=2,
+    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='forestgreen', lw=2,
             dashes=[7,2], label='Haardt and Madau (2012)')
 
     return
@@ -417,7 +418,7 @@ def draw_g(z, g, individuals=None):
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
-    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='goldenrod', lw=2,
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
             label='Haardt and Madau (2012) QSO contribution')
 
     g_hm12_total(ax)
