@@ -338,7 +338,8 @@ def plot_dtaudn():
     ax.tick_params('both', which='minor', length=5, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    ax.set_ylabel(r'$\log_{10} N_\mathrm{HI} f(N_\mathrm{HI},z) [1-\exp{(-N_\mathrm{HI}\sigma_{912})}]$')
+    ax.set_ylabel(r'$\log_{10} N_\mathrm{HI} f(N_\mathrm{HI},z)'+
+                  '[1-\exp{(-N_\mathrm{HI}\sigma_{912})}]$')
     ax.set_xlabel(r'$\log_{10}(N_\mathrm{HI}/\mathrm{cm}^{-2})$') 
 
     ax.set_ylim(-3, 0)
@@ -503,54 +504,7 @@ def emissivity(w, z, loglf, theta):
 
     return np.trapz(farr, m, axis=0) # erg s^-1 Hz^-1 Mpc^-3
 
-# def j(emissivity, lfg, theta):
-def j(lfg, theta):
-
-    # ws = np.logspace(0.0, 5.0, num=800)
-    ws = np.logspace(0.0, 5.0, num=200)
-    nu = c_angPerSec/ws 
-
-    j = np.zeros_like(nu)
-    
-    zmax = 7#15.5
-    zmin = 0.0
-    # dz = 0.01
-    dz = 0.1
-    n = (zmax-zmin)/dz+1
-    zs = np.linspace(zmax, zmin, num=n)
-    gs = []
-
-    for z in zs:
-
-        # grid=False ensures that we get a flat array. 
-        #e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-        e = emissivity(ws/(1.0+z), z, lfg.log10phi, theta)
-        
-        # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
-        j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
-
-        nu_rest = c_angPerSec*(1.0+z)/ws 
-        t = np.array([tau_eff(x, z) for x in nu_rest])
-        j = j*np.exp(-t*dz)
-
-        # if z == 1.0:
-        #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
-        n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)
-
-        # nu_int = np.logspace(np.log10(nu0), 18, num=600)
-        nu_int = np.logspace(np.log10(nu0), 18, num=100)
-        n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
-        s = np.array([sigma_HI(x) for x in nu_int])
-        g = np.trapz(n_int*s, x=nu_int) # s^-1 
-
-        gs.append(g)
-
-    gs = np.array(gs)
-
-    return gs
-
-def jrest(emodel):
+def j(emodel, lfg=None):
 
     # ws = np.logspace(0.0, 5.0, num=800)
     ws = np.logspace(0.0, 5.0, num=200)
@@ -568,9 +522,11 @@ def jrest(emodel):
 
     for z in zs:
 
-        # grid=False ensures that we get a flat array. 
-        #e = emissivity_HM12(ws/(1.0+z), z*np.ones_like(ws), grid=False)
-        e = emodel(ws/(1.0+z), z)
+        if lfg is not None:
+            theta = np.median(lfg.samples, axis=0)
+            e = emodel(ws/(1.0+z), z, lfg.log10phi, theta)
+        else:
+            e = emodel(ws/(1.0+z), z)
         
         # [j] = erg s^-1 Hz^-1 cm^-2 sr^-1
         j = j + (e*c_mpcPerYr*np.abs(dtdz(z))*dz*cmbympc**2)/(4.0*np.pi) 
@@ -594,7 +550,7 @@ def jrest(emodel):
 
     gs = np.array(gs)
 
-    return gs
+    return zs, gs
 
 def em_hm12(w, z):
 
@@ -604,9 +560,6 @@ def em_qso_hm12(w, z):
 
     return vqso_emissivity_hm12(c_angPerSec/w, z)
     
-# gs = j(em_hm12)
-gs_hm12 = jrest(em_qso_hm12)
-
 def plot_evol(z, q):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -641,9 +594,12 @@ def draw_g(z, g):
     ax.set_ylim(1.0e-2, 10)
     ax.set_xlim(0.,7)
 
-    # locs = (1.0e-1, 1.0, 2.0)
-    # labels = ('0.1', '1', '2')
-    # plt.yticks(locs, labels)
+    # ax.set_ylim(1.0e-1, 2)
+    # ax.set_xlim(1.,7)
+    
+    locs = (0.01, 0.1, 1, 10)
+    labels = ('0.01', '0.1', '1', '10')
+    plt.yticks(locs, labels)
 
     # Compare photoionisation rate with HM12.
     check_gamma_HM12 = True
@@ -652,23 +608,28 @@ def draw_g(z, g):
         nu = np.logspace(np.log10(nu0), 18, num=1000)
         g_hm12 = []
         for r in zs:
-            j_hm12 = bkgintens_HM12(c_angPerSec/nu, r*np.ones_like(nu), grid=False)
+            j_hm12 = bkgintens_HM12(c_angPerSec/nu, r*np.ones_like(nu),
+                                    grid=False)
             n = 4.0*np.pi*j_hm12/(hplanck*nu)
             s = np.array([sigma_HI(x) for x in nu])
             g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
-        ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2, dashes=[7,2])
+        ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2,
+                dashes=[7,2], label='Haardt and Madau (2012)')
             
-    ax.plot(z, g/1.0e-12, c='k', lw=2)
-    ax.plot(z, gs_hm12/1.0e-12, c='tomato', lw=2)
+    # ax.plot(z, g/1.0e-12, c='k', lw=2)
+    ax.plot(z, gs_hm12/1.0e-12, c='tomato', lw=2,
+            label='Haardt and Madau (2012) QSO contribution')
 
-    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat',unpack=True)
+    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat', unpack=True)
     
     gml = 10.0**gm
     gml_up = 10.0**(gm+gm_up)-10.0**gm
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
-    ax.scatter(zm, gml, c='#d7191c', edgecolor='None', label='Becker and Bolton 2013', s=64)
-    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5, elinewidth=1.5, capthick=1.5,
+    ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
+               label='Becker and Bolton (2013)', s=64)
+    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
+                elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
                 fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
                 markeredgewidth=1, ms=5)
@@ -680,17 +641,26 @@ def draw_g(z, g):
     gml_up = 10.0**(gm+gm_sigma)-10.0**gm
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
-    ax.scatter(zm, gml, c='#99cc66', edgecolor='None', label='Calverley et al.~2011', s=64) 
-    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5, elinewidth=1.5, capthick=1.5,
-                yerr=np.vstack((gml_low, gml_up)), fmt='None', zorder=1, mfc='#99CC66',
+    ax.scatter(zm, gml, c='#99cc66', edgecolor='None',
+               label='Calverley et al.~(2011)', s=64) 
+    ax.errorbar(zm, gml, ecolor='#99CC66', capsize=5,
+                elinewidth=1.5, capthick=1.5,
+                yerr=np.vstack((gml_low, gml_up)),
+                fmt='None', zorder=1, mfc='#99CC66',
                 mec='#99CC66', markeredgewidth=1, ms=5)
+
+    plt.legend(loc='upper left', fontsize=12, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
     return
 
-#draw_g(zs, gs)
+# gs = j(em_hm12)
+zs_hm12, gs_hm12 = j(em_qso_hm12)
+draw_g(zs_hm12, gs_hm12)
 
 def plot_qso_emissivity():
 
