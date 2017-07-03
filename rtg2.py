@@ -314,62 +314,8 @@ def em_qso_hm12(w, z):
     """HM12 QSOs-only emissivity."""
 
     return vqso_emissivity_hm12(c_angPerSec/w, z)
-    
-def draw_g(z, g):
 
-    fig = plt.figure(figsize=(7, 7), dpi=100)
-    ax = fig.add_subplot(1, 1, 1)
-
-    ax.tick_params('both', which='major', length=7, width=1)
-    ax.tick_params('both', which='minor', length=5, width=1)
-    ax.tick_params('x', which='major', pad=6)
-
-    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
-    ax.set_xlabel('$z$')
-
-    ax.set_yscale('log')
-    ax.set_ylim(1.0e-2, 10)
-    ax.set_xlim(0.,7)
-
-    # ax.set_ylim(1.0e-1, 2)
-    # ax.set_xlim(1.,7)
-    
-    locs = (0.01, 0.1, 1, 10)
-    labels = ('0.01', '0.1', '1', '10')
-    plt.yticks(locs, labels)
-
-    # Compare photoionisation rate with HM12.
-    check_gamma_HM12 = True
-    if check_gamma_HM12:
-        zs = np.linspace(0.0, 7.0, num=200)
-        nu = np.logspace(np.log10(nu0), 18, num=1000)
-        g_hm12 = []
-        for r in zs:
-            j_hm12 = bkgintens_HM12(c_angPerSec/nu, r*np.ones_like(nu),
-                                    grid=False)
-            n = 4.0*np.pi*j_hm12/(hplanck*nu)
-            s = np.array([sigma_HI(x) for x in nu])
-            g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
-        ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2,
-                dashes=[7,2], label='Haardt and Madau (2012)')
-            
-    # ax.plot(z, g/1.0e-12, c='k', lw=2)
-    ax.plot(z, gs_hm12/1.0e-12, c='tomato', lw=2,
-            label='Haardt and Madau (2012) QSO contribution')
-
-    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat', unpack=True)
-    
-    gml = 10.0**gm
-    gml_up = 10.0**(gm+gm_up)-10.0**gm
-    gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
-
-    ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
-               label='Becker and Bolton (2013)', s=64)
-    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
-                elinewidth=1.5, capthick=1.5,
-                yerr=np.vstack((gml_low, gml_up)),
-                fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
-                markeredgewidth=1, ms=5)
+def calverley(ax):
 
     zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
     gm += 12.0
@@ -385,6 +331,105 @@ def draw_g(z, g):
                 yerr=np.vstack((gml_low, gml_up)),
                 fmt='None', zorder=1, mfc='#99CC66',
                 mec='#99CC66', markeredgewidth=1, ms=5)
+
+    return
+
+def bb13(ax):
+
+    zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat', unpack=True)
+    
+    gml = 10.0**gm
+    gml_up = 10.0**(gm+gm_up)-10.0**gm
+    gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
+
+    ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
+               label='Becker and Bolton (2013)', s=64)
+    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
+                elinewidth=1.5, capthick=1.5,
+                yerr=np.vstack((gml_low, gml_up)),
+                fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
+                markeredgewidth=1, ms=5)
+
+    return
+
+def g_hm12_total(ax):
+
+    zs = np.linspace(0.0, 7.0, num=200)
+    nu = np.logspace(np.log10(nu0), 18, num=1000)
+    g_hm12 = []
+    
+    for r in zs:
+        j_hm12 = bkgintens_HM12(c_angPerSec/nu, r*np.ones_like(nu), grid=False)
+        n = 4.0*np.pi*j_hm12/(hplanck*nu)
+        s = np.array([sigma_HI(x) for x in nu])
+        g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
+
+    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2,
+            dashes=[7,2], label='Haardt and Madau (2012)')
+
+    return
+
+def lfis(individuals, ax):
+
+    c = np.array([x.gammapi[2]+12.0 for x in individuals])
+    u = np.array([x.gammapi[0]+12.0 for x in individuals])
+    l = np.array([x.gammapi[1]+12.0 for x in individuals])
+
+    gml = 10.0**c
+    gml_up = 10.0**u-10.0**c
+    gml_low = 10.0**c - 10.0**l
+    
+    zs = np.array([x.z.mean() for x in individuals])
+    uz = np.array([x.z.max() for x in individuals])
+    lz = np.array([x.z.min() for x in individuals])
+
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
+               label='Individual fits ($M<-20$, local source approximation)',
+               s=44, zorder=4, linewidths=1.5) 
+    ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((gml_low,gml_up)),
+                xerr=np.vstack((lzerr,uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+
+    return 
+    
+def draw_g(z, g, individuals=None):
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-2, 10)
+    ax.set_xlim(0.,7)
+
+    locs = (0.01, 0.1, 1, 10)
+    labels = ('0.01', '0.1', '1', '10')
+    plt.yticks(locs, labels)
+    
+    # ax.plot(z, g/1.0e-12, c='k', lw=2)
+    ax.plot(z, gs_hm12/1.0e-12, c='tomato', lw=2,
+            label='Haardt and Madau (2012) QSO contribution')
+
+    g_hm12_total(ax)
+    bb13(ax)
+    calverley(ax)
+
+    if individuals is not None:
+        lfis(individuals, ax)
 
     plt.legend(loc='upper left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
