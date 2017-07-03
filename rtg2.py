@@ -255,27 +255,25 @@ def emissivity(w, z, loglf, theta):
 
     return np.trapz(farr, m, axis=0) # erg s^-1 Hz^-1 Mpc^-3
 
-def j(emodel, lfg=None):
+def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
 
-    # ws = np.logspace(0.0, 5.0, num=800)
-    ws = np.logspace(0.0, 5.0, num=200)
+    ws = np.logspace(0.0, 5.0, num=n_ws)
     nu = c_angPerSec/ws 
 
     j = np.zeros_like(nu)
     
-    zmax = 7.0 # 15.5
     zmin = 0.0
-    #dz = 0.01
-    dz = 0.1
     n = (zmax-zmin)/dz+1
     zs = np.linspace(zmax, zmin, num=n)
     gs = []
 
+    if lfg is not None:
+        theta = np.median(lfg.samples, axis=0)
+
     for z in zs:
 
         if lfg is not None:
-            theta = np.median(lfg.samples, axis=0)
-            e = emissivity(ws/(1.0+z), z, lfg.log10phi, theta)
+            e = emodel(ws/(1.0+z), z, lfg.log10phi, theta)
         else:
             e = emodel(ws/(1.0+z), z)
         
@@ -286,13 +284,9 @@ def j(emodel, lfg=None):
         t = np.array([tau_eff(x, z) for x in nu_rest])
         j = j*np.exp(-t*dz)
 
-        # if z == 1.0:
-        #     draw_j(j*(1.0+z)**3, ws/(1.0+z), z)
-
         n = 4.0*np.pi*j*(1.0+z)**3/(hplanck*nu_rest)
 
-        # nu_int = np.logspace(np.log10(nu0), 18, num=600)
-        nu_int = np.logspace(np.log10(nu0), 18, num=100)
+        nu_int = np.logspace(np.log10(nu0), 18, num=n_ws_int)
         n_int = np.interp(nu_int, nu_rest[::-1], n[::-1])
         s = np.array([sigma_HI(x) for x in nu_int])
         g = np.trapz(n_int*s, x=nu_int) # s^-1 
@@ -364,7 +358,7 @@ def g_hm12_total(ax):
         s = np.array([sigma_HI(x) for x in nu])
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
-    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='k', lw=2,
+    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='goldenrod', lw=2,
             dashes=[7,2], label='Haardt and Madau (2012)')
 
     return
@@ -413,15 +407,17 @@ def draw_g(z, g, individuals=None):
     ax.set_xlabel('$z$')
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-2, 10)
+    ax.set_ylim(1.0e-2, 50)
     ax.set_xlim(0.,7)
 
     locs = (0.01, 0.1, 1, 10)
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
     
-    # ax.plot(z, g/1.0e-12, c='k', lw=2)
-    ax.plot(z, gs_hm12/1.0e-12, c='tomato', lw=2,
+    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    
+    zs_hm12, gs_hm12 = j(em_qso_hm12)
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='goldenrod', lw=2,
             label='Haardt and Madau (2012) QSO contribution')
 
     g_hm12_total(ax)
@@ -431,9 +427,9 @@ def draw_g(z, g, individuals=None):
     if individuals is not None:
         lfis(individuals, ax)
 
-    plt.legend(loc='upper left', fontsize=12, handlelength=3,
+    plt.legend(loc='upper left', fontsize=10, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.1, scatterpoints=1)
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1)
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
@@ -441,6 +437,6 @@ def draw_g(z, g, individuals=None):
     return
 
 # gs = j(em_hm12)
-zs_hm12, gs_hm12 = j(em_qso_hm12)
-draw_g(zs_hm12, gs_hm12)
+# zs_hm12, gs_hm12 = j(em_qso_hm12)
+# draw_g(zs_hm12, gs_hm12)
 
