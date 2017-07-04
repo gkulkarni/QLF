@@ -185,7 +185,6 @@ def f_HM12(N_HI, z):
     return 0.0
 
 vf_HM12 = np.vectorize(f_HM12, otypes=[np.float])
-#vf_HM12 = np.vectorize(f, otypes=[np.float])
 
 def sigma_HI(nu):
 
@@ -248,7 +247,8 @@ vfnu = np.vectorize(fnu, excluded=['M'])
 
 def emissivity(w, z, loglf, theta):
 
-    mlims = (-30.0, -20.0)
+    mmin = -18.0
+    mlims = (-30.0, mmin)
     m = np.linspace(mlims[0], mlims[1], num=1000)
     nu = c_angPerSec/w
 
@@ -258,6 +258,16 @@ def emissivity(w, z, loglf, theta):
 
 def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
 
+    """Calculate the mean specific intensity.
+
+    Actually, directly outputs a redshift, photoionisation rate, pair. 
+
+    Needs a model for emissivity.  From my tests, I have found that dz
+    = 0.01, n_ws = 600, n_ws_int = 400, and zmax = 9 is necessary for
+    convergence.
+
+    """
+    
     ws = np.logspace(0.0, 5.0, num=n_ws)
     nu = c_angPerSec/ws 
 
@@ -385,7 +395,7 @@ def lfis(individuals, ax):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-20$, local source approximation)',
+               label='Individual fits ($M<-18$, local source approximation)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -415,7 +425,7 @@ def draw_g(z, g, individuals=None):
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
     
-    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
