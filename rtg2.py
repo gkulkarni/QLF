@@ -246,7 +246,7 @@ def fnu(nu, M):
             
     return e 
 
-vfnu = np.vectorize(fnu, excluded=['M'])
+vfnu = np.vectorize(fnu, excluded=['M'], otypes=[np.float])
 
 def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-20):
 
