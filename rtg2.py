@@ -239,15 +239,18 @@ def fnu(nu, M):
     if w > 912.0:
         e = a*(w/1450.0)**0.61
     else:
-        e = b*(w/912.0)**1.57
-    
+        if M < -23.0: 
+            e = b*(w/912.0)**1.70
+        else:
+            e = b*(w/912.0)**0.56 
+            
     return e 
 
 vfnu = np.vectorize(fnu, excluded=['M'])
 
 def emissivity(w, z, loglf, theta):
 
-    mmin = -18.0
+    mmin = -20.0
     mlims = (-30.0, mmin)
     m = np.linspace(mlims[0], mlims[1], num=1000)
     nu = c_angPerSec/w
@@ -395,7 +398,7 @@ def lfis(individuals, ax):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-18$, local source approximation)',
+               label='Individual fits ($M<-20$, local source approximation)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -425,7 +428,7 @@ def draw_g(z, g, individuals=None):
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
     
-    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
+    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
