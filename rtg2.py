@@ -424,7 +424,7 @@ def lfis(individuals, ax):
 
     return 
     
-def draw_g(z, g, individuals=None):
+def draw_g(z, g, z2=None, g2=None, individuals=None):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -445,6 +445,8 @@ def draw_g(z, g, individuals=None):
     plt.yticks(locs, labels)
     
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    if z2 is not None:
+        ax.plot(z2, g2/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$) local source approximation')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
