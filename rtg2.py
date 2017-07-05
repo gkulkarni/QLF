@@ -287,7 +287,7 @@ def gs_lsa(lfg, dz=0.1, zmax=7.0):
 
     return zs, gs 
     
-def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
+def j(emodel, loglf=None, theta=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
 
     """Calculate the mean specific intensity.
 
@@ -309,13 +309,10 @@ def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
     zs = np.linspace(zmax, zmin, num=n)
     gs = []
 
-    if lfg is not None:
-        theta = np.median(lfg.samples, axis=0)
-
     for z in zs:
 
-        if lfg is not None:
-            e = emodel(ws/(1.0+z), z, lfg.log10phi, theta)
+        if loglf is not None:
+            e = emodel(ws/(1.0+z), z, loglf, theta)
         else:
             e = emodel(ws/(1.0+z), z)
         
