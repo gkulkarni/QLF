@@ -281,7 +281,9 @@ def gs_lsa(lfg, dz=0.1, zmax=7.0):
     n = (zmax-zmin)/dz+1
     zs = np.linspace(zmax, zmin, num=n)
 
-    gs = [g_lsa(x, lfg) for x in zs]
+    theta = np.median(lfg.samples, axis=0)
+    
+    gs = [g_lsa(x, lfg.log10phi, theta) for x in zs]
 
     return zs, gs 
     
