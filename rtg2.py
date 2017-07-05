@@ -257,6 +257,24 @@ def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-20):
 
     return np.trapz(farr, m, axis=0) # erg s^-1 Hz^-1 Mpc^-3
 
+def g_lsa(z, loglf, theta):
+
+    """Photoionisation rate with Local Source Approx.
+    
+    """
+
+    w = 912.0 
+    
+    em = emissivity(w, z, loglf, theta, mbright=-30.0, mfaint=-23.0)
+    alpha_EUV = -1.7
+    part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
+
+    em = emissivity(w, z, loglf, theta, mbright=-23.0, mfaint=-20.0)    
+    alpha_EUV = -0.56
+    part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
+
+    return part1 + part2 
+    
 def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
 
     """Calculate the mean specific intensity.
