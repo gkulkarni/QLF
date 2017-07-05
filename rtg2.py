@@ -273,7 +273,17 @@ def g_lsa(z, loglf, theta):
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
-    return part1 + part2 
+    return part1 + part2
+
+def gs_lsa(lfg, dz=0.1, zmax=7.0):
+
+    zmin = 0.0
+    n = (zmax-zmin)/dz+1
+    zs = np.linspace(zmax, zmin, num=n)
+
+    gs = [g_lsa(x, lfg) for x in zs]
+
+    return zs, gs 
     
 def j(emodel, lfg=None, dz=0.1, n_ws=200, n_ws_int=100, zmax=7.0):
 
