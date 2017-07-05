@@ -433,7 +433,7 @@ def lfis(individuals, ax):
 
     return 
     
-def draw_g(z, g, z2=None, g2=None, individuals=None):
+def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -452,10 +452,14 @@ def draw_g(z, g, z2=None, g2=None, individuals=None):
     locs = (0.01, 0.1, 1, 10)
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
-    
+
+    theta = np.median(lfg.samples, axis=0)
+    z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    
     if z2 is not None:
-        ax.plot(z2, g2/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$) local source approximation')
+        ax.plot(z2, g2/1.0e-12, c='k', lw=2,
+                label=r'Global model ($M<-20$) local source approximation')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
