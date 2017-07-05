@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from scipy.interpolate import RectBivariateSpline
 import sys
+import time 
 
 z_HM12 = np.loadtxt('z_HM12.txt')
 data_HM12 = np.loadtxt('hm12.txt')
@@ -454,12 +455,18 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     plt.yticks(locs, labels)
 
     for x in lfg.samples[np.random.randint(len(lfg.samples), size=3)]:
+        t1 = time.time()
         z, g = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=9.7)
-        ax.plot(z, g/1.0e-12, c='goldenrod', lw=2)
-    
+        ax.plot(z, g/1.0e-12, c='goldenrod', lw=1, alpha=0.1)
+        t2 = time.time()
+        print t2-t1
+                
+    t1 = time.time()
     theta = np.median(lfg.samples, axis=0)
     z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    t2 = time.time()
+    print t2-t1
     
     if z2 is not None:
         ax.plot(z2, g2/1.0e-12, c='k', lw=2,
