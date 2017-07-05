@@ -248,11 +248,9 @@ def fnu(nu, M):
 
 vfnu = np.vectorize(fnu, excluded=['M'])
 
-def emissivity(w, z, loglf, theta):
+def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-20):
 
-    mmin = -20.0
-    mlims = (-30.0, mmin)
-    m = np.linspace(mlims[0], mlims[1], num=1000)
+    m = np.linspace(mbright, mfaint, num=1000)
     nu = c_angPerSec/w
 
     farr = np.array([10.0**loglf(theta, x, z)*vfnu(nu, x) for x in m])
