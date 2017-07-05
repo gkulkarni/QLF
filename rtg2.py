@@ -453,6 +453,10 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
 
+    for x in lfg.samples[np.random.randint(len(lfg.samples), size=3)]:
+        z, g = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=9.7)
+        ax.plot(z, g/1.0e-12, c='goldenrod', lw=2)
+    
     theta = np.median(lfg.samples, axis=0)
     z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
