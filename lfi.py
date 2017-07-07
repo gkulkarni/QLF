@@ -46,9 +46,6 @@ method = 'Nelder-Mead'
 zmin = float(sys.argv[1])
 zmax = float(sys.argv[2])
 
-# zmin = 3.7
-# zmax = 4.1
-
 zl = (zmin, zmax) 
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 print '{:d} quasars in this bin.'.format(lfi.z.size)
@@ -74,26 +71,14 @@ print bf
 lfi.get_percentiles()
 print lfi.alpha
 
-write=False
-if write: 
-    with open('phi_starg.dat', 'a') as f:
-        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
-        f.write('\n')
-
-    with open('M_starg.dat', 'a') as f:
-        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
-        f.write('\n')
-
-    with open('alphag.dat', 'a') as f:
-        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
-        f.write('\n')
-
-    with open('betag.dat', 'a') as f:
-        f.write(('{:.3f}  '*6).format(lfi.z.mean(), zl[0], zl[1], lfi.beta[0], lfi.beta[1], lfi.beta[2]))
+WRITE_PARAMS = True
+if WRITE_PARAMS: 
+    with open('new_bins.dat', 'a') as f:
+        output = ([lfi.z.mean()] + list(zl) + lfi.phi_star
+                  + lfi.M_star + lfi.alpha + lfi.beta)
+        f.write(('{:.3f}  '*len(output)).format(*output)) 
         f.write('\n')
     
-# lfi.corner_plot()
-# lfi.chains()
 drawlf.draw(lfi)
 
 
