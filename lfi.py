@@ -23,23 +23,73 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/kashikawa15_sample.dat',
              'Data_new/giallongo15_sample.dat']
 
-selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
-             ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'2SLAQ Croom et al.\ 2009'),
-             ('Data_new/croom09ngp_selfunc.dat', 0.3, 0.05, 127.7, 15, r'2SLAQ Croom et al.\ 2009'),
-             ('Data_new/ross13_selfunc2.dat', 0.1, 0.05, 2236.0, 1, r'BOSS DR9 Ross et al.\ 2013'),
-             ('Data_new/dr7z3p7_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
-             ('Data_new/glikman11_selfunc_ndwfs.dat', 0.05, 0.02, 1.71, 6, r'NDWFS+DLS Glikman et al.\ 2011'),
-             ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'NDWFS+DLS Glikman et al.\ 2011'),
-             ('Data_new/yang16_sel.dat', 0.1, 0.05, 14555.0, 17, r'SDSS+WISE Yang et al.\ 2016'),
-             ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'SDSS+S82 McGreer et al.\ 2013'),
-             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 8, r'SDSS+S82 McGreer et al.\ 2013'),
-             ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'SDSS Jiang et al.\ 2016'),
-             ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 18, r'SDSS Jiang et al.\ 2016'),
-             ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'SDSS Jiang et al.\ 2016'),
-             ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'CFHQS Willott et al.\ 2010'),
-             ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10, r'CFHQS Willott et al.\ 2010'),
-             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015'),
-             ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7, 'Giallongo et al.\ 2015')]
+selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
+              0.1, 0.05, 6248.0, 13,
+              r'SDSS DR7 Richards et al.\ 2006'),
+             
+             ('Data_new/croom09sgp_selfunc.dat',
+              0.3, 0.05, 64.2, 15,
+              r'2SLAQ Croom et al.\ 2009'),
+             
+             ('Data_new/croom09ngp_selfunc.dat',
+              0.3, 0.05, 127.7, 15,
+              r'2SLAQ Croom et al.\ 2009'),
+             
+             ('Data_new/ross13_selfunc2.dat',
+              0.1, 0.05, 2236.0, 1,
+              r'BOSS DR9 Ross et al.\ 2013'),
+             
+             ('Data_new/dr7z3p7_selfunc.dat',
+              0.1, 0.05, 6248.0, 13,
+              r'SDSS DR7 Richards et al.\ 2006'),
+             
+             ('Data_new/glikman11_selfunc_ndwfs.dat',
+              0.05, 0.02, 1.71, 6,
+              r'NDWFS+DLS Glikman et al.\ 2011'),
+             
+             ('Data_new/glikman11_selfunc_dls.dat',
+              0.05, 0.02, 2.05, 6,
+              r'NDWFS+DLS Glikman et al.\ 2011'),
+             
+             ('Data_new/yang16_sel.dat',
+              0.1, 0.05, 14555.0, 17,
+              r'SDSS+WISE Yang et al.\ 2016'),
+             
+             ('Data_new/mcgreer13_dr7selfunc.dat',
+              0.1, 0.05, 6248.0, 8,
+              r'SDSS+S82 McGreer et al.\ 2013'),
+             
+             ('Data_new/mcgreer13_s82selfunc.dat',
+              0.1, 0.05, 235.0, 8,
+              r'SDSS+S82 McGreer et al.\ 2013'),
+             
+             ('Data_new/jiang16main_selfunc.dat',
+              0.1, 0.05, 11240.0, 18,
+              r'SDSS Jiang et al.\ 2016'),
+             
+             ('Data_new/jiang16overlap_selfunc.dat',
+              0.1, 0.05, 4223.0, 18,
+              r'SDSS Jiang et al.\ 2016'),
+             
+             ('Data_new/jiang16s82_selfunc.dat',
+              0.1, 0.05, 277.0, 18,
+              r'SDSS Jiang et al.\ 2016'),
+             
+             ('Data_new/willott10_cfhqsdeepsel.dat',
+              0.1, 0.025, 4.47, 10,
+              r'CFHQS Willott et al.\ 2010'),
+             
+             ('Data_new/willott10_cfhqsvwsel.dat',
+              0.1, 0.025, 494.0, 10,
+              r'CFHQS Willott et al.\ 2010'),
+             
+             ('Data_new/kashikawa15_sel.dat',
+              0.05, 0.05, 6.5, 11,
+              r'Subaru Kashikawa et al.\ 2015'),
+             
+             ('Data_new/giallongo15_sel.dat',
+              0.0, 0.0, 0.047, 7,
+              'Giallongo et al.\ 2015')]
 
 method = 'Nelder-Mead'
 
