@@ -248,7 +248,7 @@ def fnu(nu, M):
 
 vfnu = np.vectorize(fnu, excluded=['M'], otypes=[np.float])
 
-def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-20):
+def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
 
     m = np.linspace(mbright, mfaint, num=1000)
     nu = c_angPerSec/w
@@ -269,7 +269,7 @@ def g_lsa(z, loglf, theta):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(w, z, loglf, theta, mbright=-23.0, mfaint=-20.0)    
+    em = emissivity(w, z, loglf, theta, mbright=-23.0, mfaint=-18.0)    
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -423,7 +423,7 @@ def lfis(individuals, ax):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-20$, local source approximation)',
+               label='Individual fits ($M<-18$, local source approximation)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -459,11 +459,11 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
                 
     theta = np.median(lfg.samples, axis=0)
     z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
-    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-20$)')
+    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
     
     if z2 is not None:
         ax.plot(z2, g2/1.0e-12, c='k', lw=2,
-                label=r'Global model ($M<-20$) local source approximation')
+                label=r'Global model ($M<-18$) local source approximation')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
