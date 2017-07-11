@@ -215,7 +215,7 @@ def get_lf_sample(lf, sid, z_plot):
 
     return mags, left, right, logphi, uperr, downerr
 
-def render(ax, lf, composite=None, showMockSample=False):
+def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=True):
 
     """
 
@@ -224,12 +224,13 @@ def render(ax, lf, composite=None, showMockSample=False):
     """
 
     z_plot = lf.z.mean() 
-    
-    mag_plot = np.linspace(-32.0, -16.0, num=200) 
-    plot_posterior_sample_lfs(lf, ax, mag_plot, lw=1,
-                                   c='#ffbf00', alpha=0.1, zorder=2) 
-    plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-                         c='#ffbf00', zorder=3, label='individual fit')
+
+    if show_individual_fit: 
+        mag_plot = np.linspace(-32.0, -16.0, num=200) 
+        plot_posterior_sample_lfs(lf, ax, mag_plot, lw=1,
+                                       c='#ffbf00', alpha=0.1, zorder=2) 
+        plot_bestfit_lf(lf, ax, mag_plot, lw=2,
+                             c='#ffbf00', zorder=3, label='individual fit')
 
     if composite is not None:
         mags = np.linspace(-32.0, -16.0, num=200)
@@ -272,7 +273,7 @@ def render(ax, lf, composite=None, showMockSample=False):
         
     return 
 
-def draw(lf, composite=None, dirname='', showMockSample=False):
+def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
 
     """
 
@@ -287,7 +288,8 @@ def draw(lf, composite=None, dirname='', showMockSample=False):
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=3, width=1)
 
-    render(ax, lf, composite=composite, showMockSample=showMockSample)
+    render(ax, lf, composite=composite, showMockSample=showMockSample,
+           show_individual_fit=show_individual_fit)
 
     ax.set_xlim(-17.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
