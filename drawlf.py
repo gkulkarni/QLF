@@ -299,7 +299,8 @@ def draw(lf, composite=None, dirname='', showMockSample=False):
     legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
     plt.legend(loc='lower left', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=-0.4, borderpad=0.2, scatterpoints=1, title=legend_title)
+               handletextpad=0.1, borderpad=0.2, scatterpoints=1,
+               title=legend_title)
 
     plottitle = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
     plt.title(plottitle, size='medium', y=1.01)
