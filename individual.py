@@ -133,6 +133,10 @@ class selmap:
             
         self.z_all, self.m_all, self.p_all = getselfn(selection_map_file, zlims=zlims)
 
+        self.z = self.z_all
+        self.m = self.m_all
+        self.p = self.p_all 
+    
         select = None 
         
         if sample_id == 7:
@@ -170,15 +174,20 @@ class selmap:
             # overlap with Yang.
             select = (self.m_all>-26.73)
 
+        if self.z_all.size == 0:
+            return # This selmap has no points in zlims
+            
         self.z = self.z_all[select]
         self.m = self.m_all[select]
         self.p = self.p_all[select]
-            
+
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
+        self.volarr_all = volume(self.z_all, self.area)*self.dz
+
         return
 
     def nqso(self, lumfn, theta):
