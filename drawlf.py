@@ -222,7 +222,7 @@ def get_lf_all(lf, sid, z_plot):
     else:
         bins = np.arange(-30.9, -17.3, 0.2)
 
-    v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
+    v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
 
     v1_nonzero = v1[np.where(v1>0.0)]
     m = m[np.where(v1>0.0)]
@@ -352,6 +352,24 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                     xerr=np.vstack((left, right)), 
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
+
+        mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot)
+        print mags_all[logphi_all!=logphi]
+        print logphi_all[logphi_all!=logphi]
+
+        select = (logphi_all!=logphi)
+        mags_all = mags_all[select]
+        left_all = left_all[select]
+        right_all = right_all[select]
+        logphi_all = logphi_all[select]
+        uperr_all  = uperr_all[select]
+        downerr_all = downerr_all[select]
+                               
+        ax.errorbar(mags_all, logphi_all, ecolor=cs[i], capsize=0,
+                    xerr=np.vstack((left_all, right_all)), 
+                    yerr=np.vstack((uperr_all, downerr_all)),
+                    fmt='None', zorder=4)
+        ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=12, label=dsl(i)+' rejected')
 
     if showMockSample:
         for i in sids:
