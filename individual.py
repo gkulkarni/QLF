@@ -117,11 +117,12 @@ class selmap:
         self.sid = sample_id
         self.dz = dz
         self.dm = dm
+        
         if sample_id == 7:
-            # Giallongo's sample needs special treatment due to
-            # non-uniform selection map grid.  Here, we are assuming
-            # that np.diff(zlims) is smaller than the delta-z values
-            # in Giallongo's selection maps.
+            # Set dz and dm for Giallongo's sample.  This sample needs
+            # special treatment due to non-uniform selection map grid.
+            # Here, we are assuming that np.diff(zlims) is smaller
+            # than the delta-z values in Giallongo's selection maps.
             self.dz = np.diff(zlims)
             self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
             with open(selection_map_file, 'r') as f: 
@@ -130,8 +131,10 @@ class selmap:
             select = ((z>=z_min) & (z<z_max))
             self.dm = self.dm[select]
             
-        self.z, self.m, self.p = getselfn(selection_map_file, zlims=zlims)
+        self.z_all, self.m_all, self.p_all = getselfn(selection_map_file, zlims=zlims)
 
+        select = None 
+        
         if sample_id == 7:
             # Correct Giallongo's p values to match published LF.  See
             # comments in giallongo15_sel_correction.dat.
@@ -142,7 +145,7 @@ class selmap:
             with open('Data_new/giallongo15_sel_correction.dat', 'r') as f: 
                 corr = np.loadtxt(f, usecols=(4,), unpack=True)
             corr = corr[select]
-            self.p = self.p/corr
+            self.p_all = self.p_all/corr
 
         if sample_id == 13:
             # Restrict Richards sample (1) to z < 2.2 as there are
@@ -150,52 +153,29 @@ class selmap:
             # host galaxy contamination; (3) to m > -23 at low z to
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see getqlums above.
-
-            z_min, z_max = zlims 
-            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.m < -20.5)) |
-                      ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.94)))
-            
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
+            select = (((self.z_all<2.2) & (self.m_all<-20.5)) |
+                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
 
         if sample_id == 15:
             z_min, z_max = zlims 
             if z_min < 0.68:
-                select = (self.p>=0.0)
-                # select = (self.p>0.5)
+                select = (self.p_all>=0.0)
             else:
                 # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
                 # above this redshift.
-                select = (self.z<2.2)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
+                select = (self.z_all<2.2)
         
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
             # overlap with Yang.
-            select = (self.m>-26.73)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
+            select = (self.m_all>-26.73)
 
+        self.z = self.z_all[select]
+        self.m = self.m_all[select]
+        self.p = self.p_all[select]
+            
         if self.z.size == 0:
             return # This selmap has no points in zlims
-
-        # Things may break down if thresholding is enabled.  Also see
-        # below in lf.
-        thresholding = False 
-        if thresholding: 
-            p_threshold = 0.20
-            select = (self.p > p_threshold)
-            self.z = self.z[select]
-            self.m = self.m[select]
-            self.p = self.p[select]
-
-            if self.z.size == 0:
-                return # This selmap has no points with the current
-                       # p_threshold
 
         self.area = area
         self.volarr = volume(self.z, self.area)*self.dz
@@ -249,18 +229,6 @@ class lf:
                 self.area_all=area_all
                 self.sid_all=sid_all
                 
-        # Things may break down if thresholding is enabled.  Also see
-        # above in selmap.
-        thresholding = False 
-        if thresholding: 
-            p_threshold = 0.20
-            select = (self.p > p_threshold)
-            self.z = self.z[select]
-            self.M1450 = self.M1450[select]
-            self.p = self.p[select]
-            self.area = self.area[select]
-            self.sid = self.sid[select]
-
         if zlims is not None:
             self.dz = zlims[1]-zlims[0]
 
