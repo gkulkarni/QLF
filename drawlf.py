@@ -130,7 +130,7 @@ def get_lf(lf, sid, z_plot):
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     else:
-        bins = np.arange(-30.9, -17.3, 0.6)
+        bins = np.arange(-30.9, -17.3, 0.2)
 
     v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
