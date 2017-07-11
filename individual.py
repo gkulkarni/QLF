@@ -26,47 +26,57 @@ def getqlums(lumfile, zlims=None):
     """Read quasar luminosities."""
 
     with open(lumfile,'r') as f: 
-        z, mag, p, area, sample_id = np.loadtxt(lumfile, usecols=(1,2,3,4,5), unpack=True)
-
+        z, mag, p, area, sample_id = np.loadtxt(lumfile,
+                                                usecols=(1,2,3,4,5),
+                                                unpack=True)
     if zlims is None:
         select = None
     else:
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    try:
-        if sample_id[0] == 13:
-            # Restrict Richards sample (1) to z < 2.2 as there are
-            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
-            # host galaxy contamination; (3) to m > -23 at low z to
-            # avoid incompleteness; and (4) to m < -26 at high z to
-            # avoid incompleteness.  Also see selmap below.
-            select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
-                      ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.94)))
-    except(IndexError):
-        pass
+    z_all = z[select]
+    mag_all = mag[select]
+    p_all = p[select]
+    area_all = area[select]
+    sample_id_all = sample_id[select]
 
     try:
-        if sample_id[0] == 15:
-            if z_min < 0.68:
-                select = ((z>=z_min) & (z<z_max) & (p > 0.5))
-            else:
-                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
-                # above this redshift.
-                select = ((z>=z_min) & (z<z_max) & (z<2.2))
+        sid = sample_id[0]
     except(IndexError):
-        pass
+        sid = sample_id
 
-    try:
-        if sample_id[0] == 8:
-            # Restrict McGreer's samples to faint quasars to avoid
-            # overlap with Yang.
-            select = ((z>=z_min) & (z<z_max) & (mag>-26.73))
-    except(IndexError):
-        pass
+    select = None 
+        
+    if sid == 13:
+        # Restrict Richards sample (1) to z < 2.2 as there are
+        # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+        # host galaxy contamination; (3) to m > -23 at low z to
+        # avoid incompleteness; and (4) to m < -26 at high z to
+        # avoid incompleteness.  Also see selmap below.
+        select = (((z_all<2.2) & (mag_all<-20.5)) |
+                  ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
 
-    return z[select], mag[select], p[select], area[select], sample_id[select]
+    if sid == 15:
+        if z_min < 0.68:
+            select = (mag_all < -20.5)
+        else:
+            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
+            # above this redshift.
+            select = (z_all < 2.2)
 
+    if sid == 8:
+        select = (mag_all > -26.73)
+
+    z = z_all[select]
+    mag = mag_all[select]
+    p = p_all[select]
+    area = area_all[select]
+    sample_id = sample_id_all[select]
+
+    return (z, mag, p, area, sample_id, z_all, mag_all, p_all,
+            area_all, sample_id_all)
+        
 def getselfn(selfile, zlims=None):
 
     """Read selection map."""
@@ -142,7 +152,7 @@ class selmap:
             # avoid incompleteness.  Also see getqlums above.
 
             z_min, z_max = zlims 
-            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
+            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.m < -20.5)) |
                       ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.94)))
             
             self.z = self.z[select]
@@ -152,7 +162,8 @@ class selmap:
         if sample_id == 15:
             z_min, z_max = zlims 
             if z_min < 0.68:
-                select = (self.p>0.5)
+                select = (self.p>=0.0)
+                # select = (self.p>0.5)
             else:
                 # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
                 # above this redshift.
@@ -208,7 +219,10 @@ class lf:
         self.zlims = zlims
 
         for datafile in quasar_files:
-            z, m, p, area, sid = getqlums(datafile, zlims=zlims)
+            (z, m, p, area, sid,
+             z_all, m_all, p_all,
+             area_all, sid_all) = getqlums(datafile, zlims=zlims)
+
             try:
                 self.z=np.append(self.z,z)
                 self.M1450=np.append(self.M1450,m)
@@ -222,6 +236,19 @@ class lf:
                 self.area=area
                 self.sid=sid
 
+            try:
+                self.z_all=np.append(self.z_all,z_all)
+                self.M1450_all=np.append(self.M1450_all,m_all)
+                self.p_all=np.append(self.p_all,p_all)
+                self.area_all=np.append(self.area_all,area_all)
+                self.sid_all=np.append(self.sid_all,sid_all)
+            except(AttributeError):
+                self.z_all=z_all
+                self.M1450_all=m_all
+                self.p_all=p_all
+                self.area_all=area_all
+                self.sid_all=sid_all
+                
         # Things may break down if thresholding is enabled.  Also see
         # above in selmap.
         thresholding = False 
