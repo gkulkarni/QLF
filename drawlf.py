@@ -253,6 +253,8 @@ def render(ax, lf, composite=None, showMockSample=False):
     sids = np.unique(lf.sid)
     for i in sids:
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
+        print mags[logphi>-100.0]
+        print logphi[logphi>-100.0]
         ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=16, label=dsl(i))
         ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
                     xerr=np.vstack((left, right)), 
