@@ -22,7 +22,7 @@ zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 cfit = False
 
-def getParam(individuals, param):
+def getParam(individuals, param, which='old'):
 
 
     if individuals is not None: 
@@ -50,14 +50,17 @@ def getParam(individuals, param):
 
     else:
 
-        if param == 0: 
-            zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
-        elif param == 1:
-            zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
-        elif param == 2:
-            zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
-        elif param == 3:
-            zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
+        if which == 'new': 
+            zmean, zl, zu, u, l, c = np.loadtxt('new_bins.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
+        else: 
+            if param == 0: 
+                zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
+            elif param == 1:
+                zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
+            elif param == 2:
+                zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
+            elif param == 3:
+                zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
             
     return zmean, zl, zu, u, l, c
 
@@ -95,6 +98,17 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=15)
 
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -170,6 +184,17 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=15)
+    
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,4,5,6), unpack=True)
     ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -246,7 +271,6 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
         alpha = composite.atz(z, composite.getparams(bf)[2])
         ax.plot(z, alpha, color='k', zorder=2, lw=2, label='Posterior median')
 
-    
     zmean, zl, zu, u, l, c = getParam(individuals, 2) 
     left = zmean-zl
     right = zu-zmean
@@ -257,6 +281,17 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=15)
 
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,10,11,12), unpack=True)
@@ -338,6 +373,18 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=5)
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=15)
+    
+
     cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -417,5 +464,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-#summary_plot()
+summary_plot()
 
