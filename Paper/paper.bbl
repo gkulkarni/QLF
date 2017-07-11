@@ -17,6 +17,10 @@
   {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
   mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
 
+\bibitem[\protect\citeauthoryear{{Baldwin}}{{Baldwin}}{1977}]{1977ApJ...214..679B}
+{Baldwin} J.~A.,  1977, \mn@doi [\apj] {10.1086/155294}, \href
+  {http://adsabs.harvard.edu/abs/1977ApJ...214..679B} {214, 679}
+
 \bibitem[\protect\citeauthoryear{{Becker} \& {Bolton}}{{Becker} \&
   {Bolton}}{2013}]{2013MNRAS.436.1023B}
 {Becker} G.~D.,  {Bolton} J.~S.,  2013, \mn@doi [\mnras]
