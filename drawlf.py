@@ -95,6 +95,27 @@ def binVol(self, selmap, mrange, zrange):
 
     return v
 
+
+def binVol_all(self, selmap, mrange, zrange):
+
+    """
+
+    Calculate volume in an M-z bin for *one* selmap.
+
+    """
+
+    v = 0.0
+    for i in xrange(selmap.m_all.size):
+        if (selmap.m_all[i] >= mrange[0]) and (selmap.m_all[i] < mrange[1]):
+            if (selmap.z_all[i] >= zrange[0]) and (selmap.z_all[i] < zrange[1]):
+                if selmap.sid == 7: # Giallongo 
+                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm[i]
+                else:
+                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm
+
+    return v
+
+
 def totBinVol(lf, m, mbins, selmaps):
 
     """
@@ -115,12 +136,81 @@ def totBinVol(lf, m, mbins, selmaps):
     return total_vol
 
 
+def totBinVol_all(lf, m, mbins, selmaps):
+
+    """
+
+    Given magnitude bins mbins and a list of selection maps
+    selmaps, compute the volume for an object with magnitude m.
+
+    """
+
+    idx = np.searchsorted(mbins, m)
+    mlow = mbins[idx-1]
+    mhigh = mbins[idx]
+    mrange = (mlow, mhigh)
+
+    v = np.array([binVol_all(lf, x, mrange, lf.zlims) for x in selmaps])
+    total_vol = v.sum() 
+
+    return total_vol
+
+
 def get_lf(lf, sid, z_plot):
 
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
 
     m = lf.M1450[lf.sid==sid]
+
+    selmaps = [x for x in lf.maps if x.sid == sid]
+
+    if sid==6:
+        # Glikman's sample needs wider bins.
+        bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+    elif sid == 7:
+        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    else:
+        bins = np.arange(-30.9, -17.3, 0.2)
+
+    v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
+
+    v1_nonzero = v1[np.where(v1>0.0)]
+    m = m[np.where(v1>0.0)]
+
+    h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
+
+    nums = h[0]
+    mags = (h[1][:-1] + h[1][1:])*0.5
+    dmags = np.diff(h[1])*0.5
+
+    left = mags - h[1][:-1]
+    right = h[1][1:] - mags
+
+    phi = nums
+    logphi = np.log10(phi) # cMpc^-3 mag^-1
+
+    # Calculate errorbars on our binned LF.  These have been estimated
+    # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
+    # implemented in astropy.stats.poisson_conf_interval.  The
+    # interval='frequentist-confidence' option to that astropy function is
+    # exactly equal to the Gehrels formulas, although the documentation
+    # does not say so.
+    n = np.histogram(m, bins=bins)[0]
+    nlims = pci(n,interval='frequentist-confidence')
+    nlims *= phi/n 
+    uperr = np.log10(nlims[1]) - logphi 
+    downerr = logphi - np.log10(nlims[0])
+
+    return mags, left, right, logphi, uperr, downerr
+
+
+def get_lf_all(lf, sid, z_plot):
+
+    # Bin data.  This is only for visualisation and to compare
+    # with reported binned values.  
+
+    m = lf.M1450_all[lf.sid_all==sid]
 
     selmaps = [x for x in lf.maps if x.sid == sid]
 
@@ -162,6 +252,7 @@ def get_lf(lf, sid, z_plot):
     downerr = logphi - np.log10(nlims[0])
 
     return mags, left, right, logphi, uperr, downerr
+
 
 def get_lf_sample(lf, sid, z_plot):
 
