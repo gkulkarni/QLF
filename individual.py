@@ -21,6 +21,9 @@ import gammapi
 import rtg
 import corner
 
+m_cutoff_13 = -22.1
+m_cutoff_15 = 0.0
+
 def getqlums(lumfile, zlims=None):
 
     """Read quasar luminosities."""
@@ -54,16 +57,11 @@ def getqlums(lumfile, zlims=None):
         # host galaxy contamination; (3) to m > -23 at low z to
         # avoid incompleteness; and (4) to m < -26 at high z to
         # avoid incompleteness.  Also see selmap below.
-        select = (((z_all<2.2) & (mag_all<-20.5)) |
+        select = (((z_all<2.2) & (mag_all<m_cutoff_13) )|
                   ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
 
     if sid == 15:
-        if z_min < 0.68:
-            select = (mag_all < -20.5)
-        else:
-            # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
-            # above this redshift.
-            select = (z_all < 2.2)
+        select = ((z_all < 2.2) & (mag_all < m_cutoff_15))
 
     if sid == 8:
         select = (mag_all > -26.73)
@@ -157,17 +155,12 @@ class selmap:
             # host galaxy contamination; (3) to m > -23 at low z to
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see getqlums above.
-            select = (((self.z_all<2.2) & (self.m_all<-20.5)) |
+            select = (((self.z_all<2.2) & (self.m_all<m_cutoff_13)) |
                       ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
 
         if sample_id == 15:
             z_min, z_max = zlims 
-            if z_min < 0.68:
-                select = (self.p_all>=0.0)
-            else:
-                # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
-                # above this redshift.
-                select = (self.z_all<2.2)
+            select = ((self.z_all<2.2) & (self.m_all<m_cutoff_15))
         
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
