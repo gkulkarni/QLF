@@ -381,12 +381,13 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
         logphi_all = logphi_all[select]
         uperr_all  = uperr_all[select]
         downerr_all = downerr_all[select]
-                               
-        ax.errorbar(mags_all, logphi_all, ecolor=cs[i], capsize=0,
-                    xerr=np.vstack((left_all, right_all)), 
-                    yerr=np.vstack((uperr_all, downerr_all)),
-                    fmt='None', zorder=4)
-        ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=10, label=dsl(i)+' rejected')
+
+        if mags_all.any(): 
+            ax.errorbar(mags_all, logphi_all, ecolor=cs[i], capsize=0,
+                        xerr=np.vstack((left_all, right_all)), 
+                        yerr=np.vstack((uperr_all, downerr_all)),
+                        fmt='None', zorder=4)
+            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=10, label=dsl(i)+' (rejected)')
 
     if showMockSample:
         for i in sids:
