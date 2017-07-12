@@ -343,7 +343,24 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
         return
 
     sids = np.unique(lf.sid)
+    
+    bad_data_set = False
+    if bad_data_set:
+        for i in sids: 
+            mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
+            print mags[logphi>-100.0]
+            print logphi[logphi>-100.0]
+            ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
+                        xerr=np.vstack((left, right)), 
+                        yerr=np.vstack((uperr, downerr)),
+                        fmt='None', zorder=4)
+            ax.scatter(mags, logphi, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
+        return
+
     for i in sids:
+
+        print i 
+        
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
         print mags[logphi>-100.0]
         print logphi[logphi>-100.0]
