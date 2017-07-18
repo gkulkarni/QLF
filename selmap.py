@@ -8,7 +8,7 @@ mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from scipy.interpolate import bisplrep, bisplev
+from scipy.interpolate import interp2d, bisplrep, bisplev
 
 
 def plot_selmap(z, m, p, title='', filename='selmap.pdf',
@@ -52,24 +52,32 @@ with open(map_file, 'r') as f:
                          
 plot_selmap(z, m, p, title='2SLAQ NGP', filename='selmap_ngp.pdf',
             show_qsos=False, qso_file=qso_file)
-    
-tck = bisplrep(z, m, p, kx=4, ky=4)
+
+f = interp2d(z, m, p, kind='cubic')
+
+# tck = bisplrep(z, m, p, kx=3, ky=3)
 znew = np.linspace(0, 3.5, num=500)
 print np.unique(np.diff(znew))
 
 mnew = np.linspace(-30, -16, num=500)
 print np.unique(np.diff(mnew))
 
-pnew = bisplev(znew, mnew, tck)
 zp, mp = np.meshgrid(znew, mnew, indexing='ij')
+# pnew = bisplev(znew, mnew, tck)
+pnew = f(znew, mnew)
 
 plot_selmap(zp, mp, pnew, title='2SLAQ NGP (interpolated)',
             filename='selmap_ngp_interpolated.pdf',
             show_qsos=False, qso_file=qso_file)
 
-WRITE_SELMAP = False
-if WRITE_SELMAP:
-    with open('croom09ngp_selfunc_interpolated.dat', 'w') as f:
-        for i, x in enumerate(zip(zp.flatten(), mp.flatten(), pnew.flatten())):
-            f.write('{:d}  {:.2f}  {:.2f}  {:.6f}\n'.format(i, x[0], x[1], x[2]))
+
+# plot_selmap(zp, mp, pnew, title='2SLAQ NGP (interpolated)',
+#             filename='selmap_ngp_interpolated.pdf',
+#             show_qsos=False, qso_file=qso_file)
+
+# WRITE_SELMAP = False
+# if WRITE_SELMAP:
+#     with open('croom09ngp_selfunc_interpolated.dat', 'w') as f:
+#         for i, x in enumerate(zip(zp.flatten(), mp.flatten(), pnew.flatten())):
+#             f.write('{:d}  {:.2f}  {:.2f}  {:.6f}\n'.format(i, x[0], x[1], x[2]))
     
