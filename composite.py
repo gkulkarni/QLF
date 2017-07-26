@@ -51,9 +51,13 @@ def getqlums(lumfile):
         
     if sample_id[0] == 15:
         # Restrict Croom (2SLAQ) sample.
-        # select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
-        select = ((z < 2.2) & (z >= 0.68) & (p > 0.5))
-
+        # select = ((z < 2.2) & (z >= 0.68) & (p > 0.5))
+        select = (((z>=0.6) & (z<0.8) & (mag<=-20.7)) | 
+                  ((z>=0.8) & (z<1.2) & (mag<=-21.9)) |
+                  ((z>=1.2) & (z<1.8) & (mag<=-22.5)) |
+                  ((z>=1.8) & (z<2.0) & (mag<=-23.1)) |
+                  ((z>=2.0) & (z<2.2)))
+        
     if sample_id[0] == 1:
         # Restrict BOSS sample.
         select = ((z < 2.2) | (z >= 2.8))
@@ -126,8 +130,13 @@ class selmap:
 
         if sample_id == 15:
             # Restrict Croom sample
-            # select = ((self.z < 2.2) & (self.z >= 0.6) & (self.m < -23.0))
-            select = ((self.z < 2.2) & (self.z >= 0.68) & (self.p > 0.5))
+            # select = ((self.z < 2.2) & (self.z >= 0.68) & (self.p > 0.5))
+            select = (((self.z>=0.6) & (self.z<0.8) & (self.m<=-20.7)) | 
+                      ((self.z>=0.8) & (self.z<1.2) & (self.m<=-21.9)) |
+                      ((self.z>=1.2) & (self.z<1.8) & (self.m<=-22.5)) |
+                      ((self.z>=1.8) & (self.z<2.0) & (self.m<=-23.1)) |
+                      ((self.z>=2.0) & (self.z<2.2)))
+            
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
