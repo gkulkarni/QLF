@@ -119,6 +119,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
         sigma = uperr + downerr 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print 'phi_star:', popt 
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
 
     curvefit = False
@@ -205,13 +206,13 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 3)
-        print coeffs 
 
         def func(z, p0, p1, p2, p3):
             return T([p0, p1, p2, p3])(z)
 
         sigma = np.abs(u-l)
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print 'mstar:', popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
 
     curvefit = False
@@ -224,7 +225,6 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-22.,1,1])
-        print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
 
     polyfit = False
@@ -309,6 +309,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
         sigma = u-l
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print 'alpha:', popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2],
                  label=r'French curve')
 
@@ -411,6 +412,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
+        print 'beta:', popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
@@ -459,5 +461,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-summary_plot()
+#summary_plot()
 
