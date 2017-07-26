@@ -38,9 +38,17 @@ def getqlums(lumfile):
 
     if sample_id[0] == 13:
         # Restrict Richards (SDSS) sample.
-        select = (((z < 2.2) & (z >= 0.68) & (mag < -23.0)) |
-                  ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
-
+        # select = (((z < 2.2) & (z >= 0.68) & (mag < -23.0)) |
+        #           ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
+        select = ((((z>=0.6) & (z<0.8) & (mag<=-23.1)) | 
+                   ((z>=0.8) & (z<1.0) & (mag<=-23.7)) |
+                   ((z>=1.0) & (z<1.2)) |
+                   ((z>=1.2) & (z<1.4) & (mag<=-24.3)) |
+                   ((z>=1.4) & (z<1.6)) |
+                   ((z>=1.6) & (z<1.8) & (mag<=-24.9)) |
+                   ((z>=1.8) & (z<2.2))) |
+                  ((z>=3.5) & (z<4.7) & (p>0.94)))
+        
     if sample_id[0] == 15:
         # Restrict Croom (2SLAQ) sample.
         # select = ((z < 2.2) & (z >= 0.6) & (mag < -23.0))
@@ -101,8 +109,17 @@ class selmap:
             
         if sample_id == 13:
             # Restrict Richards sample
-            select = (((self.z < 2.2) & (self.z >= 0.68) & (self.m < -23.0)) |
-                      ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
+            # select = (((self.z < 2.2) & (self.z >= 0.68) & (self.m < -23.0)) |
+            #           ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
+            select = ((((self.z>=0.6) & (self.z<0.8) & (self.m<=-23.1)) | 
+                       ((self.z>=0.8) & (self.z<1.0) & (self.m<=-23.7)) |
+                       ((self.z>=1.0) & (self.z<1.2)) |
+                       ((self.z>=1.2) & (self.z<1.4) & (self.m<=-24.3)) |
+                       ((self.z>=1.4) & (self.z<1.6)) |
+                       ((self.z>=1.6) & (self.z<1.8) & (self.m<=-24.9)) |
+                       ((self.z>=1.8) & (self.z<2.2))) |
+                      ((self.z>=3.5) & (self.z<4.7) & (self.p>0.94)))
+            
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
