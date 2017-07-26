@@ -21,7 +21,7 @@ import gammapi
 import rtg
 import corner
 
-m_cutoff_13 = -22.1
+m_cutoff_13 = 0.0
 m_cutoff_15 = 0.0
 
 def getqlums(lumfile, zlims=None):
@@ -49,19 +49,70 @@ def getqlums(lumfile, zlims=None):
     except(IndexError):
         sid = sample_id
 
-    select = None 
+    select = None
+
+    m_cutoff_13 = 0.0
+    m_cutoff_15 = 0.0
+    
+    if z_min == 0.4:
+
+        m_cutoff_13 = -21.9 
+        m_cutoff_15 = 0.0
+
+    elif z_min == 0.6:
+
+        m_cutoff_13 = -23.1
+        m_cutoff_15 = -20.7
+
+    elif z_min == 0.8:
+
+        # m_cutoff_13 = -23.7
+        # m_cutoff_15 = 0.0
+
+        m_cutoff_13 = -23.7
+        m_cutoff_15 = -21.9
         
+    elif z_min == 1.0:
+
+        m_cutoff_13 = 0.0
+        m_cutoff_15 = -21.9
+
+    elif z_min == 1.2:
+
+        m_cutoff_13 = -24.3
+        m_cutoff_15 = -22.5
+
+    elif z_min == 1.4:
+
+        m_cutoff_13 = 0.0
+        m_cutoff_15 = -22.5
+
+    elif z_min == 1.6:
+
+        m_cutoff_13 = -24.9
+        m_cutoff_15 = -22.5
+
+    elif z_min == 1.8:
+
+        m_cutoff_13 = 0.0 # -25.3
+        m_cutoff_15 = -23.1
+
+    elif z_min == 2.0:
+
+        m_cutoff_13 = 0.0
+        m_cutoff_15 = 0.0
+    
     if sid == 13:
         # Restrict Richards sample (1) to z < 2.2 as there are
         # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
         # host galaxy contamination; (3) to m > -23 at low z to
         # avoid incompleteness; and (4) to m < -26 at high z to
         # avoid incompleteness.  Also see selmap below.
-        select = (((z_all<2.2) & (mag_all<m_cutoff_13) )|
+        select = (((z_all<2.2) & (mag_all<=m_cutoff_13) )|
                   ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
 
     if sid == 15:
-        select = ((z_all < 2.2) & (mag_all < m_cutoff_15))
+        select = ((z_all < 2.2) & (mag_all <= m_cutoff_15))
 
     if sid == 8:
         select = (mag_all > -26.73)
@@ -135,8 +186,58 @@ class selmap:
         self.m = self.m_all
         self.p = self.p_all 
     
-        select = None 
-        
+        select = None
+
+        z_min, z_max = zlims
+
+        m_cutoff_13 = 0.0
+        m_cutoff_15 = 0.0
+    
+        if z_min == 0.4:
+
+            m_cutoff_13 = -21.9 
+            m_cutoff_15 = 0.0
+
+        elif z_min == 0.6:
+
+            m_cutoff_13 = -23.1
+            m_cutoff_15 = -20.7
+
+        elif z_min == 0.8:
+
+            m_cutoff_13 = -23.7
+            m_cutoff_15 = -21.9
+
+        elif z_min == 1.0:
+
+            m_cutoff_13 = 0.0
+            m_cutoff_15 = -21.9
+
+        elif z_min == 1.2:
+
+            m_cutoff_13 = -24.3
+            m_cutoff_15 = -22.5
+
+        elif z_min == 1.4:
+
+            m_cutoff_13 = 0.0
+            m_cutoff_15 = -22.5
+
+        elif z_min == 1.6:
+
+            m_cutoff_13 = -24.9
+            m_cutoff_15 = -22.5
+
+        elif z_min == 1.8:
+
+            m_cutoff_13 = 0.0 # -25.3
+            m_cutoff_15 = -23.1
+
+        elif z_min == 2.0:
+
+            m_cutoff_13 = 0.0
+            m_cutoff_15 = 0.0
+            
         if sample_id == 7:
             # Correct Giallongo's p values to match published LF.  See
             # comments in giallongo15_sel_correction.dat.
@@ -155,12 +256,12 @@ class selmap:
             # host galaxy contamination; (3) to m > -23 at low z to
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see getqlums above.
-            select = (((self.z_all<2.2) & (self.m_all<m_cutoff_13)) |
+            select = (((self.z_all<2.2) & (self.m_all<=m_cutoff_13)) |
                       ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
 
         if sample_id == 15:
             z_min, z_max = zlims 
-            select = ((self.z_all<2.2) & (self.m_all<m_cutoff_15))
+            select = ((self.z_all<2.2) & (self.m_all<=m_cutoff_15))
         
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
