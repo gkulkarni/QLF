@@ -20,7 +20,7 @@ plot_number = 0
 zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
-cfit = False
+cfit = True
 
 def getParam(individuals, param, which='old'):
 
@@ -51,7 +51,7 @@ def getParam(individuals, param, which='old'):
     else:
 
         if which == 'new': 
-            zmean, zl, zu, u, l, c = np.loadtxt('new_bins.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
+            zmean, zl, zu, u, l, c = np.loadtxt('new_bins_26jul17_seln.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
         else: 
             if param == 0: 
                 zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
@@ -88,16 +88,16 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
         phi = composite.atz(z, composite.getparams(bf)[0])
         ax.plot(z, phi, color='k', zorder=2, lw=2)
         
-    zmean, zl, zu, u, l, c = getParam(individuals, 0) 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=5, s=36)
-    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+    # zmean, zl, zu, u, l, c = getParam(individuals, 0) 
+    # left = zmean-zl
+    # right = zu-zmean
+    # uperr = u-c
+    # downerr = c-l
+    # ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=5, s=36)
+    # ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
+    #             xerr=np.vstack((left, right)), 
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=5)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new') 
     left = zmean-zl
@@ -173,16 +173,16 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
         M = composite.atz(z, composite.getparams(bf)[1])
         ax.plot(z, M, color='k', zorder=2, lw=2)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 1) 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=5, s=36)
-    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+    # zmean, zl, zu, u, l, c = getParam(individuals, 1) 
+    # left = zmean-zl
+    # right = zu-zmean
+    # uperr = u-c
+    # downerr = c-l
+    # ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=5, s=36)
+    # ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
+    #             xerr=np.vstack((left, right)), 
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=5)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new') 
     left = zmean-zl
@@ -202,7 +202,6 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=4)
     ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
-    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 3)
@@ -271,16 +270,16 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
         alpha = composite.atz(z, composite.getparams(bf)[2])
         ax.plot(z, alpha, color='k', zorder=2, lw=2, label='Posterior median')
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 2) 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=5, s=36)
-    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+    # zmean, zl, zu, u, l, c = getParam(individuals, 2) 
+    # left = zmean-zl
+    # right = zu-zmean
+    # uperr = u-c
+    # downerr = c-l
+    # ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=5, s=36)
+    # ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
+    #             xerr=np.vstack((left, right)), 
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=5)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new') 
     left = zmean-zl
@@ -362,16 +361,16 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         beta = composite.atz_beta(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=2, lw=2)
     
-    zmean, zl, zu, u, l, c = getParam(individuals, 3) 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=5, s=36)
-    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=5)
+    # zmean, zl, zu, u, l, c = getParam(individuals, 3) 
+    # left = zmean-zl
+    # right = zu-zmean
+    # uperr = u-c
+    # downerr = c-l
+    # ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=5, s=36)
+    # ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
+    #             xerr=np.vstack((left, right)), 
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=5)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new') 
     left = zmean-zl
@@ -384,17 +383,13 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=15)
     
-
     cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 3)
 
-        def func(z, p0, p1, p2, p3, p4, p5):
-            if z < np.log10(3.0):
-                return -1.6
-            else:
-                return T([p0, p1, p2, p3, p4, p5])(z)
+        def func(z, p0, p1, p2, p3):
+            return T([p0, p1, p2, p3])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -406,7 +401,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         p = np.polyfit(np.log10(zmean+10), c, 2)
         plt.plot(zc, np.polyval(p, np.log10((zc+10))), lw=1, c='k', dashes=[7,2], zorder=3)
 
-    curvefit = False
+    curvefit = True
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
