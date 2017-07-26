@@ -94,25 +94,43 @@ def getqlums(lumfile, zlims=None):
 
     elif z_min == 1.8:
 
-        m_cutoff_13 = 0.0 # -25.3
+        m_cutoff_13 = 0.0 
         m_cutoff_15 = -23.1
 
     elif z_min == 2.0:
 
         m_cutoff_13 = 0.0
         m_cutoff_15 = 0.0
-    
-    if sid == 13:
-        # Restrict Richards sample (1) to z < 2.2 as there are
-        # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
-        # host galaxy contamination; (3) to m > -23 at low z to
-        # avoid incompleteness; and (4) to m < -26 at high z to
-        # avoid incompleteness.  Also see selmap below.
-        select = (((z_all<2.2) & (mag_all<=m_cutoff_13) )|
-                  ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
 
-    if sid == 15:
-        select = ((z_all < 2.2) & (mag_all <= m_cutoff_15))
+
+    if sid == 13: 
+        select = ((((z_all>=0.6) & (z_all<0.8) & (mag_all<=-23.1)) | 
+                   ((z_all>=0.8) & (z_all<1.0) & (mag_all<=-23.7)) |
+                   ((z_all>=1.0) & (z_all<1.2)) |
+                   ((z_all>=1.2) & (z_all<1.4) & (mag_all<=-24.3)) |
+                   ((z_all>=1.4) & (z_all<1.6)) |
+                   ((z_all>=1.6) & (z_all<1.8) & (mag_all<=-24.9)) |
+                   ((z_all>=1.8) & (z_all<2.2))) |
+                  ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
+        
+    # if sid == 13:
+    #     # Restrict Richards sample (1) to z < 2.2 as there are
+    #     # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+    #     # host galaxy contamination; (3) to m > -23 at low z to
+    #     # avoid incompleteness; and (4) to m < -26 at high z to
+    #     # avoid incompleteness.  Also see selmap below.
+    #     select = (((z_all<2.2) & (mag_all<=m_cutoff_13) )|
+    #               ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
+
+    if sid == 15: 
+        select = (((z_all>=0.6) & (z_all<0.8) & (mag_all<=-20.7)) | 
+                  ((z_all>=0.8) & (z_all<1.2) & (mag_all<=-21.9)) |
+                  ((z_all>=1.2) & (z_all<1.8) & (mag_all<=-22.5)) |
+                  ((z_all>=1.8) & (z_all<2.0) & (mag_all<=-23.1)) |
+                  ((z_all>=2.0) & (z_all<2.2)))
+        
+    # if sid == 15:
+    #     select = ((z_all < 2.2) & (mag_all <= m_cutoff_15))
 
     if sid == 8:
         select = (mag_all > -26.73)
@@ -250,18 +268,35 @@ class selmap:
             corr = corr[select]
             self.p_all = self.p_all/corr
 
-        if sample_id == 13:
-            # Restrict Richards sample (1) to z < 2.2 as there are
-            # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
-            # host galaxy contamination; (3) to m > -23 at low z to
-            # avoid incompleteness; and (4) to m < -26 at high z to
-            # avoid incompleteness.  Also see getqlums above.
-            select = (((self.z_all<2.2) & (self.m_all<=m_cutoff_13)) |
+        if sample_id == 13: 
+            select = ((((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-23.1)) | 
+                       ((self.z_all>=0.8) & (self.z_all<1.0) & (self.m_all<=-23.7)) |
+                       ((self.z_all>=1.0) & (self.z_all<1.2)) |
+                       ((self.z_all>=1.2) & (self.z_all<1.4) & (self.m_all<=-24.3)) |
+                       ((self.z_all>=1.4) & (self.z_all<1.6)) |
+                       ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
+                       ((self.z_all>=1.8) & (self.z_all<2.2))) |
                       ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
-
-        if sample_id == 15:
-            z_min, z_max = zlims 
-            select = ((self.z_all<2.2) & (self.m_all<=m_cutoff_15))
+            
+        # if sample_id == 13:
+        #     # Restrict Richards sample (1) to z < 2.2 as there are
+        #     # only three qsos with z = 2.2; (2) to z >= 0.6 to avoid
+        #     # host galaxy contamination; (3) to m > -23 at low z to
+        #     # avoid incompleteness; and (4) to m < -26 at high z to
+        #     # avoid incompleteness.  Also see getqlums above.
+        #     select = (((self.z_all<2.2) & (self.m_all<=m_cutoff_13)) |
+        #               ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
+        
+        if sample_id == 15: 
+            select = (((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-20.7)) | 
+                      ((self.z_all>=0.8) & (self.z_all<1.2) & (self.m_all<=-21.9)) |
+                      ((self.z_all>=1.2) & (self.z_all<1.8) & (self.m_all<=-22.5)) |
+                      ((self.z_all>=1.8) & (self.z_all<2.0) & (self.m_all<=-23.1)) |
+                      ((self.z_all>=2.0) & (self.z_all<2.2)))
+            
+        # if sample_id == 15:
+        #     z_min, z_max = zlims 
+        #     select = ((self.z_all<2.2) & (self.m_all<=m_cutoff_15))
         
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
