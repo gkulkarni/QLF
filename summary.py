@@ -384,16 +384,17 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=15)
     
-    cfit = False
+    cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 3)
+        coeffs = chebfit(zmean+1, c, 2)
 
-        def func(z, p0, p1, p2, p3):
-            return T([p0, p1, p2, p3])(z)
+        def func(z, p0, p1, p2):
+            return T([p0, p1, p2])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print 'beta chebyshev: ', popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='r', dashes=[7,2])
 
     polyfit = False
@@ -402,7 +403,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         p = np.polyfit(np.log10(zmean+10), c, 2)
         plt.plot(zc, np.polyval(p, np.log10((zc+10))), lw=1, c='k', dashes=[7,2], zorder=3)
 
-    curvefit = True
+    curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -461,5 +462,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-#summary_plot()
+# summary_plot()
 
