@@ -191,13 +191,6 @@ class lf:
         
         return T(p)(1+z)
 
-    # def atz_mstar(self, z, p):
-
-    #     """Redshift evolution of QLF parameters."""
-
-    #     zeta = np.log10((1.0+z)/(1.0+3.5))
-    #     return T(p)(10.0**zeta)
-    
     def atz_beta(self, z, p):
 
         """Redshift evolution of QLF parameters."""
