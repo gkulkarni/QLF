@@ -20,7 +20,7 @@ plot_number = 0
 zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
-cfit = True
+cfit = False
 
 def getParam(individuals, param, which='old'):
 
@@ -384,7 +384,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=15)
     
-    cfit = True
+    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 2)
@@ -403,7 +403,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         p = np.polyfit(np.log10(zmean+10), c, 2)
         plt.plot(zc, np.polyval(p, np.log10((zc+10))), lw=1, c='k', dashes=[7,2], zorder=3)
 
-    curvefit = False
+    curvefit = True
     if curvefit:
         zc = np.linspace(0, 7, 500)
         
@@ -416,6 +416,35 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         print 'beta:', popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
+    curvefit2 = False
+    if curvefit2:
+        zc = np.linspace(0, 7, 500)
+        coeffs = chebfit(np.log10(zmean+1), np.log10(-c), 4)
+        
+        def func(z, p0, p1, p2, p3, p4):
+            zeta = np.log10(1.0+z)
+            return T([p0, p1, p2, p3, p4])(zeta)
+
+        sigma = u - l 
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[coeffs])
+        
+        print 'beta:', popt
+        # plt.plot(zc, -10.0**func(zc, *popt), lw=1, c='c', dashes=[7,2])
+        plt.plot(zc, func(zc, *popt), lw=1, c='c', dashes=[7,2])
+
+    curvefit3 = True
+    if curvefit3:
+        zc = np.linspace(0, 7, 500)
+        
+        def func(z, h, f0, z0, a, b):
+            zeta = np.log10((1.0+z)/(1.0+z0))
+            return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
+
+        sigma = u - l 
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,1.0,1.4,-0.7])
+        print 'beta:', popt
+        plt.plot(zc, func(zc, *popt), lw=1, c='c', dashes=[7,2])
+        
     zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
                                         usecols=(0,7,8,9), unpack=True)
     ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -462,5 +491,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-# summary_plot()
+summary_plot()
 
