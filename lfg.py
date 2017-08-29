@@ -40,7 +40,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
              ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7)]
 
-case = 0 
+case = 2
 
 if case == 0:
     
@@ -94,3 +94,29 @@ elif case == 1:
     lfg.chains(labels=labels)
     sp(composite=lfg, sample=True)
     
+elif case == 2:
+
+    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,5])
+
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -18.64592897, -4.52638114, 0.47207865, -0.01890026,
+                  -3.35945526, -0.26211017,
+                  -2.53705144, 0.65781084, 4.41364161, 12.5716938, 0.26329899])
+
+    method = 'Nelder-Mead'
+    b = lfg.bestfit(g, method=method)
+    print b
+    
+    lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -5.0, 0.0, 1.0, 1.0, -2.0])
+    lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 0.0, 5.0, 5.0, 50.0, 2.0])
+
+    # assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
+
+
+    # lfg.run_mcmc()
+
+    # labels = 14*['a']
+
+    # lfg.corner_plot(labels=labels)
+    # lfg.chains(labels=labels)
+    # sp(composite=lfg, sample=True)
