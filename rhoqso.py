@@ -212,7 +212,7 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
     mlim = -18
 
     if select: 
-        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 3.5]
     else:
         selected = individuals
     
