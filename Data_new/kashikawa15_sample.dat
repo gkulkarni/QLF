@@ -1,5 +1,10 @@
-# Kashikawa et al. (2015, ApJ, 798, 28) sample from the Subaru High-z Quasar Survey
-# 2 QSOs on 6.5deg2, Object 1 might be an LBG due to the narrow Lyman alpha line in the spectrum, but: some spectroscopic incompleteness (Section 7.1), QLF may be a lower limit
+# Kashikawa et al. (2015, ApJ, 798, 28) sample from the Subaru High-z
+# Quasar Survey
+#
+# 2 QSOs on 6.5deg2, Object 1 might be an LBG due to the narrow Lyman
+# alpha line in the spectrum, but: some spectroscopic incompleteness
+# (Section 7.1), QLF may be a lower limit
+
 # counter  z     M1450  p          area sample
         1  6.041 -22.58 0.32937    6.50 11
         2  6.156 -23.10 0.59459    6.50 11
