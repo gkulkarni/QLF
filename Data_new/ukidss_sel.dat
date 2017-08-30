@@ -1,0 +1,14 @@
+# UKIDSS selection function.  We have followed the discussion in
+# Section 5.1 of Jiang et al. 2016 (ApJ 833 222).  See also the email
+# of 14 December 2016 from Daniel Mortlock to Gabor Worseck.
+#
+# We have assumed that the selection map covers redshift range of 6.5
+# to 7.4 with delta of 0.45, and luminosity range from -26.2 to -27.8
+# with a delta of 0.8.  The "tiles" centre on the two qsos,
+# approximately in z and exactly in M1450.
+# 
+# counter  z      M1450  p
+        1  6.725  -26.6  1.0
+	2  6.725  -27.4  1.0
+	3  7.175  -26.6  1.0
+	4  7.175  -27.4  1.0

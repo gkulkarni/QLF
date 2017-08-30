@@ -38,37 +38,23 @@ def getqlums(lumfile):
 
     if sample_id[0] == 13:
         # Restrict Richards (SDSS) sample.
-        # select = (((z < 2.2) & (z >= 0.68) & (mag < -23.0)) |
-        #           ((z >= 3.5) & (p > 0.9) & (z < 4.7)))
-
-        # select = ((((z>=0.6) & (z<0.8) & (mag<=-23.1)) | 
-        #            ((z>=0.8) & (z<1.0) & (mag<=-23.7)) |
-        #            ((z>=1.0) & (z<1.2)) |
-        #            ((z>=1.2) & (z<1.4) & (mag<=-24.3)) |
-        #            ((z>=1.4) & (z<1.6)) |
-        #            ((z>=1.6) & (z<1.8) & (mag<=-24.9)) |
-        #            ((z>=1.8) & (z<2.2))) |
-        #           ((z>=3.5) & (z<4.7) & (p>0.94)))
-
         select = ((((z>=0.6) & (z<0.8) & (mag<=-23.1)) | 
                    ((z>=0.8) & (z<1.0) & (mag<=-23.7)) |
                    ((z>=1.0) & (z<1.2)) |
                    ((z>=1.2) & (z<1.4) & (mag<=-24.3)) |
-                   ((z>=1.4) & (z<1.6))) |
+                   ((z>=1.4) & (z<1.6)) |
+                   ((z>=1.6) & (z<1.8) & (mag<=-24.9)) |
+                   ((z>=1.8) & (z<2.2))) |
                   ((z>=3.5) & (z<4.7) & (p>0.94)))
-        
+
     if sample_id[0] == 15:
         # Restrict Croom (2SLAQ) sample.
 
-        # select = (((z>=0.6) & (z<0.8) & (mag<=-20.7)) | 
-        #           ((z>=0.8) & (z<1.2) & (mag<=-21.9)) |
-        #           ((z>=1.2) & (z<1.8) & (mag<=-22.5)) |
-        #           ((z>=1.8) & (z<2.0) & (mag<=-23.1)) |
-        #           ((z>=2.0) & (z<2.2)))
-
         select = (((z>=0.6) & (z<0.8) & (mag<=-20.7)) | 
                   ((z>=0.8) & (z<1.2) & (mag<=-21.9)) |
-                  ((z>=1.2) & (z<1.6) & (mag<=-22.5)))
+                  ((z>=1.2) & (z<1.8) & (mag<=-22.5)) |
+                  ((z>=1.8) & (z<2.0) & (mag<=-23.1)) |
+                  ((z>=2.0) & (z<2.2)))
         
     if sample_id[0] == 1:
         # Restrict BOSS sample.
@@ -107,8 +93,10 @@ class selmap:
         if sample_id == 7:
             # Giallongo's sample needs special treatment due to
             # non-uniform selection map grid.  
-            self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5])
-            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+            self.dz = np.array([0.5, 0.5, 0.5, 0.5, 0.5,
+                                0.5, 0.5, 1.5, 1.5, 1.5])
+            self.dm = np.array([1.0, 1.0, 1.0, 2.0, 1.0,
+                                1.0, 1.0, 1.0, 1.0, 1.0])
 
             # Correct Giallongo's p values to match published LF.  See
             # comments in giallongo15_sel_correction.dat.
@@ -125,43 +113,27 @@ class selmap:
             
         if sample_id == 13:
             # Restrict Richards sample
-            # select = (((self.z < 2.2) & (self.z >= 0.68) & (self.m < -23.0)) |
-            #           ((self.z >= 3.5) & (self.p > 0.9) & (self.z < 4.7)))
-
-            # select = ((((self.z>=0.6) & (self.z<0.8) & (self.m<=-23.1)) | 
-            #            ((self.z>=0.8) & (self.z<1.0) & (self.m<=-23.7)) |
-            #            ((self.z>=1.0) & (self.z<1.2)) |
-            #            ((self.z>=1.2) & (self.z<1.4) & (self.m<=-24.3)) |
-            #            ((self.z>=1.4) & (self.z<1.6)) |
-            #            ((self.z>=1.6) & (self.z<1.8) & (self.m<=-24.9)) |
-            #            ((self.z>=1.8) & (self.z<2.2))) |
-            #           ((self.z>=3.5) & (self.z<4.7) & (self.p>0.94)))
-
             select = ((((self.z>=0.6) & (self.z<0.8) & (self.m<=-23.1)) | 
                        ((self.z>=0.8) & (self.z<1.0) & (self.m<=-23.7)) |
                        ((self.z>=1.0) & (self.z<1.2)) |
                        ((self.z>=1.2) & (self.z<1.4) & (self.m<=-24.3)) |
-                       ((self.z>=1.4) & (self.z<1.6))) |
+                       ((self.z>=1.4) & (self.z<1.6)) |
+                       ((self.z>=1.6) & (self.z<1.8) & (self.m<=-24.9)) |
+                       ((self.z>=1.8) & (self.z<2.2))) |
                       ((self.z>=3.5) & (self.z<4.7) & (self.p>0.94)))
-            
+
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
 
         if sample_id == 15:
             # Restrict Croom sample
-            # select = ((self.z < 2.2) & (self.z >= 0.68) & (self.p > 0.5))
-
-            # select = (((self.z>=0.6) & (self.z<0.8) & (self.m<=-20.7)) | 
-            #           ((self.z>=0.8) & (self.z<1.2) & (self.m<=-21.9)) |
-            #           ((self.z>=1.2) & (self.z<1.8) & (self.m<=-22.5)) |
-            #           ((self.z>=1.8) & (self.z<2.0) & (self.m<=-23.1)) |
-            #           ((self.z>=2.0) & (self.z<2.2)))
-
             select = (((self.z>=0.6) & (self.z<0.8) & (self.m<=-20.7)) | 
                       ((self.z>=0.8) & (self.z<1.2) & (self.m<=-21.9)) |
-                      ((self.z>=1.2) & (self.z<1.6) & (self.m<=-22.5)))
-            
+                      ((self.z>=1.2) & (self.z<1.8) & (self.m<=-22.5)) |
+                      ((self.z>=1.8) & (self.z<2.0) & (self.m<=-23.1)) |
+                      ((self.z>=2.0) & (self.z<2.2)))
+
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
@@ -266,7 +238,9 @@ class lf:
     def bestfit(self, guess, method='Nelder-Mead'):
         result = op.minimize(self.neglnlike,
                              guess,
-                             method=method, options={'maxfev': 20000, 'maxiter': 20000, 'disp': True})
+                             method=method, options={'maxfev': 20000,
+                                                     'maxiter': 20000,
+                                                     'disp': True})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'
