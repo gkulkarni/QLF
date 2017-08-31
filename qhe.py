@@ -30,10 +30,6 @@ else:
     omega_lambda = 0.692
     omega_nr = 0.308
 
-colours = [(0.2980392156862745, 0.4470588235294118, 0.6901960784313725),
-           (0.3333333333333333, 0.6588235294117647, 0.40784313725490196),
-           (0.7686274509803922, 0.3058823529411765, 0.3215686274509804)]
-
 Y_He = 0.24
 h = 0.678
 rho_critical = 2.775e1 * h**2 # 10^10 M_solar/Mpc^3
@@ -48,6 +44,12 @@ nHe = rho_critical * 1.0e10 * msolkg * omega_b * Y_He / (4*mproton) # Mpc^-3
 def qso_emissivity_MH15(z):
 
     return 10.0**(25.15*np.exp(-0.0026*z)-1.5*np.exp(-1.3*z))
+
+
+def qso_emissivity_HM12(z):
+
+    return 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3) 
+
 
 def plot_epsqso():
     fig = plt.figure(figsize=(6, 6), dpi=100)
@@ -69,10 +71,12 @@ def plot_epsqso():
     plt.savefig('epsqso.pdf', bbox_inches='tight')
     return 
 
+
 def plot_nqso():
     fig = plt.figure(figsize=(6, 6), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
-    ax.set_ylabel(r'$\dot n_\mathrm{ion} \left[\mathrm{s}^{-1}\mathrm{cMpc}^{-3}\right]$')
+    ax.set_ylabel(r'$\dot n_\mathrm{ion}' +
+                  '\left[\mathrm{s}^{-1}\mathrm{cMpc}^{-3}\right]$')
     ax.set_xlabel('$z$')
 
     ax.tick_params('both', which='major', length=7, width=1)
@@ -98,6 +102,7 @@ def plot_nqso():
     plt.savefig('nqso.pdf', bbox_inches='tight')
 
     return
+
 
 def clumping_factor(z):
     """
@@ -185,9 +190,9 @@ def trec_HeIII(z):
 
     chi = 0.083
     temperature = 2.0e4 # K 
-    alpha_r = alpha_B_HeIII_HuiGnedin1997(temperature) # cm^3 s^-1
+    alpha_r = alpha_B_HeIII_HuiGnedin1997(temperature/4.0) # cm^3 s^-1
 
-    r = (1+chi) * (1+z)**3 * alpha_r * nHe * cmbympccb # s^-1
+    r = (1+2*chi) * (1+z)**3 * alpha_r * nH * cmbympccb # s^-1
 
     return 1/r # s 
 
@@ -238,13 +243,16 @@ def H(z):
 
     return hubp
 
+
 def dzdt(z):
 
     return -(1+z)*H(z) # yr^-1
 
+
 def dtdz(z):
 
     return 1/dzdt(z) # yr 
+
 
 def dqdz_HII(q, z):
 
@@ -272,27 +280,27 @@ def plotq():
     ax.tick_params('both', which='minor', length=3, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    z = np.linspace(12, 4, 1000)
+    z = np.linspace(12, 2, 1000)
     q0 = 1.0e-10
 
     q = odeint(dqdz_HII, q0, z)
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='k', lw=3, label='H~II')
+    plt.plot(z, q, c='k', lw=3, label=r'H~\textsc{ii} (Madau and Haardt 2015; AGN only)')
 
-    q = odeint(dqdz_HeII, q0, z)
-    q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='c', lw=3, label='He~II')
+    # q = odeint(dqdz_HeII, q0, z)
+    # q = np.where(q<1.0, q, 1.0) 
+    # plt.plot(z, q, c='c', lw=3, label='He~II')
 
     q = odeint(dqdz_HeIII, q0, z)
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='tomato', lw=3, label='He~III')
+    plt.plot(z, q, c='tomato', lw=3, label=r'He~\textsc{iii} (Madau and Haardt 2015)')
 
     plt.ylim(0,1.1)
-    plt.xlim(4,15)
+    plt.xlim(2,15)
 
     plt.legend(loc='upper right', fontsize=10, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.4, borderpad=0.2)
+               handletextpad=0.4, borderpad=0.5)
     
     plt.savefig('q.pdf', bbox_inches='tight')
     return 
