@@ -175,17 +175,6 @@ def trec_HII(z):
     return 1/r # s 
 
 
-def trec_HeII(z):
-
-    chi = 0.083
-    temperature = 2.0e4 # K 
-    alpha_r = alpha_B_HeII_HuiGnedin1997(temperature) # cm^3 s^-1
-
-    r = (1+chi) * (1+z)**3 * alpha_r * nHe * cmbympccb # s^-1
-
-    return 1/r # s 
-
-
 def trec_HeIII(z):
 
     chi = 0.083
@@ -197,7 +186,7 @@ def trec_HeIII(z):
     return 1/r # s 
 
 
-def dqdt_HII(q, z):
+def dqdt_HII(q, z, emissivity):
 
     yrbys = 3.154e7 # yr/s conversion factor
 
@@ -210,20 +199,7 @@ def dqdt_HII(q, z):
     return d * yrbys # yr
 
 
-def dqdt_HeII(q, z):
-
-    yrbys = 3.154e7 # yr/s conversion factor
-
-    # Integrate qso emissivity from 1.8 to 10 Ry 
-    n = (qso_emissivity_MH15(z)/(1.70*hplanck) *
-         (1.8**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
-    
-    d = n/nHe - q/trec_HeII(z) # s^-1
-
-    return d * yrbys # yr
-
-
-def dqdt_HeIII(q, z):
+def dqdt_HeIII(q, z, emissivity):
 
     yrbys = 3.154e7 # yr/s conversion factor
 
@@ -254,19 +230,14 @@ def dtdz(z):
     return 1/dzdt(z) # yr 
 
 
-def dqdz_HII(q, z):
+def dqdz_HII(q, z, emissivity):
 
-    return dqdt_HII(q, z)*dtdz(z)
-
-
-def dqdz_HeII(q, z):
-
-    return dqdt_HeII(q, z)*dtdz(z)
+    return dqdt_HII(q, z, emissivity)*dtdz(z)
 
 
-def dqdz_HeIII(q, z):
+def dqdz_HeIII(q, z, emissivity):
 
-    return dqdt_HeIII(q, z)*dtdz(z)
+    return dqdt_HeIII(q, z, emissivity)*dtdz(z)
 
 
 def plotq():
@@ -283,15 +254,11 @@ def plotq():
     z = np.linspace(12, 2, 1000)
     q0 = 1.0e-10
 
-    q = odeint(dqdz_HII, q0, z)
+    q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_MH15,))
     q = np.where(q<1.0, q, 1.0) 
     plt.plot(z, q, c='k', lw=3, label=r'H~\textsc{ii} (Madau and Haardt 2015; AGN only)')
 
-    # q = odeint(dqdz_HeII, q0, z)
-    # q = np.where(q<1.0, q, 1.0) 
-    # plt.plot(z, q, c='c', lw=3, label='He~II')
-
-    q = odeint(dqdz_HeIII, q0, z)
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_MH15,))
     q = np.where(q<1.0, q, 1.0) 
     plt.plot(z, q, c='tomato', lw=3, label=r'He~\textsc{iii} (Madau and Haardt 2015)')
 
