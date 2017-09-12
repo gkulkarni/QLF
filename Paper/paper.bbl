@@ -318,6 +318,11 @@
   {http://adsabs.harvard.edu/abs/2016arXiv160602719M} {} (\mn@eprint {arXiv}
   {1606.02719})
 
+\bibitem[\protect\citeauthoryear{{Mortlock} et~al.,}{{Mortlock}
+  et~al.}{2011}]{2011Natur.474..616M}
+{Mortlock} D.~J.,  et~al., 2011, \mn@doi [\nat] {10.1038/nature10159}, \href
+  {http://adsabs.harvard.edu/abs/2011Natur.474..616M} {474, 616}
+
 \bibitem[\protect\citeauthoryear{{Mostardi}, {Shapley}, {Steidel}, {Trainor},
   {Reddy}  \& {Siana}}{{Mostardi} et~al.}{2015}]{2015ApJ...810..107M}
 {Mostardi} R.~E.,  {Shapley} A.~E.,  {Steidel} C.~C.,  {Trainor} R.~F.,
@@ -512,6 +517,14 @@
   et~al.}{2010}]{2010ApJ...725.1011V}
 {Vanzella} E.,  et~al., 2010, \mn@doi [\apj] {10.1088/0004-637X/725/1/1011},
   \href {http://adsabs.harvard.edu/abs/2010ApJ...725.1011V} {725, 1011}
+
+\bibitem[\protect\citeauthoryear{{Venemans}, {McMahon}, {Warren},
+  {Gonzalez-Solares}, {Hewett}, {Mortlock}, {Dye}  \& {Sharp}}{{Venemans}
+  et~al.}{2007}]{2007MNRAS.376L..76V}
+{Venemans} B.~P.,  {McMahon} R.~G.,  {Warren} S.~J.,  {Gonzalez-Solares} E.~A.,
+   {Hewett} P.~C.,  {Mortlock} D.~J.,  {Dye} S.,   {Sharp} R.~G.,  2007,
+  \mn@doi [\mnras] {10.1111/j.1745-3933.2007.00290.x}, \href
+  {http://adsabs.harvard.edu/abs/2007MNRAS.376L..76V} {376, L76}
 
 \bibitem[\protect\citeauthoryear{{Warren}, {Hewett}  \& {Osmer}}{{Warren}
   et~al.}{1994}]{1994ApJ...421..412W}
