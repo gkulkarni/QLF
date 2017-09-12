@@ -211,12 +211,19 @@ observed magnitudes are point spread function (PSF) magnitudes
 \citep{2002AJ....123..485S} corrected for Galactic extinction
 \citep{1998ApJ...500..525S} unless otherwise noted.
 
-
 \section{Homogenised Quasar Sample}
 
 \subsection{Sample Selection}
 
-We started with compiling the samples of recent UV-optical quasar surveys. The restriction to UV-optical surveys was mainly driven by our science goal to characterise the UV luminosity function of Type~I quasars, but also by the still uncertain conversion from X-ray flux to UV flux, which adds unnecessary systematics for large samples. \textbf{References!} The individual surveys and their main characteristics are listed in Table~\ref{tab:samples}. Figure~\ref{fig:qsos} presents a redshift histogram of the contributing surveys.
+We started with compiling the samples of recent UV-optical quasar
+surveys. The restriction to UV-optical surveys was mainly driven by
+our science goal to characterise the UV luminosity function of Type~I
+quasars, but also by the still uncertain conversion from X-ray flux to
+UV flux, which adds unnecessary systematics for large
+samples. \textbf{References!} The individual surveys and their main
+characteristics are listed in
+Table~\ref{tab:samples}. Figure~\ref{fig:qsos} presents a redshift
+histogram of the contributing surveys.
 
 We included surveys based on a set of simple criteria:
 \begin{enumerate}
@@ -225,26 +232,155 @@ We included surveys based on a set of simple criteria:
 \item Statistical power (sample size, coverage in $z$ and/or $M_{1450}$).
 \item A characterised selection function.
 \end{enumerate}
-As a prerequisite for a joint analysis of the QLF we obtained the survey selection functions in electronic form, either from the publication or from the authors. As a reference for future surveys we publish them here in modified and homogenised form (Section~\ref{sect:datahom}). \textbf{Maybe get the authors' consent.}
+As a prerequisite for a joint analysis of the QLF we obtained the
+survey selection functions in electronic form, either from the
+publication or from the authors. As a reference for future surveys we
+publish them here in modified and homogenised form
+(Section~\ref{sect:datahom}). \textbf{Maybe get the authors' consent.}
 
-Due to their selection criteria and their statistical power specific surveys contribute to distinct redshift ranges. At $z<2.2$ we considered quasars from the SDSS DR7 quasar catalogue \citep{2010AJ....139.2360S} and the 2SLAQ catalogue \citep{2009MNRAS.392...19C}. We restricted the SDSS DR7 sample to XXX $z<2.2$ quasars selected with the final SDSS quasar selection algorithm \citep{2002AJ....123.2945R, 2006AJ....131.2766R} from a survey area of 6248\,deg$^2$ \citep{2012ApJ...746..169S}. We adopted the SDSS targeting photometry corrected for Galactic extinction \citep{2010AJ....139.2360S}. To limit systematic uncertainties in the correction for host galaxy light \citep{2009MNRAS.392...19C} we restricted the 2SLAQ sample to XXX $g<21.85$ $0.4<z<2.2$ quasars from its spectroscopic survey footprint near the North Galactic Pole (NGP, XX quasars in $127.7$\,deg$^2$) and the South Galactic Pole (SGP, XX quasars in $64.2$\,deg$^2$). The small sample overlap between SDSS and 2SLAQ (112 quasars) has negligible impact on the QLF evaluation.
+Due to their selection criteria and their statistical power specific
+surveys contribute to distinct redshift ranges. At $z<2.2$ we
+considered quasars from the SDSS DR7 quasar catalogue
+\citep{2010AJ....139.2360S} and the 2SLAQ catalogue
+\citep{2009MNRAS.392...19C}. We restricted the SDSS DR7 sample to XXX
+$z<2.2$ quasars selected with the final SDSS quasar selection
+algorithm \citep{2002AJ....123.2945R, 2006AJ....131.2766R} from a
+survey area of 6248\,deg$^2$ \citep{2012ApJ...746..169S}. We adopted
+the SDSS targeting photometry corrected for Galactic extinction
+\citep{2010AJ....139.2360S}. To limit systematic uncertainties in the
+correction for host galaxy light \citep{2009MNRAS.392...19C} we
+restricted the 2SLAQ sample to XXX $g<21.85$ $0.4<z<2.2$ quasars from
+its spectroscopic survey footprint near the North Galactic Pole (NGP,
+XX quasars in $127.7$\,deg$^2$) and the South Galactic Pole (SGP, XX
+quasars in $64.2$\,deg$^2$). The small sample overlap between SDSS and
+2SLAQ (112 quasars) has negligible impact on the QLF evaluation.
 
-At $2.2<z<3.5$ we used a single sample of 23,301 uniformly colour-selected quasars from 2236\,deg$^2$ in BOSS DR9 \citep{2013ApJ...773...14R} due to several improvements compared to previous surveys. First, it covers a similar magnitude range as 2SLAQ but with $>20$ times as many quasars. Second, although the SDSS DR7 sample provides better coverage of the bright end of the QLF at these redshifts, its selection function is highly dependent on the assumed incidence of (partial) Lyman limit systems in the IGM \citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. While the BOSS DR9 selection function considers these improvements, the uncertainty in the QLF remains dominated by assumptions in the selection function given the large sample size \citep{2013ApJ...773...14R}. Variability-selected quasar samples circumvent this issue \citep{2013ApJ...773...14R, 2013A&A...551A..29P, 2016A&A...587A..41P}, but may be affected by (i) single-epoch imaging incompleteness at the faint end \citep{2013ApJ...773...14R}, and (ii) uncertainties in the selection function caused by the limited number of known $z\ga 3$ quasars not selected by variability in the same footprint \citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
+At $2.2<z<3.5$ we used a single sample of 23,301 uniformly
+colour-selected quasars from 2236\,deg$^2$ in BOSS DR9
+\citep{2013ApJ...773...14R} due to several improvements compared to
+previous surveys. First, it covers a similar magnitude range as 2SLAQ
+but with $>20$ times as many quasars. Second, although the SDSS DR7
+sample provides better coverage of the bright end of the QLF at these
+redshifts, its selection function is highly dependent on the assumed
+incidence of (partial) Lyman limit systems in the IGM
+\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. While the BOSS DR9
+selection function considers these improvements, the uncertainty in
+the QLF remains dominated by assumptions in the selection function
+given the large sample size
+\citep{2013ApJ...773...14R}. Variability-selected quasar samples
+circumvent this issue \citep{2013ApJ...773...14R, 2013A&A...551A..29P,
+  2016A&A...587A..41P}, but may be affected by (i) single-epoch
+imaging incompleteness at the faint end \citep{2013ApJ...773...14R},
+and (ii) uncertainties in the selection function caused by the limited
+number of known $z\ga 3$ quasars not selected by variability in the
+same footprint \citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
 
-At $3.7<z<4.1$ we used a combination of SDSS DR7 \citep[XX uniformly selected quasars from][]{2010AJ....139.2360S} and the NDWFS$+$DLS survey \citep{2010ApJ...710.1498G,2011ApJ...728L..26G}. The lower cut $z>3.7$ limits the impact of systematic uncertainties in the \citet{2006AJ....131.2766R} SDSS selection function \citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. We did not consider the results from surveys for faint $z\sim 4$ quasars in the COSMOS field \citep{2011ApJ...728L..25I, 2012ApJ...755..169M} due to systematic errors in their selection functions\footnote{Both studies simulated quasar colours with a mean IGM attenuation curve \citep{1995ApJ...441...18M} that cannot account for stochastic Lyman continuum absorption, and therefore underpredicts the variance in quasar colours \citep{1999ApJ...518..103B, 2008MNRAS.387.1681I, 2011ApJ...728...23W}. Modelling the colour variance in these surveys is essential, as most of the \citet{2011ApJ...728L..25I} quasars are near the edge of their colour selection region (see their Figure~1), and \citet{2012ApJ...755..169M} require modest attenuation of the $U$ band flux relative to the mid-infrared flux.}. Furthermore, 30 per cent of the \citet{2012ApJ...755..169M} COSMOS sample have visually estimated photometric redshifts, and the spectroscopic subsample reveals that 40 per cent of the visually estimated redshifts are biased low ($z_\mathrm{spec}>z_\mathrm{est}+0.3$, see their Figure~9). These unaccounted systematic redshift errors at least partly explain the discrepancy in the $z\sim 4$ QLF between \citet{2011ApJ...728L..26G} and \citet{2012ApJ...755..169M}, which justifies our preference for the former sample.
+At $3.7<z<4.1$ we used a combination of SDSS DR7 \citep[XX uniformly
+  selected quasars from][]{2010AJ....139.2360S} and the NDWFS$+$DLS
+survey \citep{2010ApJ...710.1498G,2011ApJ...728L..26G}. The lower cut
+$z>3.7$ limits the impact of systematic uncertainties in the
+\citet{2006AJ....131.2766R} SDSS selection function
+\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. We did not consider
+the results from surveys for faint $z\sim 4$ quasars in the COSMOS
+field \citep{2011ApJ...728L..25I, 2012ApJ...755..169M} due to
+systematic errors in their selection functions\footnote{Both studies
+  simulated quasar colours with a mean IGM attenuation curve
+  \citep{1995ApJ...441...18M} that cannot account for stochastic Lyman
+  continuum absorption, and therefore underpredicts the variance in
+  quasar colours \citep{1999ApJ...518..103B, 2008MNRAS.387.1681I,
+    2011ApJ...728...23W}. Modelling the colour variance in these
+  surveys is essential, as most of the \citet{2011ApJ...728L..25I}
+  quasars are near the edge of their colour selection region (see
+  their Figure~1), and \citet{2012ApJ...755..169M} require modest
+  attenuation of the $U$ band flux relative to the mid-infrared
+  flux.}. Furthermore, 30 per cent of the \citet{2012ApJ...755..169M}
+COSMOS sample have visually estimated photometric redshifts, and the
+spectroscopic subsample reveals that 40 per cent of the visually
+estimated redshifts are biased low
+($z_\mathrm{spec}>z_\mathrm{est}+0.3$, see their Figure~9). These
+unaccounted systematic redshift errors at least partly explain the
+discrepancy in the $z\sim 4$ QLF between \citet{2011ApJ...728L..26G}
+and \citet{2012ApJ...755..169M}, which justifies our preference for
+the former sample.
 
-Between $z=4.1$ and $z=4.7$ our combined sample has XX uniformly selected quasars from the SDSS DR7 quasar catalogue \citep{2010AJ....139.2360S} and XX quasars from \citet{2011ApJ...728L..26G}. Although we do not include the highly debated \citet{2015AA...578A..83G} sample in our main analysis due to its rough selection function and lacking spectroscopy for 17 of the 22 quasar candidates, we use it in Section~XX to constrain the faint end ($M_{1450}>-23$) of the QLF at $z>4.1$. We restricted the \citet{2015AA...578A..83G} sample to the 19/22 sources considered in their QLF.
+Between $z=4.1$ and $z=4.7$ our combined sample has XX uniformly
+selected quasars from the SDSS DR7 quasar catalogue
+\citep{2010AJ....139.2360S} and XX quasars from
+\citet{2011ApJ...728L..26G}. Although we do not include the highly
+debated \citet{2015AA...578A..83G} sample in our main analysis due to
+its rough selection function and lacking spectroscopy for 17 of the 22
+quasar candidates, we use it in Section~XX to constrain the faint end
+($M_{1450}>-23$) of the QLF at $z>4.1$. We restricted the
+\citet{2015AA...578A..83G} sample to the 19/22 sources considered in
+their QLF.
 
-At $4.7\le z<5.1$ we combined several recent surveys, accounting for sample overlap and updated selection functions. At the bright end of the QLF we used the 71 $z<5.1$ quasars from the SDSS+WISE survey \citep{2016ApJ...829...33Y} together with its selection function.
-%Although \citet{yang} are sensitive to $z>5.1$ quasars, we limit their sample to $z<5.1$ to limit differential evolution of the QLF across the redshift range.
-To avoid double-counting quasars contained both in \citet{2016ApJ...829...33Y} and the SDSS DR7 sample from \citet{2013ApJ...768..105M}, we used the latter only at $M_{1450}>-26.72$ (in our adopted cosmology), yielding 94 additional $4.7\le z<5.1$ quasars selected in 6248\,deg$^2$. We used the updated $z\sim 5$ SDSS DR7 selection function \citep{2013ApJ...768..105M} instead of the one from \citet{2006AJ....131.2766R}.
-%\footnote{We note that the major difference in the selection functions must be due to different input parameters, since the single color selection criterion in \citet{mcgreer} selects the vast majority of the SDSS DR7 quasars.}.
-To these two bright-end samples we added the faint-end sample from the \citet{2013ApJ...768..105M} SDSS Stripe~82 survey (52 uniformly selected $4.7\le z<5.1$ quasars in 235\,deg$^2$) and two quasars from \citet{2011ApJ...728L..26G}, adopting the respective selection functions. We did not consider the limit on the $z\sim 5$ QLF by \citet{2012ApJ...756..160I} due to systematic errors in their selection function\footnote{\citet{2012ApJ...756..160I} underestimated the dispersion in rest-frame UV quasar colours with respect to SDSS at all redshifts (their Figure~4). Contrary to their claim, photometric errors have a small effect on the colour distribution of SDSS quasars given the statistical errors of $<0.03$\,mag in $gri$ for 90 per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and a relative calibration error of $\sim 1$ per cent \citep{2008ApJ...674.1217P}.}.
+At $4.7\le z<5.1$ we combined several recent surveys, accounting for
+sample overlap and updated selection functions. At the bright end of
+the QLF we used the 71 $z<5.1$ quasars from the SDSS+WISE survey
+\citep{2016ApJ...829...33Y} together with its selection function.
+%Although \citet{yang} are sensitive to $z>5.1$ quasars, we limit
+%their sample to $z<5.1$ to limit differential evolution of the QLF
+%across the redshift range.
+To avoid double-counting quasars contained both in
+\citet{2016ApJ...829...33Y} and the SDSS DR7 sample from
+\citet{2013ApJ...768..105M}, we used the latter only at
+$M_{1450}>-26.72$ (in our adopted cosmology), yielding 94 additional
+$4.7\le z<5.1$ quasars selected in 6248\,deg$^2$. We used the updated
+$z\sim 5$ SDSS DR7 selection function \citep{2013ApJ...768..105M}
+instead of the one from \citet{2006AJ....131.2766R}.
+%\footnote{We note that the major difference in the selection
+%functions must be due to different input parameters, since the single
+%color selection criterion in \citet{mcgreer} selects the vast
+%majority of the SDSS DR7 quasars.}.
+To these two bright-end samples we added the faint-end sample from the
+\citet{2013ApJ...768..105M} SDSS Stripe~82 survey (52 uniformly
+selected $4.7\le z<5.1$ quasars in 235\,deg$^2$) and two quasars from
+\citet{2011ApJ...728L..26G}, adopting the respective selection
+functions. We did not consider the limit on the $z\sim 5$ QLF by
+\citet{2012ApJ...756..160I} due to systematic errors in their
+selection function\footnote{\citet{2012ApJ...756..160I} underestimated
+  the dispersion in rest-frame UV quasar colours with respect to SDSS
+  at all redshifts (their Figure~4). Contrary to their claim,
+  photometric errors have a small effect on the colour distribution of
+  SDSS quasars given the statistical errors of $<0.03$\,mag in $gri$
+  for 90 per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and
+  a relative calibration error of $\sim 1$ per cent
+  \citep{2008ApJ...674.1217P}.}.
 
-The SDSS colours of $5.1\le z<5.5$ quasars are similar to those of M and L dwarf stars, resulting in a low and uncertain selection efficiency \citep{2013ApJ...768..105M}. WISE mid-infrared selection performs better \citep{2016ApJ...829...33Y}, but is restricted to the bright end of the quasar population. Our combined sample contains the remaining 28 quasars from \citet{2016ApJ...829...33Y} and 10 quasars from the \citet{2013ApJ...768..105M} Stripe~82 survey. As we will show in Section~XX, the resulting QLF is consistent with those at lower and higher redshifts, indicating that the \citet{2013ApJ...768..105M} selection functions are quite reliable. \textbf{Check this!}
+The SDSS colours of $5.1\le z<5.5$ quasars are similar to those of M
+and L dwarf stars, resulting in a low and uncertain selection
+efficiency \citep{2013ApJ...768..105M}. WISE mid-infrared selection
+performs better \citep{2016ApJ...829...33Y}, but is restricted to the
+bright end of the quasar population. Our combined sample contains the
+remaining 28 quasars from \citet{2016ApJ...829...33Y} and 10 quasars
+from the \citet{2013ApJ...768..105M} Stripe~82 survey. As we will show
+in Section~XX, the resulting QLF is consistent with those at lower and
+higher redshifts, indicating that the \citet{2013ApJ...768..105M}
+selection functions are quite reliable. \textbf{Check this!}
 
-Finally, we combined the samples from all spectroscopic $z\sim 6$ quasar surveys with a determined selection function as of June 2017. \citet{2016ApJ...833..222J} recently compiled all quasars discovered in several SDSS $z\sim 6$ surveys together with consistently derived selection functions. Their uniform sample consists of 24 quasars from the SDSS main survey (11240\,deg$^2$), 10 additional quasars in regions with two or more SDSS imaging scans (so-called overlap regions, 4223\,deg$^2$), and 13 faint quasars from SDSS Stripe~82 (277\,deg$^2$). The CFHQS \citep{2010AJ....139..906W} provided a uniform sample of 16 quasars in the Very Wide Survey (494\,deg$^2$) and a single quasar in the Deep Survey ($4.47$\,deg$^2$). The one quasar detected in both SDSS and CFHQS does not lead to underestimated statistical errors in the QLF. Lastly, we included the two objects from \citet{2015ApJ...798...28K}. One might be a Lyman break galaxy due to its narrow Ly$\alpha$ emission line (half width at half maximum 427\,km\,s$^{-1}$), but \citet{2015ApJ...798...28K} note that 10/17 candidates do not have follow-up spectroscopy, hence their QLF may be underestimated. Since very small samples preclude a statistical correction via the selection function, complete spectroscopic follow-up of $z\sim 6$ candidates is essential. Although we will account for the slightly different redshift sensitivities for the different surveys, we will quote a nominal redshift range $5.7<z<6.5$ for the combined $z\sim 6$ sample.
-
+Finally, we combined the samples from all spectroscopic $z\sim 6$
+quasar surveys with a determined selection function as of June
+2017. \citet{2016ApJ...833..222J} recently compiled all quasars
+discovered in several SDSS $z\sim 6$ surveys together with
+consistently derived selection functions. Their uniform sample
+consists of 24 quasars from the SDSS main survey (11240\,deg$^2$), 10
+additional quasars in regions with two or more SDSS imaging scans
+(so-called overlap regions, 4223\,deg$^2$), and 13 faint quasars from
+SDSS Stripe~82 (277\,deg$^2$). The CFHQS \citep{2010AJ....139..906W}
+provided a uniform sample of 16 quasars in the Very Wide Survey
+(494\,deg$^2$) and a single quasar in the Deep Survey
+($4.47$\,deg$^2$). The one quasar detected in both SDSS and CFHQS does
+not lead to underestimated statistical errors in the QLF. Lastly, we
+included the two objects from \citet{2015ApJ...798...28K}. One might
+be a Lyman break galaxy due to its narrow Ly$\alpha$ emission line
+(half width at half maximum 427\,km\,s$^{-1}$), but
+\citet{2015ApJ...798...28K} note that 10/17 candidates do not have
+follow-up spectroscopy, hence their QLF may be underestimated. Since
+very small samples preclude a statistical correction via the selection
+function, complete spectroscopic follow-up of $z\sim 6$ candidates is
+essential. Although we will account for the slightly different
+redshift sensitivities for the different surveys, we will quote a
+nominal redshift range $5.7<z<6.5$ for the combined $z\sim 6$ sample.
 
 \begin{figure*}
   \begin{center}
@@ -284,6 +420,8 @@ Finally, we combined the samples from all spectroscopic $z\sim 6$ quasar surveys
     17. & 10 & 6.0 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 & \\
     18. & 10 & 5.9--6.4 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 & \\
     19. & 11 & 6.0--6.2 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 & \\
+    20. & 19 & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 & \\
+    21. & 19 & 6.5--7.4 & UKIDSS & \citet{2007MNRAS.376L..76V} & 1 & 3370.0 & \\
   \end{tabular}
 \end{table*}
 
