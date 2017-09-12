@@ -27,10 +27,18 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
               0.1, 0.05, 6248.0, 13,
               r'SDSS DR7 Richards et al.\ 2006'),
              
+             # ('croom09sgp_selfunc_interpolated_linear.dat',
+             #  0.028, 0.007, 64.2, 15,
+             #  r'2SLAQ Croom et al.\ 2009'),
+
              ('Data_new/croom09sgp_selfunc.dat',
               0.3, 0.05, 64.2, 15,
               r'2SLAQ Croom et al.\ 2009'),
              
+             # ('croom09ngp_selfunc_interpolated_linear.dat',
+             #  0.028, 0.007, 127.7, 15,
+             #  r'2SLAQ Croom et al.\ 2009'),
+
              ('Data_new/croom09ngp_selfunc.dat',
               0.3, 0.05, 127.7, 15,
               r'2SLAQ Croom et al.\ 2009'),
@@ -95,12 +103,14 @@ method = 'Nelder-Mead'
 
 zmin = float(sys.argv[1])
 zmax = float(sys.argv[2])
+WRITE_PARAMS = int(sys.argv[3])
 
 zl = (zmin, zmax) 
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 print '{:d} quasars in this bin.'.format(lfi.z.size)
 
-g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
+# g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
+g = (np.log10(5.e-7), -22.0, -3.0, -1.5)
 
 b = lfi.bestfit(g, method=method)
 print b
@@ -121,14 +131,14 @@ print bf
 lfi.get_percentiles()
 print lfi.alpha
 
-WRITE_PARAMS = True
+# WRITE_PARAMS = True
 if WRITE_PARAMS: 
-    with open('new_bins.dat', 'a') as f:
+    with open('new_bins_26jul17_seln.dat', 'a') as f:
         output = ([lfi.z.mean()] + list(zl) + lfi.phi_star
                   + lfi.M_star + lfi.alpha + lfi.beta)
         f.write(('{:.3f}  '*len(output)).format(*output)) 
         f.write('\n')
     
-drawlf.draw(lfi)
+drawlf.draw(lfi, show_individual_fit=True)
 
 

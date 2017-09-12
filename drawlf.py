@@ -171,7 +171,7 @@ def get_lf(lf, sid, z_plot):
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     else:
-        bins = np.arange(-30.9, -17.3, 0.2)
+        bins = np.arange(-30.9, -17.3, 0.6)
 
     v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
 
@@ -220,7 +220,7 @@ def get_lf_all(lf, sid, z_plot):
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     else:
-        bins = np.arange(-30.9, -17.3, 0.2)
+        bins = np.arange(-30.9, -17.3, 0.6)
 
     v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
 
@@ -357,14 +357,14 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
             ax.scatter(mags, logphi, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
         return
 
-    for i in sids:
+    for i in sids[::-1]:
 
         print i 
         
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
         print mags[logphi>-100.0]
         print logphi[logphi>-100.0]
-        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=16, label=dsl(i))
+        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=36, label=dsl(i))
         ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
                     xerr=np.vstack((left, right)), 
                     yerr=np.vstack((uperr, downerr)),
@@ -387,7 +387,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left_all, right_all)), 
                         yerr=np.vstack((uperr_all, downerr_all)),
                         fmt='None', zorder=4)
-            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=10, label=dsl(i)+' (rejected)')
+            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=22.5, label=dsl(i)+' (rejected)')
 
     if showMockSample:
         for i in sids:

@@ -212,7 +212,7 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
     mlim = -18
 
     if select: 
-        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
+        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 3.5]
     else:
         selected = individuals
     
@@ -377,6 +377,85 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
                handletextpad=0.1, borderpad=0.01, scatterpoints=1)
     
     plt.savefig('rhoqso_withGlobal.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+def draw_onlyGlobal(composite):
+
+    fig = plt.figure(figsize=(7, 10), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-10, 1.0e-3)
+
+    # Plot 1 
+    
+    mlim = -18
+
+    z = np.linspace(0, 7, 50)
+    bf = np.median(composite.samples, axis=0)
+    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+        ax.plot(z, r, color='tomato', zorder=6, alpha=0.02)
+    
+
+    # Plot 2 
+    
+    mlim = -21
+
+    z = np.linspace(0, 7, 50)
+    bf = np.median(composite.samples, axis=0)
+    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+        ax.plot(z, r, color='forestgreen', zorder=6, alpha=0.02)
+    
+
+    # Plot 3
+    
+    mlim = -24
+
+    z = np.linspace(0, 7, 50)
+    bf = np.median(composite.samples, axis=0)
+    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+        ax.plot(z, r, color='goldenrod', zorder=6, alpha=0.02)
+
+    
+    # Plot 4
+    
+    mlim = -27
+
+    z = np.linspace(0, 7, 50)
+    bf = np.median(composite.samples, axis=0)
+    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
+        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+        ax.plot(z, r, color='saddlebrown', zorder=6, alpha=0.02)
+    
+    plt.legend(loc='upper left', fontsize=14, handlelength=1,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+    
+    plt.savefig('rhoqso_onlyGlobal.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
