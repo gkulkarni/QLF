@@ -17,6 +17,14 @@
   {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
   mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
 
+\bibitem[\protect\citeauthoryear{{Aird}, {Coil}, {Georgakakis}, {Nandra},
+  {Barro}  \& {P{\'e}rez-Gonz{\'a}lez}}{{Aird}
+  et~al.}{2015}]{2015MNRAS.451.1892A}
+{Aird} J.,  {Coil} A.~L.,  {Georgakakis} A.,  {Nandra} K.,  {Barro} G.,
+  {P{\'e}rez-Gonz{\'a}lez} P.~G.,  2015, \mn@doi [\mnras]
+  {10.1093/mnras/stv1062}, \href
+  {http://adsabs.harvard.edu/abs/2015MNRAS.451.1892A} {451, 1892}
+
 \bibitem[\protect\citeauthoryear{{Baldwin}}{{Baldwin}}{1977}]{1977ApJ...214..679B}
 {Baldwin} J.~A.,  1977, \mn@doi [\apj] {10.1086/155294}, \href
   {http://adsabs.harvard.edu/abs/1977ApJ...214..679B} {214, 679}

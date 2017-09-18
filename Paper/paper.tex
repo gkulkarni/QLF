@@ -633,9 +633,8 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   In each bin, we estimate the uncertainty in the luminosity function
   by assuming Poisson statistics \citep{1986ApJ...303..336G}.  The
   resultant binned luminosity function estimates are shown by the
-  points in Figures \ref{fig:mosaic} and \ref{fig:mosaic2}.  These
-  agree quite well with the published luminosity functions by these
-  surveys.  
+  points in Figure~\ref{fig:mosaic}.  These agree quite well with the
+  published luminosity functions by these surveys.
 
   % Do we want to give the details of how good/bad this agreement
   % actually is?
@@ -647,6 +646,39 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   %% Figure~\ref{fig:sdss} shows the luminosity function of a sample of
   %% 15,179 quasars from the SDSS DR3 in comparison with the published
   %% luminosity function of \citet{2006AJ....131.2766R}.
+
+
+\begin{figure*}
+  \begin{center}
+    % \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
+    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small.pdf}
+  \end{center}
+  \caption{Luminosity function estimates from $z=0.3$ to $2.6$.  The
+    symbols show our inferred binned luminosity functions.  In each
+    redshift bin, the black curve shows the best-fit double power law
+    model, which is represented by the median of the posterior
+    probability distribution function.  Yellow curves show a random
+    draw from the posterior probability distribution function.  As
+    discussed in the text, luminosity bins that show a decrease in the
+    luminosity function at the faint end are deemed to be incomplete
+    are are removed from our analysis while fitting the double power
+    law model.  These bins are represented by open symbols in this
+    figure.  Each panel shows the number of quasars in the respective
+    redshift bin.  The number in parenthesis indicates the total
+    number of quasars in the bin, before excluding incomplete
+    bins.}
+  \label{fig:mosaic}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
+  \end{center}
+  \caption{Parameter evolution from individual fits in
+    Figures~\ref{fig:mosaic}.  Parameters from BOSS quasars are seen
+    to be systematically offset.}
+  \label{fig:evoln}
+\end{figure*}
 
 \subsection{Luminosity function estimates in redshift bins}
 
@@ -669,24 +701,25 @@ is then written as
   p(\phi_*, M_*, \alpha, \beta | \{M_i, z_i\}) \propto \\ p(\phi_*, M_*, \alpha, \beta)p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta),
 \end{multline}
 where the constant of proportionality is independent of the luminosity
-function parameters, and $\{M_i, z_i\}$ denotes the complete quasar
-data.  We use a uniform prior distribution $p(\phi_*, M_*, \alpha,
-\beta)$ and assume that the likelihood
+function parameters, and $\{M_i, z_i\}$ denotes the magnitudes and
+redshifts of quasars falling in a redshift bin $[z_\mathrm{min},
+  z_\mathrm{max})$.  We use a uniform prior distribution $p(\phi_*,
+  M_*, \alpha, \beta)$ and assume that the likelihood
 \begin{equation}
   \mathcal{L}\equiv p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta)
 \end{equation}
-is given by $\phi(M)$ with suitable normalisation.  That is the
-negative logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ can be
+is given by $\phi(M)$ with suitable normalisation.  The negative
+logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ can then be
 written as
 \begin{multline}
   S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz}.
   \label{eqn:S}
 \end{multline}
-where $N$ is the total number of quasars in the sample and the
-integral in the second term on the right hand side is on the 
-surveyed range of $M$ and $z$.
+where $N$ is the total number of quasars in the redshift bin and the
+luminosity integral in the second term on the right hand side is on
+the surveyed range of $M$.
 
-Another way of understanding the above likelihood is as limit of the
+The above likelihood can also be understood as the limit of the
 Poisson likelihood in luminosity and redshift bins
 \citep{1983ApJ...269...35M, 2001AJ....121...54F}.  We can write the
 probability of observing $n_{ij}$ quasars in the $(M_i, z_j)$ bin as
@@ -701,21 +734,124 @@ where
 \end{equation}
 is the average number of quasars expected in the $(M_i, z_j)$ bin
 given the luminosity function $\phi(M,z)$.  In the limit of
-infinitesimal bins, $n_{ij}=0$ or $1$, in which case
-Equation~(\ref{eqn:lhood}) can be simplified and we can get
-Equation~(\ref{eqn:S}).
+infinitesimal bins, $n_{ij}=0$ or $1$, Equation~(\ref{eqn:lhood}) can
+be simplified and we get Equation~(\ref{eqn:S}).
 
 Our estimates for the luminosity function in several redshift bins are
-shown in Figures \ref{fig:mosaic} and \ref{fig:mosaic2}.  The median
-of the posterior is shown as the best fit model.  Yellow curves show a
-random draw from the posterior.
+shown in Figure~\ref{fig:mosaic}.  The median of the posterior is
+shown as the best fit model.  Yellow curves show a random draw from
+the posterior.  Consistent with previous studies, the double power law
+model provides an excellent description of the luminosity function
+model over almost the complete range of redshifts spanned by the data.
+It is only in the highest redshift bin ($z=5.5$--$6.5$) that the data
+seem to favour a single power law.  In this bin, we the resultant
+posterior distribution of the break magnitude $M_*$ is bimodal with
+favoured values at the faint ($M_*>-18$) and bright end of the data
+($M_*<-30$).  We consider only the latter possibility as consistent
+with the data at lower redshifts ($z<5.5$).  In light of the low
+redshift data, we use restricted priors in this redshift bins: we
+restrict the bright-end slope $\alpha$ to values less than $-4$.
+Other paramters continue to have wide uniform priors.
+
+As seen in Figure~\ref{fig:mosaic}, in several redshift bins the
+binned quasar luminosity function seems to show a decline at the faint
+end.  This is clearly seen, for example, in the 2SLAQ sample at $z<2$.
+We take this to be a systematic error: the decrease in the luminosity
+function is an indication of incompleteness in the quasar surveys that
+has not been accounted for by the reported completeness map.  We
+choose to discard such quasars from our analysis.  This behaviour is
+also seen in the SDSS quasar sample at $z<1.8$ and $z\sim 4$.  The
+discarded luminosity bins are shown in Figure~\ref{fig:mosaic} by open
+circles.  We can see that the surviving quasar sample is in excellent
+agreement with the double power law model at all redshifts.
+
+The values of the four double power law parameters in various redshift
+bins are shown in Figure~\ref{fig:evoln}.  We find interesting
+evolutionary trends in each of the four parameters.  The break
+luminosity $M_*$ evolves by more than eight magnitudes from redshift
+$z=0$ to $7$.  The amplitude of the luminosity function $\phi_*$
+evolves moderately from $z=0$ to $z\sim 3$ and then drops by six
+orders of magnitude to about $10^{-12}$ at $z\sim 7$.  The bright end
+slope $\alpha$ has significant scatter, but still shows a trend
+towards larger negative values---that is, steeper bright-end
+luminosity functions---at high redshifts.  Finally, the faint end of
+the luminosity function also shows signs of increasing steepness
+towards high redshifts.  Somewhat similar to the amplitude $\phi_*$,
+the faint-end slope $\beta$ also shows a break at $z\sim 3$.  It stays
+roughly constant up to this redshift, and the drops to increasingly
+negative values at high redshifts, indicating a steeper faint end.
+
+The behaviour of BOSS quasars in Figure~\ref{fig:evoln} is striking.
+In the redshift range covered by BOSS the values of the four double
+power law parameters deviate from the general trends.  The faint end
+of the luminosity function of the BOSS quasars is much shallower and
+the break luminosity is fainter by a magnitude.  The bright end of the
+luminosity function of quasars in this sample is also much flatter
+than that for other samples.  The conspicuousness of the deviation of
+the BOSS sample from the general trends makes it unlikely that the
+luminosity function evolution indicated by BOSS in the redshift range
+$z=2$--$3$ is physical.  Indeed, in this redshift range BOSS quasar
+selection is known to be affected by a colour bias
+\citep{2011ApJ...728...23W}, as the quasar colour selection is
+contaminated by a population of blue stars.  We therefore deem the
+BOSS sample as affected by this systematic error.
+
+The open circles in Figure~\ref{fig:evoln} show the results of a
+similar analysis of the quasar UV luminosity function by
+\citep{2017MNRAS.466.1160M}.  Evidently, our results are quite
+different from the results of these authors.  While their analysis
+generally also reveals a steep faint end slop, the break luminosity
+evolution is dramatically different.  In their analysis the break
+luminosity tends to remain roughly constant $M_*\sim -24$ from $z=0$
+to $7$, but this does not seem to be indicated by the data shown in
+Figure~\ref{fig:mosaic}.  A possible reason behind their significanly
+different results could be a bias introduced by binning in
+luminosities and redshifts while fitting the luminosity function model.
 
 \subsection{Luminosity function estimate without binning}
 
-It is useful to go beyond the redshift bins of the previous section.
-This gives us continuous models of luminosity function evolution and
-is also relevant for extrapolation. We therefore obtain estimates of
-the luminosity function.
+The smooth evolution of the luminosity function parameters apparant in
+Figure~\ref{fig:evoln} suggests that it should be possible to describe
+the quasar UV luminosity function evolution from $z\sim 7$ to $0$
+using far fewer number of parameters.  Such descriptions have been put
+forward in the literature for the X-ray and bolometric luminosity
+functions \citep[e.g.,][]{2007ApJ...654..731H, 2015MNRAS.451.1892A}.
+Such ``global'' descriptions of the luminosity function evolution are
+useful as they give a continuous description of the luminosity
+function.  This makes them valuable while developing an understanding
+of the physics behind the luminosity function. We therefore obtain
+estimates of the luminosity function in which the evolution of the
+four parameters of the double power law models in
+Equation~(\ref{eqn:dpl}) is parameterised to write
+\begin{align}
+  &\phi_*(z) = f_0(\{c_{0,i}\}, z)\nonumber\\
+  &M_*(z) = f_1(\{c_{1,i}\}, z)\nonumber\\
+  &\alpha(z) = f_2(\{c_{2,i}\}, z)\nonumber\\
+  &\beta(z) = f_3(\{c_{3,i}\}, z),
+\end{align}
+where the $c_i$'s are the new model parameters.  The joint posterior
+probability distribution of these parameters can be now written as
+\begin{equation}
+  p(\{c_i\} | \{M_i, z_i\}) \propto p(\{c_i\})p(\{M_i, z_i\} | \{c_i\}),
+\end{equation}
+where the likelihood 
+\begin{equation}
+  \mathcal{L}\equiv p(\{M_i, z_i\} | \{c_i\}),
+\end{equation}
+is now given by $\phi(M,z)$ with suitable normalisation.  Note that
+$\phi(M,z)$ is simply 
+\begin{multline}
+  \phi(M,z) = \phi_*(z) \left[10^{0.4(\alpha(z)+1)(M-M_*(z))}\right. \\ \left.+ 10^{0.4(\beta(z)+1)(M-M_*(z))}\right]^{-1}.
+\end{multline}
+The ngative logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ is
+straightforward generalisation of Equation~(\ref{eqn:S}), so that
+\begin{multline}
+  S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
+  \label{eqn:S2}
+\end{multline}
+where now $N$ is the total number of quasars included in the analysis,
+and the integrals in the second term on the right-hand side are over
+the complete surveyed range of luminosity and redshift.
 
 \section{Hydrogen photoionization rate}
 
@@ -951,15 +1087,6 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 %%   \label{fig:giallongo}
 %% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    % \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
-    \includegraphics[height=0.9\textheight,keepaspectratio]{mosaic_small.pdf}
-  \end{center}
-  \caption{Individual luminosity function fits for $z=0.3$ to $2.6$.}
-  \label{fig:mosaic}
-\end{figure*}
-
 %% \begin{figure*}
 %%   \begin{center}
 %%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2.pdf}
@@ -976,15 +1103,6 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
   \label{fig:rhoqso_allz}
 \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
-  \end{center}
-  \caption{Parameter evolution from individual fits in
-    Figures~\ref{fig:mosaic} and \ref{fig:mosaic2}.  Parameters from
-    BOSS quasars are seen to be systematically offset. \textbf{[Show
-        $z < 0.6$ point also?]}}
-\end{figure*}
 
 \begin{figure*}
   \begin{center}
