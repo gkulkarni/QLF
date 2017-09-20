@@ -808,6 +808,44 @@ Figure~\ref{fig:mosaic}.  A possible reason behind their significanly
 different results could be a bias introduced by binning in
 luminosities and redshifts while fitting the luminosity function model.
 
+\begin{figure*}
+  \begin{center}
+    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small_global.pdf}
+  \end{center}
+  \caption{Luminosity function estimates from $z=0.3$ to $2.6$.
+    Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
+    binned luminosity functions.  In each redshift bin, the yellow
+    curves show the best-fit double power law luminosity function in
+    that redshift bin.  The green curves show the posterior
+    distribution of the global model.  The global model agrees very
+    well with the data in all redshift bins, except those spanned by
+    BOSS, as BOSS quasars are excluded from the global analysis.}
+  \label{fig:mosaic_global}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_global.pdf}
+  \end{center}
+  \caption{Luminosity function parameter evolution in the global
+    model.  The symbols show the best fit parameters with 68\%
+    uncertainties from the double power law fits to the data in
+    redshift bins.  These points are identical to those in
+    Figure~\ref{fig:evoln}, except that bins with BOSS qsos ($z\sim
+    2$--$3$) are not shown.  In each panel, the black solid curve
+    shows the best fit global model, and the coloured curves show a
+    random sample drawn from the global posterior.}
+  \label{fig:evoln_global}
+\end{figure*}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+  \end{center}
+  \caption{AGN number density evolution in the global model.}
+  \label{fig:rhoqso}
+\end{figure}
+
 \subsection{Luminosity function estimate without binning}
 
 The smooth evolution of the luminosity function parameters apparant in
@@ -828,6 +866,7 @@ Equation~(\ref{eqn:dpl}) is parameterised to write
   &M_*(z) = f_1(\{c_{1,i}\}, z)\nonumber\\
   &\alpha(z) = f_2(\{c_{2,i}\}, z)\nonumber\\
   &\beta(z) = f_3(\{c_{3,i}\}, z),
+\label{eqn:global}
 \end{align}
 where the $c_i$'s are the new model parameters.  The joint posterior
 probability distribution of these parameters can be now written as
@@ -852,6 +891,64 @@ straightforward generalisation of Equation~(\ref{eqn:S}), so that
 where now $N$ is the total number of quasars included in the analysis,
 and the integrals in the second term on the right-hand side are over
 the complete surveyed range of luminosity and redshift.
+
+We consider models in which the evolution of the four double power law
+parameter is modelled independently as in
+Equations~(\ref{eqn:global}).  This approach has been termed as
+``flexible double power law'' by \citet{2015MNRAS.451.1892A}.  For the
+parameters $\phi_*$, $M_*$ and $\alpha$ we assume that the functions
+$f_i$s in Equations~(\ref{eqn:global}) are Chebyshev polynomials in
+$1+z$.  Thus the functions $f_i$s are written as
+\begin{equation}
+  f_i=\sum_{j=0}^{n_i}c_{i,j}T_j(1+z),
+  \label{eqn:cbs}
+\end{equation}
+where $c_{i,j}$ are the parameters that appear in
+Equations~(\ref{eqn:global}) and $T_j(1+z)$ are Chebyshev polynomials
+of the first kind.  We try successively higher orders of Chebyshev
+polynomials in order to arrive at a good fit with the data.  We find
+that $\phi_*$, $M_*$ and $\alpha$ prefer quadratic, cubic, and linear
+evolutions in $1+z$.
+
+The faint-end slope $\beta$ seems to require a break in its evolution
+at $z\sim 3$, as discussed in the previous section.  As a result, it
+is difficult to model the evolution of $\beta$ using the Chebyshev
+expansion of Equation~(\ref{eqn:cbs}).  Instead, we consider a double
+power law model for $\beta$ and write
+\begin{equation}
+  f_3(1+z)=h+\frac{f_0}{10^{a*\zeta}+10^{b*\zeta}},
+\end{equation}
+where
+\begin{equation}
+  \zeta = \log_{10}\left(\frac{1+z}{1+z_0}\right),
+\end{equation}
+thus resulting in a five-parameter model with parameters $h$, $f_0$,
+$z_0$, $a$ and $b$.  The parameters $a$ and $b$ thus determine the low
+and high redshift slopes of this evolution, with a break at redshift
+$z_0$.  This is similar to the model of \citet{2007ApJ...654..731H},
+who also favoured a broken power law model for the evolution of the
+faint-end slope of the bolometric luminosity function of quasars.
+
+Our resultant 14-parameter global model for the luminosity function
+evolution in shown in Figure~\ref{fig:mosaic_global}, in which the
+green curves show a random draw from the posterior probability
+distibution function.  For comparison, the symbols show the luminosity
+function binned in luminosity and redshift, and the yellow curves show
+the posterior distribution of the double power law luminosity
+functions in various redshift bins, as in Figure~\ref{fig:mosaic}.  We
+find that the global model is in excellent agreement with the binned
+models.  The agreement is poor for the BOSS quasars as these are not
+described by the global model, as discussed in the previous section.
+
+Figure~\ref{fig:evoln_global} shows the parameter evolution in the
+global model, by comparing it with the results from the fits in
+individual redshift bins shown in Figure~\ref{fig:evoln}.  The
+agreement between the two models is very good, showing an evolution
+towards a steep faint-end slope of the luminosity function at high
+redshifts, a rapid brightening of the break luminosity.  Note that the
+redshift bins with BOSS qsos are not shown in
+Figure~\ref{fig:evoln_global}, which explains the difference from
+Figure~\ref{fig:evoln}.
 
 \section{Hydrogen photoionization rate}
 
@@ -1095,67 +1192,52 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 %%   \label{fig:mosaic2}
 %% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
-  \end{center}
-  \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
-  \label{fig:rhoqso_allz}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
+%%   \end{center}
+%%   \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
+%%   \label{fig:rhoqso_allz}
+%% \end{figure*}
 
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
-  \end{center}
-  \caption{AGN number density evolution with some BOSS quasars
-    removed.}
-  \label{fig:rhoqso}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
+%%   \end{center}
+%%   \caption{AGN number density evolution with some BOSS quasars
+%%     removed.}
+%%   \label{fig:rhoqso}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_seldata.pdf}
-  \end{center}
-  \caption{Parameter evolution with some BOSS quasars removed.  We (1)
-    use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
-    $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth]{evolution_seldata.pdf}
+%%   \end{center}
+%%   \caption{Parameter evolution with some BOSS quasars removed.  We (1)
+%%     use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
+%%     $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
-  \end{center}
-  \caption{Individual and composite luminosity function fits for
-    $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
-    composite fit does not consider quasars at those redshifts.}
-  \label{fig:mosaic_withGlobal}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
+%%   \end{center}
+%%   \caption{Individual and composite luminosity function fits for
+%%     $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
+%%     composite fit does not consider quasars at those redshifts.}
+%%   \label{fig:mosaic_withGlobal}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
-  \end{center}
-  \caption{Individual and composite luminosity function fits for
-    $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
-    composite fit does not consider quasars at those redshifts.}
-  \label{fig:mosaic2_withGlobal}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_global.pdf}
-  \end{center}
-  \caption{Luminosity function parameter evolution in the global model.}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
-  \end{center}
-  \caption{AGN number density evolution in the global model.}
-  \label{fig:rhoqso}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
+%%   \end{center}
+%%   \caption{Individual and composite luminosity function fits for
+%%     $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
+%%     composite fit does not consider quasars at those redshifts.}
+%%   \label{fig:mosaic2_withGlobal}
+%% \end{figure*}
 
 \begin{figure*}
   \begin{center}
