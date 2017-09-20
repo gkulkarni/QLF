@@ -364,7 +364,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
         print mags[logphi>-100.0]
         print logphi[logphi>-100.0]
-        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=36, label=dsl(i))
+        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=20, label=dsl(i))
         ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
                     xerr=np.vstack((left, right)), 
                     yerr=np.vstack((uperr, downerr)),
@@ -387,7 +387,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left_all, right_all)), 
                         yerr=np.vstack((uperr_all, downerr_all)),
                         fmt='None', zorder=4)
-            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=22.5, label=dsl(i)+' (rejected)')
+            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
 
     if showMockSample:
         for i in sids:
