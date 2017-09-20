@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from drawlf import render 
 
 def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
-         nofirstylabel=True, nolastxlabel=True, legend=True):
+         nofirstylabel=True, nolastxlabel=True, nofirstxlabel=False, legend=False):
 
     """
 
@@ -23,9 +23,12 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     render(ax, lf, composite=composite)
 
     ax.set_xlim(-18.0, -30.0)
-    ax.set_ylim(-12.0, -3.0)
+    ax.set_ylim(-12.0, -2.0)
     # ax.set_xticks(np.arange(-31,-16, 2))
     ax.set_xticks(np.arange(-30, -16, 3))
+    ax.set_yticks(np.arange(-12, -1, 2))
+
+    ax.tick_params('both', which='major', length=3, width=1)
 
     if not yticklabels:
         ax.set_yticklabels('')
@@ -39,6 +42,17 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     if nolastxlabel:
         ax.get_xticklabels()[0].set_visible(False)
 
+    if nofirstxlabel:
+        ax.get_xticklabels()[-1].set_visible(False)
+
+    label = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1])
+    plt.text(0.03, 0.05, label, horizontalalignment='left',
+             verticalalignment='center', transform=ax.transAxes, fontsize='10')
+
+    num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450_all.size)
+    plt.text(0.03, 0.12, num, horizontalalignment='left',
+             verticalalignment='center', transform=ax.transAxes, fontsize='10')
+    
     if legend:
         legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
         l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
@@ -51,16 +65,16 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     
 def draw(lfs, composite=None):
 
-    nplots_x = 3
-    nplots_y = 3
+    nplots_x = 4
+    nplots_y = 6
     nplots = nplots_x * nplots_y
 
     plot_number = 0
 
     nx = nplots_x
     ny = nplots_y 
-    factor_x = 2.5
-    factor_y = 3.3
+    factor_x = 2.
+    factor_y = 2.
     ldim = 0.4*factor_x
     bdim = 0.25*factor_y
     rdim = 0.1*factor_x
@@ -83,34 +97,34 @@ def draw(lfs, composite=None):
     fig.subplots_adjust(left=l, bottom=b, right=r, top=t, wspace=wspace/hdim,
                         hspace=hspace/vdim)
 
-    for i in range(nplots):
+    for i in range(nplots-1):
 
         ax = fig.add_subplot(nplots_y, nplots_x, i+1)
         print 'plotting', i
 
         idx_offset=0
         
-        if i in set([0,3]):
+        if i in set([0,4,8,12,16]):
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True)
-        elif i == 7:
+        elif i == 21:
             plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True)
-        elif i == 8:
-            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False)
-        elif i == 6:
+        elif i == 19:
+            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False, nofirstxlabel=True)
+        elif i == 20:
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, xticklabels=True, nofirstylabel=False)
-        elif i == 2:
-            plot(lfs[i+idx_offset], ax, composite=composite)
+        elif i == 22:
+            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False)
         else:
             plot(lfs[i+idx_offset], ax, composite=composite)
         
-    fig.text(0.5, 0.02, r'$M_{1450}$', transform=fig.transFigure,
+    fig.text(0.5, 0.01, r'$M_{1450}$', transform=fig.transFigure,
              horizontalalignment='center', verticalalignment='center')
 
     fig.text(0.03, 0.5, r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$',
              transform=fig.transFigure, horizontalalignment='center',
              verticalalignment='center', rotation='vertical')
 
-    plt.savefig('mosaic.pdf')
+    plt.savefig('mosaic_small.pdf')
 
     plt.close('all')
 
