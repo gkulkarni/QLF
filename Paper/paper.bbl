@@ -17,6 +17,14 @@
   {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
   mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
 
+\bibitem[\protect\citeauthoryear{{Aird}, {Coil}, {Georgakakis}, {Nandra},
+  {Barro}  \& {P{\'e}rez-Gonz{\'a}lez}}{{Aird}
+  et~al.}{2015}]{2015MNRAS.451.1892A}
+{Aird} J.,  {Coil} A.~L.,  {Georgakakis} A.,  {Nandra} K.,  {Barro} G.,
+  {P{\'e}rez-Gonz{\'a}lez} P.~G.,  2015, \mn@doi [\mnras]
+  {10.1093/mnras/stv1062}, \href
+  {http://adsabs.harvard.edu/abs/2015MNRAS.451.1892A} {451, 1892}
+
 \bibitem[\protect\citeauthoryear{{Baldwin}}{{Baldwin}}{1977}]{1977ApJ...214..679B}
 {Baldwin} J.~A.,  1977, \mn@doi [\apj] {10.1086/155294}, \href
   {http://adsabs.harvard.edu/abs/1977ApJ...214..679B} {214, 679}
@@ -130,6 +138,10 @@
   {Thompson} R.,   {Huang} S.,  2016, \mn@doi [\mnras] {10.1093/mnras/stw805},
   \href {http://adsabs.harvard.edu/abs/2016MNRAS.459.2299F} {459, 2299}
 
+\bibitem[\protect\citeauthoryear{{Gehrels}}{{Gehrels}}{1986}]{1986ApJ...303..336G}
+{Gehrels} N.,  1986, \mn@doi [\apj] {10.1086/164079}, \href
+  {http://adsabs.harvard.edu/abs/1986ApJ...303..336G} {303, 336}
+
 \bibitem[\protect\citeauthoryear{{Giallongo} et~al.,}{{Giallongo}
   et~al.}{2015}]{2015AA...578A..83G}
 {Giallongo} E.,  et~al., 2015, \mn@doi [\aap] {10.1051/0004-6361/201425334},
@@ -207,6 +219,10 @@
   et~al.}{2017}]{2017MNRAS.468..389J}
 {Japelj} J.,  et~al., 2017, \mn@doi [\mnras] {10.1093/mnras/stx477}, \href
   {http://adsabs.harvard.edu/abs/2017MNRAS.468..389J} {468, 389}
+
+\bibitem[\protect\citeauthoryear{{Jaynes}}{{Jaynes}}{2015}]{jaynes}
+{Jaynes} E.~T.,  2015, {Probability theory: the logic of science}.
+Cambridge University Press
 
 \bibitem[\protect\citeauthoryear{{Jiang} et~al.,}{{Jiang}
   et~al.}{2016}]{2016ApJ...833..222J}
@@ -317,6 +333,11 @@
 {Mitra} S.,  {Choudhury} T.~R.,   {Ferrara} A.,  2016, preprint, \href
   {http://adsabs.harvard.edu/abs/2016arXiv160602719M} {} (\mn@eprint {arXiv}
   {1606.02719})
+
+\bibitem[\protect\citeauthoryear{{Mortlock} et~al.,}{{Mortlock}
+  et~al.}{2011}]{2011Natur.474..616M}
+{Mortlock} D.~J.,  et~al., 2011, \mn@doi [\nat] {10.1038/nature10159}, \href
+  {http://adsabs.harvard.edu/abs/2011Natur.474..616M} {474, 616}
 
 \bibitem[\protect\citeauthoryear{{Mostardi}, {Shapley}, {Steidel}, {Trainor},
   {Reddy}  \& {Siana}}{{Mostardi} et~al.}{2015}]{2015ApJ...810..107M}
@@ -512,6 +533,14 @@
   et~al.}{2010}]{2010ApJ...725.1011V}
 {Vanzella} E.,  et~al., 2010, \mn@doi [\apj] {10.1088/0004-637X/725/1/1011},
   \href {http://adsabs.harvard.edu/abs/2010ApJ...725.1011V} {725, 1011}
+
+\bibitem[\protect\citeauthoryear{{Venemans}, {McMahon}, {Warren},
+  {Gonzalez-Solares}, {Hewett}, {Mortlock}, {Dye}  \& {Sharp}}{{Venemans}
+  et~al.}{2007}]{2007MNRAS.376L..76V}
+{Venemans} B.~P.,  {McMahon} R.~G.,  {Warren} S.~J.,  {Gonzalez-Solares} E.~A.,
+   {Hewett} P.~C.,  {Mortlock} D.~J.,  {Dye} S.,   {Sharp} R.~G.,  2007,
+  \mn@doi [\mnras] {10.1111/j.1745-3933.2007.00290.x}, \href
+  {http://adsabs.harvard.edu/abs/2007MNRAS.376L..76V} {376, L76}
 
 \bibitem[\protect\citeauthoryear{{Warren}, {Hewett}  \& {Osmer}}{{Warren}
   et~al.}{1994}]{1994ApJ...421..412W}

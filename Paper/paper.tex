@@ -8,7 +8,7 @@
 \usepackage{siunitx}
 \def\lya{Ly$\alpha$~}
 
-\title[AGN luminosity function]{Evolution of the AGN UV luminosity function}
+\title[AGN luminosity function]{Evolution of the AGN UV luminosity function from redshift 7.5}
 
 \author[Kulkarni et al.]{{Girish Kulkarni$^{1}$\thanks{Email:
       kulkarni@ast.cam.ac.uk}, G\'abor Worseck$^{2}$ and Joseph
@@ -29,53 +29,58 @@
 \maketitle
 
 \begin{abstract}
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-  eget nisi augue. Vivamus quis purus quis massa tempor posuere non
-  quis magna. Aenean eleifend, metus eget facilisis faucibus, turpis
-  erat suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse
-  luctus eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec
-  massa ultrices, porttitor nulla at, euismod diam. In ultricies
-  malesuada mauris ac facilisis. Nulla quis suscipit diam, vitae
-  semper tortor. Proin nec nulla at massa egestas porta. Cras ac arcu
-  in velit placerat facilisis fringilla in sem. Mauris finibus, mauris
-  ut pretium malesuada, massa urna mattis nibh, at placerat ligula
-  elit ac odio.  Nunc vel leo arcu. Nullam sagittis tincidunt
-  interdum. Mauris sed lacus cursus, dapibus enim non, sagittis
-  leo. Aliquam sit amet ex ut quam iaculis sollicitudin. Vivamus ut
-  pharetra dolor. Vivamus id nibh leo. Vestibulum consectetur eu lorem
-  eu tincidunt. Sed eget nibh orci. Pellentesque sit amet blandit
-  massa, vel tempor neque.
+We present the evolution UV/optical luminosity function of quasars
+from a homogeneous reanalysis of more than 85,000 spectroscopically
+selected quasars from redshift $z=0$ to $7.5$.  We derived luminosity
+functions when the observed quasar population is binned in luminosity
+and redshift, and then construct a continuous evolutionary model of
+the luminosity function spanning a range of redshifts.  We find that
+quasars selected from the BOSS survey at $z=2$--$3$ show a significant
+systematic offset from the general trends, possiblity due to the
+colour bias suffered by BOSS.  Some systematic errors also persist in
+the lowest-redshift quasar sample due to host galaxy effects. However,
+we find that it is possible to describe the luminosity function
+evolution from redshift $z=0$ to $7.5$ using a simple 14-parameter
+evolving double power law model.  The evolution of the number density
+of qsos shows the familiar downsizing effect, although the evolution
+in the faint quasar population is quite flat at high redshifts such
+that the the drop in their number density at high redshifts is much
+slower than that for bright quasars.  When integrated down to
+$M_{1450}=-20$ quasars can produce all of the hydrogen-ionizing
+photons in the intergalactic medium upto redshifts 3.5.  They fall
+short of the emissivity required to explain the Ly$\alpha$ data at
+higher redshifts, and are therefore unlikely to have singlehandedly
+driven hydrogen reionization.  This conclusion can be altered,
+however, if lower luminosity qsos (down to $M_{1450}=-18$) are assumed
+to exist and to have a unity escape fraction, in which case qsos can
+potentially produce all the hydrogen-ionizing flux at $z<7.5$.
+He~\textsc{ii} reionization in this model occurs between $z=3.2$ and
+$3.7$.
 \end{abstract}
 
 \begin{keywords}
-quasars
+dark ages, reionization, firs stars -- intergalactic medium -- quasars: general -- galaxies: active 
 \end{keywords}
 
-%% \section{Introduction}
-
-%% Possible outline of paper:
-
-%% \begin{enumerate}
-%% \item Introduction 
-%% \item Data set
-%% \item QLF 
-%%   \begin{enumerate}
-%%   \item at specific redshifts 
-%%   \item global model 
-%%   \end{enumerate}
-%% \item Contribution to reionizatin 
-%% \item Conclusion 
-%% \end{enumerate}
-
-%% \noindent Optional possibilities:
-
-%% \begin{enumerate}
-%% \item Bolometric LF
-%% \item PLE, PDE, etc?
-%% \item Quantitative model fit test 
-%% \item BH growth 
-%% \item Comparison with galaxies 
-%% \end{enumerate}
+%% * Possible outline of paper:
+%% 
+%% Introduction 
+%% Data
+%% Method
+%%   Individual fits
+%%   Global fits
+%% Contribution to reionizatin 
+%% Conclusions
+%% 
+%% * Optional possibilities:
+%%
+%% Bolometric LF
+%% Public code description 
+%% More global models: PLE, PDE, Trenti, White-Conroy
+%% Goodness of fit 
+%% BH growth 
+%% Comparison with galaxy LF
+%% Comparison with previous work 
 
 \section{Introduction}
 
@@ -211,12 +216,19 @@ observed magnitudes are point spread function (PSF) magnitudes
 \citep{2002AJ....123..485S} corrected for Galactic extinction
 \citep{1998ApJ...500..525S} unless otherwise noted.
 
-
 \section{Homogenised Quasar Sample}
 
 \subsection{Sample Selection}
 
-We started with compiling the samples of recent UV-optical quasar surveys. The restriction to UV-optical surveys was mainly driven by our science goal to characterise the UV luminosity function of Type~I quasars, but also by the still uncertain conversion from X-ray flux to UV flux, which adds unnecessary systematics for large samples. \textbf{References!} The individual surveys and their main characteristics are listed in Table~\ref{tab:samples}. Figure~\ref{fig:qsos} presents a redshift histogram of the contributing surveys.
+We started with compiling the samples of recent UV-optical quasar
+surveys. The restriction to UV-optical surveys was mainly driven by
+our science goal to characterise the UV luminosity function of Type~I
+quasars, but also by the still uncertain conversion from X-ray flux to
+UV flux, which adds unnecessary systematics for large
+samples. \textbf{References!} The individual surveys and their main
+characteristics are listed in
+Table~\ref{tab:samples}. Figure~\ref{fig:qsos} presents a redshift
+histogram of the contributing surveys.
 
 We included surveys based on a set of simple criteria:
 \begin{enumerate}
@@ -225,26 +237,155 @@ We included surveys based on a set of simple criteria:
 \item Statistical power (sample size, coverage in $z$ and/or $M_{1450}$).
 \item A characterised selection function.
 \end{enumerate}
-As a prerequisite for a joint analysis of the QLF we obtained the survey selection functions in electronic form, either from the publication or from the authors. As a reference for future surveys we publish them here in modified and homogenised form (Section~\ref{sect:datahom}). \textbf{Maybe get the authors' consent.}
+As a prerequisite for a joint analysis of the QLF we obtained the
+survey selection functions in electronic form, either from the
+publication or from the authors. As a reference for future surveys we
+publish them here in modified and homogenised form
+(Section~\ref{sect:datahom}). \textbf{Maybe get the authors' consent.}
 
-Due to their selection criteria and their statistical power specific surveys contribute to distinct redshift ranges. At $z<2.2$ we considered quasars from the SDSS DR7 quasar catalogue \citep{2010AJ....139.2360S} and the 2SLAQ catalogue \citep{2009MNRAS.392...19C}. We restricted the SDSS DR7 sample to XXX $z<2.2$ quasars selected with the final SDSS quasar selection algorithm \citep{2002AJ....123.2945R, 2006AJ....131.2766R} from a survey area of 6248\,deg$^2$ \citep{2012ApJ...746..169S}. We adopted the SDSS targeting photometry corrected for Galactic extinction \citep{2010AJ....139.2360S}. To limit systematic uncertainties in the correction for host galaxy light \citep{2009MNRAS.392...19C} we restricted the 2SLAQ sample to XXX $g<21.85$ $0.4<z<2.2$ quasars from its spectroscopic survey footprint near the North Galactic Pole (NGP, XX quasars in $127.7$\,deg$^2$) and the South Galactic Pole (SGP, XX quasars in $64.2$\,deg$^2$). The small sample overlap between SDSS and 2SLAQ (112 quasars) has negligible impact on the QLF evaluation.
+Due to their selection criteria and their statistical power specific
+surveys contribute to distinct redshift ranges. At $z<2.2$ we
+considered quasars from the SDSS DR7 quasar catalogue
+\citep{2010AJ....139.2360S} and the 2SLAQ catalogue
+\citep{2009MNRAS.392...19C}. We restricted the SDSS DR7 sample to XXX
+$z<2.2$ quasars selected with the final SDSS quasar selection
+algorithm \citep{2002AJ....123.2945R, 2006AJ....131.2766R} from a
+survey area of 6248\,deg$^2$ \citep{2012ApJ...746..169S}. We adopted
+the SDSS targeting photometry corrected for Galactic extinction
+\citep{2010AJ....139.2360S}. To limit systematic uncertainties in the
+correction for host galaxy light \citep{2009MNRAS.392...19C} we
+restricted the 2SLAQ sample to XXX $g<21.85$ $0.4<z<2.2$ quasars from
+its spectroscopic survey footprint near the North Galactic Pole (NGP,
+XX quasars in $127.7$\,deg$^2$) and the South Galactic Pole (SGP, XX
+quasars in $64.2$\,deg$^2$). The small sample overlap between SDSS and
+2SLAQ (112 quasars) has negligible impact on the QLF evaluation.
 
-At $2.2<z<3.5$ we used a single sample of 23,301 uniformly colour-selected quasars from 2236\,deg$^2$ in BOSS DR9 \citep{2013ApJ...773...14R} due to several improvements compared to previous surveys. First, it covers a similar magnitude range as 2SLAQ but with $>20$ times as many quasars. Second, although the SDSS DR7 sample provides better coverage of the bright end of the QLF at these redshifts, its selection function is highly dependent on the assumed incidence of (partial) Lyman limit systems in the IGM \citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. While the BOSS DR9 selection function considers these improvements, the uncertainty in the QLF remains dominated by assumptions in the selection function given the large sample size \citep{2013ApJ...773...14R}. Variability-selected quasar samples circumvent this issue \citep{2013ApJ...773...14R, 2013A&A...551A..29P, 2016A&A...587A..41P}, but may be affected by (i) single-epoch imaging incompleteness at the faint end \citep{2013ApJ...773...14R}, and (ii) uncertainties in the selection function caused by the limited number of known $z\ga 3$ quasars not selected by variability in the same footprint \citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
+At $2.2<z<3.5$ we used a single sample of 23,301 uniformly
+colour-selected quasars from 2236\,deg$^2$ in BOSS DR9
+\citep{2013ApJ...773...14R} due to several improvements compared to
+previous surveys. First, it covers a similar magnitude range as 2SLAQ
+but with $>20$ times as many quasars. Second, although the SDSS DR7
+sample provides better coverage of the bright end of the QLF at these
+redshifts, its selection function is highly dependent on the assumed
+incidence of (partial) Lyman limit systems in the IGM
+\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. While the BOSS DR9
+selection function considers these improvements, the uncertainty in
+the QLF remains dominated by assumptions in the selection function
+given the large sample size
+\citep{2013ApJ...773...14R}. Variability-selected quasar samples
+circumvent this issue \citep{2013ApJ...773...14R, 2013A&A...551A..29P,
+  2016A&A...587A..41P}, but may be affected by (i) single-epoch
+imaging incompleteness at the faint end \citep{2013ApJ...773...14R},
+and (ii) uncertainties in the selection function caused by the limited
+number of known $z\ga 3$ quasars not selected by variability in the
+same footprint \citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
 
-At $3.7<z<4.1$ we used a combination of SDSS DR7 \citep[XX uniformly selected quasars from][]{2010AJ....139.2360S} and the NDWFS$+$DLS survey \citep{2010ApJ...710.1498G,2011ApJ...728L..26G}. The lower cut $z>3.7$ limits the impact of systematic uncertainties in the \citet{2006AJ....131.2766R} SDSS selection function \citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. We did not consider the results from surveys for faint $z\sim 4$ quasars in the COSMOS field \citep{2011ApJ...728L..25I, 2012ApJ...755..169M} due to systematic errors in their selection functions\footnote{Both studies simulated quasar colours with a mean IGM attenuation curve \citep{1995ApJ...441...18M} that cannot account for stochastic Lyman continuum absorption, and therefore underpredicts the variance in quasar colours \citep{1999ApJ...518..103B, 2008MNRAS.387.1681I, 2011ApJ...728...23W}. Modelling the colour variance in these surveys is essential, as most of the \citet{2011ApJ...728L..25I} quasars are near the edge of their colour selection region (see their Figure~1), and \citet{2012ApJ...755..169M} require modest attenuation of the $U$ band flux relative to the mid-infrared flux.}. Furthermore, 30 per cent of the \citet{2012ApJ...755..169M} COSMOS sample have visually estimated photometric redshifts, and the spectroscopic subsample reveals that 40 per cent of the visually estimated redshifts are biased low ($z_\mathrm{spec}>z_\mathrm{est}+0.3$, see their Figure~9). These unaccounted systematic redshift errors at least partly explain the discrepancy in the $z\sim 4$ QLF between \citet{2011ApJ...728L..26G} and \citet{2012ApJ...755..169M}, which justifies our preference for the former sample.
+At $3.7<z<4.1$ we used a combination of SDSS DR7 \citep[XX uniformly
+  selected quasars from][]{2010AJ....139.2360S} and the NDWFS$+$DLS
+survey \citep{2010ApJ...710.1498G,2011ApJ...728L..26G}. The lower cut
+$z>3.7$ limits the impact of systematic uncertainties in the
+\citet{2006AJ....131.2766R} SDSS selection function
+\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. We did not consider
+the results from surveys for faint $z\sim 4$ quasars in the COSMOS
+field \citep{2011ApJ...728L..25I, 2012ApJ...755..169M} due to
+systematic errors in their selection functions\footnote{Both studies
+  simulated quasar colours with a mean IGM attenuation curve
+  \citep{1995ApJ...441...18M} that cannot account for stochastic Lyman
+  continuum absorption, and therefore underpredicts the variance in
+  quasar colours \citep{1999ApJ...518..103B, 2008MNRAS.387.1681I,
+    2011ApJ...728...23W}. Modelling the colour variance in these
+  surveys is essential, as most of the \citet{2011ApJ...728L..25I}
+  quasars are near the edge of their colour selection region (see
+  their Figure~1), and \citet{2012ApJ...755..169M} require modest
+  attenuation of the $U$ band flux relative to the mid-infrared
+  flux.}. Furthermore, 30 per cent of the \citet{2012ApJ...755..169M}
+COSMOS sample have visually estimated photometric redshifts, and the
+spectroscopic subsample reveals that 40 per cent of the visually
+estimated redshifts are biased low
+($z_\mathrm{spec}>z_\mathrm{est}+0.3$, see their Figure~9). These
+unaccounted systematic redshift errors at least partly explain the
+discrepancy in the $z\sim 4$ QLF between \citet{2011ApJ...728L..26G}
+and \citet{2012ApJ...755..169M}, which justifies our preference for
+the former sample.
 
-Between $z=4.1$ and $z=4.7$ our combined sample has XX uniformly selected quasars from the SDSS DR7 quasar catalogue \citep{2010AJ....139.2360S} and XX quasars from \citet{2011ApJ...728L..26G}. Although we do not include the highly debated \citet{2015AA...578A..83G} sample in our main analysis due to its rough selection function and lacking spectroscopy for 17 of the 22 quasar candidates, we use it in Section~XX to constrain the faint end ($M_{1450}>-23$) of the QLF at $z>4.1$. We restricted the \citet{2015AA...578A..83G} sample to the 19/22 sources considered in their QLF.
+Between $z=4.1$ and $z=4.7$ our combined sample has XX uniformly
+selected quasars from the SDSS DR7 quasar catalogue
+\citep{2010AJ....139.2360S} and XX quasars from
+\citet{2011ApJ...728L..26G}. Although we do not include the highly
+debated \citet{2015AA...578A..83G} sample in our main analysis due to
+its rough selection function and lacking spectroscopy for 17 of the 22
+quasar candidates, we use it in Section~XX to constrain the faint end
+($M_{1450}>-23$) of the QLF at $z>4.1$. We restricted the
+\citet{2015AA...578A..83G} sample to the 19/22 sources considered in
+their QLF.
 
-At $4.7\le z<5.1$ we combined several recent surveys, accounting for sample overlap and updated selection functions. At the bright end of the QLF we used the 71 $z<5.1$ quasars from the SDSS+WISE survey \citep{2016ApJ...829...33Y} together with its selection function.
-%Although \citet{yang} are sensitive to $z>5.1$ quasars, we limit their sample to $z<5.1$ to limit differential evolution of the QLF across the redshift range.
-To avoid double-counting quasars contained both in \citet{2016ApJ...829...33Y} and the SDSS DR7 sample from \citet{2013ApJ...768..105M}, we used the latter only at $M_{1450}>-26.72$ (in our adopted cosmology), yielding 94 additional $4.7\le z<5.1$ quasars selected in 6248\,deg$^2$. We used the updated $z\sim 5$ SDSS DR7 selection function \citep{2013ApJ...768..105M} instead of the one from \citet{2006AJ....131.2766R}.
-%\footnote{We note that the major difference in the selection functions must be due to different input parameters, since the single color selection criterion in \citet{mcgreer} selects the vast majority of the SDSS DR7 quasars.}.
-To these two bright-end samples we added the faint-end sample from the \citet{2013ApJ...768..105M} SDSS Stripe~82 survey (52 uniformly selected $4.7\le z<5.1$ quasars in 235\,deg$^2$) and two quasars from \citet{2011ApJ...728L..26G}, adopting the respective selection functions. We did not consider the limit on the $z\sim 5$ QLF by \citet{2012ApJ...756..160I} due to systematic errors in their selection function\footnote{\citet{2012ApJ...756..160I} underestimated the dispersion in rest-frame UV quasar colours with respect to SDSS at all redshifts (their Figure~4). Contrary to their claim, photometric errors have a small effect on the colour distribution of SDSS quasars given the statistical errors of $<0.03$\,mag in $gri$ for 90 per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and a relative calibration error of $\sim 1$ per cent \citep{2008ApJ...674.1217P}.}.
+At $4.7\le z<5.1$ we combined several recent surveys, accounting for
+sample overlap and updated selection functions. At the bright end of
+the QLF we used the 71 $z<5.1$ quasars from the SDSS+WISE survey
+\citep{2016ApJ...829...33Y} together with its selection function.
+%Although \citet{yang} are sensitive to $z>5.1$ quasars, we limit
+%their sample to $z<5.1$ to limit differential evolution of the QLF
+%across the redshift range.
+To avoid double-counting quasars contained both in
+\citet{2016ApJ...829...33Y} and the SDSS DR7 sample from
+\citet{2013ApJ...768..105M}, we used the latter only at
+$M_{1450}>-26.72$ (in our adopted cosmology), yielding 94 additional
+$4.7\le z<5.1$ quasars selected in 6248\,deg$^2$. We used the updated
+$z\sim 5$ SDSS DR7 selection function \citep{2013ApJ...768..105M}
+instead of the one from \citet{2006AJ....131.2766R}.
+%\footnote{We note that the major difference in the selection
+%functions must be due to different input parameters, since the single
+%color selection criterion in \citet{mcgreer} selects the vast
+%majority of the SDSS DR7 quasars.}.
+To these two bright-end samples we added the faint-end sample from the
+\citet{2013ApJ...768..105M} SDSS Stripe~82 survey (52 uniformly
+selected $4.7\le z<5.1$ quasars in 235\,deg$^2$) and two quasars from
+\citet{2011ApJ...728L..26G}, adopting the respective selection
+functions. We did not consider the limit on the $z\sim 5$ QLF by
+\citet{2012ApJ...756..160I} due to systematic errors in their
+selection function\footnote{\citet{2012ApJ...756..160I} underestimated
+  the dispersion in rest-frame UV quasar colours with respect to SDSS
+  at all redshifts (their Figure~4). Contrary to their claim,
+  photometric errors have a small effect on the colour distribution of
+  SDSS quasars given the statistical errors of $<0.03$\,mag in $gri$
+  for 90 per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and
+  a relative calibration error of $\sim 1$ per cent
+  \citep{2008ApJ...674.1217P}.}.
 
-The SDSS colours of $5.1\le z<5.5$ quasars are similar to those of M and L dwarf stars, resulting in a low and uncertain selection efficiency \citep{2013ApJ...768..105M}. WISE mid-infrared selection performs better \citep{2016ApJ...829...33Y}, but is restricted to the bright end of the quasar population. Our combined sample contains the remaining 28 quasars from \citet{2016ApJ...829...33Y} and 10 quasars from the \citet{2013ApJ...768..105M} Stripe~82 survey. As we will show in Section~XX, the resulting QLF is consistent with those at lower and higher redshifts, indicating that the \citet{2013ApJ...768..105M} selection functions are quite reliable. \textbf{Check this!}
+The SDSS colours of $5.1\le z<5.5$ quasars are similar to those of M
+and L dwarf stars, resulting in a low and uncertain selection
+efficiency \citep{2013ApJ...768..105M}. WISE mid-infrared selection
+performs better \citep{2016ApJ...829...33Y}, but is restricted to the
+bright end of the quasar population. Our combined sample contains the
+remaining 28 quasars from \citet{2016ApJ...829...33Y} and 10 quasars
+from the \citet{2013ApJ...768..105M} Stripe~82 survey. As we will show
+in Section~XX, the resulting QLF is consistent with those at lower and
+higher redshifts, indicating that the \citet{2013ApJ...768..105M}
+selection functions are quite reliable. \textbf{Check this!}
 
-Finally, we combined the samples from all spectroscopic $z\sim 6$ quasar surveys with a determined selection function as of June 2017. \citet{2016ApJ...833..222J} recently compiled all quasars discovered in several SDSS $z\sim 6$ surveys together with consistently derived selection functions. Their uniform sample consists of 24 quasars from the SDSS main survey (11240\,deg$^2$), 10 additional quasars in regions with two or more SDSS imaging scans (so-called overlap regions, 4223\,deg$^2$), and 13 faint quasars from SDSS Stripe~82 (277\,deg$^2$). The CFHQS \citep{2010AJ....139..906W} provided a uniform sample of 16 quasars in the Very Wide Survey (494\,deg$^2$) and a single quasar in the Deep Survey ($4.47$\,deg$^2$). The one quasar detected in both SDSS and CFHQS does not lead to underestimated statistical errors in the QLF. Lastly, we included the two objects from \citet{2015ApJ...798...28K}. One might be a Lyman break galaxy due to its narrow Ly$\alpha$ emission line (half width at half maximum 427\,km\,s$^{-1}$), but \citet{2015ApJ...798...28K} note that 10/17 candidates do not have follow-up spectroscopy, hence their QLF may be underestimated. Since very small samples preclude a statistical correction via the selection function, complete spectroscopic follow-up of $z\sim 6$ candidates is essential. Although we will account for the slightly different redshift sensitivities for the different surveys, we will quote a nominal redshift range $5.7<z<6.5$ for the combined $z\sim 6$ sample.
-
+Finally, we combined the samples from all spectroscopic $z\sim 6$
+quasar surveys with a determined selection function as of June
+2017. \citet{2016ApJ...833..222J} recently compiled all quasars
+discovered in several SDSS $z\sim 6$ surveys together with
+consistently derived selection functions. Their uniform sample
+consists of 24 quasars from the SDSS main survey (11240\,deg$^2$), 10
+additional quasars in regions with two or more SDSS imaging scans
+(so-called overlap regions, 4223\,deg$^2$), and 13 faint quasars from
+SDSS Stripe~82 (277\,deg$^2$). The CFHQS \citep{2010AJ....139..906W}
+provided a uniform sample of 16 quasars in the Very Wide Survey
+(494\,deg$^2$) and a single quasar in the Deep Survey
+($4.47$\,deg$^2$). The one quasar detected in both SDSS and CFHQS does
+not lead to underestimated statistical errors in the QLF. Lastly, we
+included the two objects from \citet{2015ApJ...798...28K}. One might
+be a Lyman break galaxy due to its narrow Ly$\alpha$ emission line
+(half width at half maximum 427\,km\,s$^{-1}$), but
+\citet{2015ApJ...798...28K} note that 10/17 candidates do not have
+follow-up spectroscopy, hence their QLF may be underestimated. Since
+very small samples preclude a statistical correction via the selection
+function, complete spectroscopic follow-up of $z\sim 6$ candidates is
+essential. Although we will account for the slightly different
+redshift sensitivities for the different surveys, we will quote a
+nominal redshift range $5.7<z<6.5$ for the combined $z\sim 6$ sample.
 
 \begin{figure*}
   \begin{center}
@@ -284,6 +425,8 @@ Finally, we combined the samples from all spectroscopic $z\sim 6$ quasar surveys
     17. & 10 & 6.0 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 & \\
     18. & 10 & 5.9--6.4 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 & \\
     19. & 11 & 6.0--6.2 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 & \\
+    20. & 19 & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 & \\
+    21. & 19 & 6.5--7.4 & UKIDSS & \citet{2007MNRAS.376L..76V} & 1 & 3370.0 & \\
   \end{tabular}
 \end{table*}
 
@@ -301,20 +444,115 @@ Finally, we combined the samples from all spectroscopic $z\sim 6$ quasar surveys
   \label{fig:kcorr}
 \end{figure}
 
-For a joint fit of the QLF it is necessary to homogenise the different survey samples in absolute magnitude, and to convert their selection functions to the same absolute magnitude system. For the analysis of the quasar UV emissivity and to be consistent with published work at $z>3$ we chose to convert all samples and selection functions to the absolute AB magnitude at a rest frame wavelength $\lambda=1450$\,\AA
+For a joint fit of the QLF it is necessary to homogenise the different
+survey samples in absolute magnitude, and to convert their selection
+functions to the same absolute magnitude system. For the analysis of
+the quasar UV emissivity and to be consistent with published work at
+$z>3$ we chose to convert all samples and selection functions to the
+absolute AB magnitude at a rest frame wavelength $\lambda=1450$\,\AA
 \begin{equation}\label{eq:absmag}
 M_{1450}\left(z\right) = m-5\log{\left(\frac{d_L\left(z\right)}{\mathrm{Mpc}}\right)}-25-K_{m,1450}\left(z\right),
 \end{equation}
-with the luminosity distance $d_L\left(z\right)$ to a quasar at redshift $z$, the apparent magnitude $m$ in a filter used in the survey, and the bandpass correction $K_{m,1450}\left(z\right)$ \citep{1956AJ.....61...97H, 1968ApJ...154...21O, 2000A&A...353..861W, 2002astro.ph.10394H}. For the bandpass correction we used a combination of the \citet{2015MNRAS.449.4204L} quasar SED at $\lambda<2500$\,\AA, and the \citet{2001AJ....122..549V} quasar composite spectrum at longer wavelengths to cover the lowest redshifts. 
-The samples from SDSS and BOSS are defined in the SDSS $i$ band, while 2SLAQ is defined in the $g$ band. At $z>4.7$ we adopted the SDSS $z$ band magnitude (in the following denoted $z_\mathrm{AB}$) for SDSS DR7 quasars to avoid additional corrections due to the Ly$\alpha$ forest. Figure~\ref{fig:kcorr} shows our bandpass corrections for SDSS, BOSS and 2SLAQ as a function of redshift. We ignored the luminosity dependence of the bandpass correction due to the known anticorrelation of emission line equivalent width and luminosity \citep{1977ApJ...214..679B}.  While the \citet{2015MNRAS.449.4204L} SED is for luminous ($M_{1450}\simeq -27.2$) quasars, UV composite spectra including fainter quasars \citep{2002ApJ...565..773T, 2012ApJ...752..162S, 2014ApJ...794...75S} give similar values, such that our bandpass corrections remain applicable at $M_{1450}\la -24$. Empirical luminosity-dependent bandpass corrections show a $\la 0.2$\,mag variation over $\sim 4$ orders of absolute magnitude depending on redshift and the filter, and with a $\sim 0.2$\,mag intrinsic scatter due to individual SED variations \citep{2013ApJ...773...14R, 2013ApJ...768..105M, 2013A&A...551A..29P}. 
+with the luminosity distance $d_L\left(z\right)$ to a quasar at
+redshift $z$, the apparent magnitude $m$ in a filter used in the
+survey, and the bandpass correction $K_{m,1450}\left(z\right)$
+\citep{1956AJ.....61...97H, 1968ApJ...154...21O, 2000A&A...353..861W,
+  2002astro.ph.10394H}. For the bandpass correction we used a
+combination of the \citet{2015MNRAS.449.4204L} quasar SED at
+$\lambda<2500$\,\AA, and the \citet{2001AJ....122..549V} quasar
+composite spectrum at longer wavelengths to cover the lowest
+redshifts.  The samples from SDSS and BOSS are defined in the SDSS $i$
+band, while 2SLAQ is defined in the $g$ band. At $z>4.7$ we adopted
+the SDSS $z$ band magnitude (in the following denoted $z_\mathrm{AB}$)
+for SDSS DR7 quasars to avoid additional corrections due to the
+Ly$\alpha$ forest. Figure~\ref{fig:kcorr} shows our bandpass
+corrections for SDSS, BOSS and 2SLAQ as a function of redshift. We
+ignored the luminosity dependence of the bandpass correction due to
+the known anticorrelation of emission line equivalent width and
+luminosity \citep{1977ApJ...214..679B}.  While the
+\citet{2015MNRAS.449.4204L} SED is for luminous ($M_{1450}\simeq
+-27.2$) quasars, UV composite spectra including fainter quasars
+\citep{2002ApJ...565..773T, 2012ApJ...752..162S, 2014ApJ...794...75S}
+give similar values, such that our bandpass corrections remain
+applicable at $M_{1450}\la -24$. Empirical luminosity-dependent
+bandpass corrections show a $\la 0.2$\,mag variation over $\sim 4$
+orders of absolute magnitude depending on redshift and the filter, and
+with a $\sim 0.2$\,mag intrinsic scatter due to individual SED
+variations \citep{2013ApJ...773...14R, 2013ApJ...768..105M,
+  2013A&A...551A..29P}.
 
-For the $z<2.2$ sample we corrected the SDSS $i$ and 2SLAQ $g$ band magnitudes for host galaxy contamination following \citet{2009MNRAS.392...19C}. Considering the different magnitude limits of 2SLAQ and SDSS, the modelled host galaxy contamination is small for $z>0.5$ quasars ($<0.1$\,mag in $g$, $<0.2$\,mag in $i$), and is negligible at $z>0.8$.
-In case the band defining the magnitude limit of the survey undesirably overlaps with the Ly$\alpha$ forest \citep{2010ApJ...710.1498G, 2011ApJ...728L..26G, 2013ApJ...768..105M} we adopted their respective bandpass corrections to $M_{1450}$. In particular, for the \citet{2010ApJ...710.1498G, 2011ApJ...728L..26G} sample we recomputed $M_{1450}$ from the $R$ band photometry to be consistent with the selection function defined in $R$, and to avoid uncertainties in their spectrophotometry due to incomplete spectral coverage. Since the \citet{2010ApJ...710.1498G, 2011ApJ...728L..26G} $R$ band traces the rest frame UV, we assumed negligible host galaxy contamination for their faint quasars. For the remaining high-redshift surveys reporting $M_{1450}$ obtained by various methods \citep{2010AJ....139..906W, 2015ApJ...798...28K, 2015AA...578A..83G, 2016ApJ...829...33Y, 2016ApJ...833..222J} we did not re-compute $M_{1450}$, but applied appropriate shifts to correct to our adopted cosmology.
+For the $z<2.2$ sample we corrected the SDSS $i$ and 2SLAQ $g$ band
+magnitudes for host galaxy contamination following
+\citet{2009MNRAS.392...19C}. Considering the different magnitude
+limits of 2SLAQ and SDSS, the modelled host galaxy contamination is
+small for $z>0.5$ quasars ($<0.1$\,mag in $g$, $<0.2$\,mag in $i$),
+and is negligible at $z>0.8$.  In case the band defining the magnitude
+limit of the survey undesirably overlaps with the Ly$\alpha$ forest
+\citep{2010ApJ...710.1498G, 2011ApJ...728L..26G, 2013ApJ...768..105M}
+we adopted their respective bandpass corrections to $M_{1450}$. In
+particular, for the \citet{2010ApJ...710.1498G, 2011ApJ...728L..26G}
+sample we recomputed $M_{1450}$ from the $R$ band photometry to be
+consistent with the selection function defined in $R$, and to avoid
+uncertainties in their spectrophotometry due to incomplete spectral
+coverage. Since the \citet{2010ApJ...710.1498G, 2011ApJ...728L..26G}
+$R$ band traces the rest frame UV, we assumed negligible host galaxy
+contamination for their faint quasars. For the remaining high-redshift
+surveys reporting $M_{1450}$ obtained by various methods
+\citep{2010AJ....139..906W, 2015ApJ...798...28K, 2015AA...578A..83G,
+  2016ApJ...829...33Y, 2016ApJ...833..222J} we did not re-compute
+$M_{1450}$, but applied appropriate shifts to correct to our adopted
+cosmology.
 
-The selection functions were treated similarly, i.e.\ the photometric selection function of survey $j$ given in observed magnitudes $f_{\mathrm{p},j}\left(m,z\right)$ \citep{2006AJ....131.2766R, 2009MNRAS.392...19C, 2010ApJ...710.1498G, 2013ApJ...773...14R} was transformed to our absolute magnitudes $f_{\mathrm{p},j}\left(M_{1450},z\right)$ with Equation~\ref{eq:absmag}, while the ones given in $M_{1450}$ were adjusted to our cosmology. Note, however, that many surveys report additional sources of incompleteness that preclude a straightforward re-evaluation of the QLF. 
+The selection functions were treated similarly, i.e.\ the photometric
+selection function of survey $j$ given in observed magnitudes
+$f_{\mathrm{p},j}\left(m,z\right)$ \citep{2006AJ....131.2766R,
+  2009MNRAS.392...19C, 2010ApJ...710.1498G, 2013ApJ...773...14R} was
+transformed to our absolute magnitudes
+$f_{\mathrm{p},j}\left(M_{1450},z\right)$ with
+Equation~\ref{eq:absmag}, while the ones given in $M_{1450}$ were
+adjusted to our cosmology. Note, however, that many surveys report
+additional sources of incompleteness that preclude a straightforward
+re-evaluation of the QLF.
 
-For 2SLAQ we corrected for magnitude-dependent spectroscopic coverage in the two survey areas \citep[$f_\mathrm{c,NGP}\left(g\right)$ and $f_\mathrm{c,SGP}\left(g\right)$; Figure~4 in][]{2009MNRAS.392...19C} and spectroscopic redshift success \citep[$f_\mathrm{s,2SLAQ}\left(g\right)$; Figure~6b in][]{2009MNRAS.392...19C} by multiplying them with the photometric selection function, resulting in two area-specific 2SLAQ selection functions $f_\mathrm{NGP}\left(M_{1450},z\right)=f_\mathrm{p,2SLAQ}f_\mathrm{c,NGP}f_\mathrm{s,2SLAQ}$ and $f_\mathrm{SGP}\left(M_{1450},z\right)=f_\mathrm{p,2SLAQ}f_\mathrm{c,SGP}f_\mathrm{s,2SLAQ}$ that are relevant for the QLF.
-The $z<4.7$ SDSS photometric selection function was modified to include known imaging incompleteness to $f_{\mathrm{SDSS},z<4.7}=0.95f_{\mathrm{p,SDSS},z<4.7}$ \citep{2006AJ....131.2766R}. The BOSS colour-selected sample contains quasars with $f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}\ge 0.85$ \citep{2013ApJ...773...14R}, and we adopted $f_\mathrm{BOSS}=\overline{f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}}f_\mathrm{p,BOSS}=0.962f_\mathrm{p,BOSS}$. \citet{2010ApJ...710.1498G} presented two area-specific photometric selection functions due to different filters employed, and more follow-up spectroscopy was reported in \citet{2011ApJ...728L..26G}. We accounted for remaining spectroscopic incompleteness at $R>23$, yielding the final selection functions $f_\mathrm{NDWFS}$ and $f_\mathrm{DLS}$. The updated $z\sim 5$ SDSS photometric selection function \citep{2013ApJ...768..105M} was modified to include imaging and spectroscopic incompleteness, yielding $f_{\mathrm{SDSS},z\sim 5}=0.95^2f_{\mathrm{p,SDSS},z\sim 5}$. In the deeper $z\sim 5$ SDSS Stripe~82 survey the spectroscopic incompleteness is larger and magnitude-dependent \citep[Figure~14 in][]{2013ApJ...768..105M}, resulting in $f_{\mathrm{S82},z\sim 5}=0.95f_{\mathrm{s,S82},z\sim 5}\left(i\right)f_{\mathrm{p,S82},z\sim 5}$. Likewise, imaging and magnitude-dependent spectroscopic incompleteness was factored into the \citet{2016ApJ...829...33Y} photometric selection function (their Figures~5 and 7), resulting in $f_\mathrm{SDSS+WISE}=0.97f_\mathrm{s,SDSS+WISE}\left(z_\mathrm{AB}\right)f_\mathrm{p,SDSS+WISE}$. Finally, we obtained a rough estimate of the \citet{2015AA...578A..83G} selection function by comparing the corrected and observed QLFs, i.e.\ taking $f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$ (see their Table~3).
+For 2SLAQ we corrected for magnitude-dependent spectroscopic coverage
+in the two survey areas \citep[$f_\mathrm{c,NGP}\left(g\right)$ and
+  $f_\mathrm{c,SGP}\left(g\right)$; Figure~4
+  in][]{2009MNRAS.392...19C} and spectroscopic redshift success
+\citep[$f_\mathrm{s,2SLAQ}\left(g\right)$; Figure~6b
+  in][]{2009MNRAS.392...19C} by multiplying them with the photometric
+selection function, resulting in two area-specific 2SLAQ selection
+functions
+$f_\mathrm{NGP}\left(M_{1450},z\right)=f_\mathrm{p,2SLAQ}f_\mathrm{c,NGP}f_\mathrm{s,2SLAQ}$
+and
+$f_\mathrm{SGP}\left(M_{1450},z\right)=f_\mathrm{p,2SLAQ}f_\mathrm{c,SGP}f_\mathrm{s,2SLAQ}$
+that are relevant for the QLF.  The $z<4.7$ SDSS photometric selection
+function was modified to include known imaging incompleteness to
+$f_{\mathrm{SDSS},z<4.7}=0.95f_{\mathrm{p,SDSS},z<4.7}$
+\citep{2006AJ....131.2766R}. The BOSS colour-selected sample contains
+quasars with $f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}\ge 0.85$
+\citep{2013ApJ...773...14R}, and we adopted
+$f_\mathrm{BOSS}=\overline{f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}}f_\mathrm{p,BOSS}=0.962f_\mathrm{p,BOSS}$. \citet{2010ApJ...710.1498G}
+presented two area-specific photometric selection functions due to
+different filters employed, and more follow-up spectroscopy was
+reported in \citet{2011ApJ...728L..26G}. We accounted for remaining
+spectroscopic incompleteness at $R>23$, yielding the final selection
+functions $f_\mathrm{NDWFS}$ and $f_\mathrm{DLS}$. The updated $z\sim
+5$ SDSS photometric selection function \citep{2013ApJ...768..105M} was
+modified to include imaging and spectroscopic incompleteness, yielding
+$f_{\mathrm{SDSS},z\sim 5}=0.95^2f_{\mathrm{p,SDSS},z\sim 5}$. In the
+deeper $z\sim 5$ SDSS Stripe~82 survey the spectroscopic
+incompleteness is larger and magnitude-dependent \citep[Figure~14
+  in][]{2013ApJ...768..105M}, resulting in $f_{\mathrm{S82},z\sim
+  5}=0.95f_{\mathrm{s,S82},z\sim
+  5}\left(i\right)f_{\mathrm{p,S82},z\sim 5}$. Likewise, imaging and
+magnitude-dependent spectroscopic incompleteness was factored into the
+\citet{2016ApJ...829...33Y} photometric selection function (their
+Figures~5 and 7), resulting in
+$f_\mathrm{SDSS+WISE}=0.97f_\mathrm{s,SDSS+WISE}\left(z_\mathrm{AB}\right)f_\mathrm{p,SDSS+WISE}$. Finally,
+we obtained a rough estimate of the \citet{2015AA...578A..83G}
+selection function by comparing the corrected and observed QLFs,
+i.e.\ taking $f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$
+(see their Table~3).
 
 
 % BOSS:
@@ -351,6 +589,15 @@ The $z<4.7$ SDSS photometric selection function was modified to include known im
 
 \section{Luminosity function}
 
+Given quasar luminosities and estimates for survey completeness, we
+begin our analysis by first deriving luminosity functions binned both
+in redshift and magnitude.  In this discussion all magnitudes are
+absolute magnitudes at rest-frame 1450~{\AA}.
+
+% Put that sentence about magnitudes in the introduction.
+
+\subsection{Binned luminosity function estimates}
+
 In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   bin $[z_\mathrm{min}, z_\mathrm{max})$, we define the luminosity
     function as \citep{2000MNRAS.311..433P}
@@ -367,18 +614,20 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   is the effective volume of the bin.  Here $f(M,z)$ is the quasar
   selection probability, which includes incompleteness.  Inclusion of
   the selection probability in Equation~(\ref{eqn:vi}) accounts for
-  what have been referred to as ``incomplete bins'' in the literature.
-  The comoving volume element $dV/dz$ is given by
+  what are sometimes called ``incomplete bins''
+  \citep{2006AJ....131.2766R}.  The comoving volume element $dV/dz$ is
+  given by
   \begin{equation}
     \frac{dV}{dz}=\frac{dV}{dz\,d\Omega}\cdot A\cdot\frac{4\pi}{41253},
   \end{equation}
-  where $A$ is the survey area in deg$^2$, and \citep{1999astro.ph..5116H}
+  where $A$ is the survey area in deg$^2$, and 
   \begin{equation}
     \frac{dV}{dz\,d\Omega}=\frac{c}{H_0}\frac{d_L(z)^2}{(1+z)^2\sqrt{\Omega_m(1+z)^3+\Omega_\Lambda}},
     \label{eqn:dvdzdo}
   \end{equation}
-  denotes the comoving volume element per unit solid angle.  The
-  luminosity distance $d_L$ is given by
+  denotes the comoving volume element per unit solid angle
+  \citep{1999astro.ph..5116H}.  The luminosity distance $d_L$ is given
+  by
   \begin{equation}
     d_L(z)=(1+z)\frac{c}{H_0}\int_0^z\frac{dz}{\sqrt{\Omega_m(1+z)^3+\Omega_\Lambda}}.
     \label{eqn:dl}
@@ -387,58 +636,382 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   Universe ($\Omega_k=0$).  The luminosity function $\phi$ has units
   of $\mathrm{cMpc}^{-3}\mathrm{mag}^{-1}$.  We evaluate the double
   integral in Equation~(\ref{eqn:vi}) by the Euler method, i.e., by
-  simply summing over the ``tiles'' of the selection function map.  We
-  do not interpolate between the redshift and luminosity values of
+  simply summing over the ``tiles'' of the selection function map,
+  without interpolating between the redshift and luminosity values of
   neighbouring tiles.  This may result in $V_i=0$ for some quasars, in
-  which case we remove them from our analysis.  Figure~\ref{fig:boss}
-  shows the luminosity function derived in this way for the BOSS DR9
-  colour-selected sample of 23,301 quasars, in comparison with the
-  published luminosity function of \citet{2013ApJ...773...14R}.
-  Figure~\ref{fig:sdss} shows the luminosity function of a sample of
-  15,179 quasars from the SDSS DR3 in comparison with the published
-  luminosity function of \citet{2006AJ....131.2766R}.
+  which case we remove them from our analysis.
 
-  % Describe how we derive error bars.
+  In each bin, we estimate the uncertainty in the luminosity function
+  by assuming Poisson statistics \citep{1986ApJ...303..336G}.  The
+  resultant binned luminosity function estimates are shown by the
+  points in Figure~\ref{fig:mosaic}.  These agree quite well with the
+  published luminosity functions by these surveys.
 
-  \section{Fitting procedure}
+  % Do we want to give the details of how good/bad this agreement
+  % actually is?
+  
+  %% Figure~\ref{fig:boss}
+  %% shows the luminosity function derived in this way for the BOSS DR9
+  %% colour-selected sample of 23,301 quasars, in comparison with the
+  %% published luminosity function of \citet{2013ApJ...773...14R}.
+  %% Figure~\ref{fig:sdss} shows the luminosity function of a sample of
+  %% 15,179 quasars from the SDSS DR3 in comparison with the published
+  %% luminosity function of \citet{2006AJ....131.2766R}.
 
-  We model the quasar luminosity function as a double power law given
-  by \citep{1988MNRAS.235..935B, 1995ApJ...438..623P, 2000MNRAS.317.1014B}
-  \begin{equation}
-    \phi(M) = \frac{\phi_*}{10^{0.4(\alpha+1)(M-M_*)}+10^{0.4(\beta+1)(M-M_*)}},
-\label{eqn:dpl}
+
+\begin{figure*}
+  \begin{center}
+    % \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
+    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small.pdf}
+  \end{center}
+  \caption{Luminosity function estimates from $z=0.3$ to $2.6$.  The
+    symbols show our inferred binned luminosity functions.  In each
+    redshift bin, the black curve shows the best-fit double power law
+    model, which is represented by the median of the posterior
+    probability distribution function.  Yellow curves show a random
+    draw from the posterior probability distribution function.  As
+    discussed in the text, luminosity bins that show a decrease in the
+    luminosity function at the faint end are deemed to be incomplete
+    are are removed from our analysis while fitting the double power
+    law model.  These bins are represented by open symbols in this
+    figure.  Each panel shows the number of quasars in the respective
+    redshift bin.  The number in parenthesis indicates the total
+    number of quasars in the bin, before excluding incomplete
+    bins.}
+  \label{fig:mosaic}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
+  \end{center}
+  \caption{Parameter evolution from individual fits in
+    Figures~\ref{fig:mosaic}.  Parameters from BOSS quasars are seen
+    to be systematically offset.}
+  \label{fig:evoln}
+\end{figure*}
+
+\subsection{Luminosity function estimates in redshift bins}
+
+As our next step, we stop binning the quasars in luminosity, and only
+bin them in redshifts.  In each redshift bin, we model the quasar
+luminosity function as a double power law given by
+\citep{1988MNRAS.235..935B, 1995ApJ...438..623P, 2000MNRAS.317.1014B}
+\begin{equation}
+  \phi(M) =
+  \frac{\phi_*}{10^{0.4(\alpha+1)(M-M_*)}+10^{0.4(\beta+1)(M-M_*)}}.
+  \label{eqn:dpl}
 \end{equation}
-where all magnitudes are absolute magnitudes at rest-frame 1450~{\AA}.  
-The luminosity function $\phi$ gives the comoving number density of
-quasars per unit magnitude.  It usually has units of
-mag$^{-1}$cMpc$^{-3}$.  Equation~(\ref{eqn:dpl}) has four free
-parameters: the amplitude $\phi_*$, the ``break'' $M_*$, the faint-end
-slope $\beta$, and the bright-end slope $\alpha$.  The likelihood
-function can be written as \citep{2001AJ....121...54F}
+Equation~(\ref{eqn:dpl}) has four free parameters: the amplitude
+$\phi_*$, the ``break'' $M_*$, the faint-end slope $\beta$, and the
+bright-end slope $\alpha$.  We obtain posterior probability
+distributions for these parameters using MCMC \citep[e.g.,][]{jaynes}.
+The joint posterior probability distribution of the model parameters
+is then written as
+\begin{multline}
+  p(\phi_*, M_*, \alpha, \beta | \{M_i, z_i\}) \propto \\ p(\phi_*, M_*, \alpha, \beta)p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta),
+\end{multline}
+where the constant of proportionality is independent of the luminosity
+function parameters, and $\{M_i, z_i\}$ denotes the magnitudes and
+redshifts of quasars falling in a redshift bin $[z_\mathrm{min},
+  z_\mathrm{max})$.  We use a uniform prior distribution $p(\phi_*,
+  M_*, \alpha, \beta)$ and assume that the likelihood
+\begin{equation}
+  \mathcal{L}\equiv p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta)
+\end{equation}
+is given by $\phi(M)$ with suitable normalisation.  The negative
+logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ can then be
+written as
+\begin{multline}
+  S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz}.
+  \label{eqn:S}
+\end{multline}
+where $N$ is the total number of quasars in the redshift bin and the
+luminosity integral in the second term on the right hand side is on
+the surveyed range of $M$.
+
+The above likelihood can also be understood as the limit of the
+Poisson likelihood in luminosity and redshift bins
+\citep{1983ApJ...269...35M, 2001AJ....121...54F}.  We can write the
+probability of observing $n_{ij}$ quasars in the $(M_i, z_j)$ bin as
+the Poisson distribution
 \begin{equation}
   \mathcal{L}=\prod_{i,j}\frac{e^{-\mu_{ij}}\mu_{ij}^{n_{ij}}}{n_{ij}!},
   \label{eqn:lhood}
 \end{equation}
-where $n_{ij}$ is the number of quasars observed in the $(M_i, z_j)$
-bin, and
+where 
 \begin{equation}
-  \mu_{ij}= \int_{M_i}^{M_{i+1}}dM\int_{z_i}^{z_{i+1}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
+  \mu_{ij}= \int_{M_i}^{M_{i+1}}dM\int_{z_j}^{z_{j+1}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
 \end{equation}
 is the average number of quasars expected in the $(M_i, z_j)$ bin
-given the luminosity function $\phi(M,z)$.  To obtain the maximum
-likelihood solution for the luminosity functin parameters, we minimise
-the function
+given the luminosity function $\phi(M,z)$.  In the limit of
+infinitesimal bins, $n_{ij}=0$ or $1$, Equation~(\ref{eqn:lhood}) can
+be simplified and we get Equation~(\ref{eqn:S}).
+
+Our estimates for the luminosity function in several redshift bins are
+shown in Figure~\ref{fig:mosaic}.  The median of the posterior is
+shown as the best fit model.  Yellow curves show a random draw from
+the posterior.  Consistent with previous studies, the double power law
+model provides an excellent description of the luminosity function
+model over almost the complete range of redshifts spanned by the data.
+It is only in the highest redshift bin ($z=5.5$--$6.5$) that the data
+seem to favour a single power law.  In this bin, we the resultant
+posterior distribution of the break magnitude $M_*$ is bimodal with
+favoured values at the faint ($M_*>-18$) and bright end of the data
+($M_*<-30$).  We consider only the latter possibility as consistent
+with the data at lower redshifts ($z<5.5$).  In light of the low
+redshift data, we use restricted priors in this redshift bins: we
+restrict the bright-end slope $\alpha$ to values less than $-4$.
+Other paramters continue to have wide uniform priors.
+
+As seen in Figure~\ref{fig:mosaic}, in several redshift bins the
+binned quasar luminosity function seems to show a decline at the faint
+end.  This is clearly seen, for example, in the 2SLAQ sample at $z<2$.
+We take this to be a systematic error: the decrease in the luminosity
+function is an indication of incompleteness in the quasar surveys that
+has not been accounted for by the reported completeness map.  We
+choose to discard such quasars from our analysis.  This behaviour is
+also seen in the SDSS quasar sample at $z<1.8$ and $z\sim 4$.  The
+discarded luminosity bins are shown in Figure~\ref{fig:mosaic} by open
+circles.  We can see that the surviving quasar sample is in excellent
+agreement with the double power law model at all redshifts.
+
+The values of the four double power law parameters in various redshift
+bins are shown in Figure~\ref{fig:evoln}.  We find interesting
+evolutionary trends in each of the four parameters.  The break
+luminosity $M_*$ evolves by more than eight magnitudes from redshift
+$z=0$ to $7$.  The amplitude of the luminosity function $\phi_*$
+evolves moderately from $z=0$ to $z\sim 3$ and then drops by six
+orders of magnitude to about $10^{-12}$ at $z\sim 7$.  The bright end
+slope $\alpha$ has significant scatter, but still shows a trend
+towards larger negative values---that is, steeper bright-end
+luminosity functions---at high redshifts.  Finally, the faint end of
+the luminosity function also shows signs of increasing steepness
+towards high redshifts.  Somewhat similar to the amplitude $\phi_*$,
+the faint-end slope $\beta$ also shows a break at $z\sim 3$.  It stays
+roughly constant up to this redshift, and the drops to increasingly
+negative values at high redshifts, indicating a steeper faint end.
+
+The behaviour of BOSS quasars in Figure~\ref{fig:evoln} is striking.
+In the redshift range covered by BOSS the values of the four double
+power law parameters deviate from the general trends.  The faint end
+of the luminosity function of the BOSS quasars is much shallower and
+the break luminosity is fainter by a magnitude.  The bright end of the
+luminosity function of quasars in this sample is also much flatter
+than that for other samples.  The conspicuousness of the deviation of
+the BOSS sample from the general trends makes it unlikely that the
+luminosity function evolution indicated by BOSS in the redshift range
+$z=2$--$3$ is physical.  Indeed, in this redshift range BOSS quasar
+selection is known to be affected by a colour bias
+\citep{2011ApJ...728...23W}, as the quasar colour selection is
+contaminated by a population of blue stars.  We therefore deem the
+BOSS sample as affected by this systematic error.
+
+The open circles in Figure~\ref{fig:evoln} show the results of a
+similar analysis of the quasar UV luminosity function by
+\citep{2017MNRAS.466.1160M}.  Evidently, our results are quite
+different from the results of these authors.  While their analysis
+generally also reveals a steep faint end slop, the break luminosity
+evolution is dramatically different.  In their analysis the break
+luminosity tends to remain roughly constant $M_*\sim -24$ from $z=0$
+to $7$, but this does not seem to be indicated by the data shown in
+Figure~\ref{fig:mosaic}.  A possible reason behind their significanly
+different results could be a bias introduced by binning in
+luminosities and redshifts while fitting the luminosity function model.
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small_global.pdf}
+  \end{center}
+  \caption{Luminosity function estimates from $z=0.3$ to $2.6$.
+    Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
+    binned luminosity functions.  In each redshift bin, the yellow
+    curves show the best-fit double power law luminosity function in
+    that redshift bin.  The green curves show the posterior
+    distribution of the global model.  The global model agrees very
+    well with the data in all redshift bins, except those spanned by
+    BOSS, as BOSS quasars are excluded from the global analysis.}
+  \label{fig:mosaic_global}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{evolution_global.pdf}
+  \end{center}
+  \caption{Luminosity function parameter evolution in the global
+    model.  The symbols show the best fit parameters with 68\%
+    uncertainties from the double power law fits to the data in
+    redshift bins.  These points are identical to those in
+    Figure~\ref{fig:evoln}, except that bins with BOSS qsos ($z\sim
+    2$--$3$) are not shown.  In each panel, the black solid curve
+    shows the best fit global model, and the coloured curves show a
+    random sample drawn from the global posterior.}
+  \label{fig:evoln_global}
+\end{figure*}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+  \end{center}
+  \caption{AGN number density evolution in the global model.  Similar
+    to Figure~\ref{fig:evoln_global}, symbols show the best fit
+    parameters with 68\% uncertainties from the double power law fits
+    to the data in redshift bins.  Black solid curve shows the best
+    fit global model, and the coloured curves show a random sample
+    drawn from the global posterior.  \textbf{[Show rejected bins in
+        differnt symbols here.  Do not show the $-18$ case.  Cut the
+        figure off at 6.5.]}}
+  \label{fig:rhoqso}
+\end{figure}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{LyC emissivity of AGN assuming 100\% escape fraction.
+    Model luminosity functions are integrated down to $M_{1450}=-18$
+    in the left panel and $-20$ in the right panel.}
+  \label{fig:e912}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{g_18.pdf}
+    \includegraphics[width=0.5\textwidth]{g_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{AGN contribution to the hydrogen photoionisation rate,
+    assuming 100\% escape fraction.  Model luminosity functions are
+    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
+    the right panel.}
+  \label{fig:gammapi}
+\end{figure*}
+
+\subsection{Luminosity function estimate without binning}
+
+The smooth evolution of the luminosity function parameters apparant in
+Figure~\ref{fig:evoln} suggests that it should be possible to describe
+the quasar UV luminosity function evolution from $z\sim 7$ to $0$
+using far fewer number of parameters.  Such descriptions have been put
+forward in the literature for the X-ray and bolometric luminosity
+functions \citep[e.g.,][]{2007ApJ...654..731H, 2015MNRAS.451.1892A}.
+Such ``global'' descriptions of the luminosity function evolution are
+useful as they give a continuous description of the luminosity
+function.  This makes them valuable while developing an understanding
+of the physics behind the luminosity function. We therefore obtain
+estimates of the luminosity function in which the evolution of the
+four parameters of the double power law models in
+Equation~(\ref{eqn:dpl}) is parameterised to write
+\begin{align}
+  &\phi_*(z) = f_0(\{c_{0,i}\}, z)\nonumber\\
+  &M_*(z) = f_1(\{c_{1,i}\}, z)\nonumber\\
+  &\alpha(z) = f_2(\{c_{2,i}\}, z)\nonumber\\
+  &\beta(z) = f_3(\{c_{3,i}\}, z),
+\label{eqn:global}
+\end{align}
+where the $c_i$'s are the new model parameters.  The joint posterior
+probability distribution of these parameters can be now written as
 \begin{equation}
-  S = -2\ln\mathcal{L}.
+  p(\{c_i\} | \{M_i, z_i\}) \propto p(\{c_i\})p(\{M_i, z_i\} | \{c_i\}),
 \end{equation}
-In the limit of infinitesimal bins, $n_{ij}=0$ or $1$, in which case
-Equation~(\ref{eqn:lhood}) can be simplified and we can write \citep{1983ApJ...269...35M}
+where the likelihood 
+\begin{equation}
+  \mathcal{L}\equiv p(\{M_i, z_i\} | \{c_i\}),
+\end{equation}
+is now given by $\phi(M,z)$ with suitable normalisation.  Note that
+$\phi(M,z)$ is simply 
+\begin{multline}
+  \phi(M,z) = \phi_*(z) \left[10^{0.4(\alpha(z)+1)(M-M_*(z))}\right. \\ \left.+ 10^{0.4(\beta(z)+1)(M-M_*(z))}\right]^{-1}.
+\end{multline}
+The ngative logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ is
+straightforward generalisation of Equation~(\ref{eqn:S}), so that
 \begin{multline}
   S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
+  \label{eqn:S2}
 \end{multline}
-where $N$ is the total number of quasars in the sample and the
-integral in the second term on the right hand side is now on the full
-range of $M$ and $z$.
+where now $N$ is the total number of quasars included in the analysis,
+and the integrals in the second term on the right-hand side are over
+the complete surveyed range of luminosity and redshift.
+
+We consider models in which the evolution of the four double power law
+parameter is modelled independently as in
+Equations~(\ref{eqn:global}).  This approach has been termed as
+``flexible double power law'' by \citet{2015MNRAS.451.1892A}.  For the
+parameters $\phi_*$, $M_*$ and $\alpha$ we assume that the functions
+$f_i$s in Equations~(\ref{eqn:global}) are Chebyshev polynomials in
+$1+z$.  Thus the functions $f_i$s are written as
+\begin{equation}
+  f_i=\sum_{j=0}^{n_i}c_{i,j}T_j(1+z),
+  \label{eqn:cbs}
+\end{equation}
+where $c_{i,j}$ are the parameters that appear in
+Equations~(\ref{eqn:global}) and $T_j(1+z)$ are Chebyshev polynomials
+of the first kind.  We try successively higher orders of Chebyshev
+polynomials in order to arrive at a good fit with the data.  We find
+that $\phi_*$, $M_*$ and $\alpha$ prefer quadratic, cubic, and linear
+evolutions in $1+z$.
+
+The faint-end slope $\beta$ seems to require a break in its evolution
+at $z\sim 3$, as discussed in the previous section.  As a result, it
+is difficult to model the evolution of $\beta$ using the Chebyshev
+expansion of Equation~(\ref{eqn:cbs}).  Instead, we consider a double
+power law model for $\beta$ and write
+\begin{equation}
+  f_3(1+z)=h+\frac{f_0}{10^{a*\zeta}+10^{b*\zeta}},
+\end{equation}
+where
+\begin{equation}
+  \zeta = \log_{10}\left(\frac{1+z}{1+z_0}\right),
+\end{equation}
+thus resulting in a five-parameter model with parameters $h$, $f_0$,
+$z_0$, $a$ and $b$.  The parameters $a$ and $b$ thus determine the low
+and high redshift slopes of this evolution, with a break at redshift
+$z_0$.  This is similar to the model of \citet{2007ApJ...654..731H},
+who also favoured a broken power law model for the evolution of the
+faint-end slope of the bolometric luminosity function of quasars.
+
+Our resultant 14-parameter global model for the luminosity function
+evolution in shown in Figure~\ref{fig:mosaic_global}, in which the
+green curves show a random draw from the posterior probability
+distibution function.  For comparison, the symbols show the luminosity
+function binned in luminosity and redshift, and the yellow curves show
+the posterior distribution of the double power law luminosity
+functions in various redshift bins, as in Figure~\ref{fig:mosaic}.  We
+find that the global model is in excellent agreement with the binned
+models.  The agreement is poor for the BOSS quasars as these are not
+described by the global model, as discussed in the previous section.
+
+Figure~\ref{fig:evoln_global} shows the parameter evolution in the
+global model, by comparing it with the results from the fits in
+individual redshift bins shown in Figure~\ref{fig:evoln}.  The
+agreement between the two models is very good, showing an evolution
+towards a steep faint-end slope of the luminosity function at high
+redshifts, a rapid brightening of the break luminosity.  Note that the
+redshift bins with BOSS qsos are not shown in
+Figure~\ref{fig:evoln_global}, which explains the difference from
+Figure~\ref{fig:evoln}.
+
+The evolution of the comoving number density of quasars is shown in
+Figure~\ref{fig:rhoqso} when the luminosity function is integrated
+down to different limits.  Similar to Figure~\ref{fig:evoln_global},
+symbols show the best fit parameters with 68\% uncertainties from the
+double power law fits to the data in redshift bins.  Black solid curve
+shows the best fit global model, and the coloured curves show a random
+sample drawn from the global posterior.  Bins with BOSS qsos are not
+shown.  The number density of qsos down to the limit of spectroscopic
+data is about 1 per $10^5$ cMpc$^3$ at its peak.  This density rapidly
+increases at low redshifts and then drops gradually at high redshifts.
+Figure~\ref{fig:rhoqso} also shows the familiar downsizing feature in
+which the number density of faint qsos peaks are lower redshifts than
+that of the bright qsos.  While the number density of qsos with
+$M_*<-27$ peaks at $z\sim 2.5$, the number density of qsos with
+$M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
+spectroscopic data exist, $M_*<-21$, the number density of qsos peaks
+at $z\sim 1$.
 
 \section{Hydrogen photoionization rate}
 
@@ -600,44 +1173,44 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 
 
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{boss.pdf}
-  \end{center}
-  \caption{Comparison of LF derived by our method with the published
-    LF of \citet{2013ApJ...773...14R} for the BOSS DR9 color-selected
-    sample. There are 23,301 quasars in this sample ($2.2<z<3.5$).  Of
-    these, 231 quasars have $V_i=0$ and are dropped from the
-    analysis.}
-  \label{fig:boss}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{boss.pdf}
+%%   \end{center}
+%%   \caption{Comparison of LF derived by our method with the published
+%%     LF of \citet{2013ApJ...773...14R} for the BOSS DR9 color-selected
+%%     sample. There are 23,301 quasars in this sample ($2.2<z<3.5$).  Of
+%%     these, 231 quasars have $V_i=0$ and are dropped from the
+%%     analysis.}
+%%   \label{fig:boss}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{sdss.pdf}
-  \end{center}
-  \caption{Comparison with the published LF of
-    \citet{2006AJ....131.2766R} for SDSS DR3.  There are 15,343
-    quasars in this sample, of which 155 quasars have $z<0.3$ and 9
-    quasars have $z>5$.  Of the remaining 15179 quasars with
-    $0.3<z<5$, 60 quasars have $V_i=0$ and are dropped from the
-    analysis.  As a result, the green points above contain 15,119
-    quasars.  The red circles contain 14,953 quasars.}
-  \label{fig:sdss}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{sdss.pdf}
+%%   \end{center}
+%%   \caption{Comparison with the published LF of
+%%     \citet{2006AJ....131.2766R} for SDSS DR3.  There are 15,343
+%%     quasars in this sample, of which 155 quasars have $z<0.3$ and 9
+%%     quasars have $z>5$.  Of the remaining 15179 quasars with
+%%     $0.3<z<5$, 60 quasars have $V_i=0$ and are dropped from the
+%%     analysis.  As a result, the green points above contain 15,119
+%%     quasars.  The red circles contain 14,953 quasars.}
+%%   \label{fig:sdss}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{mcgreer.pdf}
-  \end{center}
-  \caption{Comparison with the published LF of
-    \citet{2013ApJ...768..105M} for $4.7\leq z<5.1$.  There are 148
-    quasars in their DR7 sample and 52 quasars in the Stripe 82
-    sample. Of these 1 quasar from the Stripe 82 sample has $V_i=0$.
-    The published samples of \citet{2013ApJ...768..105M} have 146 and
-    51 quasars.}
-  \label{fig:mcgreer}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{mcgreer.pdf}
+%%   \end{center}
+%%   \caption{Comparison with the published LF of
+%%     \citet{2013ApJ...768..105M} for $4.7\leq z<5.1$.  There are 148
+%%     quasars in their DR7 sample and 52 quasars in the Stripe 82
+%%     sample. Of these 1 quasar from the Stripe 82 sample has $V_i=0$.
+%%     The published samples of \citet{2013ApJ...768..105M} have 146 and
+%%     51 quasars.}
+%%   \label{fig:mcgreer}
+%% \end{figure*}
 
 %% \begin{figure*}
 %%   \begin{center}
@@ -649,144 +1222,99 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 %%   \label{fig:mcgreer}
 %% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{glikman3.pdf}
-  \end{center}
-  \caption{Attempts at reproducing Glikman's published LF.  Panels (a)
-    and (b) use her volume calculations.  Panels (c)--(e) use our
-    volume calculations.  Various corrections incorporated by Gabor
-    are in panels (c)--(e).  Red open circles in all panels are
-    Glikman's published values; I cannot reproduce them in any of the
-    panels.  All luminosity function in this version of the draft use
-    Gabor's October data from panel (d).}
-  \label{fig:glikman}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth]{glikman3.pdf}
+%%   \end{center}
+%%   \caption{Attempts at reproducing Glikman's published LF.  Panels (a)
+%%     and (b) use her volume calculations.  Panels (c)--(e) use our
+%%     volume calculations.  Various corrections incorporated by Gabor
+%%     are in panels (c)--(e).  Red open circles in all panels are
+%%     Glikman's published values; I cannot reproduce them in any of the
+%%     panels.  All luminosity function in this version of the draft use
+%%     Gabor's October data from panel (d).}
+%%   \label{fig:glikman}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{giallongo2.pdf}
-  \end{center}
-  \caption{Giallongo's LF when selection function is taken to be
-    $\phi_\mathrm{corr}/\phi$ from their paper.  This plots shows that
-    additional correction is required, which has been incorporated in
-    our LFs.}
-  \label{fig:giallongo}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth]{giallongo2.pdf}
+%%   \end{center}
+%%   \caption{Giallongo's LF when selection function is taken to be
+%%     $\phi_\mathrm{corr}/\phi$ from their paper.  This plots shows that
+%%     additional correction is required, which has been incorporated in
+%%     our LFs.}
+%%   \label{fig:giallongo}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic.pdf}
-  \end{center}
-  \caption{Individual luminosity function fits for $z=0.3$ to $2.6$.}
-  \label{fig:mosaic}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2.pdf}
+%%   \end{center}
+%%   \caption{Individual luminosity function fits for $z=2.6$ to $6.5$.}
+%%   \label{fig:mosaic2}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic2.pdf}
-  \end{center}
-  \caption{Individual luminosity function fits for $z=2.6$ to $6.5$.}
-  \label{fig:mosaic2}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
+%%   \end{center}
+%%   \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
+%%   \label{fig:rhoqso_allz}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
-  \end{center}
-  \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
-  \label{fig:rhoqso_allz}
-\end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
-  \end{center}
-  \caption{Parameter evolution from individual fits in
-    Figures~\ref{fig:mosaic} and \ref{fig:mosaic2}.  Parameters from
-    BOSS quasars are seen to be systematically offset. \textbf{[Show
-        $z < 0.6$ point also?]}}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
+%%   \end{center}
+%%   \caption{AGN number density evolution with some BOSS quasars
+%%     removed.}
+%%   \label{fig:rhoqso}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
-  \end{center}
-  \caption{AGN number density evolution with some BOSS quasars
-    removed.}
-  \label{fig:rhoqso}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth]{evolution_seldata.pdf}
+%%   \end{center}
+%%   \caption{Parameter evolution with some BOSS quasars removed.  We (1)
+%%     use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
+%%     $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_seldata.pdf}
-  \end{center}
-  \caption{Parameter evolution with some BOSS quasars removed.  We (1)
-    use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
-    $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
+%%   \end{center}
+%%   \caption{Individual and composite luminosity function fits for
+%%     $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
+%%     composite fit does not consider quasars at those redshifts.}
+%%   \label{fig:mosaic_withGlobal}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
-  \end{center}
-  \caption{Individual and composite luminosity function fits for
-    $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
-    composite fit does not consider quasars at those redshifts.}
-  \label{fig:mosaic_withGlobal}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
+%%   \end{center}
+%%   \caption{Individual and composite luminosity function fits for
+%%     $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
+%%     composite fit does not consider quasars at those redshifts.}
+%%   \label{fig:mosaic2_withGlobal}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
-  \end{center}
-  \caption{Individual and composite luminosity function fits for
-    $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
-    composite fit does not consider quasars at those redshifts.}
-  \label{fig:mosaic2_withGlobal}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \begin{tabular}{cc}
+%%     \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
+%%     \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+%%     \end{tabular}
+%%   \end{center}
+%%   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
+%%     Model luminosity functions are integrated down to $M_{1450}=-18$
+%%     in the left panel and $-20$ in the right panel.}
+%%   \label{fig:gammapi}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{evolution_global.pdf}
-  \end{center}
-  \caption{Luminosity function parameter evolution in the global model.}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
-  \end{center}
-  \caption{AGN number density evolution in the global model.}
-  \label{fig:rhoqso}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
-    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{LyC emissivity of AGN assuming 100\% escape fraction.
-    Model luminosity functions are integrated down to $M_{1450}=-18$
-    in the left panel and $-20$ in the right panel.}
-  \label{fig:gammapi}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{g_18.pdf}
-    \includegraphics[width=0.5\textwidth]{g_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming 100\% escape fraction.  Model luminosity functions are
-    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
-    the right panel.}
-  \label{fig:gammapi}
-\end{figure*}
 
 \begin{figure*}
   \begin{center}
@@ -797,14 +1325,24 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
     points show results when Giallongo quasars are included.}
 \end{figure*}
 
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.7\textwidth,keepaspectratio]{q.pdf}
+  \end{center}
+  \caption{Helium reionization.}
+\end{figure*}
+
 \section*{Acknowledgements}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-eget nisi augue. Vivamus quis purus quis massa tempor posuere non quis
-magna. Aenean eleifend, metus eget facilisis faucibus, turpis erat
-suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse luctus
-eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec massa
-ultrices, porttitor nulla at, euismod diam. In ultricies
+% Check spellings
+% Check notes for more names with add
+% Something to add for Joe and Gabor?
+We acknowledge useful discussions with James Aird, Manda Banerji,
+Tirthankar Roy Choudhury, Xiaohui Fan, Andrea Ferrara, Martin
+Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
+Richards, and Alberto Rorai for helpful discussions.  GK is supported
+by ERC Advanced Grant 320596 `The Emergence of Structure During the
+Epoch of Reionization'.
 
 \bibliographystyle{mnras}
 \bibliography{refs}
