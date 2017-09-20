@@ -8,7 +8,7 @@
 \usepackage{siunitx}
 \def\lya{Ly$\alpha$~}
 
-\title[AGN luminosity function]{Evolution of the AGN UV luminosity function}
+\title[AGN luminosity function]{Evolution of the AGN UV luminosity function from redshift 7.5}
 
 \author[Kulkarni et al.]{{Girish Kulkarni$^{1}$\thanks{Email:
       kulkarni@ast.cam.ac.uk}, G\'abor Worseck$^{2}$ and Joseph
@@ -29,26 +29,37 @@
 \maketitle
 
 \begin{abstract}
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-  eget nisi augue. Vivamus quis purus quis massa tempor posuere non
-  quis magna. Aenean eleifend, metus eget facilisis faucibus, turpis
-  erat suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse
-  luctus eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec
-  massa ultrices, porttitor nulla at, euismod diam. In ultricies
-  malesuada mauris ac facilisis. Nulla quis suscipit diam, vitae
-  semper tortor. Proin nec nulla at massa egestas porta. Cras ac arcu
-  in velit placerat facilisis fringilla in sem. Mauris finibus, mauris
-  ut pretium malesuada, massa urna mattis nibh, at placerat ligula
-  elit ac odio.  Nunc vel leo arcu. Nullam sagittis tincidunt
-  interdum. Mauris sed lacus cursus, dapibus enim non, sagittis
-  leo. Aliquam sit amet ex ut quam iaculis sollicitudin. Vivamus ut
-  pharetra dolor. Vivamus id nibh leo. Vestibulum consectetur eu lorem
-  eu tincidunt. Sed eget nibh orci. Pellentesque sit amet blandit
-  massa, vel tempor neque.
+We present the evolution UV/optical luminosity function of quasars
+from a homogeneous reanalysis of more than 85,000 spectroscopically
+selected quasars from redshift $z=0$ to $7.5$.  We derived luminosity
+functions when the observed quasar population is binned in luminosity
+and redshift, and then construct a continuous evolutionary model of
+the luminosity function spanning a range of redshifts.  We find that
+quasars selected from the BOSS survey at $z=2$--$3$ show a significant
+systematic offset from the general trends, possiblity due to the
+colour bias suffered by BOSS.  Some systematic errors also persist in
+the lowest-redshift quasar sample due to host galaxy effects. However,
+we find that it is possible to describe the luminosity function
+evolution from redshift $z=0$ to $7.5$ using a simple 14-parameter
+evolving double power law model.  The evolution of the number density
+of qsos shows the familiar downsizing effect, although the evolution
+in the faint quasar population is quite flat at high redshifts such
+that the the drop in their number density at high redshifts is much
+slower than that for bright quasars.  When integrated down to
+$M_{1450}=-20$ quasars can produce all of the hydrogen-ionizing
+photons in the intergalactic medium upto redshifts 3.5.  They fall
+short of the emissivity required to explain the Ly$\alpha$ data at
+higher redshifts, and are therefore unlikely to have singlehandedly
+driven hydrogen reionization.  This conclusion can be altered,
+however, if lower luminosity qsos (down to $M_{1450}=-18$) are assumed
+to exist and to have a unity escape fraction, in which case qsos can
+potentially produce all the hydrogen-ionizing flux at $z<7.5$.
+He~\textsc{ii} reionization in this model occurs between $z=3.2$ and
+$3.7$.
 \end{abstract}
 
 \begin{keywords}
-quasars
+dark ages, reionization, firs stars -- intergalactic medium -- quasars: general -- galaxies: active 
 \end{keywords}
 
 %% * Possible outline of paper:
@@ -842,9 +853,43 @@ luminosities and redshifts while fitting the luminosity function model.
   \begin{center}
     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
   \end{center}
-  \caption{AGN number density evolution in the global model.}
+  \caption{AGN number density evolution in the global model.  Similar
+    to Figure~\ref{fig:evoln_global}, symbols show the best fit
+    parameters with 68\% uncertainties from the double power law fits
+    to the data in redshift bins.  Black solid curve shows the best
+    fit global model, and the coloured curves show a random sample
+    drawn from the global posterior.  \textbf{[Show rejected bins in
+        differnt symbols here.  Do not show the $-18$ case.  Cut the
+        figure off at 6.5.]}}
   \label{fig:rhoqso}
 \end{figure}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{LyC emissivity of AGN assuming 100\% escape fraction.
+    Model luminosity functions are integrated down to $M_{1450}=-18$
+    in the left panel and $-20$ in the right panel.}
+  \label{fig:e912}
+\end{figure*}
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{g_18.pdf}
+    \includegraphics[width=0.5\textwidth]{g_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{AGN contribution to the hydrogen photoionisation rate,
+    assuming 100\% escape fraction.  Model luminosity functions are
+    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
+    the right panel.}
+  \label{fig:gammapi}
+\end{figure*}
 
 \subsection{Luminosity function estimate without binning}
 
@@ -949,6 +994,24 @@ redshifts, a rapid brightening of the break luminosity.  Note that the
 redshift bins with BOSS qsos are not shown in
 Figure~\ref{fig:evoln_global}, which explains the difference from
 Figure~\ref{fig:evoln}.
+
+The evolution of the comoving number density of quasars is shown in
+Figure~\ref{fig:rhoqso} when the luminosity function is integrated
+down to different limits.  Similar to Figure~\ref{fig:evoln_global},
+symbols show the best fit parameters with 68\% uncertainties from the
+double power law fits to the data in redshift bins.  Black solid curve
+shows the best fit global model, and the coloured curves show a random
+sample drawn from the global posterior.  Bins with BOSS qsos are not
+shown.  The number density of qsos down to the limit of spectroscopic
+data is about 1 per $10^5$ cMpc$^3$ at its peak.  This density rapidly
+increases at low redshifts and then drops gradually at high redshifts.
+Figure~\ref{fig:rhoqso} also shows the familiar downsizing feature in
+which the number density of faint qsos peaks are lower redshifts than
+that of the bright qsos.  While the number density of qsos with
+$M_*<-27$ peaks at $z\sim 2.5$, the number density of qsos with
+$M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
+spectroscopic data exist, $M_*<-21$, the number density of qsos peaks
+at $z\sim 1$.
 
 \section{Hydrogen photoionization rate}
 
@@ -1239,32 +1302,19 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 %%   \label{fig:mosaic2_withGlobal}
 %% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
-    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{LyC emissivity of AGN assuming 100\% escape fraction.
-    Model luminosity functions are integrated down to $M_{1450}=-18$
-    in the left panel and $-20$ in the right panel.}
-  \label{fig:gammapi}
-\end{figure*}
+%% \begin{figure*}
+%%   \begin{center}
+%%     \begin{tabular}{cc}
+%%     \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
+%%     \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+%%     \end{tabular}
+%%   \end{center}
+%%   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
+%%     Model luminosity functions are integrated down to $M_{1450}=-18$
+%%     in the left panel and $-20$ in the right panel.}
+%%   \label{fig:gammapi}
+%% \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{g_18.pdf}
-    \includegraphics[width=0.5\textwidth]{g_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming 100\% escape fraction.  Model luminosity functions are
-    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
-    the right panel.}
-  \label{fig:gammapi}
-\end{figure*}
 
 \begin{figure*}
   \begin{center}
@@ -1284,12 +1334,15 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 
 \section*{Acknowledgements}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-eget nisi augue. Vivamus quis purus quis massa tempor posuere non quis
-magna. Aenean eleifend, metus eget facilisis faucibus, turpis erat
-suscipit tortor, ut dapibus nulla neque ac sapien. Suspendisse luctus
-eros eu quam laoreet, vel dapibus sem porttitor. Mauris nec massa
-ultrices, porttitor nulla at, euismod diam. In ultricies
+% Check spellings
+% Check notes for more names with add
+% Something to add for Joe and Gabor?
+We acknowledge useful discussions with James Aird, Manda Banerji,
+Tirthankar Roy Choudhury, Xiaohui Fan, Andrea Ferrara, Martin
+Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
+Richards, and Alberto Rorai for helpful discussions.  GK is supported
+by ERC Advanced Grant 320596 `The Emergence of Structure During the
+Epoch of Reionization'.
 
 \bibliographystyle{mnras}
 \bibliography{refs}
