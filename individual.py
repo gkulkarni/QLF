@@ -126,8 +126,7 @@ def getqlums(lumfile, zlims=None):
         select = (((z_all>=0.6) & (z_all<0.8) & (mag_all<=-20.7)) | 
                   ((z_all>=0.8) & (z_all<1.2) & (mag_all<=-21.9)) |
                   ((z_all>=1.2) & (z_all<1.8) & (mag_all<=-22.5)) |
-                  ((z_all>=1.8) & (z_all<2.0) & (mag_all<=-23.1)) |
-                  ((z_all>=2.0) & (z_all<2.2)))
+                  ((z_all>=1.8) & (z_all<2.2) & (mag_all<=-23.1)))
         
     # if sid == 15:
     #     select = ((z_all < 2.2) & (mag_all <= m_cutoff_15))
@@ -233,8 +232,7 @@ class selmap:
             select = (((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-20.7)) | 
                       ((self.z_all>=0.8) & (self.z_all<1.2) & (self.m_all<=-21.9)) |
                       ((self.z_all>=1.2) & (self.z_all<1.8) & (self.m_all<=-22.5)) |
-                      ((self.z_all>=1.8) & (self.z_all<2.0) & (self.m_all<=-23.1)) |
-                      ((self.z_all>=2.0) & (self.z_all<2.2)))
+                      ((self.z_all>=1.8) & (self.z_all<2.2) & (self.m_all<=-23.1)))
             
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
