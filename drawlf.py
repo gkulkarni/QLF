@@ -58,12 +58,20 @@ def lfsample(theta, n, mlims):
 
     return np.random.choice(sample, n)
     
-def plot_posterior_sample_lfs(lf, ax, mags, **kwargs):
+def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
 
-    random_thetas = lf.samples[np.random.randint(len(lf.samples), size=1000)]
-    for theta in random_thetas:
-        phi_fit = lf.log10phi(theta, mags)
-        ax.plot(mags, phi_fit, **kwargs)
+    nmags = 100
+    mags = np.linspace(*maglims, num=nmags)
+    nsample = 1000
+    rsample = lf.samples[np.random.randint(len(lf.samples), size=nsample)]
+    phi = np.zeros((nsample, nmags))
+    
+    for i, theta in enumerate(rsample):
+        phi[i] = lf.log10phi(theta, mags)
+
+    up = np.percentile(phi, 15.87, axis=0)
+    down = np.percentile(phi, 84.13, axis=0)
+    ax.fill_between(mags, down, y2=up, color='grey')
 
     return
 
@@ -71,8 +79,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    ax.plot(mags, phi_fit, **kwargs)
-    ax.plot(mags, phi_fit, lw=1, c='k', zorder=kwargs['zorder'])
+    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
 
     return
 
@@ -318,7 +325,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
     if show_individual_fit: 
         mag_plot = np.linspace(-32.0, -16.0, num=200) 
-        plot_posterior_sample_lfs(lf, ax, mag_plot, lw=1,
+        plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
         plot_bestfit_lf(lf, ax, mag_plot, lw=2,
                              c='#ffbf00', zorder=3, label='individual fit')
