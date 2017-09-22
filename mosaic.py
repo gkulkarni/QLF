@@ -65,7 +65,7 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     
 def draw(lfs, composite=None):
 
-    nplots_x = 4
+    nplots_x = 5
     nplots_y = 6
     nplots = nplots_x * nplots_y
 
@@ -97,7 +97,7 @@ def draw(lfs, composite=None):
     fig.subplots_adjust(left=l, bottom=b, right=r, top=t, wspace=wspace/hdim,
                         hspace=hspace/vdim)
 
-    for i in range(nplots-1):
+    for i in range(nplots-4):
 
         ax = fig.add_subplot(nplots_y, nplots_x, i+1)
         print 'plotting', i
