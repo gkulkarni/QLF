@@ -66,7 +66,7 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
 def draw(lfs, composite=None):
 
     nplots_x = 5
-    nplots_y = 6
+    nplots_y = 5
     nplots = nplots_x * nplots_y
 
     plot_number = 0
@@ -97,22 +97,20 @@ def draw(lfs, composite=None):
     fig.subplots_adjust(left=l, bottom=b, right=r, top=t, wspace=wspace/hdim,
                         hspace=hspace/vdim)
 
-    for i in range(nplots-4):
+    for i in range(nplots):
 
         ax = fig.add_subplot(nplots_y, nplots_x, i+1)
         print 'plotting', i
 
         idx_offset=0
         
-        if i in set([0,4,8,12,16]):
+        if i in set([0,5,10,15]):
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True)
-        elif i == 21:
+        elif i in set([21,22,23]):
             plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True)
-        elif i == 19:
-            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False, nofirstxlabel=True)
         elif i == 20:
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, xticklabels=True, nofirstylabel=False)
-        elif i == 22:
+        elif i == 24:
             plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False)
         else:
             plot(lfs[i+idx_offset], ax, composite=composite)
