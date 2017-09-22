@@ -1,5 +1,7 @@
 import sys 
 import numpy as np
+import individual
+reload(individual)
 from individual import lf
 import mosaic
 
@@ -42,11 +44,12 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
 
 method = 'Nelder-Mead'
 
-zls = [(0.2, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0), (1.0, 1.2),
-       (1.2, 1.4), (1.4, 1.6), (1.6, 1.8), (1.8, 2.2), (2.2, 2.3),
-       (2.3, 2.4), (2.4, 2.5), (2.6, 2.7), (2.7, 2.8), (2.8, 2.9),
-       (2.9, 3.0), (3.0, 3.1), (3.1, 3.2), (3.2, 3.3), (3.3, 3.4),
-       (3.4, 3.5), (3.7, 4.1), (4.1, 4.7), (4.7, 5.5), (5.5, 6.5)]
+zls = [(0.0, 0.2), (0.2, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0),
+       (1.0, 1.2), (1.2, 1.4), (1.4, 1.6), (1.6, 1.8), (1.8, 2.2),
+       (2.2, 2.3), (2.3, 2.4), (2.4, 2.5), (2.6, 2.7), (2.7, 2.8),
+       (2.8, 2.9), (2.9, 3.0), (3.0, 3.1), (3.1, 3.2), (3.2, 3.3),
+       (3.3, 3.4), (3.4, 3.5), (3.7, 4.1), (4.1, 4.7), (4.7, 5.5),
+       (5.5, 6.5)]
 
 lfs = [] 
 
@@ -68,17 +71,23 @@ for i, zl in enumerate(zls):
     b = lfi.bestfit(g, method=method)
     print b 
 
-    lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -4.0])
-    zmin, zmax = zl 
+    if zmin < 0.3:
+        lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -10.0])
+    else:
+        lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -4.0])
+
     if zmin > 5.4:
         # Special priors for z = 6 data.
         lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
         # Change result of optimize.minimize so that emcee works.
         lfi.bf.x[2] = -5.0
+    elif zmin < 0.3:
+        lfi.prior_max_values = np.array([-1.0, -15.0, 0.0, 15.0])
     else:
         lfi.prior_max_values = np.array([-4.0, -20.0, 0.0, 0.0])
-    assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 
+    assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
+    
     lfi.run_mcmc()
     lfi.get_percentiles()
 

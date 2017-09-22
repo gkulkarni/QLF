@@ -104,7 +104,8 @@ def getqlums(lumfile, zlims=None):
 
 
     if sid == 13: 
-        select = ((((z_all>=0.2) & (z_all<0.4) & (mag_all<=-20.3)) |
+        select = ((((z_all>=0.0) & (z_all<0.2) & (mag_all<=-20.7)) |
+                   ((z_all>=0.2) & (z_all<0.4) & (mag_all<=-20.3)) |
                    ((z_all>=0.4) & (z_all<0.6) & (mag_all<=-21.3)) |
                    ((z_all>=0.6) & (z_all<0.8) & (mag_all<=-23.1)) | 
                    ((z_all>=0.8) & (z_all<1.0) & (mag_all<=-23.7)) |
@@ -210,7 +211,8 @@ class selmap:
             select = ((self.z_all>=z_min) & (self.z_all<z_max))
 
         if sample_id == 13: 
-            select = ((((self.z_all>=0.2) & (self.z_all<0.4) & (self.m_all<=-20.4)) | 
+            select = ((((self.z_all>=0.0) & (self.z_all<0.2) & (self.m_all<=-20.7)) | 
+                       ((self.z_all>=0.2) & (self.z_all<0.4) & (self.m_all<=-20.4)) | 
                        ((self.z_all>=0.4) & (self.z_all<0.6) & (self.m_all<=-21.3)) | 
                        ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-23.1)) | 
                        ((self.z_all>=0.8) & (self.z_all<1.0) & (self.m_all<=-23.7)) |
