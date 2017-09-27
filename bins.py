@@ -21,8 +21,7 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/jiang16s82_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
-             'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat']
+             'Data_new/kashikawa15_sample.dat']
 
 selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
              ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'2SLAQ Croom et al.\ 2009'),
@@ -39,8 +38,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
              ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'SDSS Jiang et al.\ 2016'),
              ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'CFHQS Willott et al.\ 2010'),
              ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10, r'CFHQS Willott et al.\ 2010'),
-             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015'),
-             ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7, 'Giallongo et al.\ 2015')]
+             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015')]
 
 method = 'Nelder-Mead'
 
@@ -54,22 +52,16 @@ lfs = []
 
 for i, zl in enumerate(zls):
 
-    print 'z =', zl
-
     lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 
+    print 'z =', zl
     print '{:d} quasars in this bin.'.format(lfi.z.size)
-
-    print 'sids: '+'  '.join(['{:2d}'.format(x.sid) for x in lfi.maps])
-    print 'size: '+'  '.join(['{:5}'.format(x.z.size) for x in lfi.maps])
-    print 'pmax: '+'  '.join(['{:.6f}'.format(x.p.max()) for x in lfi.maps])
-    print 'pmin: '+'  '.join(['{:.6f}'.format(x.p.min()) for x in lfi.maps])
+    print 'sids (samples): '+'  '.join(['{:2d}'.format(int(x)) for x in np.unique(lfi.sid)])
+    print 'sids (maps): '+'  '.join(['{:2d}'.format(x.sid) for x in lfi.maps])
     print ' '
     
     g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
-
     b = lfi.bestfit(g, method=method)
-    print b 
 
     zmin, zmax = zl 
     
@@ -81,6 +73,7 @@ for i, zl in enumerate(zls):
     if zmin > 5.4:
         # Special priors for z = 6 data.
         lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
+
         # Change result of optimize.minimize so that emcee works.
         lfi.bf.x[2] = -5.0
     elif zmin < 0.3:
@@ -93,28 +86,14 @@ for i, zl in enumerate(zls):
     lfi.run_mcmc()
     lfi.get_percentiles()
 
-    write=False
-    if write: 
-        with open('phi_star_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.phi_star[0], lfi.phi_star[1], lfi.phi_star[2]))
+    WRITE_PARAMS = True
+    if WRITE_PARAMS: 
+        with open('bins.dat', 'a') as f:
+            output = ([lfi.z.mean()] + list(zl) + lfi.phi_star
+                      + lfi.M_star + lfi.alpha + lfi.beta)
+            f.write(('{:.3f}  '*len(output)).format(*output)) 
             f.write('\n')
-
-        with open('M_star_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.M_star[0], lfi.M_star[1], lfi.M_star[2]))
-            f.write('\n')
-
-        with open('alpha_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.alpha[0], lfi.alpha[1], lfi.alpha[2]))
-            f.write('\n')
-
-        with open('beta_fineBins.dat', 'a') as f:
-            f.write(('{:.3f} '*6).format(lfi.z.mean(), zl[0], zl[1],
-                                         lfi.beta[0], lfi.beta[1], lfi.beta[2]))
-            f.write('\n')
-            
+    
     lfs.append(lfi)
 
     # mosaic.draw(lfs)
