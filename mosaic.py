@@ -28,8 +28,10 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     ax.set_xticks(np.arange(-30, -16, 3))
     ax.set_yticks(np.arange(-12, -1, 2))
 
+    plt.minorticks_on()
     ax.tick_params('both', which='major', length=3, width=1)
-
+    ax.tick_params('both', which='minor', length=1.5, width=1)
+    
     if not yticklabels:
         ax.set_yticklabels('')
 
