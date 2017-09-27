@@ -177,6 +177,8 @@ def get_lf(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10 or sid == 18:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -226,6 +228,8 @@ def get_lf_all(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10 or sid == 18:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -279,6 +283,8 @@ def get_lf_sample(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -343,6 +349,18 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
     cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
           7:'#8c564b', 18:'#7f7f7f', 10:'k', 11:'r', 7:'g'}
 
+    cs = { 1 : '#1f77b4', # "blue"
+           6 : '#17becf', # "cyan"
+           7 : '#9467bd', # "purple"
+           8 : '#8c564b', # "brown"
+           10 : '#ff7f0e', # "orange"
+           11 : '#7f7f7f', # "grey"
+           13 : '#d62728', # "red"
+           15 : '#2ca02c', # "green"
+           17 : '#bcbd22', # "yellow"
+           18 : '#e377c2' # "pink
+    }
+    
     def dsl(i):
         for x in lf.maps:
             if x.sid == i:
@@ -377,6 +395,12 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
+        if i == 8:
+            # No need to plot rejected bins for McGreer's data because
+            # they were rejected for overlap with Yang, not due to
+            # incompleteness.
+            continue 
+        
         mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot)
         print mags_all[logphi_all!=logphi]
         print logphi_all[logphi_all!=logphi]
@@ -394,7 +418,8 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left_all, right_all)), 
                         yerr=np.vstack((uperr_all, downerr_all)),
                         fmt='None', zorder=4)
-            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
+            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i],
+                       zorder=4, s=16, label=dsl(i)+' (rejected)')
 
     if showMockSample:
         for i in sids:
