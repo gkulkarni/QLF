@@ -285,7 +285,7 @@ class lf:
                              method=method,
                              options={'maxfev': 8000,
                                       'maxiter': 8000,
-                                      'disp': True})
+                                      'disp': False})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'
