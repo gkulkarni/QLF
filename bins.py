@@ -71,6 +71,8 @@ for i, zl in enumerate(zls):
     b = lfi.bestfit(g, method=method)
     print b 
 
+    zmin, zmax = zl 
+    
     if zmin < 0.3:
         lfi.prior_min_values = np.array([-14.0, -32.0, -7.0, -10.0])
     else:
