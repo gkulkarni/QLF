@@ -59,7 +59,7 @@ def getqlums(lumfile, zlims=None):
                    ((z_all>=1.4) & (z_all<1.6)) |
                    ((z_all>=1.6) & (z_all<1.8) & (mag_all<=-24.9)) |
                    ((z_all>=1.8) & (z_all<2.2))) |
-                  ((z_all>=3.5) & (z_all<4.7) & (mag_all<=-26.7)))
+                  ((z_all>=3.5) & (z_all<4.7) & (mag_all<=-26.1)))
         
     if sid == 15: 
         select = (((z_all>=0.4) & (z_all<0.6)) |
@@ -166,7 +166,7 @@ class selmap:
                        ((self.z_all>=1.4) & (self.z_all<1.6)) |
                        ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
                        ((self.z_all>=1.8) & (self.z_all<2.2))) |
-                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.7)))
+                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.1)))
             
         if sample_id == 15: 
             select = (((self.z_all>=0.4) & (self.z_all<0.6)) | 
@@ -251,6 +251,11 @@ class lf:
 
         # Remove selection maps that lie outside our redshift range.
         self.maps = [x for x in self.maps if x.z.size > 0]
+
+        # Don't want a selmap if there are no qsos from that survey in
+        # this redshift bin.  
+        samples = set(np.unique(self.sid))
+        self.maps = [x for x in self.maps if x.sid in samples]
         
         return
 
