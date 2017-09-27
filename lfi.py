@@ -20,8 +20,8 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/jiang16s82_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
-             'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat']
+             'Data_new/kashikawa15_sample.dat']
+#            'Data_new/giallongo15_sample.dat']
 
 selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
               0.1, 0.05, 6248.0, 13,
@@ -93,11 +93,11 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
              
              ('Data_new/kashikawa15_sel.dat',
               0.05, 0.05, 6.5, 11,
-              r'Subaru Kashikawa et al.\ 2015'),
+              r'Subaru Kashikawa et al.\ 2015')]
              
-             ('Data_new/giallongo15_sel.dat',
-              0.0, 0.0, 0.047, 7,
-              'Giallongo et al.\ 2015')]
+             # ('Data_new/giallongo15_sel.dat',
+             #  0.0, 0.0, 0.047, 7,
+             #  'Giallongo et al.\ 2015')]
 
 method = 'Nelder-Mead'
 
@@ -111,7 +111,8 @@ print '{:d} quasars in this bin.'.format(lfi.z.size)
 
 # g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
 # g = (np.log10(1.e-6), -21.0, -3.0, -2.0)
-g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
+# g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
+g = (np.log10(1.e-8), -28.0, -4.0, -2.5)
 
 b = lfi.bestfit(g, method=method)
 print b
