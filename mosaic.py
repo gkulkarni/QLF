@@ -23,10 +23,12 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     render(ax, lf, composite=composite)
 
     ax.set_xlim(-18.0, -30.0)
-    ax.set_ylim(-12.0, -2.0)
-    # ax.set_xticks(np.arange(-31,-16, 2))
-    ax.set_xticks(np.arange(-30, -16, 3))
-    ax.set_yticks(np.arange(-12, -1, 2))
+    ax.set_ylim(-12.0, -4.0)
+
+    print ax.get_ylim()
+
+    ax.set_xticks(np.arange(-30, -16, 4))
+    ax.set_yticks(np.arange(-12, -3, 2))
 
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=3, width=1)
@@ -54,14 +56,15 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450_all.size)
     plt.text(0.03, 0.12, num, horizontalalignment='left',
              verticalalignment='center', transform=ax.transAxes, fontsize='10')
-    
-    if legend:
-        legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
-        l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
-                   frameon=False, framealpha=0.0, labelspacing=.1,
-                   handletextpad=0.1, borderpad=0.2, scatterpoints=1,
-                   title=legend_title)
-        plt.setp(l.get_title(),fontsize=10)
+
+    # legend = True
+    # if legend:
+    #     legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
+    #     l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
+    #                frameon=False, framealpha=0.0, labelspacing=.1,
+    #                handletextpad=0.1, borderpad=0.2, scatterpoints=1,
+    #                title=legend_title)
+    #     plt.setp(l.get_title(),fontsize=10)
         
     return 
     
