@@ -517,12 +517,20 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     if composite is not None:
         zc = np.linspace(0, 7, 200)
         bf = np.median(composite.samples, axis=0)
-        e = [emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc]
-        for theta in composite.samples[np.random.randint(len(composite.samples),
-                                                         size=300)]:
-            e = [emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc]
-            ax.plot(zc, e, c='goldenrod', alpha=0.1)
-        ax.plot(zc, e, c='goldenrod', lw=2, label='Global model ($M<-18$)')
+
+        nsample = 300
+        rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+        nzs = len(zc) 
+        e = np.zeros((nsample, nzs))
+
+        for i, theta in enumerate(rsample):
+            e[i] = np.array([emissivity(composite.log10phi, theta, x, (-30.0, -20.0)) for x in zc])
+
+        up = np.percentile(e, 15.87, axis=0)
+        down = np.percentile(e, 84.13, axis=0)
+        ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
+
+        e = np.array([emissivity(composite.log10phi, bf, x, (-30.0, -20.0)) for x in zc])
         ax.plot(zc, e, c='k', lw=2) 
 
     
