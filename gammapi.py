@@ -34,7 +34,7 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
 def get_emissivity(lfi, z):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
-    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -18.0), fit='individual')
+    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -20.0), fit='individual')
                           for theta
                           in lfi.samples[rindices]])
     u = np.percentile(e, 15.87) 
@@ -56,7 +56,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(loglf, theta, z, (-23.0, -18.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-23.0, -20.0), fit=fit_type)
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -70,7 +70,7 @@ def Gamma_HI_singleslope(loglf, theta, z, fit='composite'):
         fit_type = 'individual' 
 
     # Taken from Equation 11 of Lusso et al. 2015.
-    em = emissivity(loglf, theta, z, (-30.0, -18.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-30.0, -20.0), fit=fit_type)
     alpha_EUV = -1.7
     return 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -362,7 +362,7 @@ def draw(individuals, composite=None):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-18$, local source approximation)',
+               label='Individual fits ($M<-20$, local source approximation)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -424,32 +424,36 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     ax.set_yscale('log')
     ax.set_ylim(1.0e23, 1.0e26)
 
-    if select: 
-        individuals = [x for x in all_individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
-    else:
-        individuals = all_individuals
-    
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
-    for x in individuals:
+    m = np.ones(len(all_individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m) 
+    
+    individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(all_individuals) if i in set(reject)]
+    
+    for x in individuals_bad:
         get_emissivity(x, x.z.mean())
     
-    c = np.array([x.emissivity[2] for x in individuals])
-    u = np.array([x.emissivity[0] for x in individuals])
-    l = np.array([x.emissivity[1] for x in individuals])
+    c = np.array([x.emissivity[2] for x in individuals_bad])
+    u = np.array([x.emissivity[0] for x in individuals_bad])
+    l = np.array([x.emissivity[1] for x in individuals_bad])
 
     em = c
     em_up = u - c
     em_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x.zlims[0] for x in individuals])
-    lz = np.array([x.zlims[1] for x in individuals])
+    zs = np.array([x.z.mean() for x in individuals_bad])
+    uz = np.array([x.zlims[0] for x in individuals_bad])
+    lz = np.array([x.zlims[1] for x in individuals_bad])
     
     uzerr = uz-zs
     lzerr = zs-lz 
 
     ax.scatter(zs, em, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-18$)',
+               label='Individual fits ($M<-20$)',
                s=48, zorder=4, linewidths=1.5) 
 
     ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
@@ -458,6 +462,34 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
                 mfc='#ffffff', mec='#404040', zorder=3, mew=1,
                 ms=5)
 
+    for x in individuals_good:
+        get_emissivity(x, x.z.mean())
+    
+    c = np.array([x.emissivity[2] for x in individuals_good])
+    u = np.array([x.emissivity[0] for x in individuals_good])
+    l = np.array([x.emissivity[1] for x in individuals_good])
+
+    em = c
+    em_up = u - c
+    em_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, em, c='k', edgecolor='k',
+               label='Individual fits ($M<-20$)',
+               s=48, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+    
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
     eg *= 1.0e24
