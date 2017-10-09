@@ -57,15 +57,6 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     plt.text(0.03, 0.12, num, horizontalalignment='left',
              verticalalignment='center', transform=ax.transAxes, fontsize='10')
 
-    # legend = True
-    # if legend:
-    #     legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
-    #     l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
-    #                frameon=False, framealpha=0.0, labelspacing=.1,
-    #                handletextpad=0.1, borderpad=0.2, scatterpoints=1,
-    #                title=legend_title)
-    #     plt.setp(l.get_title(),fontsize=10)
-        
     return 
     
 def draw(lfs, composite=None):
