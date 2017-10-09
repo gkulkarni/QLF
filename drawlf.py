@@ -337,18 +337,21 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                              c='#ffbf00', zorder=3, label='individual fit')
 
     if composite is not None:
-        mags = np.linspace(-32.0, -16.0, num=200)
+
+        nmags = 200 
+        mags = np.linspace(-32.0, -16.0, num=nmags)
         bf = np.median(composite.samples, axis=0)
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            phi = composite.log10phi(theta, mags, z_plot)
-            ax.plot(mags, phi, lw=1, c='forestgreen', alpha=0.1)
-        phi_fit = composite.log10phi(bf, mags, z_plot)
-        ax.plot(mags, phi_fit, lw=2, c='forestgreen', label='global fit')
-        ax.plot(mags, phi_fit, lw=1, c='k')
+        nsample = 1000
+        rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+        phi = np.zeros((nsample, nmags))
+        
+        for i, theta in enumerate(rsample):
+            phi[i] = composite.log10phi(theta, mags, z_plot)
 
-    cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
-          7:'#8c564b', 18:'#7f7f7f', 10:'k', 11:'r', 7:'g'}
-
+        up = np.percentile(phi, 15.87, axis=0)
+        down = np.percentile(phi, 84.13, axis=0)
+        ax.fill_between(mags, down, y2=up, color='forestgreen')
+            
     cs = { 1 : '#1f77b4', # "blue"
            6 : '#17becf', # "cyan"
            7 : '#9467bd', # "purple"
@@ -358,7 +361,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
            13 : '#d62728', # "red"
            15 : '#2ca02c', # "green"
            17 : '#bcbd22', # "yellow"
-           18 : '#e377c2' # "pink
+           18 : '#e377c2' # "pink"
     }
     
     def dsl(i):
