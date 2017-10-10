@@ -14,15 +14,13 @@ from scipy.interpolate import UnivariateSpline
 colors = ['#d62728', '#2ca02c', '#1f77b4', '#ff7f0e'] 
 nplots_x = 2
 nplots_y = 2
-nplots = 4
-plot_number = 0 
+nplots = nplots_x * nplots_y
 
-zlims=(0.0,7.0)
-zmin, zmax = zlims
-z = np.linspace(zmin, zmax, num=50)
+# Plot French curve fits?
 cfit = False
 
-reject_idx = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] 
+# These redshift bins are labelled "bad" and are plotted differently.
+reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] 
 
 def getParam(individuals, param, which='old', dtype='good'):
 
@@ -52,20 +50,10 @@ def getParam(individuals, param, which='old', dtype='good'):
 
     else:
 
-        if which == 'new': 
-            zmean, zl, zu, u, l, c = np.loadtxt('new_bins_26jul17_seln.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
-        else: 
-            if param == 0: 
-                zmean, zl, zu, u, l, c = np.loadtxt('phi_star.dat', unpack=True)
-            elif param == 1:
-                zmean, zl, zu, u, l, c = np.loadtxt('M_star.dat', unpack=True)
-            elif param == 2:
-                zmean, zl, zu, u, l, c = np.loadtxt('alpha.dat', unpack=True)
-            elif param == 3:
-                zmean, zl, zu, u, l, c = np.loadtxt('beta.dat', unpack=True)
+        zmean, zl, zu, u, l, c = np.loadtxt('bins.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
 
     m = np.ones_like(zmean, dtype=bool)
-    m[reject_idx] = False
+    m[reject] = False
     minv = np.logical_not(m) 
 
     if dtype == 'good': 
@@ -76,7 +64,7 @@ def getParam(individuals, param, which='old', dtype='good'):
         
 def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
-    ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
+    ax = fig.add_subplot(nplots_x, nplots_y, 1)
 
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=4, width=1, direction='in')
@@ -175,7 +163,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
 def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
-    ax = fig.add_subplot(nplots_x, nplots_y, plot_number+2)
+    ax = fig.add_subplot(nplots_x, nplots_y, 2)
 
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=4, width=1, direction='in')
@@ -288,7 +276,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
 def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
-    ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
+    ax = fig.add_subplot(nplots_x, nplots_y, 3)
 
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=4, width=1, direction='in')
@@ -394,7 +382,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
 def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
 
-    ax = fig.add_subplot(nplots_x, nplots_y, plot_number+4)
+    ax = fig.add_subplot(nplots_x, nplots_y, 4)
 
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=4, width=1, direction='in')
