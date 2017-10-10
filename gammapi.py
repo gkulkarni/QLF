@@ -34,7 +34,7 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
 def get_emissivity(lfi, z):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
-    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -20.0), fit='individual')
+    e = np.array([emissivity(lfi.log10phi, theta, z, (-30.0, -18.0), fit='individual')
                           for theta
                           in lfi.samples[rindices]])
     u = np.percentile(e, 15.87) 
@@ -56,7 +56,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(loglf, theta, z, (-23.0, -20.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-23.0, -18.0), fit=fit_type)
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -70,7 +70,7 @@ def Gamma_HI_singleslope(loglf, theta, z, fit='composite'):
         fit_type = 'individual' 
 
     # Taken from Equation 11 of Lusso et al. 2015.
-    em = emissivity(loglf, theta, z, (-30.0, -20.0), fit=fit_type)
+    em = emissivity(loglf, theta, z, (-30.0, -18.0), fit=fit_type)
     alpha_EUV = -1.7
     return 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -362,7 +362,7 @@ def draw(individuals, composite=None):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-20$, local source approximation)',
+               label='Individual fits ($M<-18$, local source approximation)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -453,7 +453,7 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     lzerr = zs-lz 
 
     ax.scatter(zs, em, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-20$)',
+               label='Individual fits ($M<-18$)',
                s=48, zorder=4, linewidths=1.5) 
 
     ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
@@ -481,7 +481,7 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     lzerr = zs-lz 
 
     ax.scatter(zs, em, c='k', edgecolor='k',
-               label='Individual fits ($M<-20$)',
+               label='Individual fits ($M<-18$)',
                s=48, zorder=4, linewidths=1.5) 
 
     ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
@@ -524,13 +524,13 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
         e = np.zeros((nsample, nzs))
 
         for i, theta in enumerate(rsample):
-            e[i] = np.array([emissivity(composite.log10phi, theta, x, (-30.0, -20.0)) for x in zc])
+            e[i] = np.array([emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc])
 
         up = np.percentile(e, 15.87, axis=0)
         down = np.percentile(e, 84.13, axis=0)
         ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
 
-        e = np.array([emissivity(composite.log10phi, bf, x, (-30.0, -20.0)) for x in zc])
+        e = np.array([emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc])
         ax.plot(zc, e, c='k', lw=2) 
 
     
@@ -544,3 +544,21 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     return
 
 
+def get_gammapi_percentiles(lfi, z):
+
+    """
+    Calculate photoionization rate posterior mean value and 1-sigma
+    percentile.
+
+    """
+    rindices = np.random.randint(len(lfi.samples), size=300)
+    g = np.array([np.log10(Gamma_HI(lfi.log10phi, theta, z,
+                                            fit='individual'))
+                  for theta
+                  in lfi.samples[rindices]])
+    u = np.percentile(g, 15.87) 
+    l = np.percentile(g, 84.13)
+    c = np.mean(g)
+    lfi.gammapi = [u, l, c]
+
+    return 
