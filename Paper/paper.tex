@@ -59,7 +59,8 @@ $3.7$.
 \end{abstract}
 
 \begin{keywords}
-dark ages, reionization, firs stars -- intergalactic medium -- quasars: general -- galaxies: active 
+dark ages, reionization, first stars -- intergalactic medium --
+quasars: general -- galaxies: active
 \end{keywords}
 
 %% * Possible outline of paper:
@@ -74,6 +75,7 @@ dark ages, reionization, firs stars -- intergalactic medium -- quasars: general 
 %% 
 %% * Optional possibilities:
 %%
+%% Low-z photon under-production
 %% Bolometric LF
 %% Public code description 
 %% More global models: PLE, PDE, Trenti, White-Conroy
@@ -873,22 +875,18 @@ luminosities and redshifts while fitting the luminosity function model.
   \end{center}
   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
     Model luminosity functions are integrated down to $M_{1450}=-18$
-    in the left panel and $-20$ in the right panel.}
+    in the left panel and $-20$ in the right panel.  For comparison,
+    various other published determinations of the 1~Ry emissivity of
+    quasars are also shown in both panels of Figure~\ref{fig:e912}.
+    The blue curve in these panels shows the AGN 1~Ry emissivity model
+    of \citet{2012ApJ...746..125H}, which is very similar to the model
+    of \citet{2007ApJ...654..731H}.  The red symbols with error bars
+    show the determination from the fits of
+    \citet{2015AA...578A..83G}.  The maroon curve is the published fit
+    to the 1~Ry emissivity evolution in the fits of
+    \citet{2017MNRAS.466.1160M}.  The green curve is the model of
+    \citet{2015ApJ...813L...8M}.}
   \label{fig:e912}
-\end{figure*}
-
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{g_18.pdf}
-    \includegraphics[width=0.5\textwidth]{g_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming 100\% escape fraction.  Model luminosity functions are
-    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
-    the right panel.}
-  \label{fig:gammapi}
 \end{figure*}
 
 \subsection{Luminosity function estimate without binning}
@@ -961,7 +959,7 @@ is difficult to model the evolution of $\beta$ using the Chebyshev
 expansion of Equation~(\ref{eqn:cbs}).  Instead, we consider a double
 power law model for $\beta$ and write
 \begin{equation}
-  f_3(1+z)=h+\frac{f_0}{10^{a*\zeta}+10^{b*\zeta}},
+  f_3(1+z)=h+\frac{f_0}{10^{a\zeta}+10^{b\zeta}},
 \end{equation}
 where
 \begin{equation}
@@ -1013,11 +1011,14 @@ $M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
 spectroscopic data exist, $M_*<-21$, the number density of qsos peaks
 at $z\sim 1$.
 
+% Add a table for the best fit parameter values?
+
 \section{Hydrogen photoionization rate}
 
-We assume that all quasars have a universal SED, which can be
-parameterised in some fashion.  \citet{2015MNRAS.449.4204L} have
-parameterised the quasar SED as a power law with a break at 912~{\AA},
+We can now calculate the contribution of quasars to the hydrogen
+photoionization rate in the intergalactic medium (IGM).  We assume
+that all quasars have a universal UV SED, parameterised by
+\citet{2015MNRAS.449.4204L} as a power law with a break at 912~{\AA},
 \begin{equation}
 f_\nu\propto\begin{cases}
                \nu^{-0.61\pm 0.01} & \text{if}~\lambda\geq 912~\text{\AA},\\
@@ -1025,37 +1026,18 @@ f_\nu\propto\begin{cases}
                \end{cases}
 \label{eqn:sed}
 \end{equation}
-Here $f_\nu$ is the flux density, with units of ergs s$^{-1}$
-cm$^{-2}$ Hz$^{-1}$, although it is often simply called flux.  Note
-that although $f_\nu$ is often the quantity of interest, e.g., when
-calculating the hydrogen ionizing emissivity of quasars, what is shown
-in spectra is often $f_\lambda$, the flux density
-in \emph{wavelength}, which has units of ergs s$^{-1}$
-cm$^{-2}$ \AA$^{-1}$.  If the flux density in frequency is power law,
-then the flux density in wavelength is also power law.  The power law
-index of the flux density in wavelength, $\alpha_\lambda$, is related
-to the power law index of the flux density in frequency, $\alpha_\nu$,
-by $\alpha_\lambda=-(\alpha_\nu+2)$.  From Equation~(\ref{eqn:sed}),
-we can now see that $\alpha_\lambda=-0.3$ in the extreme UV (EUV;
-600~{\AA}$<\lambda<$912~{\AA}) and $\alpha_\lambda=-1.39$ in the far
-UV (FUV; $\lambda>$912~{\AA}).  The quasar SED that we have adopted is
-steep in FUV and shallow in EUV.
+This fit was derived by \citet{2015MNRAS.449.4204L} from a composite
+spectrum of 53 quasars at $z\sim 2.4$.
 
-How sensible is it to assume that the quasar SED of
-Equation~(\ref{eqn:sed}) is universal?  Of the four published
-composite quasar SEDs (see references in
-\citealt{2015MNRAS.449.4204L}), three agree with
-Equation~(\ref{eqn:sed}).  There is one published composite quasar SED
-that does not agree with Equation~(\ref{eqn:sed}).  This is the
+While four published composite quasar UV SEDs
+\citep{2002ApJ...565..773T, 2001AJ....122..549V, 2012ApJ...752..162S,
+  2014ApJ...794...75S} agree with Equation~(\ref{eqn:sed}), the
 composite of \citet{2004ApJ...615..135S}, which uses more than 100
-quasars at $z<0.1$.  The EUV slope of this SED is $-0.56$.  (This
-means that the power law index of the flux density in wavelength is
-$-1.44$, so that the spectrum actually becomes even steeper in the
-EUV.  See Figure 8 of \citealt{2015MNRAS.449.4204L}.)  The quasars
-considered by \citet{2004ApJ...615..135S} are much fainter that those
-considered by \citet{2015MNRAS.449.4204L}, which means that it is
-possible that faint quasars have a steep EUV spectrum.  So we could
-say that for faint quasars,
+quasars at $z<0.1$, is somewhat steeper, with a EUV slope of $-0.56$.
+The quasars considered by \citet{2004ApJ...615..135S} are fainter
+($M_i(z=2)>-26$) than those considered by \citet{2015MNRAS.449.4204L},
+which suggest that faint quasars may have a steeper EUV spectrum.  We
+therefore also consider an SED of the form
 \begin{equation}
 f_\nu\propto\begin{cases}
                \nu^{-0.61\pm 0.01} & \text{if}~\lambda\geq 912~\text{\AA},\\
@@ -1063,19 +1045,16 @@ f_\nu\propto\begin{cases}
                \end{cases}
 \label{eqn:sed_faint}
 \end{equation}
-Here, ``faint'' is defined as $M_i(z=2)>-26$.  $M_i(z=2)$ can be
-related to the bolometric luminosity of the quasar (see Figure 9 of
-\citealt{2015MNRAS.449.4204L}.)
+for qsos with $M_{1450}<-23$.
 
 The rate of emission of photons of frequency $\nu$ by quasars can be
 written as
 \begin{equation}
 \dot n_\nu = \int dM_\nu \phi(M_\nu) \frac{L_\nu(M_\nu)}{h\nu}.
 \end{equation}
-The units of $\dot n_\nu$ are s$^{-1}$~cMpc$^{-3}$~Hz$^{-1}$.  Here
-the integral is over some range of magnitudes, the monochromatic
-luminosity $L_\nu(M)$ is related to the (absolute AB) magnitude
-by \citep{1983ApJ...266..713O}
+Here the integral is over a suitable range of magnitudes, the
+monochromatic luminosity $L_\nu(M)$ is related to the (absolute AB)
+magnitude by \citep{1983ApJ...266..713O}
 \begin{equation}
 M_\nu = -2.5\log_{10}L_\nu+51.60,
 \end{equation}
@@ -1083,31 +1062,63 @@ and $\phi$ is the luminosity function from Equation~(\ref{eqn:dpl}).
 The luminosity at 1~Ry is related to that at 1450~\AA\ by
 Equation~(\ref{eqn:sed}) or (\ref{eqn:sed_faint})
 \begin{equation}
-  L_{912}=L_{1450}\left(\frac{\nu_{912}}{\nu_{1450}}\right)^{-0.61}=L_{1450}\left(\frac{912}{1450}\right)^{0.61}
+  L_{912}=L_{1450}\left(\frac{\nu_{912}}{\nu_{1450}}\right)^{-0.61}=L_{1450}\left(\frac{912}{1450}\right)^{0.61},
 \end{equation}
-The corresponding volume emissivity is conventionally written
-as 
+depending on the qso luminosity.  The corresponding physical volume
+emissivity is 
 \begin{equation}
 \epsilon_\nu = \dot n_\nu h\nu (1+z)^3.
 \label{eqn:epsilon}
 \end{equation}
-This is a \emph{physical} density.  The units of $\epsilon_\nu$ are
-erg~s$^{-1}$~pMpc$^{-3}$~Hz$^{-1}$.  This emissivity can now be used
-to calculate the ionizing flux and photoionization rate contributed by
-quasars.  The frequency dependence above 1~Ry is given by
-Equation~(\ref{eqn:sed}) or (\ref{eqn:sed_faint}), so that for $\nu >
-\nu_{912}$
+Figure~\ref{fig:e912} shows the resultant 1~Ry emissivity when the
+luminosity function is integrated down to $M_{1450}=-20$ (right panel)
+and when it is integrated down to $M_{1450}=-18$ (left panel).
+Similar to the previous figures, the black open circles in this figure
+show the result form individual redshift bins, while the black curve
+shown the result from best-fit global model.  Yellow curves show a
+random sample from the global posterior distribution.  For comparison,
+various other published determinations of the 1~Ry emissivity of
+quasars are also shown in both panels of Figure~\ref{fig:e912}.  The
+blue curve in these panels shows the AGN 1~Ry emissivity model of
+\citet{2012ApJ...746..125H}, which is very similar to the model of
+\citet{2007ApJ...654..731H}.  The red symbols with error bars show the
+determination from the fits of \citet{2015AA...578A..83G}.  The maroon
+curve is the published fit to the 1~Ry emissivity evolution in the
+fits of \citet{2017MNRAS.466.1160M}.  The green curve is the model of
+\citet{2015ApJ...813L...8M}.  Note that the integration limits for
+these other models are not homogeneous.  \citet{2017MNRAS.466.1160M}
+integrate the luminosity function down to $M_{1450}=-19$, while
+\citet{2015AA...578A..83G} integrate down to $M_{1450}=-18$.
+\textbf{[What are the limits for HM12 and MH15?]}
+
+The 1~Ry emissivity increases rapidly from $z=0$ up to $z=2$ and then
+stays roughly constant until up to $z=3.5$.  At higher redshifts, due
+to the relatively steeper faint end slope of the luminosity function,
+the integration limit makes a large difference in the resultant
+emissivity.  For the conservative case, in which we integrate under
+the luminosity function down to $M_{1450}=-20$, the emissivity drops
+rapidly at $z>3.5$, and is only about 10--20\% higher than that in the
+\citet{2012ApJ...746..125H} model at $z\sim 6$.  However, in the model
+in which we integrate down to $M_{1450}=-18$, the emissivity is higher
+by a factor of almost 10 than that in the \citet{2012ApJ...746..125H}
+model at $z\sim 6$.  In this case, our derived emissivities are
+consistent with the values published by \citet{2015AA...578A..83G} at
+$z=4$--$6$, although they still fall short by a factor of $\sim 2$.
+Our derived emissivities are significantly smaller at $z>3.5$ than the
+model of \citet{2015ApJ...813L...8M}.
+
+The 1~Ry emissivity can now be used to calculate the ionizing flux and
+photoionization rate contributed by quasars.  The frequency dependence
+above 1~Ry is given by Equation~(\ref{eqn:sed}) or
+(\ref{eqn:sed_faint}), so that for $\nu > \nu_{912}$
 \begin{equation}
   \epsilon_\nu = \epsilon_{912}\left(\frac{\nu}{\nu_{912}}\right)^\alpha,
   \label{eqn:epsilon_freq}
 \end{equation}
-where $\alpha=-1.70$ (Equation~\ref{eqn:sed}) or $-0.56$ (Equation~\ref{eqn:sed_faint}). 
-
-The emissivity calculated in Equation~(\ref{eqn:epsilon}) is a source
-property.  We are now interested in what flux this emissivity produces
-in the surrounding intergalactic medium.  This brings in the medium's
-properties also, via the radiative transfer equation.  The flux is
-\citep{2012ApJ...746..125H}
+where $\alpha=-1.70$ (Equation~\ref{eqn:sed}) or $-0.56$
+(Equation~\ref{eqn:sed_faint}).  The corresponding flux in the IGM is
+written as a solution of the cosmological radiative transfer equation
+as \citep{2012ApJ...746..125H}
 \begin{multline}
   j(\nu_0, z_0)=\frac{1}{4\pi}\int_{z_0}^\infty dz\frac{dl}{dz}\frac{(1+z_0)^3}{(1+z)^3}\epsilon(\nu,z)\\
   \times\exp{(-\tau_\mathrm{eff}(\nu_0, z_0, z))},
@@ -1117,7 +1128,7 @@ where
 \begin{equation}
   \nu = \nu_0\left(\frac{1+z}{1+z_0}\right).
 \end{equation}
-We estimate the effective optical depth as
+Here the effective optical depth is estimated as
 \begin{equation}
   \tau_\mathrm{eff}(\nu_0, z_0, z) = \int_{z_0}^z dz^\prime\int_0^\infty dN_\mathrm{HI} f(N_\mathrm{HI}, z^\prime) (1-e^{-\tau_\nu}),
 \end{equation}
@@ -1132,8 +1143,53 @@ rate is then given by
 \begin{equation}
   \Gamma_\mathrm{HI}=4\pi\int_{\nu_{912}}^\infty d\nu \frac{j(\nu,z)}{h\nu} \sigma(\nu),
 \end{equation}
+where $\sigma$ is the photoionization cross-section.  The result is
+shown in Figure~\ref{fig:gammapi}, in which as before the solid black
+curve shows the hydrogen photoionisate rate in our best-fit global
+model, and the yellow curves show a random sample from the global
+posterior.  Also, as before, the right panel of
+Figure~\ref{fig:gammapi} shows the result when we only account for
+quasars brighter than $M_{1450}=-20$, while the left panel shows the
+result when the integration limit is $M_{1450}=-18$.  The red points
+with error bars in this figure show the measurements of
+\citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$ forest,
+and the orange points show the measurements by
+\citet{2011MNRAS.412.2543C} from quasar proximity zones.  The dashed
+green curve shows the hydrogen photoionisation rate evolution in the
+model of \citet{2012ApJ...746..125H}, while the solid green curve
+shows the contribution of quasars to it.
 
-\subsection{Local source approximation}
+The black open circles show the photoionisation rate values derived
+from our fits in the individual redshift bins.  However, note that
+unlike in the global model it is not possible to do the integral in
+Equation~(\ref{eqn:flux}) for these individual fits.  We can only
+derive the photoionisatoin rate by assuming what is known as the local
+source approximation, that is by assuming that the photons emitted at
+redshift $z$ are absorbed at the same redshift without propagation to
+large distances.
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{g_18.pdf}
+    \includegraphics[width=0.5\textwidth]{g_20.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{AGN contribution to the hydrogen photoionisation rate,
+    assuming 100\% escape fraction.  Model luminosity functions are
+    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
+    the right panel.  The solid black curve shows the hydrogen
+    photoionisate rate in our best-fit global model, and the yellow
+    curves show a random sample from the global posterior.  The red
+    points with error bars in this figure show the measurements of
+    \citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$
+    forest, and the orange points show the measurements by
+    \citet{2011MNRAS.412.2543C} from quasar proximity zones.  The
+    dashed green curve shows the hydrogen photoionisation rate
+    evolution in the model of \citet{2012ApJ...746..125H}, while the
+    solid green curve shows the contribution of quasars to it. }
+  \label{fig:gammapi}
+\end{figure*}
 
 In the local source approximation, Equation~(\ref{eqn:flux}) becomes
 \begin{equation}
@@ -1168,153 +1224,12 @@ gives
   \times\left(\frac{1}{1.5-\alpha}\right)\left(\frac{1+z}{5}\right)^{-2.4}.
 \end{multline}
 Note that this equation refers to the \emph{comoving} emissivity.  The
-local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
-
-
-
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{boss.pdf}
-%%   \end{center}
-%%   \caption{Comparison of LF derived by our method with the published
-%%     LF of \citet{2013ApJ...773...14R} for the BOSS DR9 color-selected
-%%     sample. There are 23,301 quasars in this sample ($2.2<z<3.5$).  Of
-%%     these, 231 quasars have $V_i=0$ and are dropped from the
-%%     analysis.}
-%%   \label{fig:boss}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{sdss.pdf}
-%%   \end{center}
-%%   \caption{Comparison with the published LF of
-%%     \citet{2006AJ....131.2766R} for SDSS DR3.  There are 15,343
-%%     quasars in this sample, of which 155 quasars have $z<0.3$ and 9
-%%     quasars have $z>5$.  Of the remaining 15179 quasars with
-%%     $0.3<z<5$, 60 quasars have $V_i=0$ and are dropped from the
-%%     analysis.  As a result, the green points above contain 15,119
-%%     quasars.  The red circles contain 14,953 quasars.}
-%%   \label{fig:sdss}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{mcgreer.pdf}
-%%   \end{center}
-%%   \caption{Comparison with the published LF of
-%%     \citet{2013ApJ...768..105M} for $4.7\leq z<5.1$.  There are 148
-%%     quasars in their DR7 sample and 52 quasars in the Stripe 82
-%%     sample. Of these 1 quasar from the Stripe 82 sample has $V_i=0$.
-%%     The published samples of \citet{2013ApJ...768..105M} have 146 and
-%%     51 quasars.}
-%%   \label{fig:mcgreer}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{glikman.pdf}
-%%   \end{center}
-%%   \caption{Comparison with the published LF of
-%%     \citet{2011ApJ...728L..26G} for $3.5<z<5.2$.  There are 24 
-%%     quasars in their two samples (NDWFS and DLS).}
-%%   \label{fig:mcgreer}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth]{glikman3.pdf}
-%%   \end{center}
-%%   \caption{Attempts at reproducing Glikman's published LF.  Panels (a)
-%%     and (b) use her volume calculations.  Panels (c)--(e) use our
-%%     volume calculations.  Various corrections incorporated by Gabor
-%%     are in panels (c)--(e).  Red open circles in all panels are
-%%     Glikman's published values; I cannot reproduce them in any of the
-%%     panels.  All luminosity function in this version of the draft use
-%%     Gabor's October data from panel (d).}
-%%   \label{fig:glikman}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth]{giallongo2.pdf}
-%%   \end{center}
-%%   \caption{Giallongo's LF when selection function is taken to be
-%%     $\phi_\mathrm{corr}/\phi$ from their paper.  This plots shows that
-%%     additional correction is required, which has been incorporated in
-%%     our LFs.}
-%%   \label{fig:giallongo}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2.pdf}
-%%   \end{center}
-%%   \caption{Individual luminosity function fits for $z=2.6$ to $6.5$.}
-%%   \label{fig:mosaic2}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso_allz.pdf}
-%%   \end{center}
-%%   \caption{AGN number density evolution, showing the systematic offset in BOSS quasars.}
-%%   \label{fig:rhoqso_allz}
-%% \end{figure*}
-
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=0.6\textwidth,keepaspectratio]{rhoqso.pdf}
-%%   \end{center}
-%%   \caption{AGN number density evolution with some BOSS quasars
-%%     removed.}
-%%   \label{fig:rhoqso}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth]{evolution_seldata.pdf}
-%%   \end{center}
-%%   \caption{Parameter evolution with some BOSS quasars removed.  We (1)
-%%     use \emph{only} BOSS quasars for $z=2.2$--$3.5$, and (2) use only
-%%     $p>0.9$ quasars in the $z>3.7$ sample of Richards.}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_withGlobal.pdf}
-%%   \end{center}
-%%   \caption{Individual and composite luminosity function fits for
-%%     $z=0.3$ to $2.6$.  They do not agree for $2.2 < z < 2.6$ because
-%%     composite fit does not consider quasars at those redshifts.}
-%%   \label{fig:mosaic_withGlobal}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{mosaic2_withGlobal.pdf}
-%%   \end{center}
-%%   \caption{Individual and composite luminosity function fits for
-%%     $z=2.6$ to $6.5$.  They do not agree for $2.6 < z < 2.8$ because
-%%     composite fit does not consider quasars at those redshifts.}
-%%   \label{fig:mosaic2_withGlobal}
-%% \end{figure*}
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \begin{tabular}{cc}
-%%     \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
-%%     \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
-%%     \end{tabular}
-%%   \end{center}
-%%   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
-%%     Model luminosity functions are integrated down to $M_{1450}=-18$
-%%     in the left panel and $-20$ in the right panel.}
-%%   \label{fig:gammapi}
-%% \end{figure*}
-
+local source approximation works well for $z>3$, as can be seen in
+Figure~\ref{fig:gammapi}, where the points from the individual fits
+are in much better agreement with the curves from the global model.
+At lower redshift, the photoionisation rate in the individual models
+is much higher than that in the global model, because the individual
+models overestimate the flux at these redshifts. 
 
 \begin{figure*}
   \begin{center}
@@ -1325,12 +1240,12 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
     points show results when Giallongo quasars are included.}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure}
   \begin{center}
-    \includegraphics[width=0.7\textwidth,keepaspectratio]{q.pdf}
+    \includegraphics[width=\columnwidth,keepaspectratio]{q.pdf}
   \end{center}
   \caption{Helium reionization.}
-\end{figure*}
+\end{figure}
 
 \section*{Acknowledgements}
 
@@ -1340,9 +1255,8 @@ local source approximation works well for $z>3$ \citep{2013MNRAS.436.1023B}.
 We acknowledge useful discussions with James Aird, Manda Banerji,
 Tirthankar Roy Choudhury, Xiaohui Fan, Andrea Ferrara, Martin
 Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
-Richards, and Alberto Rorai for helpful discussions.  GK is supported
-by ERC Advanced Grant 320596 `The Emergence of Structure During the
-Epoch of Reionization'.
+Richards, and Alberto Rorai.  GK is supported by ERC Advanced Grant
+320596 `The Emergence of Structure During the Epoch of Reionization'.
 
 \bibliographystyle{mnras}
 \bibliography{refs}
