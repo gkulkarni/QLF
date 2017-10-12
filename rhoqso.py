@@ -279,6 +279,78 @@ def individuals_cumulative(ax, individuals, mlim, color, label):
     return 
     
 
+def draw_withGlobal_dense(composite, individuals, zlims, select=False):
+
+    fig = plt.figure(figsize=(7, 10), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-10, 4.0e-3)
+
+    mlim = -18
+    individuals_cumulative(ax, individuals, mlim, 'tomato', '$M<-18$')
+    global_cumulative(ax, composite, mlim, 'tomato')
+
+    mlim = -19
+    c='#ff7f0e'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-19$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    mlim = -20
+    c='#1f77b4'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-20$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    mlim = -21
+    individuals_cumulative(ax, individuals, mlim, 'forestgreen', '$M<-21$')
+    global_cumulative(ax, composite, mlim, 'forestgreen')
+
+    mlim = -22
+    c='#9467bd'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-22$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    mlim = -23
+    c='#8c564b'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-23$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    mlim = -24
+    individuals_cumulative(ax, individuals, mlim, 'goldenrod', '$M<-24$')
+    global_cumulative(ax, composite, mlim, 'goldenrod')
+
+    mlim = -25
+    c='#bcbd22'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-25$')
+    global_cumulative(ax, composite, mlim, c)
+
+    mlim = -26
+    c = '#7f7f7f'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-26$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    mlim = -27
+    c = '#17becf'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-27$')
+    global_cumulative(ax, composite, mlim, c)
+    
+    plt.legend(loc='upper left', fontsize=14, handlelength=1,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01,
+               scatterpoints=1, ncol=2)
+    
+    plt.savefig('rhoqso_withGlobal.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
 def draw_withGlobal(composite, individuals, zlims, select=False):
 
     fig = plt.figure(figsize=(7, 10), dpi=100)
@@ -294,41 +366,27 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
     ax.set_yscale('log')
     ax.set_ylim(1.0e-10, 1.0e-3)
 
-    # Plot 1 
-    
     mlim = -18
-
     individuals_cumulative(ax, individuals, mlim, 'tomato', '$M<-18$')
-
     global_cumulative(ax, composite, mlim, 'tomato')
-    
-    # Plot 2 
-    
+
     mlim = -21
-
     individuals_cumulative(ax, individuals, mlim, 'forestgreen', '$M<-21$')
-    
     global_cumulative(ax, composite, mlim, 'forestgreen')
-    
-    # Plot 3
-    
+
     mlim = -24
-
     individuals_cumulative(ax, individuals, mlim, 'goldenrod', '$M<-24$')
-
     global_cumulative(ax, composite, mlim, 'goldenrod')
-    
-    # Plot 4
-    
+
     mlim = -27
-
-    individuals_cumulative(ax, individuals, mlim, 'saddlebrown', '$M<-27$')
-
-    global_cumulative(ax, composite, mlim, 'saddlebrown')
+    c = '#17becf'
+    individuals_cumulative(ax, individuals, mlim, c, '$M<-27$')
+    global_cumulative(ax, composite, mlim, c)
     
     plt.legend(loc='upper left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+               handletextpad=0.1, borderpad=0.01,
+               scatterpoints=1)
     
     plt.savefig('rhoqso_withGlobal.pdf',bbox_inches='tight')
     plt.close('all')
