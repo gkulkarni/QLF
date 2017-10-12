@@ -390,7 +390,7 @@ def calverley(ax):
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
     ax.scatter(zm, gml, c='darkorange', edgecolor='None',
-               label='Calverley et al.~(2011)', s=64) 
+               label='Calverley et al.\ 2011', s=64) 
     ax.errorbar(zm, gml, ecolor='darkorange', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
@@ -408,7 +408,7 @@ def bb13(ax):
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
     ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
-               label='Becker and Bolton (2013)', s=64)
+               label='Becker \& Bolton (2013)', s=64)
     ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
@@ -430,7 +430,7 @@ def g_hm12_total(ax):
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
     ax.plot(zs, np.array(g_hm12)/1.0e-12, c='dodgerblue', lw=2,
-            dashes=[7,2], label='Haardt and Madau (2012) galaxies+QSOs')
+            dashes=[7,2], label='Haardt \& Madau 2012 galaxies+QSOs')
 
     return
 
@@ -519,16 +519,188 @@ def gamma_HI_Manti17(z):
 
     logg = - 11.66 - 0.081*z - 0.00014*z**2 + 0.0033*z**3 - 0.0013*z**4
     
-    return 10.0**logg # s^-1 
+    return 10.0**logg # s^-1
+
+def kollmeier(ax):
+    """Plot Kollmeier's Gamma_HI values.
+
+    These are from 2014 ApJ 789 L32.  Adjusted by Gabor to our 373
+    cosmology.  See his note for details.
+
+    """
+
+    z = 0.1
+    g = 2.2e-13 # s^-1
+
+    ax.scatter(z, g*1.0e12, c='#2ca02c', edgecolor='None',
+               label='Kollmeier et al.\ 2014', s=64)
+
+    return
+
+def shull(ax):
+    
+    """Plot Shull's Gamma_HI values.
+
+    These are from 2015 ApJ 811 3.  Adjusted by Gabor to our 373
+    cosmology.  See his note for details.
+
+    """
+
+    z = np.linspace(0, 0.47)
+    g = 5.0e-14 * (1.0+z)**4.4 # s^-1
+    ax.plot(z, g*1.0e12, lw=2, c='#8c564b', label='Shull et al.\ 2015')
+
+    return
+
+
+def khaire(ax):
+    
+    """Plot Khaire's Gamma_HI values. 
+
+    These are from 2015 MNRAS 451 L30, as tabulated by Gabor in his
+    note.  They correspond to Khaire's fesc=0 model. 
+
+    """
+
+    # z = np.array([0.0, 0.2, 0.4, 0.6])
+    # g = np.array([4.1e-14, 9.4e-14, 1.9e-13, 3.3e-13]) # s^-1
+
+    z, g = np.loadtxt('Data_new/Gama_full_fe00.txt',
+                      usecols=(0,1), unpack=True)
+    
+    ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015')
+
+    return
+
+
+def bolton(ax):
+
+    """Plot Bolton's Gamma_HI values. 
+
+    These are from MNRAS 2017 464 897, as rescaled by Gabor.
+
+    """
+
+    z = np.array([2.0, 3.0, 4.0, 5.0])
+    g = np.array([1.87e-12, 9.15e-13, 8.83e-13, 7.55e-13]) # s^-1
+
+    ax.plot(z, g*1.0e12, lw=2, c='#9467bd', label='Bolton et al.\ 2017')
+
+    return 
+
+
+def onorbe(ax):
+
+    """Plot Onorbe's Gamma_HI values.
+
+    These are from ApJ 2017 837 106, Table 3. 
+
+    """
+
+    log1pz, g = np.loadtxt('Data_new/onorbe.dat', usecols=(0,1), unpack=True)
+    z = 10.0**log1pz - 1.0 
+
+    ax.plot(z, g*1.0e12, c='#bcbd22', lw=2, label='O\~norbe et al.\ 2017')
+    
+    return
+
+def viel(ax):
+
+    """Plot Viel's Gamma_HI values. 
+
+    These are from MNRAS 2017 467 L86.
+
+    """
+
+    z = 0.1
+    g = 0.071e-12 # s^-1
+
+    ax.scatter(z, g*1.0e12, c='#1f77b4', edgecolor='None',
+               label='Viel et al.\ 2017', s=64, zorder=10)
+
+    return
+
+def gaikwad_a(ax):
+
+    """Plot Gaikwad's Gamma_HI values.
+
+    These are from his Paper I (MNRAS 2017 466 838) rescaled to our cosmology by Gabor.
+
+    """
+
+    z = np.array([0.1125, 0.2, 0.3, 0.4])
+    zmin = np.array([0.075, 0.15, 0.25, 0.35])
+    zmax = np.array([0.15, 0.25, 0.35, 0.45])
+
+    uzerr = zmax - z
+    lzerr = z - zmin
+
+    g = np.array([7.095e-14, 1.075e-13, 1.559e-13, 2.258e-13])
+    gerr = np.array([1.613e-14, 2.258e-14, 3.978e-14, 5.590e-14])
+
+    ax.scatter(z, g*1.0e12, c='#d62728', edgecolor='None',
+               label='Gaikwad et al.\ 2017a',
+               s=64, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(z, g*1.0e12, ecolor='#d62728', capsize=0,
+                fmt='None', elinewidth=1.5, zorder=4,
+                xerr=np.vstack((lzerr, uzerr)),
+                yerr=gerr*1.0e12)
+    
+    return 
+
+
+def gaikwad_b(ax):
+
+    """Plot Gaikwad's Gamma_HI values.
+
+    These are from his Paper II (MNRAS 2017 467 3172) rescaled to our cosmology by Gabor.
+
+    """
+    
+    z = np.array([0.1125, 0.2, 0.3, 0.4])
+    zmin = np.array([0.075, 0.15, 0.25, 0.35])
+    zmax = np.array([0.15, 0.25, 0.35, 0.45])
+
+    uzerr = zmax - z
+    lzerr = z - zmin
+
+    g = np.array([6.7e-14, 9.5e-14, 1.45e-13, 2.0e-13])
+    gerr = np.array([5.0e-15, 5.0e-15, 1.5e-14, 2.2e-14])
+
+    ax.scatter(z, g*1.0e12, c='#e377c2', edgecolor='None',
+               label='Gaikwad et al.\ 2017b',
+               s=64, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(z, g*1.0e12, ecolor='#e377c2', capsize=0,
+                fmt='None', elinewidth=1.5, zorder=4,
+                xerr=np.vstack((lzerr, uzerr)),
+                yerr=gerr*1.0e12)
+    
+    return 
+
+def fumagalli(ax):
+
+    z = 0.0
+    g_up = 8.0e-2 # 10^-12 s^-1
+    g_low = 6.0e-2 # 10^-12 s^-1
+
+    ax.errorbar(z, 0.07, ecolor='#d7191c', capsize=5,
+                elinewidth=4.5, capthick=1.5,
+                yerr=np.array((0.01,0.01)).reshape((2,1)),
+                fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
+
+    return
 
 def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
+    plt.minorticks_on()
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
-    ax.tick_params('x', which='major', pad=6)
+    #ax.tick_params('x', which='major', pad=6)
 
     ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
     ax.set_xlabel('$z$')
@@ -547,7 +719,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
-    nsample = 100
+    nsample = 3
     rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
     nzs = len(zc) 
     g = np.zeros((nsample, nzs))
@@ -570,13 +742,13 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='dodgerblue', lw=2,
-            label='Haardt and Madau (2012) QSO contribution')
+            label='Haardt \& Madau 2012 QSOs')
 
     g_hm12_total(ax)
 
     zs_mh15, gs_mh15 = j(em_qso_mh15)
     ax.plot(zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=2,
-            label=r'Madau and Haardt 2015')
+            label=r'Madau \& Haardt 2015')
     
     bb13(ax)
     calverley(ax)
@@ -607,10 +779,26 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     g_M17 = gamma_HI_Manti17(zc)
     ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
 
-    
+    shull(ax)
+
+    khaire(ax)
+
+    bolton(ax)
+
+    onorbe(ax)
+
+    fumagalli(ax)
+
     if individuals is not None:
         lfis(individuals, ax)
 
+    kollmeier(ax)
+
+    viel(ax)
+
+    gaikwad_a(ax)
+
+    gaikwad_b(ax)
 
     handles, labels = ax.get_legend_handles_labels()
 
