@@ -192,6 +192,93 @@ def draw(individuals, zlims, select=False):
 
     return
 
+def global_cumulative(ax, composite, mlim, color):
+
+    nzs = 50 
+    z = np.linspace(0, 7, nzs)
+    nsample = 300
+    rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+
+    bf = np.median(composite.samples, axis=0)
+    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    r = np.zeros((nsample, nzs))
+    for i, theta in enumerate(rsample):
+        r[i] = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+
+    up = np.percentile(r, 15.87, axis=0)
+    down = np.percentile(r, 84.13, axis=0)
+    ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.5)
+
+    return
+
+def individuals_cumulative(ax, individuals, mlim, color, label):
+
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    m = np.ones(len(individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m)
+
+    individuals_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    for x in individuals:
+        get_rhoqso(x, mlim, x.z.mean())
+    
+    c = np.array([x.rhoqso[2] for x in individuals_good])
+    u = np.array([x.rhoqso[0] for x in individuals_good])
+    l = np.array([x.rhoqso[1] for x in individuals_good])
+
+    rho = c
+    rho_up = u - c
+    rho_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, rho, c=color, edgecolor='None',
+               label=label,
+               s=72, zorder=10, linewidths=2) 
+
+    ax.errorbar(zs, rho, ecolor=color, capsize=0, fmt='None', elinewidth=2,
+                yerr=np.vstack((rho_low, rho_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    c = np.array([x.rhoqso[2] for x in individuals_bad])
+    u = np.array([x.rhoqso[0] for x in individuals_bad])
+    l = np.array([x.rhoqso[1] for x in individuals_bad])
+
+    rho = c
+    rho_up = u - c
+    rho_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_bad])
+    uz = np.array([x.zlims[0] for x in individuals_bad])
+    lz = np.array([x.zlims[1] for x in individuals_bad])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.errorbar(zs, rho, ecolor=color, capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((rho_low, rho_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    ax.scatter(zs, rho, c='#ffffff', edgecolor=color,
+               s=72, zorder=10, linewidths=1) 
+
+    
+    return 
+    
+
 def draw_withGlobal(composite, individuals, zlims, select=False):
 
     fig = plt.figure(figsize=(7, 10), dpi=100)
@@ -211,166 +298,33 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
     
     mlim = -18
 
-    if select: 
-        selected = [x for x in individuals if x.z.mean() < 2.0 or x.z.mean() > 3.5]
-    else:
-        selected = individuals
+    individuals_cumulative(ax, individuals, mlim, 'tomato', '$M<-18$')
+
+    global_cumulative(ax, composite, mlim, 'tomato')
     
-    for x in selected:
-        get_rhoqso(x, mlim, x.z.mean())
-    
-    c = np.array([x.rhoqso[2] for x in selected])
-    u = np.array([x.rhoqso[0] for x in selected])
-    l = np.array([x.rhoqso[1] for x in selected])
-
-    rho = c
-    rho_up = u - c
-    rho_low = c - l 
-    
-    zs = np.array([x.z.mean() for x in selected])
-    uz = np.array([x.zlims[0] for x in selected])
-    lz = np.array([x.zlims[1] for x in selected])
-    
-    uzerr = uz-zs
-    lzerr = zs-lz 
-
-    ax.scatter(zs, rho, c='tomato', edgecolor='None',
-               label='$M < -18$',
-               s=72, zorder=4, linewidths=2) 
-
-    ax.errorbar(zs, rho, ecolor='tomato', capsize=0, fmt='None', elinewidth=2,
-                yerr=np.vstack((rho_low, rho_up)),
-                xerr=np.vstack((lzerr, uzerr)), 
-                zorder=3, mew=1, ms=5)
-
-    z = np.linspace(0, 7, 50)
-    bf = np.median(composite.samples, axis=0)
-    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
-    ax.plot(z, r, color='k', zorder=7)
-
-    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
-        ax.plot(z, r, color='tomato', zorder=6, alpha=0.02)
-    
-
     # Plot 2 
     
     mlim = -21
 
-    for x in selected:
-        get_rhoqso(x, mlim, x.z.mean())
+    individuals_cumulative(ax, individuals, mlim, 'forestgreen', '$M<-21$')
     
-    c = np.array([x.rhoqso[2] for x in selected])
-    u = np.array([x.rhoqso[0] for x in selected])
-    l = np.array([x.rhoqso[1] for x in selected])
-
-    rho = c
-    rho_up = u - c
-    rho_low = c - l 
+    global_cumulative(ax, composite, mlim, 'forestgreen')
     
-    zs = np.array([x.z.mean() for x in selected])
-    uz = np.array([x.zlims[0] for x in selected])
-    lz = np.array([x.zlims[1] for x in selected])
-    
-    uzerr = uz-zs
-    lzerr = zs-lz 
-
-    ax.scatter(zs, rho, c='forestgreen', edgecolor='None',
-               label='$M<-21$',
-               s=72, zorder=4, linewidths=2) 
-
-    ax.errorbar(zs, rho, ecolor='forestgreen', capsize=0, fmt='None',
-                elinewidth=2, yerr=np.vstack((rho_low, rho_up)),
-                xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
-
-    z = np.linspace(0, 7, 50)
-    bf = np.median(composite.samples, axis=0)
-    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
-    ax.plot(z, r, color='k', zorder=7)
-
-    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
-        ax.plot(z, r, color='forestgreen', zorder=6, alpha=0.02)
-    
-
     # Plot 3
     
     mlim = -24
 
-    for x in selected:
-        get_rhoqso(x, mlim, x.z.mean())
-    
-    c = np.array([x.rhoqso[2] for x in selected])
-    u = np.array([x.rhoqso[0] for x in selected])
-    l = np.array([x.rhoqso[1] for x in selected])
+    individuals_cumulative(ax, individuals, mlim, 'goldenrod', '$M<-24$')
 
-    rho = c
-    rho_up = u - c
-    rho_low = c - l 
-    
-    zs = np.array([x.z.mean() for x in selected])
-    uz = np.array([x.zlims[0] for x in selected])
-    lz = np.array([x.zlims[1] for x in selected])
-    
-    uzerr = uz-zs
-    lzerr = zs-lz 
-
-    ax.scatter(zs, rho, c='goldenrod', edgecolor='None',
-               label='$M<-24$',
-               s=72, zorder=4, linewidths=2) 
-
-    ax.errorbar(zs, rho, ecolor='goldenrod', capsize=0, fmt='None',
-                elinewidth=2, yerr=np.vstack((rho_low, rho_up)),
-                xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
-
-    z = np.linspace(0, 7, 50)
-    bf = np.median(composite.samples, axis=0)
-    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
-    ax.plot(z, r, color='k', zorder=7)
-
-    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
-        ax.plot(z, r, color='goldenrod', zorder=6, alpha=0.02)
-
+    global_cumulative(ax, composite, mlim, 'goldenrod')
     
     # Plot 4
     
     mlim = -27
 
-    for x in selected:
-        get_rhoqso(x, mlim, x.z.mean())
-    
-    c = np.array([x.rhoqso[2] for x in selected])
-    u = np.array([x.rhoqso[0] for x in selected])
-    l = np.array([x.rhoqso[1] for x in selected])
+    individuals_cumulative(ax, individuals, mlim, 'saddlebrown', '$M<-27$')
 
-    rho = c
-    rho_up = u - c
-    rho_low = c - l 
-    
-    zs = np.array([x.z.mean() for x in selected])
-    uz = np.array([x.zlims[0] for x in selected])
-    lz = np.array([x.zlims[1] for x in selected])
-    
-    uzerr = uz-zs
-    lzerr = zs-lz 
-
-    ax.scatter(zs, rho, c='saddlebrown', edgecolor='None',
-               label='$M<-27$',
-               s=72, zorder=4, linewidths=2) 
-
-    ax.errorbar(zs, rho, ecolor='saddlebrown', capsize=0, fmt='None',
-                elinewidth=2, yerr=np.vstack((rho_low, rho_up)),
-                xerr=np.vstack((lzerr, uzerr)), zorder=3, mew=1, ms=5)
-
-    z = np.linspace(0, 7, 50)
-    bf = np.median(composite.samples, axis=0)
-    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
-    ax.plot(z, r, color='k', zorder=7)
-
-    for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-        r = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
-        ax.plot(z, r, color='saddlebrown', zorder=6, alpha=0.02)
+    global_cumulative(ax, composite, mlim, 'saddlebrown')
     
     plt.legend(loc='upper left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,
