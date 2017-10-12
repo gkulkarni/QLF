@@ -408,7 +408,7 @@ def bb13(ax):
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
     ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
-               label='Becker \& Bolton (2013)', s=64)
+               label='Becker \& Bolton 2013', s=64)
     ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
@@ -430,7 +430,7 @@ def g_hm12_total(ax):
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
     ax.plot(zs, np.array(g_hm12)/1.0e-12, c='dodgerblue', lw=2,
-            dashes=[7,2], label='Haardt \& Madau 2012 galaxies+QSOs')
+            dashes=[7,2], label='Haardt \& Madau 2012')
 
     return
 
@@ -568,7 +568,7 @@ def khaire(ax):
     z, g = np.loadtxt('Data_new/Gama_full_fe00.txt',
                       usecols=(0,1), unpack=True)
     
-    ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015')
+    ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015 QSOs')
 
     return
 
@@ -683,12 +683,18 @@ def fumagalli(ax):
 
     z = 0.0
     g_up = 8.0e-2 # 10^-12 s^-1
-    g_low = 6.0e-2 # 10^-12 s^-1
+    g_low = 6.0e-2 
 
-    ax.errorbar(z, 0.07, ecolor='#d7191c', capsize=5,
-                elinewidth=4.5, capthick=1.5,
-                yerr=np.array((0.01,0.01)).reshape((2,1)),
-                fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
+    z = np.array([0.0, 0.0])+0.05
+    g = np.array([6.4e-14, 7.6e-14]) # s^-1
+
+    
+    ax.plot(z, g*1.0e12, lw=6, c='#d7191c', label='Fumagalli et al.\ 2017', zorder=20)
+    
+    # ax.errorbar(z, 0.07, ecolor='#d7191c', capsize=5,
+    #             elinewidth=4.5, capthick=1.5,
+    #             yerr=np.array((0.01,0.01)).reshape((2,1)),
+    #             fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
 
     return
 
@@ -719,7 +725,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
-    nsample = 3
+    nsample = 100
     rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
     nzs = len(zc) 
     g = np.zeros((nsample, nzs))
@@ -805,7 +811,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     plt.legend(handles[::-1], labels[::-1], loc='upper right',
                fontsize=10, handlelength=3, frameon=False,
                framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.3, scatterpoints=1)
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
 
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
