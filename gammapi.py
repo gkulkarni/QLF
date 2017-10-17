@@ -8,8 +8,10 @@ mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 import rtg 
 
+
 def luminosity(M):
     return 10.0**((51.60-M)/2.5) # ergs s^-1 Hz^-1 
+
 
 def f(loglf, theta, M, z, fit='composite'):
     # SED power law index is from Beta's paper.
@@ -31,6 +33,7 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
         farr = f(loglf, theta, m, z)
     return np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3
 
+
 def get_emissivity(lfi, z):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
@@ -43,6 +46,7 @@ def get_emissivity(lfi, z):
     lfi.emissivity = [u, l, c]
 
     return 
+
 
 def Gamma_HI(loglf, theta, z, fit='composite'):
 
@@ -61,6 +65,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
     return part1+part2 
+
 
 def Gamma_HI_singleslope(loglf, theta, z, fit='composite'):
 
