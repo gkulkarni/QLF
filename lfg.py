@@ -74,9 +74,9 @@ if case == 0:
 
     labels = 14*['a']
 
-    lfg.corner_plot(labels=labels)
-    lfg.chains(labels=labels)
-    sp(composite=lfg, sample=True)
+    # lfg.corner_plot(labels=labels)
+    # lfg.chains(labels=labels)
+    # sp(composite=lfg, sample=True)
 
     import bins
     
