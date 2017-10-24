@@ -14,9 +14,10 @@ def f(loglf, theta, m, z, fit='individual'):
     
     return 10.0**loglf(theta, m)
 
-def rhoqso(loglf, theta, mlim, z, fit='individual'):
 
-    m = np.linspace(-35.0, mlim, num=1000)
+def rhoqso(loglf, theta, mlim, z, fit='individual', mbright=-35.0):
+
+    m = np.linspace(mbright, mlim, num=1000)
     if fit == 'composite':
         farr = f(loglf, theta, m, z, fit='composite')
     else:
@@ -24,10 +25,11 @@ def rhoqso(loglf, theta, mlim, z, fit='individual'):
     
     return np.trapz(farr, m) # cMpc^-3
 
-def get_rhoqso(lfi, mlim, z, fit='individual'):
+
+def get_rhoqso(lfi, mlim, z, fit='individual', mbright=-35.0):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
-    n = np.array([rhoqso(lfi.log10phi, theta, mlim, z) 
+    n = np.array([rhoqso(lfi.log10phi, theta, mlim, z, mbright=mbright) 
                   for theta
                   in lfi.samples[rindices]])
     u = np.percentile(n, 15.87) 
@@ -36,6 +38,7 @@ def get_rhoqso(lfi, mlim, z, fit='individual'):
     lfi.rhoqso = [u, l, c]
 
     return
+
 
 def draw(individuals, zlims):
 
@@ -372,4 +375,89 @@ def draw_withGlobal(composite, individuals, zlims):
     return
 
 
+def global_optimum_differential(ax, composite, mbright, mfaint, color):
 
+    nzs = 50 
+    z = np.linspace(0, 7, nzs)
+
+    bf = composite.bf.x 
+    r = np.array([rhoqso(composite.log10phi, bf, mfaint, x, mbright=mbright, fit='composite') for x in z])
+    ax.plot(z, r, color='k', zorder=7)
+
+    return
+
+
+def draw_differential_dense_optimum(composite, individuals, zlims, select=False):
+
+    fig = plt.figure(figsize=(7, 10), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\rho(z)$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-10, 4.0e-3)
+
+    mf = -18
+    mb = -19
+    c = 'tomato'
+    global_optimum_differential(ax, composite, mb, mf, c)
+
+    mf = -19
+    mb = -20
+    c='#ff7f0e'
+    global_optimum_differential(ax, composite, mf, mf, c)
+    
+    mf = -20
+    mb = -21
+    c='#1f77b4'
+    global_optimum_differential(ax, composite, mb, mf, c)
+    
+    mf = -21
+    mb = -22
+    c = 'forestgreen'
+    global_optimum_differential(ax, composite, mb, mf, c)
+
+    mf = -22
+    mb = -23
+    c='#9467bd'
+    global_optimum_differential(ax, composite, mb, mf, c)
+    
+    mf = -23
+    mb = -24
+    c='#8c564b'
+    global_optimum_differential(ax, composite, mb, mf, c)
+    
+    mf = -24
+    mb = -25
+    c = 'goldenrod'
+    global_optimum_differential(ax, composite, mb, mf, c)
+
+    mf = -25
+    mb = -26
+    c='#bcbd22'
+    global_optimum_differential(ax, composite, mb, mf, c)
+
+    mf = -26
+    mb = -27
+    c = '#7f7f7f'
+    global_optimum_differential(ax, composite, mb, mf, c)
+    
+    mf = -27
+    mb = -28
+    c = '#17becf'
+    global_optimum_differential(ax, composite, mb, mf, c)
+    
+    plt.legend(loc='upper left', fontsize=14, handlelength=1.5,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01,
+               scatterpoints=1, ncol=2)
+    
+    plt.savefig('rhoqso_diff.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
