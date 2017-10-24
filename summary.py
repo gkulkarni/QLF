@@ -371,17 +371,6 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6, lw=2)
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=40)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad') 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=6, lw=1)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
-    
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,10,11,12), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -392,10 +381,10 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1.0, c, 1)
+        coeffs = chebfit(zmean+1.0, c, 2)
 
-        def func(z, p0, p1):
-            return T([p0, p1])(z)
+        def func(z, p0, p1, p2):
+            return T([p0, p1, p2])(z)
 
         sigma = u-l
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -414,8 +403,18 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
-        
-        
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6, lw=1)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
+    
     leg = plt.legend(loc='upper left', fontsize=10, handlelength=3,
                      frameon=False, framealpha=0.0, labelspacing=.1,
                      handletextpad=0.1, borderpad=0.01, scatterpoints=1)
@@ -443,6 +442,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if compOpt is not None:
         beta = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[3])
+        #beta = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[3])
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
@@ -492,24 +492,13 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6, lw=2)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=40)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='bad') 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=6, lw=1)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
-    
     cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 4)
 
-        def func(z, p0, p1, p2):
-            return T([p0, p1, p2])(z)
+        def func(z, p0, p1, p2, p3, p4):
+            return T([p0, p1, p2, p3, p4])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -538,17 +527,16 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     curvefit2 = False
     if curvefit2:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(np.log10(zmean+1), np.log10(-c), 4)
+        coeffs = chebfit(np.log10(zmean+1), c, 3)
         
-        def func(z, p0, p1, p2, p3, p4):
+        def func(z, p0, p1, p2, p3):
             zeta = np.log10(1.0+z)
-            return T([p0, p1, p2, p3, p4])(zeta)
+            return T([p0, p1])(zeta)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[coeffs])
         
         print 'beta:', popt
-        # plt.plot(zc, -10.0**func(zc, *popt), lw=1, c='c', dashes=[7,2])
         plt.plot(zc, func(zc, *popt), lw=1, c='c', dashes=[7,2])
 
     curvefit3 = False
@@ -563,6 +551,34 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,1.0,1.4,-0.7])
         print 'beta:', popt
         plt.plot(zc, func(zc, *popt), lw=1, c='c', dashes=[7,2])
+
+    curvefit4 = False
+    if curvefit4:
+        zc = np.linspace(0, 7, 500)
+        
+        def func(z, h, z0, f, alpha1, alpha2, beta):
+            x = z+1
+            term1 = (1.0-f) * (1+(x/z0)**beta)**alpha1
+            term2 = f * (1+(x/z0))**alpha2 
+            return h*(term1+term2)
+
+        sigma = u - l 
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,3,0.01,-2.0,-2.0,0])
+        print 'beta:', popt
+        plt.plot(zc, func(zc, *popt), lw=1, c='m', dashes=[7,2])
+        
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='bad') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6, lw=1)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
+    
         
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
