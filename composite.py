@@ -183,6 +183,7 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
+        # return T(p)(np.log10(1+z))
         return T(p)(1+z)
 
     def atz_beta(self, z, p):
