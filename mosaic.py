@@ -63,7 +63,7 @@ def draw(lfs, composite=None):
 
     nplots_x = 5
     nplots_y = 5
-    nplots = nplots_x * nplots_y
+    nplots = 16 # nplots_x * nplots_y
 
     plot_number = 0
 
