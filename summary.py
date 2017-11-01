@@ -24,7 +24,8 @@ z = np.linspace(zmin, zmax, num=50)
 cfit = False
 
 # These redshift bins are labelled "bad" and are plotted differently.
-reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] 
+reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+#reject = []
 
 def getParam(individuals, param, which='old', dtype='good'):
 
@@ -129,28 +130,18 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6, lw=2)
     ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=40)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='bad') 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=6, lw=1)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=35)
-    
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(np.log10(zmean+1), c, 2)
+        print coeffs
 
         def func(z, p0, p1, p2):
             return T([p0, p1, p2])(z)
 
         sigma = uperr + downerr 
-        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=[coeffs])
         print 'phi_star:', popt 
-        plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
+        plt.plot(zc, func(np.log10(zc+1), *popt), lw=1, c='k', dashes=[7,2])
 
     curvefit = False
     if curvefit:
@@ -164,6 +155,17 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-12.2, 6.6, 4.6, 4.9, -0.1])
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='bad') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6, lw=1)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=35)
+    
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,1,2,3), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -245,17 +247,6 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6, lw=2)
     ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=40)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='bad') 
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=6, lw=1)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
-    
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
@@ -265,15 +256,15 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 3)
+        coeffs = chebfit(np.log10(zmean+1), c, 3)
 
         def func(z, p0, p1, p2, p3):
             return T([p0, p1, p2, p3])(z)
 
         sigma = np.abs(u-l)
-        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=[coeffs])
         print 'mstar:', popt
-        plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
+        plt.plot(zc, func(np.log10(zc+1), *popt), lw=1, c='k', dashes=[7,2])
 
     curvefit = False
     if curvefit:
@@ -298,6 +289,18 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
         p = np.polyfit(zmean+1, c, 3)
         print 'mstar', p
         plt.plot(zc, np.polyval(p, zc+1), lw=1, c='g', dashes=[7,2], zorder=3)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='bad') 
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6, lw=1)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
+    
         
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -381,15 +384,15 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1.0, c, 2)
+        coeffs = chebfit(np.log10(zmean+1.0), c, 1)
 
-        def func(z, p0, p1, p2):
-            return T([p0, p1, p2])(z)
+        def func(z, p0, p1):
+            return T([p0, p1])(z)
 
         sigma = u-l
-        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        popt, pcov = curve_fit(func, np.log10(zmean+1), c, sigma=sigma, p0=[coeffs])
         print 'alpha:', popt
-        plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2],
+        plt.plot(zc, func(np.log10(zc+1), *popt), lw=1, c='k', dashes=[7,2],
                  label=r'French curve')
 
     curvefit = False
