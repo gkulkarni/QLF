@@ -41,7 +41,7 @@ def getqlums(lumfile, zlims=None):
             # host galaxy contamination; (3) to m > -23 at low z to
             # avoid incompleteness; and (4) to m < -26 at high z to
             # avoid incompleteness.  Also see selmap below.
-            select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.6) & (mag < -23.0)) |
+            select = (((z>=z_min) & (z<z_max) & (z<2.2) & (z>=0.68) & (mag < -23.0)) |
                       ((z>=z_min) & (z<z_max) & (z>=3.5) & (z<4.7) & (p > 0.9)))
     except(IndexError):
         pass
@@ -53,7 +53,7 @@ def getqlums(lumfile, zlims=None):
             else:
                 # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
                 # above this redshift.
-                select = ((z>=z_min) & (z<z_max) & (z<2.2))
+                select = ((z>=z_min) & (z<z_max) & (z<2.2) & (p>0.5))
     except(IndexError):
         pass
 
@@ -142,7 +142,7 @@ class selmap:
             # avoid incompleteness.  Also see getqlums above.
 
             z_min, z_max = zlims 
-            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.6) & (self.m < -23.0)) |
+            select = (((self.z>=z_min) & (self.z<z_max) & (self.z<2.2) & (self.z>=0.68) & (self.m < -23.0)) |
                       ((self.z>=z_min) & (self.z<z_max) & (self.z>=3.5) & (self.z<4.7) & (self.p > 0.9)))
             
             self.z = self.z[select]
@@ -156,7 +156,7 @@ class selmap:
             else:
                 # Restrict 2SLAQ sample to z < 2.2.  We use only BOSS
                 # above this redshift.
-                select = (self.z<2.2)
+                select = ((self.z<2.2) & (self.p>0.5))
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
