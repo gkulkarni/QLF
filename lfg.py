@@ -20,7 +20,7 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
              'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat',
+             #'Data_new/giallongo15_sample.dat',
              'Data_new/ukidss_sample.dat',
              'Data_new/banados_sample.dat']
 
@@ -40,7 +40,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10),
              ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
-             ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7),
+             #('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7),
              ('Data_new/ukidss_sel.dat', 0.8, 0.45, 3370.0, 19),
              ('Data_new/banados_sel.dat', 1.0, 1.6, 2500.0, 20)]
 

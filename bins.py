@@ -19,8 +19,8 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/jiang16s82_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
-             'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat']
+             'Data_new/kashikawa15_sample.dat']
+             #'Data_new/giallongo15_sample.dat']
 
 selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 Richards et al.\ 2006'),
              ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'2SLAQ Croom et al.\ 2009'),
@@ -37,8 +37,8 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'SDSS DR7 
              ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'SDSS Jiang et al.\ 2016'),
              ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'CFHQS Willott et al.\ 2010'),
              ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10, r'CFHQS Willott et al.\ 2010'),
-             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015'),
-             ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7, 'Giallongo et al.\ 2015')]
+             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Subaru Kashikawa et al.\ 2015')]
+             #('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7, 'Giallongo et al.\ 2015')]
 
 method = 'Nelder-Mead'
 
