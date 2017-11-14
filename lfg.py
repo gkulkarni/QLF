@@ -1,7 +1,7 @@
 import sys
 import numpy as np 
 from composite import lf
-from summary import summary_plot as sp
+from summary_fromFile import summary_plot as sp
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
