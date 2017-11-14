@@ -1,0 +1,11 @@
+# Redshift z = 7.085 qso is from Mortlock et al. 2011 (Nature 474
+# 616).  Redshift z = 6.530 qso is from Venemans et al. 2007 (MNRAS
+# 376 L76).  Here we have assigned them a selection probability and
+# survey area following the discussion in Section 5.1 of Jiang et
+# al. 2016 (ApJ 833 222).  See also the email of 14 December 2016 from
+# Daniel Mortlock to Gabor Worseck.
+
+# counter  z      M1450  p    area  sample
+        1  7.085  -26.6  1.0  3370  19
+	2  6.530  -27.4  1.0  3370  19
+
