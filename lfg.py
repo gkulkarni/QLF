@@ -44,7 +44,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              # ('Data_new/ukidss_sel_4.dat', 0.1, 0.1, 3370.0, 19),
              # ('Data_new/banados_sel_4.dat', 0.1, 0.1, 2500.0, 20)]
 
-case = 5
+case = 4
 
 if case == 0:
 
