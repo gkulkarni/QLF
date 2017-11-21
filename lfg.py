@@ -20,7 +20,7 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
              'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat',
+             #'Data_new/giallongo15_sample.dat',
              'Data_new/ukidss_sample.dat',
              'Data_new/banados_sample.dat']
 
@@ -40,11 +40,11 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10),
              ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10),
              ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
-             ('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7),
+             #('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7),
              ('Data_new/ukidss_sel_4.dat', 0.1, 0.1, 3370.0, 19),
              ('Data_new/banados_sel_4.dat', 0.1, 0.1, 2500.0, 20)]
 
-case = 0
+case = 4
 
 if case == 0:
 
@@ -174,12 +174,12 @@ elif case == 3:
     
 elif case == 4:
 
-    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,5])
+    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,3])
 
-    g = np.array([-14.91608053,   9.56315388,  -6.79813429,
-                  -8.84766506, -29.42149341,  11.77064009,  -3.14985466,
-                  -3.32340877, -1.86158462,
-                  -2.47899576, 0.978408, 3.76233908, 10.96715636, -0.33557835])
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -18.64592897, -4.52638114, 0.47207865, -0.01890026,
+                  -3.35945526, -0.26211017,
+                  -1.60670033, -0.02759287, -0.00685381])
 
     method = 'Nelder-Mead'
     b = lfg.bestfit(g, method=method)

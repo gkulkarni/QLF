@@ -393,29 +393,15 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=40)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='bad')
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
-                fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
-        
-    cfit = False
+    cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 1)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1, p2, p3, p4, p5):
-            if z < np.log10(3.0):
-                return -1.6
-            else:
-                return T([p0, p1, p2, p3, p4, p5])(z)
+        def func(z, p0, p1):
+                return T([p0, p1])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -443,6 +429,17 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
+        
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,

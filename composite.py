@@ -190,9 +190,11 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
 
-        h, f0, z0, a, b = p 
-        zeta = np.log10((1.0+z)/(1.0+z0))
-        return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
+        return T(p)(1+z)
+        
+        # h, f0, z0, a, b = p 
+        # zeta = np.log10((1.0+z)/(1.0+z0))
+        # return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
 
     def getparams(self, theta):
 
