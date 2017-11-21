@@ -44,7 +44,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/ukidss_sel_4.dat', 0.1, 0.1, 3370.0, 19),
              ('Data_new/banados_sel_4.dat', 0.1, 0.1, 2500.0, 20)]
 
-case = 4
+case = 5
 
 if case == 0:
 
@@ -180,6 +180,19 @@ elif case == 4:
                   -18.64592897, -4.52638114, 0.47207865, -0.01890026,
                   -3.35945526, -0.26211017,
                   -1.60670033, -0.02759287, -0.00685381])
+
+    method = 'Nelder-Mead'
+    b = lfg.bestfit(g, method=method)
+    print b
+
+elif case == 5:
+
+    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,2])
+
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -18.64592897, -4.52638114, 0.47207865, -0.01890026,
+                  -3.35945526, -0.26211017,
+                  -1.41863171, -0.13546455])
 
     method = 'Nelder-Mead'
     b = lfg.bestfit(g, method=method)
