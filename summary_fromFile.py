@@ -86,11 +86,20 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None: 
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(len(composite.samples),
-                                                             size=900)]:
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            phi = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                phi = composite.atz(z, params[0]) 
-                ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
+                phi[i] = composite.atz(z, params[0]) 
+                
+            up = np.percentile(phi, 15.87, axis=0)
+            down = np.percentile(phi, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color=colors[0], zorder=1)
+            
         phi = composite.atz(z, composite.getparams(bf)[0])
         ax.plot(z, phi, color='k', zorder=2, lw=2)
 
@@ -182,11 +191,20 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
-                params = composite.getparams(theta) 
-                M = composite.atz(z, params[1]) 
-                ax.plot(z, M, color='darkgrey', zorder=1)
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            M = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
+                params = composite.getparams(theta)
+                M[i] = composite.atz(z, params[1]) 
+                
+            up = np.percentile(M, 15.87, axis=0)
+            down = np.percentile(M, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color=colors[1], zorder=1)
+            
         M = composite.atz(z, composite.getparams(bf)[1])
         ax.plot(z, M, color='k', zorder=2, lw=2)
 
@@ -283,11 +301,20 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            alpha = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                alpha = composite.atz(z, params[2])
-                ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
+                alpha[i] = composite.atz(z, params[2]) 
+                
+            up = np.percentile(alpha, 15.87, axis=0)
+            down = np.percentile(alpha, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color=colors[2], zorder=1)
+            
         alpha = composite.atz(z, composite.getparams(bf)[2])
         ax.plot(z, alpha, color='k', zorder=2, lw=2)
 
@@ -373,12 +400,21 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
-        if sample: 
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
+        if sample:
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            beta = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                beta = composite.atz_beta(z, params[3]) 
-                ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
+                beta[i] = composite.atz_beta(z, params[3]) 
+                
+            up = np.percentile(beta, 15.87, axis=0)
+            down = np.percentile(beta, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color=colors[3], zorder=1)
+            
         beta = composite.atz_beta(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=2, lw=2)
 
