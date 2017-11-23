@@ -565,7 +565,7 @@ def khaire(ax):
     # z = np.array([0.0, 0.2, 0.4, 0.6])
     # g = np.array([4.1e-14, 9.4e-14, 1.9e-13, 3.3e-13]) # s^-1
 
-    z, g = np.loadtxt('Data_new/Gama_full_fe00.txt',
+    z, g = np.loadtxt('Data_new/khaire15_gammaHI.dat',
                       usecols=(0,1), unpack=True)
     
     ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015 QSOs')
@@ -597,7 +597,7 @@ def onorbe(ax):
 
     """
 
-    log1pz, g = np.loadtxt('Data_new/onorbe.dat', usecols=(0,1), unpack=True)
+    log1pz, g = np.loadtxt('Data_new/onorbe17_gammaHI.dat', usecols=(0,1), unpack=True)
     z = 10.0**log1pz - 1.0 
 
     ax.plot(z, g*1.0e12, c='#bcbd22', lw=2, label='O\~norbe et al.\ 2017')
@@ -725,7 +725,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
-    nsample = 100
+    nsample = 3
     rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
     nzs = len(zc) 
     g = np.zeros((nsample, nzs))
