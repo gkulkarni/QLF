@@ -476,3 +476,47 @@ def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_f
 
     return 
     
+def draw_talk(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
+
+    """
+
+    Plot data, best fit LF, and posterior LFs.
+
+    """
+
+    z_plot = lf.z.mean() 
+    
+    fig = plt.figure(figsize=(7, 3), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=3, width=1)
+
+    render(ax, lf, composite=composite, showMockSample=showMockSample,
+           show_individual_fit=show_individual_fit)
+
+    ax.set_xlim(-17.0, -31.0)
+    ax.set_ylim(-12.0, -4.0)
+    ax.set_xticks(np.arange(-31,-16, 2))
+    ax.set_yticks(np.arange(-12,-3, 2))
+
+    ax.set_xlabel(r'$M_{1450}$')
+    ax.set_ylabel(r'$\log_{10}\phi$')
+
+    # legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
+    # plt.legend(loc='lower left', fontsize=12, handlelength=3,
+    #            frameon=False, framealpha=0.0, labelspacing=.1,
+    #            handletextpad=0.1, borderpad=0.2, scatterpoints=1,
+    #            title=legend_title)
+
+    plottitle = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1])
+    plt.text(-17.5, -11, plottitle)
+    
+    # plt.title(plottitle, size='medium', y=1.01)
+
+    plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)
+    plt.savefig(plotfile, bbox_inches='tight')
+
+    plt.close('all') 
+
+    return 
+    
