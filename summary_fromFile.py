@@ -13,7 +13,7 @@ from scipy.interpolate import UnivariateSpline
 
 # These redshift bins are labelled "bad" and are plotted differently.
 # reject = [0, 1, 8, 9, 10, 11, 12, 13]
-reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+reject = [0, 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown'] 
 nplots_x = 2

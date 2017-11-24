@@ -725,7 +725,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
-    nsample = 100
+    nsample = 3
     rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
     nzs = len(zc) 
     g = np.zeros((nsample, nzs))
