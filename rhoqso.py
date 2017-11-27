@@ -318,7 +318,7 @@ def individuals_differential(ax, individuals, mbright, mfaint, color):
 def individuals_cumulative(ax, individuals, mlim, color, label):
 
     # These redshift bins are labelled "bad" and are plotted differently.
-    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    reject =[]#  [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
     m = np.ones(len(individuals), dtype=bool)
     m[reject] = False
@@ -470,20 +470,20 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
 
     mlim = -18
     individuals_cumulative(ax, individuals, mlim, 'tomato', '$M<-18$')
-    global_cumulative(ax, composite, mlim, 'tomato')
+    #global_cumulative(ax, composite, mlim, 'tomato')
 
     mlim = -21
     individuals_cumulative(ax, individuals, mlim, 'forestgreen', '$M<-21$')
-    global_cumulative(ax, composite, mlim, 'forestgreen')
+   # global_cumulative(ax, composite, mlim, 'forestgreen')
 
     mlim = -24
     individuals_cumulative(ax, individuals, mlim, 'goldenrod', '$M<-24$')
-    global_cumulative(ax, composite, mlim, 'goldenrod')
+   # global_cumulative(ax, composite, mlim, 'goldenrod')
 
     mlim = -27
     c = '#17becf'
     individuals_cumulative(ax, individuals, mlim, c, '$M<-27$')
-    global_cumulative(ax, composite, mlim, c)
+   # global_cumulative(ax, composite, mlim, c)
     
     plt.legend(loc='upper left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,

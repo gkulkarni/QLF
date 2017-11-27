@@ -333,13 +333,13 @@ def plotq():
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='forestgreen', lw=3, label=r'He~\textsc{iii} (our model $M<-18$)', zorder=-3)
+    plt.plot(z, q, c='forestgreen', lw=3, label=r'He~\textsc{iii} ($M<-18$)', zorder=-3)
 
     z = np.linspace(12, 2, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m20,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='goldenrod', lw=3, label=r'He~\textsc{iii} (our model $M<-20$)', zorder=-3)
+    plt.plot(z, q, c='goldenrod', lw=3, label=r'He~\textsc{iii} ($M<-21$)', zorder=-3)
     
     plt.ylim(0,1.1)
     plt.xlim(2,15)

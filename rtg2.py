@@ -274,7 +274,7 @@ def fnu(nu, M):
 
 vfnu = np.vectorize(fnu, excluded=['M'], otypes=[np.float])
 
-def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
+def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-21):
 
     m = np.linspace(mbright, mfaint, num=100)
     nu = c_angPerSec/w
@@ -295,7 +295,7 @@ def g_lsa(z, loglf, theta):
     alpha_EUV = -1.7
     part1 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1 
 
-    em = emissivity(w, z, loglf, theta, mbright=-23.0, mfaint=-18.0)    
+    em = emissivity(w, z, loglf, theta, mbright=-23.0, mfaint=-21.0)    
     alpha_EUV = -0.56
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
@@ -468,7 +468,7 @@ def lfis(individuals, ax):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='k', edgecolor='k',
-               label='Individual fits (accepted; $M<-18$)',
+               label='Individual fits (accepted; $M<-21$)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -495,7 +495,7 @@ def lfis(individuals, ax):
     lzerr = zs-lz 
 
     ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits (rejected; $M<-18$)',
+               label='Individual fits (rejected; $M<-21$)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -668,11 +668,11 @@ def gaikwad_b(ax):
     g = np.array([6.7e-14, 9.5e-14, 1.45e-13, 2.0e-13])
     gerr = np.array([5.0e-15, 5.0e-15, 1.5e-14, 2.2e-14])
 
-    ax.scatter(z, g*1.0e12, c='#e377c2', edgecolor='None',
-               label='Gaikwad et al.\ 2017b',
+    ax.scatter(z, g*1.0e12, c='r', edgecolor='None',
+               label='Gaikwad et al.\ 2017',
                s=64, zorder=4, linewidths=1.5) 
 
-    ax.errorbar(z, g*1.0e12, ecolor='#e377c2', capsize=0,
+    ax.errorbar(z, g*1.0e12, ecolor='r', capsize=0,
                 fmt='None', elinewidth=1.5, zorder=4,
                 xerr=np.vstack((lzerr, uzerr)),
                 yerr=gerr*1.0e12)
@@ -712,39 +712,48 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     ax.set_xlabel('$z$')
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-2, 100)
-    ax.set_xlim(0.,7)
+    ax.set_ylim(1.0e-2, 50)
+    ax.set_xlim(0.,2)
 
-    locs = (0.01, 0.1, 1, 10, 100)
-    labels = ('0.01', '0.1', '1', '10', '100')
+    locs = (0.01, 0.1, 1, 10)
+    labels = ('0.01', '0.1', '1', '10')
     plt.yticks(locs, labels)
 
-    zmax = 9.7
+    zmax = 10.0
     zmin = 0.0
     dz = 0.1 
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
-    nsample = 3
+    nsample = 100
     rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
     nzs = len(zc) 
     g = np.zeros((nsample, nzs))
 
-    for i, x in enumerate(rsample):
-        print i 
-        z, g[i] = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=zmax)
+    # for i, x in enumerate(rsample):
+    #     print i 
+    #     z, g[i] = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=zmax)
 
-    up = np.percentile(g, 15.87, axis=0)/1.0e-12
-    down = np.percentile(g, 84.13, axis=0)/1.0e-12
+    data = np.load('g.npz')
+    zc = data['zc']
+    down = data['down']
+    up = data['up']
+    z = data['z']
+    g = data['g']
+
+    # up = np.percentile(g, 15.87, axis=0)/1.0e-12
+    # down = np.percentile(g, 84.13, axis=0)/1.0e-12
     ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
         
-    theta = np.median(lfg.samples, axis=0)
-    z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
-    ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
-    
+    # theta = np.median(lfg.samples, axis=0)
+    # z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
+    ax.plot(z, g/1.0e-12, c='k', lw=2)
+
+    #np.savez('g_21', zc=zc, down=down, up=up, z=z, g=g)
+
     if z2 is not None:
         ax.plot(z2, g2/1.0e-12, c='k', lw=2,
-                label=r'Global model ($M<-18$) local source approximation')
+                label=r'Global model ($M<-21$) local source approximation')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='dodgerblue', lw=2,
@@ -756,53 +765,53 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     ax.plot(zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=2,
             label=r'Madau \& Haardt 2015')
     
-    bb13(ax)
-    calverley(ax)
+    # bb13(ax)
+    # calverley(ax)
 
-    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    # zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
-    eg *= 1.0e24
-    eg_lerr *= 1.0e24
-    eg_uerr *= 1.0e24
+    # eg *= 1.0e24
+    # eg_lerr *= 1.0e24
+    # eg_uerr *= 1.0e24
 
-    gg = Gamma_HI(eg, zg)
-    gg_lerr = gg - Gamma_HI(eg-eg_lerr, zg)
-    gg_uerr = gg - Gamma_HI(eg-eg_uerr, zg)
+    # gg = Gamma_HI(eg, zg)
+    # gg_lerr = gg - Gamma_HI(eg-eg_lerr, zg)
+    # gg_uerr = gg - Gamma_HI(eg-eg_uerr, zg)
 
-    gg *= 1.0e12
-    gg_lerr *= 1.0e12
-    gg_uerr *= 1.0e12
+    # gg *= 1.0e12
+    # gg_lerr *= 1.0e12
+    # gg_uerr *= 1.0e12
     
-    ax.scatter(zg, gg, c='grey', edgecolor='None',
-               label=r'Giallongo et al.\ 2015 ($M<-18$)',
-               s=72, zorder=4)
+    # ax.scatter(zg, gg, c='tomato', edgecolor='None',
+    #            label=r'Giallongo et al.\ 2015 ($M<-18$)',
+    #            s=72, zorder=4)
 
-    ax.errorbar(zg, gg, ecolor='grey', capsize=0, fmt='None', elinewidth=2,
-                xerr=np.vstack((zg_lerr, zg_uerr)),
-                yerr=np.vstack((gg_lerr, gg_uerr)), 
-                zorder=3, mew=1)
+    # ax.errorbar(zg, gg, ecolor='tomato', capsize=0, fmt='None', elinewidth=2,
+    #             xerr=np.vstack((zg_lerr, zg_uerr)),
+    #             yerr=np.vstack((gg_lerr, gg_uerr)), 
+    #             zorder=3, mew=1)
 
-    g_M17 = gamma_HI_Manti17(zc)
-    ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
+    # g_M17 = gamma_HI_Manti17(zc)
+    # ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
 
     shull(ax)
 
-    khaire(ax)
+    # khaire(ax)
 
-    bolton(ax)
+    # bolton(ax)
 
-    onorbe(ax)
+    # onorbe(ax)
 
-    fumagalli(ax)
+    # fumagalli(ax)
 
-    if individuals is not None:
-        lfis(individuals, ax)
+    # if individuals is not None:
+    #     lfis(individuals, ax)
 
     kollmeier(ax)
 
-    viel(ax)
+    # viel(ax)
 
-    gaikwad_a(ax)
+    #gaikwad_a(ax)
 
     gaikwad_b(ax)
 
@@ -811,9 +820,8 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
     plt.legend(handles[::-1], labels[::-1], loc='upper right',
                fontsize=10, handlelength=3, frameon=False,
                framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=1)
 
-    
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
 
