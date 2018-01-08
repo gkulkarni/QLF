@@ -2,7 +2,6 @@ import sys
 import numpy as np 
 from individual import lf
 import drawlf
-import cProfile
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/croom09sgp_sample.dat',
@@ -27,18 +26,10 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
               0.1, 0.05, 6248.0, 13,
               r'SDSS DR7 Richards et al.\ 2006'),
              
-             # ('croom09sgp_selfunc_interpolated_linear.dat',
-             #  0.028, 0.007, 64.2, 15,
-             #  r'2SLAQ Croom et al.\ 2009'),
-
              ('Data_new/croom09sgp_selfunc.dat',
               0.3, 0.05, 64.2, 15,
               r'2SLAQ Croom et al.\ 2009'),
              
-             # ('croom09ngp_selfunc_interpolated_linear.dat',
-             #  0.028, 0.007, 127.7, 15,
-             #  r'2SLAQ Croom et al.\ 2009'),
-
              ('Data_new/croom09ngp_selfunc.dat',
               0.3, 0.05, 127.7, 15,
               r'2SLAQ Croom et al.\ 2009'),
@@ -109,8 +100,6 @@ zl = (zmin, zmax)
 lfi = lf(quasar_files=qlumfiles, selection_maps=selnfiles, zlims=zl)
 print '{:d} quasars in this bin.'.format(lfi.z.size)
 
-# g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
-# g = (np.log10(1.e-6), -21.0, -3.0, -2.0)
 g = (np.log10(1.e-6), -25.0, -3.0, -1.5)
 
 b = lfi.bestfit(g, method=method)
@@ -124,6 +113,7 @@ else:
 if zmin > 5.4:
     # Special priors for z = 6 data.
     lfi.prior_max_values = np.array([-4.0, -20.0, -4.0, 0.0])
+
     # Change result of optimize.minimize so that emcee works.
     lfi.bf.x[2] = -5.0
 elif zmin < 0.3:
@@ -136,10 +126,9 @@ assert(np.all(lfi.prior_min_values < lfi.prior_max_values))
 lfi.run_mcmc()
 bf = np.median(lfi.samples, axis=0)
 print bf 
-lfi.get_percentiles()
-print lfi.alpha
 
-# WRITE_PARAMS = True
+lfi.get_percentiles()
+
 if WRITE_PARAMS: 
     with open('new_bins_26jul17_seln.dat', 'a') as f:
         output = ([lfi.z.mean()] + list(zl) + lfi.phi_star

@@ -8,8 +8,10 @@ mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 import rtg 
 
+
 def luminosity(M):
     return 10.0**((51.60-M)/2.5) # ergs s^-1 Hz^-1 
+
 
 def f(loglf, theta, M, z, fit='composite'):
     # SED power law index is from Beta's paper.
@@ -31,6 +33,7 @@ def emissivity(loglf, theta, z, mlims, fit='composite'):
         farr = f(loglf, theta, m, z)
     return np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3
 
+
 def get_emissivity(lfi, z):
 
     rindices = np.random.randint(len(lfi.samples), size=300)
@@ -43,6 +46,7 @@ def get_emissivity(lfi, z):
     lfi.emissivity = [u, l, c]
 
     return 
+
 
 def Gamma_HI(loglf, theta, z, fit='composite'):
 
@@ -61,6 +65,7 @@ def Gamma_HI(loglf, theta, z, fit='composite'):
     part2 = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
 
     return part1+part2 
+
 
 def Gamma_HI_singleslope(loglf, theta, z, fit='composite'):
 
@@ -424,26 +429,30 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     ax.set_yscale('log')
     ax.set_ylim(1.0e23, 1.0e26)
 
-    if select: 
-        individuals = [x for x in all_individuals if x.z.mean() < 2.0 or x.z.mean() > 2.8]
-    else:
-        individuals = all_individuals
-    
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
-    for x in individuals:
+    m = np.ones(len(all_individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m) 
+    
+    individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(all_individuals) if i in set(reject)]
+    
+    for x in individuals_bad:
         get_emissivity(x, x.z.mean())
     
-    c = np.array([x.emissivity[2] for x in individuals])
-    u = np.array([x.emissivity[0] for x in individuals])
-    l = np.array([x.emissivity[1] for x in individuals])
+    c = np.array([x.emissivity[2] for x in individuals_bad])
+    u = np.array([x.emissivity[0] for x in individuals_bad])
+    l = np.array([x.emissivity[1] for x in individuals_bad])
 
     em = c
     em_up = u - c
     em_low = c - l 
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x.zlims[0] for x in individuals])
-    lz = np.array([x.zlims[1] for x in individuals])
+    zs = np.array([x.z.mean() for x in individuals_bad])
+    uz = np.array([x.zlims[0] for x in individuals_bad])
+    lz = np.array([x.zlims[1] for x in individuals_bad])
     
     uzerr = uz-zs
     lzerr = zs-lz 
@@ -458,6 +467,34 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
                 mfc='#ffffff', mec='#404040', zorder=3, mew=1,
                 ms=5)
 
+    for x in individuals_good:
+        get_emissivity(x, x.z.mean())
+    
+    c = np.array([x.emissivity[2] for x in individuals_good])
+    u = np.array([x.emissivity[0] for x in individuals_good])
+    l = np.array([x.emissivity[1] for x in individuals_good])
+
+    em = c
+    em_up = u - c
+    em_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, em, c='k', edgecolor='k',
+               label='Individual fits ($M<-18$)',
+               s=48, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+    
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
     eg *= 1.0e24
@@ -485,12 +522,20 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     if composite is not None:
         zc = np.linspace(0, 7, 200)
         bf = np.median(composite.samples, axis=0)
-        e = [emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc]
-        for theta in composite.samples[np.random.randint(len(composite.samples),
-                                                         size=300)]:
-            e = [emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc]
-            ax.plot(zc, e, c='goldenrod', alpha=0.1)
-        ax.plot(zc, e, c='goldenrod', lw=2, label='Global model ($M<-18$)')
+
+        nsample = 300
+        rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+        nzs = len(zc) 
+        e = np.zeros((nsample, nzs))
+
+        for i, theta in enumerate(rsample):
+            e[i] = np.array([emissivity(composite.log10phi, theta, x, (-30.0, -18.0)) for x in zc])
+
+        up = np.percentile(e, 15.87, axis=0)
+        down = np.percentile(e, 84.13, axis=0)
+        ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
+
+        e = np.array([emissivity(composite.log10phi, bf, x, (-30.0, -18.0)) for x in zc])
         ax.plot(zc, e, c='k', lw=2) 
 
     
@@ -504,3 +549,21 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     return
 
 
+def get_gammapi_percentiles(lfi, z):
+
+    """
+    Calculate photoionization rate posterior mean value and 1-sigma
+    percentile.
+
+    """
+    rindices = np.random.randint(len(lfi.samples), size=300)
+    g = np.array([np.log10(Gamma_HI(lfi.log10phi, theta, z,
+                                            fit='individual'))
+                  for theta
+                  in lfi.samples[rindices]])
+    u = np.percentile(g, 15.87) 
+    l = np.percentile(g, 84.13)
+    c = np.mean(g)
+    lfi.gammapi = [u, l, c]
+
+    return 

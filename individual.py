@@ -21,9 +21,6 @@ import gammapi
 import rtg
 import corner
 
-m_cutoff_13 = 0.0
-m_cutoff_15 = 0.0
-
 def getqlums(lumfile, zlims=None):
 
     """Read quasar luminosities."""
@@ -51,58 +48,6 @@ def getqlums(lumfile, zlims=None):
 
     select = None
 
-    m_cutoff_13 = 0.0
-    m_cutoff_15 = 0.0
-    
-    if z_min == 0.4:
-
-        m_cutoff_13 = -21.9 
-        m_cutoff_15 = 0.0
-
-    elif z_min == 0.6:
-
-        m_cutoff_13 = -23.1
-        m_cutoff_15 = -20.7
-
-    elif z_min == 0.8:
-
-        # m_cutoff_13 = -23.7
-        # m_cutoff_15 = 0.0
-
-        m_cutoff_13 = -23.7
-        m_cutoff_15 = -21.9
-        
-    elif z_min == 1.0:
-
-        m_cutoff_13 = 0.0
-        m_cutoff_15 = -21.9
-
-    elif z_min == 1.2:
-
-        m_cutoff_13 = -24.3
-        m_cutoff_15 = -22.5
-
-    elif z_min == 1.4:
-
-        m_cutoff_13 = 0.0
-        m_cutoff_15 = -22.5
-
-    elif z_min == 1.6:
-
-        m_cutoff_13 = -24.9
-        m_cutoff_15 = -22.5
-
-    elif z_min == 1.8:
-
-        m_cutoff_13 = 0.0 
-        m_cutoff_15 = -23.1
-
-    elif z_min == 2.0:
-
-        m_cutoff_13 = 0.0
-        m_cutoff_15 = 0.0
-
-
     if sid == 13: 
         select = ((((z_all>=0.0) & (z_all<0.2) & (mag_all<=-20.7)) |
                    ((z_all>=0.2) & (z_all<0.4) & (mag_all<=-20.3)) |
@@ -114,7 +59,7 @@ def getqlums(lumfile, zlims=None):
                    ((z_all>=1.4) & (z_all<1.6)) |
                    ((z_all>=1.6) & (z_all<1.8) & (mag_all<=-24.9)) |
                    ((z_all>=1.8) & (z_all<2.2))) |
-                  ((z_all>=3.5) & (z_all<4.7) & (p_all>0.94)))
+                  ((z_all>=3.5) & (z_all<4.7) & (mag_all<=-26.1)))
         
     if sid == 15: 
         select = (((z_all>=0.4) & (z_all<0.6)) |
@@ -221,7 +166,7 @@ class selmap:
                        ((self.z_all>=1.4) & (self.z_all<1.6)) |
                        ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
                        ((self.z_all>=1.8) & (self.z_all<2.2))) |
-                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.p_all>0.94)))
+                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.1)))
             
         if sample_id == 15: 
             select = (((self.z_all>=0.4) & (self.z_all<0.6)) | 
@@ -306,6 +251,11 @@ class lf:
 
         # Remove selection maps that lie outside our redshift range.
         self.maps = [x for x in self.maps if x.z.size > 0]
+
+        # Don't want a selmap if there are no qsos from that survey in
+        # this redshift bin.  
+        samples = set(np.unique(self.sid))
+        self.maps = [x for x in self.maps if x.sid in samples]
         
         return
 
@@ -335,7 +285,7 @@ class lf:
                              method=method,
                              options={'maxfev': 8000,
                                       'maxiter': 8000,
-                                      'disp': True})
+                                      'disp': False})
 
         if not result.success:
             print 'Likelihood optimisation did not converge.'

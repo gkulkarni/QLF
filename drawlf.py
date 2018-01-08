@@ -58,12 +58,20 @@ def lfsample(theta, n, mlims):
 
     return np.random.choice(sample, n)
     
-def plot_posterior_sample_lfs(lf, ax, mags, **kwargs):
+def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
 
-    random_thetas = lf.samples[np.random.randint(len(lf.samples), size=1000)]
-    for theta in random_thetas:
-        phi_fit = lf.log10phi(theta, mags)
-        ax.plot(mags, phi_fit, **kwargs)
+    nmags = 100
+    mags = np.linspace(*maglims, num=nmags)
+    nsample = 1000
+    rsample = lf.samples[np.random.randint(len(lf.samples), size=nsample)]
+    phi = np.zeros((nsample, nmags))
+    
+    for i, theta in enumerate(rsample):
+        phi[i] = lf.log10phi(theta, mags)
+
+    up = np.percentile(phi, 15.87, axis=0)
+    down = np.percentile(phi, 84.13, axis=0)
+    ax.fill_between(mags, down, y2=up, color='grey')
 
     return
 
@@ -71,8 +79,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    ax.plot(mags, phi_fit, **kwargs)
-    ax.plot(mags, phi_fit, lw=1, c='k', zorder=kwargs['zorder'])
+    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
 
     return
 
@@ -170,6 +177,8 @@ def get_lf(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10 or sid == 18:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -219,6 +228,8 @@ def get_lf_all(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10 or sid == 18:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -272,6 +283,8 @@ def get_lf_sample(lf, sid, z_plot):
         bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
     elif sid == 7:
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    elif sid == 10:
+        bins = np.arange(-30.9, -17.3, 1.8)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -306,6 +319,52 @@ def get_lf_sample(lf, sid, z_plot):
 
     return mags, left, right, logphi, uperr, downerr
 
+
+def plot_giallongo_z5p75(lf, ax, mags):
+
+    M_star_giallongo = -23.4
+    log10phi_star_giallongo = -5.8
+    beta = -1.66 # Giallongo et al. call this -beta
+    alpha = -3.35 # Giallongo et al. call this -gamma
+
+    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
+    
+    phi_fit = lf.log10phi(p, mags)
+    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=5.75$')
+
+    return 
+
+
+def plot_giallongo_z4p75(lf, ax, mags):
+
+    M_star_giallongo = -23.6
+    log10phi_star_giallongo = -5.7
+    beta = -1.81 # Giallongo et al. call this -beta
+    alpha = -3.14 # Giallongo et al. call this -gamma
+
+    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
+    
+    phi_fit = lf.log10phi(p, mags)
+    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.75$')
+
+    return 
+
+
+def plot_giallongo_z4p25(lf, ax, mags):
+
+    M_star_giallongo = -23.2
+    log10phi_star_giallongo = -5.2
+    beta = -1.52 # Giallongo et al. call this -beta
+    alpha = -3.13 # Giallongo et al. call this -gamma
+
+    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
+    
+    phi_fit = lf.log10phi(p, mags)
+    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.25$')
+
+    return 
+
+
 def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=True):
 
     """
@@ -318,24 +377,40 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
     if show_individual_fit: 
         mag_plot = np.linspace(-32.0, -16.0, num=200) 
-        plot_posterior_sample_lfs(lf, ax, mag_plot, lw=1,
+        plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
         plot_bestfit_lf(lf, ax, mag_plot, lw=2,
                              c='#ffbf00', zorder=3, label='individual fit')
+        plot_giallongo_z4p25(lf, ax, mag_plot)
 
     if composite is not None:
-        mags = np.linspace(-32.0, -16.0, num=200)
+
+        nmags = 200 
+        mags = np.linspace(-32.0, -16.0, num=nmags)
         bf = np.median(composite.samples, axis=0)
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            phi = composite.log10phi(theta, mags, z_plot)
-            ax.plot(mags, phi, lw=1, c='forestgreen', alpha=0.1)
-        phi_fit = composite.log10phi(bf, mags, z_plot)
-        ax.plot(mags, phi_fit, lw=2, c='forestgreen', label='global fit')
-        ax.plot(mags, phi_fit, lw=1, c='k')
+        nsample = 1000
+        rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+        phi = np.zeros((nsample, nmags))
+        
+        for i, theta in enumerate(rsample):
+            phi[i] = composite.log10phi(theta, mags, z_plot)
 
-    cs = {13: 'r', 15:'g', 1:'b', 17:'m', 8:'c', 6:'#ff7f0e',
-          7:'#8c564b', 18:'#7f7f7f', 10:'k', 11:'r', 7:'g'}
-
+        up = np.percentile(phi, 15.87, axis=0)
+        down = np.percentile(phi, 84.13, axis=0)
+        ax.fill_between(mags, down, y2=up, color='forestgreen')
+            
+    cs = { 1 : '#1f77b4', # "blue"
+           6 : '#17becf', # "cyan"
+           7 : '#9467bd', # "purple"
+           8 : '#8c564b', # "brown"
+           10 : '#ff7f0e', # "orange"
+           11 : '#7f7f7f', # "grey"
+           13 : '#d62728', # "red"
+           15 : '#2ca02c', # "green"
+           17 : '#bcbd22', # "yellow"
+           18 : '#e377c2' # "pink"
+    }
+    
     def dsl(i):
         for x in lf.maps:
             if x.sid == i:
@@ -370,6 +445,12 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None', zorder=4)
 
+        if i == 8:
+            # No need to plot rejected bins for McGreer's data because
+            # they were rejected for overlap with Yang, not due to
+            # incompleteness.
+            continue 
+        
         mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot)
         print mags_all[logphi_all!=logphi]
         print logphi_all[logphi_all!=logphi]
@@ -387,7 +468,8 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left_all, right_all)), 
                         yerr=np.vstack((uperr_all, downerr_all)),
                         fmt='None', zorder=4)
-            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
+            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i],
+                       zorder=4, s=16, label=dsl(i)+' (rejected)')
 
     if showMockSample:
         for i in sids:

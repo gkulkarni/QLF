@@ -23,13 +23,17 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     render(ax, lf, composite=composite)
 
     ax.set_xlim(-18.0, -30.0)
-    ax.set_ylim(-12.0, -2.0)
-    # ax.set_xticks(np.arange(-31,-16, 2))
-    ax.set_xticks(np.arange(-30, -16, 3))
-    ax.set_yticks(np.arange(-12, -1, 2))
+    ax.set_ylim(-12.0, -4.0)
 
+    print ax.get_ylim()
+
+    ax.set_xticks(np.arange(-30, -16, 4))
+    ax.set_yticks(np.arange(-12, -3, 2))
+
+    plt.minorticks_on()
     ax.tick_params('both', which='major', length=3, width=1)
-
+    ax.tick_params('both', which='minor', length=1.5, width=1)
+    
     if not yticklabels:
         ax.set_yticklabels('')
 
@@ -52,22 +56,14 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450_all.size)
     plt.text(0.03, 0.12, num, horizontalalignment='left',
              verticalalignment='center', transform=ax.transAxes, fontsize='10')
-    
-    if legend:
-        legend_title = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
-        l = plt.legend(loc='lower left', fontsize=8, handlelength=3,
-                   frameon=False, framealpha=0.0, labelspacing=.1,
-                   handletextpad=0.1, borderpad=0.2, scatterpoints=1,
-                   title=legend_title)
-        plt.setp(l.get_title(),fontsize=10)
-        
+
     return 
     
 def draw(lfs, composite=None):
 
-    nplots_x = 4
-    nplots_y = 6
-    nplots = nplots_x * nplots_y
+    nplots_x = 5
+    nplots_y = 5
+    nplots = 16 # nplots_x * nplots_y
 
     plot_number = 0
 
@@ -97,22 +93,20 @@ def draw(lfs, composite=None):
     fig.subplots_adjust(left=l, bottom=b, right=r, top=t, wspace=wspace/hdim,
                         hspace=hspace/vdim)
 
-    for i in range(nplots-1):
+    for i in range(nplots):
 
         ax = fig.add_subplot(nplots_y, nplots_x, i+1)
         print 'plotting', i
 
         idx_offset=0
         
-        if i in set([0,4,8,12,16]):
+        if i in set([0,5,10,15]):
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True)
-        elif i == 21:
+        elif i in set([21,22,23]):
             plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True)
-        elif i == 19:
-            plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False, nofirstxlabel=True)
         elif i == 20:
             plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, xticklabels=True, nofirstylabel=False)
-        elif i == 22:
+        elif i == 24:
             plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False)
         else:
             plot(lfs[i+idx_offset], ax, composite=composite)

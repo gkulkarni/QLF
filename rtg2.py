@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from scipy.interpolate import RectBivariateSpline
 import sys
+import gammapi
+from gammapi import get_gammapi_percentiles
 
 z_HM12 = np.loadtxt('z_HM12.txt')
 data_HM12 = np.loadtxt('hm12.txt')
@@ -64,6 +66,30 @@ def qso_emissivity_hm12(nu, z):
     return e
 
 vqso_emissivity_hm12 = np.vectorize(qso_emissivity_hm12, otypes=[np.float])
+
+def qso_emissivity_mh15(nu, z):
+
+    """HM12 qso comoving emissivity.
+
+    This is given by equations (37) and (38) of HM12.
+
+    """
+
+    w = c_angPerSec/nu
+    nu_912 = c_angPerSec/912.0
+    nu_1300 = c_angPerSec/1300.0
+
+    loge = 25.15*np.exp(-0.0026*z) - 1.5*np.exp(-1.3*z)
+    a = 10.0**loge
+    
+    if w > 912.0:
+        e = a*(nu/nu_912)**-0.61
+    else:
+        e = a*(nu/nu_912)**-1.70
+
+    return e
+
+vqso_emissivity_mh15 = np.vectorize(qso_emissivity_mh15, otypes=[np.float])
 
 def H(z):
 
@@ -250,7 +276,7 @@ vfnu = np.vectorize(fnu, excluded=['M'], otypes=[np.float])
 
 def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
 
-    m = np.linspace(mbright, mfaint, num=1000)
+    m = np.linspace(mbright, mfaint, num=100)
     nu = c_angPerSec/w
 
     farr = np.array([10.0**loglf(theta, x, z)*vfnu(nu, x) for x in m])
@@ -348,6 +374,12 @@ def em_qso_hm12(w, z):
 
     return vqso_emissivity_hm12(c_angPerSec/w, z)
 
+def em_qso_mh15(w, z):
+
+    """HM12 QSOs-only emissivity."""
+
+    return vqso_emissivity_mh15(c_angPerSec/w, z)
+
 def calverley(ax):
 
     zm, gm, gm_sigma = np.loadtxt('Data/calverley.dat',unpack=True) 
@@ -358,7 +390,7 @@ def calverley(ax):
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
     ax.scatter(zm, gml, c='darkorange', edgecolor='None',
-               label='Calverley et al.~(2011)', s=64) 
+               label='Calverley et al.\ 2011', s=64) 
     ax.errorbar(zm, gml, ecolor='darkorange', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
@@ -376,7 +408,7 @@ def bb13(ax):
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
     ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
-               label='Becker and Bolton (2013)', s=64)
+               label='Becker \& Bolton 2013', s=64)
     ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
@@ -388,7 +420,7 @@ def bb13(ax):
 def g_hm12_total(ax):
 
     zs = np.linspace(0.0, 7.0, num=200)
-    nu = np.logspace(np.log10(nu0), 18, num=1000)
+    nu = np.logspace(np.log10(nu0), 18, num=100)
     g_hm12 = []
     
     for r in zs:
@@ -397,33 +429,46 @@ def g_hm12_total(ax):
         s = np.array([sigma_HI(x) for x in nu])
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
-    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='forestgreen', lw=2,
-            dashes=[7,2], label='Haardt and Madau (2012)')
+    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='dodgerblue', lw=2,
+            dashes=[7,2], label='Haardt \& Madau 2012')
 
     return
 
 def lfis(individuals, ax):
 
-    c = np.array([x.gammapi[2]+12.0 for x in individuals])
-    u = np.array([x.gammapi[0]+12.0 for x in individuals])
-    l = np.array([x.gammapi[1]+12.0 for x in individuals])
+    for x in individuals:
+        get_gammapi_percentiles(x, x.z.mean()) 
+
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    m = np.ones(len(individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m) 
+    
+    individuals_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+
+    c = np.array([x.gammapi[2]+12.0 for x in individuals_good])
+    u = np.array([x.gammapi[0]+12.0 for x in individuals_good])
+    l = np.array([x.gammapi[1]+12.0 for x in individuals_good])
 
     gml = 10.0**c
     gml_up = 10.0**u-10.0**c
     gml_low = 10.0**c - 10.0**l
     
-    zs = np.array([x.z.mean() for x in individuals])
-    uz = np.array([x.z.max() for x in individuals])
-    lz = np.array([x.z.min() for x in individuals])
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.z.max() for x in individuals_good])
+    lz = np.array([x.z.min() for x in individuals_good])
 
-    uz = np.array([x.zlims[0] for x in individuals])
-    lz = np.array([x.zlims[1] for x in individuals])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
     
     uzerr = uz-zs
     lzerr = zs-lz 
 
-    ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
-               label='Individual fits ($M<-18$, local source approximation)',
+    ax.scatter(zs, gml, c='k', edgecolor='k',
+               label='Individual fits (accepted; $M<-18$)',
                s=44, zorder=4, linewidths=1.5) 
     ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
                 yerr=np.vstack((gml_low,gml_up)),
@@ -431,32 +476,268 @@ def lfis(individuals, ax):
                 mfc='#ffffff', mec='#404040', zorder=3, mew=1,
                 ms=5)
 
-    return 
+    c = np.array([x.gammapi[2]+12.0 for x in individuals_bad])
+    u = np.array([x.gammapi[0]+12.0 for x in individuals_bad])
+    l = np.array([x.gammapi[1]+12.0 for x in individuals_bad])
+
+    gml = 10.0**c
+    gml_up = 10.0**u-10.0**c
+    gml_low = 10.0**c - 10.0**l
     
+    zs = np.array([x.z.mean() for x in individuals_bad])
+    uz = np.array([x.z.max() for x in individuals_bad])
+    lz = np.array([x.z.min() for x in individuals_bad])
+
+    uz = np.array([x.zlims[0] for x in individuals_bad])
+    lz = np.array([x.zlims[1] for x in individuals_bad])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, gml, c='#ffffff', edgecolor='k',
+               label='Individual fits (rejected; $M<-18$)',
+               s=44, zorder=4, linewidths=1.5) 
+    ax.errorbar(zs, gml, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((gml_low,gml_up)),
+                xerr=np.vstack((lzerr,uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=3, mew=1,
+                ms=5)
+    
+    return 
+
+def Gamma_HI(em, z):
+
+    # Taken from Equation 11 of Lusso et al. 2015.
+    alpha_EUV = -0.56
+    g = 4.6e-13 * (em/1.0e24) * ((1.0+z)/5.0)**(-2.4) / (1.5-alpha_EUV) # s^-1
+
+    return g 
+
+def gamma_HI_Manti17(z):
+
+    # Manti et al. 2017 (MNRAS 466 1160) Equation (9) 
+
+    logg = - 11.66 - 0.081*z - 0.00014*z**2 + 0.0033*z**3 - 0.0013*z**4
+    
+    return 10.0**logg # s^-1
+
+def kollmeier(ax):
+    """Plot Kollmeier's Gamma_HI values.
+
+    These are from 2014 ApJ 789 L32.  Adjusted by Gabor to our 373
+    cosmology.  See his note for details.
+
+    """
+
+    z = 0.1
+    g = 2.2e-13 # s^-1
+
+    ax.scatter(z, g*1.0e12, c='#2ca02c', edgecolor='None',
+               label='Kollmeier et al.\ 2014', s=64)
+
+    return
+
+def shull(ax):
+    
+    """Plot Shull's Gamma_HI values.
+
+    These are from 2015 ApJ 811 3.  Adjusted by Gabor to our 373
+    cosmology.  See his note for details.
+
+    """
+
+    z = np.linspace(0, 0.47)
+    g = 5.0e-14 * (1.0+z)**4.4 # s^-1
+    ax.plot(z, g*1.0e12, lw=2, c='#8c564b', label='Shull et al.\ 2015')
+
+    return
+
+
+def khaire(ax):
+    
+    """Plot Khaire's Gamma_HI values. 
+
+    These are from 2015 MNRAS 451 L30, as tabulated by Gabor in his
+    note.  They correspond to Khaire's fesc=0 model. 
+
+    """
+
+    # z = np.array([0.0, 0.2, 0.4, 0.6])
+    # g = np.array([4.1e-14, 9.4e-14, 1.9e-13, 3.3e-13]) # s^-1
+
+    z, g = np.loadtxt('Data_new/Gama_full_fe00.txt',
+                      usecols=(0,1), unpack=True)
+    
+    ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015 QSOs')
+
+    return
+
+
+def bolton(ax):
+
+    """Plot Bolton's Gamma_HI values. 
+
+    These are from MNRAS 2017 464 897, as rescaled by Gabor.
+
+    """
+
+    z = np.array([2.0, 3.0, 4.0, 5.0])
+    g = np.array([1.87e-12, 9.15e-13, 8.83e-13, 7.55e-13]) # s^-1
+
+    ax.plot(z, g*1.0e12, lw=2, c='#9467bd', label='Bolton et al.\ 2017')
+
+    return 
+
+
+def onorbe(ax):
+
+    """Plot Onorbe's Gamma_HI values.
+
+    These are from ApJ 2017 837 106, Table 3. 
+
+    """
+
+    log1pz, g = np.loadtxt('Data_new/onorbe.dat', usecols=(0,1), unpack=True)
+    z = 10.0**log1pz - 1.0 
+
+    ax.plot(z, g*1.0e12, c='#bcbd22', lw=2, label='O\~norbe et al.\ 2017')
+    
+    return
+
+def viel(ax):
+
+    """Plot Viel's Gamma_HI values. 
+
+    These are from MNRAS 2017 467 L86.
+
+    """
+
+    z = 0.1
+    g = 0.071e-12 # s^-1
+
+    ax.scatter(z, g*1.0e12, c='#1f77b4', edgecolor='None',
+               label='Viel et al.\ 2017', s=64, zorder=10)
+
+    return
+
+def gaikwad_a(ax):
+
+    """Plot Gaikwad's Gamma_HI values.
+
+    These are from his Paper I (MNRAS 2017 466 838) rescaled to our cosmology by Gabor.
+
+    """
+
+    z = np.array([0.1125, 0.2, 0.3, 0.4])
+    zmin = np.array([0.075, 0.15, 0.25, 0.35])
+    zmax = np.array([0.15, 0.25, 0.35, 0.45])
+
+    uzerr = zmax - z
+    lzerr = z - zmin
+
+    g = np.array([7.095e-14, 1.075e-13, 1.559e-13, 2.258e-13])
+    gerr = np.array([1.613e-14, 2.258e-14, 3.978e-14, 5.590e-14])
+
+    ax.scatter(z, g*1.0e12, c='#d62728', edgecolor='None',
+               label='Gaikwad et al.\ 2017a',
+               s=64, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(z, g*1.0e12, ecolor='#d62728', capsize=0,
+                fmt='None', elinewidth=1.5, zorder=4,
+                xerr=np.vstack((lzerr, uzerr)),
+                yerr=gerr*1.0e12)
+    
+    return 
+
+
+def gaikwad_b(ax):
+
+    """Plot Gaikwad's Gamma_HI values.
+
+    These are from his Paper II (MNRAS 2017 467 3172) rescaled to our cosmology by Gabor.
+
+    """
+    
+    z = np.array([0.1125, 0.2, 0.3, 0.4])
+    zmin = np.array([0.075, 0.15, 0.25, 0.35])
+    zmax = np.array([0.15, 0.25, 0.35, 0.45])
+
+    uzerr = zmax - z
+    lzerr = z - zmin
+
+    g = np.array([6.7e-14, 9.5e-14, 1.45e-13, 2.0e-13])
+    gerr = np.array([5.0e-15, 5.0e-15, 1.5e-14, 2.2e-14])
+
+    ax.scatter(z, g*1.0e12, c='#e377c2', edgecolor='None',
+               label='Gaikwad et al.\ 2017b',
+               s=64, zorder=4, linewidths=1.5) 
+
+    ax.errorbar(z, g*1.0e12, ecolor='#e377c2', capsize=0,
+                fmt='None', elinewidth=1.5, zorder=4,
+                xerr=np.vstack((lzerr, uzerr)),
+                yerr=gerr*1.0e12)
+    
+    return 
+
+def fumagalli(ax):
+
+    z = 0.0
+    g_up = 8.0e-2 # 10^-12 s^-1
+    g_low = 6.0e-2 
+
+    z = np.array([0.0, 0.0])+0.05
+    g = np.array([6.4e-14, 7.6e-14]) # s^-1
+
+    
+    ax.plot(z, g*1.0e12, lw=6, c='#d7191c', label='Fumagalli et al.\ 2017', zorder=20)
+    
+    # ax.errorbar(z, 0.07, ecolor='#d7191c', capsize=5,
+    #             elinewidth=4.5, capthick=1.5,
+    #             yerr=np.array((0.01,0.01)).reshape((2,1)),
+    #             fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
+
+    return
+
 def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
+    plt.minorticks_on()
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
-    ax.tick_params('x', which='major', pad=6)
+    #ax.tick_params('x', which='major', pad=6)
 
     ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
     ax.set_xlabel('$z$')
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-2, 50)
+    ax.set_ylim(1.0e-2, 100)
     ax.set_xlim(0.,7)
 
-    locs = (0.01, 0.1, 1, 10)
-    labels = ('0.01', '0.1', '1', '10')
+    locs = (0.01, 0.1, 1, 10, 100)
+    labels = ('0.01', '0.1', '1', '10', '100')
     plt.yticks(locs, labels)
 
-    for x in lfg.samples[np.random.randint(len(lfg.samples), size=300)]:
-        z, g = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=9.7)
-        ax.plot(z, g/1.0e-12, c='goldenrod', lw=1, alpha=0.1)
-                
+    zmax = 9.7
+    zmin = 0.0
+    dz = 0.1 
+    n = (zmax-zmin)/dz+1
+    zc = np.linspace(zmax, zmin, num=n)
+
+    nsample = 100
+    rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
+    nzs = len(zc) 
+    g = np.zeros((nsample, nzs))
+
+    for i, x in enumerate(rsample):
+        print i 
+        z, g[i] = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=zmax)
+
+    up = np.percentile(g, 15.87, axis=0)/1.0e-12
+    down = np.percentile(g, 84.13, axis=0)/1.0e-12
+    ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
+        
     theta = np.median(lfg.samples, axis=0)
     z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
     ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
@@ -466,19 +747,72 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
                 label=r'Global model ($M<-18$) local source approximation')
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
-    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='forestgreen', lw=2,
-            label='Haardt and Madau (2012) QSO contribution')
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='dodgerblue', lw=2,
+            label='Haardt \& Madau 2012 QSOs')
 
     g_hm12_total(ax)
+
+    zs_mh15, gs_mh15 = j(em_qso_mh15)
+    ax.plot(zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=2,
+            label=r'Madau \& Haardt 2015')
+    
     bb13(ax)
     calverley(ax)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+
+    gg = Gamma_HI(eg, zg)
+    gg_lerr = gg - Gamma_HI(eg-eg_lerr, zg)
+    gg_uerr = gg - Gamma_HI(eg-eg_uerr, zg)
+
+    gg *= 1.0e12
+    gg_lerr *= 1.0e12
+    gg_uerr *= 1.0e12
+    
+    ax.scatter(zg, gg, c='grey', edgecolor='None',
+               label=r'Giallongo et al.\ 2015 ($M<-18$)',
+               s=72, zorder=4)
+
+    ax.errorbar(zg, gg, ecolor='grey', capsize=0, fmt='None', elinewidth=2,
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                yerr=np.vstack((gg_lerr, gg_uerr)), 
+                zorder=3, mew=1)
+
+    g_M17 = gamma_HI_Manti17(zc)
+    ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
+
+    shull(ax)
+
+    khaire(ax)
+
+    bolton(ax)
+
+    onorbe(ax)
+
+    fumagalli(ax)
 
     if individuals is not None:
         lfis(individuals, ax)
 
-    plt.legend(loc='upper left', fontsize=10, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.3, scatterpoints=1)
+    kollmeier(ax)
+
+    viel(ax)
+
+    gaikwad_a(ax)
+
+    gaikwad_b(ax)
+
+    handles, labels = ax.get_legend_handles_labels()
+
+    plt.legend(handles[::-1], labels[::-1], loc='upper right',
+               fontsize=10, handlelength=3, frameon=False,
+               framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
     plt.close('all')
