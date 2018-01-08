@@ -679,13 +679,14 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
     figure.  Each panel shows the number of quasars in the respective
     redshift bin.  The number in parenthesis indicates the total
     number of quasars in the bin, before excluding incomplete
-    bins.}
+    bins. \textbf{[Remove redshift bins that were excluded from global
+        analysis.]}}
   \label{fig:mosaic}
 \end{figure*}
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
+    \includegraphics[width=0.7\textwidth]{evol_28sep.pdf}
   \end{center}
   \caption{Parameter evolution from individual fits in
     Figures~\ref{fig:mosaic}.  Parameters from BOSS quasars are seen
@@ -823,7 +824,7 @@ luminosities and redshifts while fitting the luminosity function model.
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small_global.pdf}
+    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small_global.pdf}
   \end{center}
   \caption{Luminosity function estimates from $z=0.3$ to $2.6$.
     Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
@@ -838,7 +839,7 @@ luminosities and redshifts while fitting the luminosity function model.
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=\textwidth]{evolution_global.pdf}
+    \includegraphics[width=0.7\textwidth]{evolution_global_9oct.pdf}
   \end{center}
   \caption{Luminosity function parameter evolution in the global
     model.  The symbols show the best fit parameters with 68\%
@@ -869,8 +870,8 @@ luminosities and redshifts while fitting the luminosity function model.
 \begin{figure*}
   \begin{center}
     \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
-    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_18_9oct.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_20_9oct.pdf}
     \end{tabular}
   \end{center}
   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
@@ -1171,8 +1172,8 @@ large distances.
 \begin{figure*}
   \begin{center}
     \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{g_18.pdf}
-    \includegraphics[width=0.5\textwidth]{g_20.pdf}
+    \includegraphics[width=0.5\textwidth]{g_18_10oct.pdf}
+    \includegraphics[width=0.5\textwidth]{g_20_10oct.pdf}
     \end{tabular}
   \end{center}
   \caption{AGN contribution to the hydrogen photoionisation rate,
@@ -1231,14 +1232,21 @@ At lower redshift, the photoionisation rate in the individual models
 is much higher than that in the global model, because the individual
 models overestimate the flux at these redshifts. 
 
-\begin{figure*}
+\begin{figure}
   \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+    \includegraphics[width=\columnwidth,keepaspectratio]{g_puc.pdf}
   \end{center}
-  \caption{Parameter evolution from individual fits.  Coloured points
-    show results when Giallongo quasars are not included.  Black
-    points show results when Giallongo quasars are included.}
-\end{figure*}
+  \caption{Photon underproduction crisis.}
+\end{figure}
+
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+%%   \end{center}
+%%   \caption{Parameter evolution from individual fits.  Coloured points
+%%     show results when Giallongo quasars are not included.  Black
+%%     points show results when Giallongo quasars are included.}
+%% \end{figure*}
 
 \begin{figure}
   \begin{center}
@@ -1246,6 +1254,140 @@ models overestimate the flux at these redshifts.
   \end{center}
   \caption{Helium reionization.}
 \end{figure}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal_dense.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff_ind.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+\section{Hydrogen and helium reionization}
+
+\section{Photon underproduction}
+
+\citet{2014ApJ...789L..32K} reported that the hydrogen photoionization
+rate required by simulations to match the observed HI column density
+distribution and the effective Ly$\alpha$ opacity at low redshifts
+($z\sim 0.1$) is a factor of five (check factor---it looks like about
+ten in the plot) higher than that predicted by the model of
+\citep{2012ApJ...746..125H}.  This deficit in the hydrogen
+photoionization rate at these redshifts, termed `photon
+underproduction crisis', has inspired models in which the excess
+photonization in explained by blazars (citation) or an evolution in
+the density structure of the IGM.  Subsequent simulations by
+\citet{2015ApJ...811....3S}, calibrated the observed HI column density
+distribution and the effective Ly$\alpha$ optical depth reduced the
+severity of the problem by 
+
+\section{Conclusion}
+
+We have presented an analysis of the evolution of the UV luminosity
+function of AGN from redshift $z=0$ to $7.5$ using a combined
+homogenised sample of close to 90,000 UV-selected AGN.  We only
+consider quasars with spectroscopic redshifts and reliable
+completeness estimates.  These data span magnitudes down to
+$M_{1450}=-22$ at high redshifts ($z\gtrsim 3.5$).
+
+\begin{itemize}
+\item The AGN luminosity function prefers a double power law
+  description at all redshift, except possibly at very high redshifts
+  ($z\sim 6$) where only the faint-end of the luminosity function is
+  observed.
+
+\item The break magnitude $M_*$ of the double power law luminosity
+  function shows a steep brightening towards the high redshift.  The
+  break evolves from $M_*<-25$ at $z\sim 2$ to $M_*\sim -29$ at $z\sim
+  6$.  Correspondingly, the amplitude $\phi_*$ of the luminosity
+  function drops rapidly towards high redshifts from $\phi_*\sim
+  10^{-6}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 2$ to $\phi_*<
+  10^{-10}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 6$.  The break magnitude
+  at $z=6$ is very bright, about $-30$, which is why the constraints
+  on the bright end slope at these redshifts are weak.
+
+\item The faint end slope $\beta$ of the luminosity function shows
+  increased steepening at high redshifts, consistent with the findings
+  of \citep{2015AA...578A..83G}.  The faint-end slope is $\beta\sim
+  -1.8$ at $z\sim 2$ and steepens to $\beta\sim-2.5$ at $z\sim 6$.
+  The bright-end slope $\alpha$ also shows moderate steepening towards
+  high redshifts.  However, the constraints on $\alpha$ are weak,
+  particularly at the high redshift because of the bright break
+  luminosity.
+
+\item A fourteen-parameter model accurately captures the redshift
+  evolution of the luminosity function.  In this model, the evolution
+  of the break magnitude $M_*$ is described by a cubic polynomial in
+  $1+z$, while the evolution of the luminosity function amplitude
+  follows a quadratic polynomial in $1+z$.  The evolution of the
+  bright-end slope $\alpha$ evolves linearly in $1+z$.  The evolution
+  of the faint-end slope $\beta$ is more complicated.  The faint-end
+  slope stays roughly constant at lower redshifts $z<3$, steepens
+  rapidly at $z\sim 3$--$4$, and then remains constant at higher
+  redshifts.
+
+\item An important finding of this work is that there are severe
+  systematic errors in observed luminosity function.  We find that the
+  most significant systematic bias is at redshift $z\sim 3$ in the
+  BOSS sample of quasars.  There is also some evidence of a systematic
+  bias in the lowest redshifts $z\lesssim 0.5$.  At $z<2.2$ there is
+  some indication of a systematic error in completeness estimates at
+  the faintest magnitudes $M_{1450}\sim -19$.  
+
+\item In spite of the rapid steepening of the luminosity function at
+  high redshifts, our derived LyC emissivity from AGN is quite low.
+  This is because of the bright break luminosities, which results in a
+  reduced contribution of intermediate brightness quasars to the Lyc
+  emissivity as compared to some other determinations in the
+  literature.  The LyC emissivity increases with time and peaks at
+  $z\sim 2$.  At lower redshifts, the emissivity drops rapidly with
+  time.  When our luminoisty function model is extrapolated and
+  integrated down to $M_{1450}\sim -20$, the implied LyC emissivity is
+  comparable to that in the model of \citet{2007ApJ...654..731H} and
+  \citet{2012ApJ...746..125H}.  This indicates that hydrogen
+  reionization is unlikely to have caused by AGN alone.
+
+\item We derive photoionization rate by considering the HI column
+  density distribution used by \citep{2012ApJ...746..125H}.  We find
+  that the HI photoionization rate is significantly lower than that
+  required by the Lyman-$\alpha$ forest data at $z>2$.  Our hydrogen
+  photoionization rate estimates are also considerably lower (by a
+  factor of at least two) than that of \citet{2015AA...578A..83G}.  At
+  the lowest redshifts, we find that the hydrogen photoionization rate
+  is about a factor of two higher than the estimate of
+  \citet{2007ApJ...654..731H} and \citet{2012ApJ...746..125H}.  When
+  compared with the recent analysis of \citet{2017MNRAS.467.3172G},
+  this photoionisation rate appears to allevaite the photon
+  underproduction crisis.  Cite Kollmeier here.  
+  
+\item Helium reionization in our model occurs at redshift $z\sim
+  3$ or $z=3.5$ if the luminosity function is integrated down to
+  $M_{1450}=-20$ and $-18$, respectively.
+  
+\item Our analysis allows us to analyse the X-ray selected quasars of
+  \citet{2015AA...578A..83G} in the larger context of UV-selected
+  quasars.  We find that the the faint-end luminosity function
+  measurements of \citet{2015AA...578A..83G} at $z=4$--$6$ are
+  consitent with the measurements of the luminosity function at
+  brighter luminosities.  Stil, our inferred value of the hydrogen
+  ionizing luminosity density from quasars at these redshifts is much
+  lower that the value derived by \citet{2015AA...578A..83G}.  This
+  difference arises due to the difference in the data used in the two
+  analyses at intermediate to bright luminosities.  
+\end{itemize}
 
 \section*{Acknowledgements}
 
@@ -1257,6 +1399,8 @@ Tirthankar Roy Choudhury, Xiaohui Fan, Andrea Ferrara, Martin
 Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
 Richards, and Alberto Rorai.  GK is supported by ERC Advanced Grant
 320596 `The Emergence of Structure During the Epoch of Reionization'.
+
+% Add an appendix on comparison with Giallongo.
 
 \bibliographystyle{mnras}
 \bibliography{refs}

@@ -21,7 +21,7 @@ def plot_selmap(z, m, p, title='', filename='selmap.pdf',
     ax.tick_params('both', which='minor', length=3, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    s = plt.scatter(z, m, s=40, c=p, vmin=0.0, vmax=1.0,
+    s = plt.scatter(z, m, s=100, c=p, vmin=0.0, vmax=1.0,
                     edgecolor='none', marker='s',
                     rasterized=True, cmap=cm.jet)
 
@@ -33,8 +33,8 @@ def plot_selmap(z, m, p, title='', filename='selmap.pdf',
     plt.ylabel('$M_{1450}$')
     plt.title(title, y='1.01')
 
-    plt.xlim(0.0, 3.5)
-    plt.ylim(-30, -14)
+    plt.xlim(2.0, 4.0) 
+    plt.ylim(-30, -20)
 
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", "5%", pad="3%")
@@ -45,14 +45,14 @@ def plot_selmap(z, m, p, title='', filename='selmap.pdf',
     plt.savefig(filename, bbox_inches='tight')
 
 
-map_file = 'Data_new/croom09sgp_selfunc.dat'
-qso_file = 'Data_new/croom09sgp_sample.dat'
+map_file = 'Data_new/ross13_selfunc2.dat' # 'Data_new/croom09sgp_selfunc.dat'
+qso_file = 'Data_new/bossdr9color.dat' # 'Data_new/croom09sgp_sample.dat'
 METHOD = 'linear'
 
 with open(map_file, 'r') as f:
     z, m, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
                          
-plot_selmap(z, m, p, title='2SLAQ SGP', filename='selmap_sgp.pdf',
+plot_selmap(z, m, p, title='BOSS colour-selected', filename='selmap_sgp.pdf',
             show_qsos=False, qso_file=qso_file)
 
 if METHOD == 'spline': 
