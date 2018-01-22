@@ -117,6 +117,11 @@
   {http://adsabs.harvard.edu/abs/2016arXiv160706467D} {} (\mn@eprint {arXiv}
   {1607.06467})
 
+\bibitem[\protect\citeauthoryear{{Danforth} et~al.,}{{Danforth}
+  et~al.}{2016}]{2016ApJ...817..111D}
+{Danforth} C.~W.,  et~al., 2016, \mn@doi [\apj] {10.3847/0004-637X/817/2/111},
+  \href {http://adsabs.harvard.edu/abs/2016ApJ...817..111D} {817, 111}
+
 \bibitem[\protect\citeauthoryear{{Davies} \& {Furlanetto}}{{Davies} \&
   {Furlanetto}}{2016}]{2016MNRAS.460.1328D}
 {Davies} F.~B.,  {Furlanetto} S.~R.,  2016, \mn@doi [\mnras]
@@ -144,10 +149,16 @@
   {Thompson} R.,   {Huang} S.,  2016, \mn@doi [\mnras] {10.1093/mnras/stw805},
   \href {http://adsabs.harvard.edu/abs/2016MNRAS.459.2299F} {459, 2299}
 
+\bibitem[\protect\citeauthoryear{{Gaikwad}, {Khaire}, {Choudhury}  \&
+  {Srianand}}{{Gaikwad} et~al.}{2017a}]{2017MNRAS.466..838G}
+{Gaikwad} P.,  {Khaire} V.,  {Choudhury} T.~R.,   {Srianand} R.,  2017a,
+  \mn@doi [\mnras] {10.1093/mnras/stw3086}, \href
+  {http://adsabs.harvard.edu/abs/2017MNRAS.466..838G} {466, 838}
+
 \bibitem[\protect\citeauthoryear{{Gaikwad}, {Srianand}, {Choudhury}  \&
-  {Khaire}}{{Gaikwad} et~al.}{2017}]{2017MNRAS.467.3172G}
-{Gaikwad} P.,  {Srianand} R.,  {Choudhury} T.~R.,   {Khaire} V.,  2017, \mn@doi
-  [\mnras] {10.1093/mnras/stx248}, \href
+  {Khaire}}{{Gaikwad} et~al.}{2017b}]{2017MNRAS.467.3172G}
+{Gaikwad} P.,  {Srianand} R.,  {Choudhury} T.~R.,   {Khaire} V.,  2017b,
+  \mn@doi [\mnras] {10.1093/mnras/stx248}, \href
   {http://adsabs.harvard.edu/abs/2017MNRAS.467.3172G} {467, 3172}
 
 \bibitem[\protect\citeauthoryear{{Gehrels}}{{Gehrels}}{1986}]{1986ApJ...303..336G}
@@ -177,6 +188,12 @@
   et~al.}{2016}]{2016A&A...585A..48G}
 {Grazian} A.,  et~al., 2016, \mn@doi [\aap] {10.1051/0004-6361/201526396},
   \href {http://adsabs.harvard.edu/abs/2016A%26A...585A..48G} {585, A48}
+
+\bibitem[\protect\citeauthoryear{{Gurvich}, {Burkhart}  \& {Bird}}{{Gurvich}
+  et~al.}{2017}]{2017ApJ...835..175G}
+{Gurvich} A.,  {Burkhart} B.,   {Bird} S.,  2017, \mn@doi [\apj]
+  {10.3847/1538-4357/835/2/175}, \href
+  {http://adsabs.harvard.edu/abs/2017ApJ...835..175G} {835, 175}
 
 \bibitem[\protect\citeauthoryear{{Haardt} \& {Madau}}{{Haardt} \&
   {Madau}}{2012}]{2012ApJ...746..125H}
@@ -251,6 +268,11 @@ Cambridge University Press
 {Kennefick} J.~D.,  {Djorgovski} S.~G.,   {de Carvalho} R.~R.,  1995, \mn@doi
   [\aj] {10.1086/117711}, \href
   {http://adsabs.harvard.edu/abs/1995AJ....110.2553K} {110, 2553}
+
+\bibitem[\protect\citeauthoryear{{Khaire} \& {Srianand}}{{Khaire} \&
+  {Srianand}}{2015}]{2015MNRAS.451L..30K}
+{Khaire} V.,  {Srianand} R.,  2015, \mn@doi [\mnras] {10.1093/mnrasl/slv060},
+  \href {http://adsabs.harvard.edu/abs/2015MNRAS.451L..30K} {451, L30}
 
 \bibitem[\protect\citeauthoryear{{Khaire}, {Srianand}, {Choudhury}  \&
   {Gaikwad}}{{Khaire} et~al.}{2016}]{2016MNRAS.457.4051K}
@@ -363,6 +385,19 @@ Cambridge University Press
   {Reddy} N.~A.,   {Siana} B.,  2015, \mn@doi [\apj]
   {10.1088/0004-637X/810/2/107}, \href
   {http://adsabs.harvard.edu/abs/2015ApJ...810..107M} {810, 107}
+
+\bibitem[\protect\citeauthoryear{{Nasir}, {Bolton}, {Viel}, {Kim}, {Haehnelt},
+  {Puchwein}  \& {Sijacki}}{{Nasir} et~al.}{2017}]{2017MNRAS.471.1056N}
+{Nasir} F.,  {Bolton} J.~S.,  {Viel} M.,  {Kim} T.-S.,  {Haehnelt} M.~G.,
+  {Puchwein} E.,   {Sijacki} D.,  2017, \mn@doi [\mnras]
+  {10.1093/mnras/stx1648}, \href
+  {http://adsabs.harvard.edu/abs/2017MNRAS.471.1056N} {471, 1056}
+
+\bibitem[\protect\citeauthoryear{{O{\~n}orbe}, {Hennawi}  \&
+  {Luki{\'c}}}{{O{\~n}orbe} et~al.}{2017}]{2017ApJ...837..106O}
+{O{\~n}orbe} J.,  {Hennawi} J.~F.,   {Luki{\'c}} Z.,  2017, \mn@doi [\apj]
+  {10.3847/1538-4357/aa6031}, \href
+  {http://adsabs.harvard.edu/abs/2017ApJ...837..106O} {837, 106}
 
 \bibitem[\protect\citeauthoryear{{Oesch} et~al.,}{{Oesch}
   et~al.}{2016}]{2016ApJ...819..129O}
@@ -565,6 +600,13 @@ Cambridge University Press
    {Hewett} P.~C.,  {Mortlock} D.~J.,  {Dye} S.,   {Sharp} R.~G.,  2007,
   \mn@doi [\mnras] {10.1111/j.1745-3933.2007.00290.x}, \href
   {http://adsabs.harvard.edu/abs/2007MNRAS.376L..76V} {376, L76}
+
+\bibitem[\protect\citeauthoryear{{Viel}, {Haehnelt}, {Bolton}, {Kim},
+  {Puchwein}, {Nasir}  \& {Wakker}}{{Viel} et~al.}{2017}]{2017MNRAS.467L..86V}
+{Viel} M.,  {Haehnelt} M.~G.,  {Bolton} J.~S.,  {Kim} T.-S.,  {Puchwein} E.,
+  {Nasir} F.,   {Wakker} B.~P.,  2017, \mn@doi [\mnras]
+  {10.1093/mnrasl/slx004}, \href
+  {http://adsabs.harvard.edu/abs/2017MNRAS.467L..86V} {467, L86}
 
 \bibitem[\protect\citeauthoryear{{Warren}, {Hewett}  \& {Osmer}}{{Warren}
   et~al.}{1994}]{1994ApJ...421..412W}
