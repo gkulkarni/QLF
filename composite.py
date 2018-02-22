@@ -183,18 +183,15 @@ class lf:
 
         """Redshift evolution of QLF parameters."""
         
-        # return T(p)(np.log10(1+z))
         return T(p)(1+z)
-
+    
     def atz_beta(self, z, p):
 
         """Redshift evolution of QLF parameters."""
 
-        return T(p)(1+z)
-        
-        # h, f0, z0, a, b = p 
-        # zeta = np.log10((1.0+z)/(1.0+z0))
-        # return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
+        h, f0, z0, a, b = p 
+        zeta = np.log10((1.0+z)/(1.0+z0))
+        return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
 
     def getparams(self, theta):
 
@@ -216,8 +213,8 @@ class lf:
         log10phi_star = self.atz(z, params[0])
         M_star = self.atz(z, params[1])
         alpha = self.atz(z, params[2])
-        # beta = self.atz(z, params[3])
-        beta = self.atz_beta(z, params[3])
+        beta = self.atz(z, params[3])
+        # beta = self.atz_beta(z, params[3])
         
         phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
                                      10.0**(0.4*(beta+1)*(mag-M_star)))

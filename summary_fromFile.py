@@ -177,6 +177,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
     if compOpt is not None:
         M = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[1])
+        print M
         ax.plot(z, M, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
@@ -201,6 +202,27 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=40)
 
+    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
+    #                                     usecols=(0,4,5,6), unpack=True)
+    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
+    #             yerr=np.vstack((uperr, downerr)),
+    #             fmt='None', zorder=4)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+
+    if cfit:
+        zc = np.linspace(0, 7, 500)
+        coeffs = chebfit(zmean+1, c, 2)
+        print coeffs
+        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
+
+        def func(z, p0, p1, p2):
+            return T([p0, p1, p2])(z)
+
+        sigma = np.abs(u-l)
+        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
+        print popt
+        plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
+
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='bad')
     left = zmean-zl
     right = zu-zmean
@@ -212,27 +234,6 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
         
-    # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
-    #                                     usecols=(0,4,5,6), unpack=True)
-    # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
-    #             fmt='None', zorder=4)
-    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
-
-    if cfit:
-        zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 3)
-        print coeffs
-        # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
-
-        def func(z, p0, p1, p2, p3):
-            return T([p0, p1, p2, p3])(z)
-
-        sigma = np.abs(u-l)
-        popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
-        print popt
-        plt.plot(zc, func(zc+1, *popt), lw=1, c='k', dashes=[7,2])
-
     curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
@@ -312,14 +313,15 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
-        
+
+    cfit = True
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1.0, c, 1)
-        print coeffs
+        coeffs = chebfit(zmean+1.0, c, 2)
+        print 'c=', coeffs
 
-        def func(z, p0, p1):
-            return T([p0, p1])(z)
+        def func(z, p0, p1, p2):
+            return T([p0, p1, p2])(z)
 
         sigma = u-l
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -368,7 +370,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     ax.set_yticks(np.arange(-3, 0.2, 0.5))
     
     if compOpt is not None:
-        beta = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[3])
+        beta = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[3])
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
@@ -377,9 +379,9 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta)
-                beta = composite.atz_beta(z, params[3]) 
+                beta = composite.atz(z, params[3]) 
                 ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
-        beta = composite.atz_beta(z, composite.getparams(bf)[3])
+        beta = composite.atz(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=2, lw=2)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
@@ -396,12 +398,12 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 1)
+        coeffs = chebfit(zmean+1, c, 2)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1):
-                return T([p0, p1])(z)
+        def func(z, p0, p1, p2):
+                return T([p0, p1, p2])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
