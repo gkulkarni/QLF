@@ -128,6 +128,9 @@
   {10.1093/mnras/stw931}, \href
   {http://adsabs.harvard.edu/abs/2016MNRAS.460.1328D} {460, 1328}
 
+\bibitem[\protect\citeauthoryear{{Draine}}{{Draine}}{2011}]{2011piim.book.....D}
+{Draine} B.~T.,  2011, {Physics of the Interstellar and Intergalactic Medium}
+
 \bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
   et~al.}{2001}]{2001AJ....121...54F}
 {Fan} X.,  et~al., 2001, \mn@doi [\aj] {10.1086/318033}, \href
@@ -221,6 +224,11 @@
 {Hopkins} P.~F.,  {Richards} G.~T.,   {Hernquist} L.,  2007, \mn@doi [\apj]
   {10.1086/509629}, \href {http://adsabs.harvard.edu/abs/2007ApJ...654..731H}
   {654, 731}
+
+\bibitem[\protect\citeauthoryear{{Hui} \& {Gnedin}}{{Hui} \&
+  {Gnedin}}{1997}]{1997MNRAS.292...27H}
+{Hui} L.,  {Gnedin} N.~Y.,  1997, \mn@doi [\mnras] {10.1093/mnras/292.1.27},
+  \href {http://adsabs.harvard.edu/abs/1997MNRAS.292...27H} {292, 27}
 
 \bibitem[\protect\citeauthoryear{{Humason}, {Mayall}  \& {Sandage}}{{Humason}
   et~al.}{1956}]{1956AJ.....61...97H}
@@ -633,6 +641,12 @@ Cambridge University Press
   et~al.}{2014}]{2014MNRAS.445.1745W}
 {Worseck} G.,  et~al., 2014, \mn@doi [\mnras] {10.1093/mnras/stu1827}, \href
   {http://adsabs.harvard.edu/abs/2014MNRAS.445.1745W} {445, 1745}
+
+\bibitem[\protect\citeauthoryear{{Worseck}, {Prochaska}, {Hennawi}  \&
+  {McQuinn}}{{Worseck} et~al.}{2016}]{2016ApJ...825..144W}
+{Worseck} G.,  {Prochaska} J.~X.,  {Hennawi} J.~F.,   {McQuinn} M.,  2016,
+  \mn@doi [\apj] {10.3847/0004-637X/825/2/144}, \href
+  {http://adsabs.harvard.edu/abs/2016ApJ...825..144W} {825, 144}
 
 \bibitem[\protect\citeauthoryear{{Yang} et~al.,}{{Yang}
   et~al.}{2016}]{2016ApJ...829...33Y}

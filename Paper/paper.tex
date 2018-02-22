@@ -10,6 +10,21 @@
 \usepackage{color}
 \definecolor{notecolor}{rgb}{0.8,0,0}
 \newcommand{\gk}[1]{{\bf \color{notecolor} [#1]}}
+\def\HI{\hbox{H~$\scriptstyle\rm I$}}
+\def\HII{\hbox{H~$\scriptstyle\rm II$}}
+\def\nHI{{\rm HI}}
+\def\nH{{\rm H}}
+\def\nHII{{\rm HII}}
+\def\nHe{{\rm He}}
+\def\nHeI{{\rm HeI}}
+\def\nHeII{{\rm HeII}}
+\def\nHeIII{{\rm HeIII}}
+\def\bHII{\hbox{\bf H~$\scriptstyle\bf II$}}
+\def\HeI{\hbox{He~$\scriptstyle\rm I$}}
+\def\HeII{\hbox{He~$\scriptstyle\rm II$}}
+\def\HeIII{\hbox{He~$\scriptstyle\rm III$}}
+\def\bHeII{\hbox{\bf He~$\scriptstyle\bf II$}}
+\def\HeIII{\hbox{He~$\scriptstyle\rm III$}}
 
 \title[AGN luminosity function]{Evolution of the AGN UV luminosity function from redshift 7.5}
 
@@ -1283,6 +1298,56 @@ models overestimate the flux at these redshifts.
 
 \section{Hydrogen and helium reionization}
 
+We now consider the implications for hydrogen and helium reionization
+for the ionizing photon emissivity derived above.  This requires that
+we extrapolate the emissivity of Equation XX to higher redshifts.
+Unfortunately, the volume emissivity in our model cannot be
+extrapolated to higher redshifts.  The model of Hopkins suffered with
+the same problem.  \gk{Do we need to show two cases here?  One in
+  which we extrapolate the emissivity and another in which we stop
+  where data end.  There is perhaps a third possibility in which use
+  the current emissivity model upto where data end.}  The evolution of
+the volume averaged ionized fraction of hydrogen is given by
+\citep{2012ApJ...746..125H}
+\begin{equation}
+{dQ_\nHII\over dt}={\dot n_{\rm ion}\over \langle n_\nH \rangle} -{Q_\nHII\over
+\langle t_{\rm rec}\rangle},
+\label{eq:qdot}
+\end{equation}
+and the corresponding equation doubly ionized Helium is
+\begin{equation}
+{dQ_\nHeIII\over dt}={\dot n_{\rm ion,4}\over \langle n_\nHe \rangle} -{Q_\nHeIII\over
+\langle t_{\rm rec,He}\rangle}.
+\label{eq:qHedot}
+\end{equation}
+We assume that the Helium is singly reionized together with hydrogen.
+In order to get the 4~Ry emissivity of quasars we use the SED from
+equation XX.  The recombination times are given by
+\begin{equation}
+\langle t_{\rm rec}\rangle=[\chi \langle n\rangle \alpha_B\,C]^{-1},
+\label{eq:trec}
+\end{equation}
+where $n$ is the volume averaged density of hydrogen and helium,
+respectively.  We assume that hydrogen and helium have similar
+clumping factors, given by \citep{2015ApJ...813L...8M}
+\begin{equation}
+  C = 2.8\left(\frac{1+z}{6}\right)^{-1.1}.
+\end{equation}
+For the helium recombination coeffienct, we use the fitting function
+provided by \citet{1997MNRAS.292...27H}.  For hydrogen recombination
+coefficient, we use the fitting function provided by
+\citet{2011piim.book.....D}.
+
+The resultant reionization histories of hydrogen and helium are shown
+in Figure XX.  We also show the reionization histories from
+\citep{2012ApJ...746..125H} and \citep{2015ApJ...813L...8M} for
+comparison.  As expected from the emissivity result of the previous
+section, quasars cannot single handedly reionize hydrogen.  However
+they can reionise \HeII.  The Helium reionization completes at
+redshift $z=3.5$--$3.7$ depending on the luminosity down to which you
+integrate the quasar luminosity function.  This is consistent with the
+Helium \lya opacity measurements of \citet{2016ApJ...825..144W}.
+
 \section{Photon underproduction}
 
 Our derivation of the LyC emissivity of AGN allows us to see if the
@@ -1290,27 +1355,26 @@ corresponding hydrogen photoionization rate is consistent with the
 measured CDDF of the low-redshift ($z<0.5$) Ly$\alpha$ forest
 \citep{2016ApJ...817..111D}.  \citet{2014ApJ...789L..32K} argued that
 in order to match the CDDF observed by \citet{2016ApJ...817..111D} at
-% Define acronym CDDF.
-these redshifts, hydrodynamical cosmological simulations require a
-hydrogen photoionization rate that is a factor of five larger than
-that in the UV background (UVB) model of \citet{2012ApJ...746..125H}.
-% This factor looks more than five in our plot!
-Several recent studies in the literature have addressed this ``photon
-underproduction crisis''.  On the one hand, these studies emphasised
-the uncertainty in the \citet{2012ApJ...746..125H} UVB model at these
-redshifts due to the lack of certainty in the UV photon emissivities
-of galaxies and AGN \citep{2015MNRAS.451L..30K, 2015ApJ...811....3S}.
-On the other hand, they noted the uncertainty in the results of the
-cosmological simulations at these redshifts, due to effects such as
-AGN feedback and limited numerical resolution
-\citep{2015ApJ...811....3S, 2017MNRAS.467L..86V, 2017MNRAS.471.1056N,
-  2017ApJ...837..106O, 2017MNRAS.466..838G, 2017MNRAS.467.3172G,
-  2017ApJ...835..175G}.  A general conclusion of these studies was
-that the discrepancy between the photoionization rate required by the
-observed CDDF and predicted by the UVB model of
-\citet{2012ApJ...746..125H} is likely to be smaller than that found by
-\citet{2014ApJ...789L..32K}.  The discrepancy is about a factor of 2
-instead of 5.
+\gk{Define acronym CDDF.}  these redshifts, hydrodynamical
+cosmological simulations require a hydrogen photoionization rate that
+is a factor of five larger than that in the UV background (UVB) model
+of \citet{2012ApJ...746..125H}.  \gk{This factor looks more than five
+  in our plot!}  Several recent studies in the literature have
+addressed this ``photon underproduction crisis''.  On the one hand,
+these studies emphasised the uncertainty in the
+\citet{2012ApJ...746..125H} UVB model at these redshifts due to the
+lack of certainty in the UV photon emissivities of galaxies and AGN
+\citep{2015MNRAS.451L..30K, 2015ApJ...811....3S}.  On the other hand,
+they noted the uncertainty in the results of the cosmological
+simulations at these redshifts, due to effects such as AGN feedback
+and limited numerical resolution \citep{2015ApJ...811....3S,
+  2017MNRAS.467L..86V, 2017MNRAS.471.1056N, 2017ApJ...837..106O,
+  2017MNRAS.466..838G, 2017MNRAS.467.3172G, 2017ApJ...835..175G}.  A
+general conclusion of these studies was that the discrepancy between
+the photoionization rate required by the observed CDDF and predicted
+by the UVB model of \citet{2012ApJ...746..125H} is likely to be
+smaller than that found by \citet{2014ApJ...789L..32K}.  The
+discrepancy is about a factor of 2 instead of 5.
 
 The black curve in Figure~\ref{fig:puc} shows the evolution of the
 hydrogen photoionization rate due to AGN in our best-fit global
@@ -1439,7 +1503,40 @@ Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
 Richards, and Alberto Rorai.  GK is supported by ERC Advanced Grant
 320596 `The Emergence of Structure During the Epoch of Reionization'.
 
-% Add an appendix on comparison with Giallongo.
+\appendix
+
+\section{Comparison with Giallongo sample}
+\label{sec:conv}
+
+In our analysis above, we did not include the 22 low-luminosity
+($M_{1450}>-22.6$) AGN between redshifts $z=4.1$ and $6.3$ reported by
+\citet{2015AA...578A..83G} using a novel X-ray/NIR selection
+criterion.  This was because we wanted to restrict our sample to
+quasars that have robust spectroscopic redshift determinations.  In
+their work, \citet{2015AA...578A..83G} found a steep faint-end of the
+luminosity function at these redshifts.  With this luminosity function
+they obtained a large value of hydrogen ionizing emissivity that could
+explain the \lya data singlehandedly.  In this section, we compare our
+results with \citet{2015AA...578A..83G}.  The black points in Figure
+XX show the parameters of the double power law luminosity function
+when the \citet{2015AA...578A..83G} sample is added to our analysis.
+The parameter values do not change significantly.  The
+\citet{2015AA...578A..83G} sample is thus consistent with the double
+power law luminosity function preferred by other data at comparable
+redshifts.  However, as we see in Figure XX, the total emissivity in
+our model is still significantly lower than that obtained by
+\citet{2015AA...578A..83G}.  Figure XX provides an explanation for
+this. The double power law fits favoured by \citet{2015AA...578A..83G}
+are quite different from our fits.  The character luminosity $M_*$
+favoured by \citet{2015AA...578A..83G} is much fainter ($\sim -23$ at
+$z = 5$) than that resulting out of our analysis ($\sim -29$ at $z =
+5$).  Figure XX suggests that this is because of the SDSS Stripe 82
+data \gk{citation} and because \citet{2015AA...578A..83G} ignore the
+Kashikawa and Willott samples \gk{citation}.  It is possible that our
+corrections to the Glikman data \gk{citation} also plays a role in
+this.  In sum, the differnce in our emissivities is not due to lack of
+faint quasars but because of the difference with Giallongo at
+intermediate luminosities.
 
 \bibliographystyle{mnras}
 \bibliography{refs}
