@@ -209,10 +209,11 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
+    cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 2)
-        print coeffs
+        print 'cm=', coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
 
         def func(z, p0, p1, p2):
