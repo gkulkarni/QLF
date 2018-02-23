@@ -44,7 +44,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              #('Data_new/ukidss_sel_3.dat', 0.1, 0.1, 3370.0, 19),
              #('Data_new/banados_sel_3.dat', 0.1, 0.1, 2500.0, 20)]
 
-case = 8
+case = 9
 
 if case == 0:
 
@@ -242,3 +242,35 @@ elif case == 8:
     b = lfg.bestfit(g, method=method)
     print b
 
+elif case == 8:
+
+    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,2,3,3])
+
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -23.26763262,  -0.81679979,
+                  -4.28592068, 1.13320416, -0.14003202, 
+                  -1.60670033, -0.02759287, -0.00685381])
+
+    method = 'Nelder-Mead'
+    b = lfg.bestfit(g, method=method)
+    print b
+    
+elif case == 9:
+
+    lfg = lf(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,2,4])
+
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -18.64592897, -4.52638114, 0.47207865, -0.01890026,
+                  -3.35945526, -0.26211017,
+                  -2.19480099,  0.46906026, -0.07710908,  0.00297377])
+
+    method = 'Nelder-Mead'
+    b = lfg.bestfit(g, method=method)
+    print b
+
+array([ -7.89387141e+00,   1.24961557e+00,  -1.34104043e-01,   -1.62092084e+01,  -6.37733322e+00,   7.42609597e-01,     -3.23535832e-02,  -3.29121546e+00,  -2.30686425e-01,    -3.03009759e+00,   1.15077979e+00,  -1.62317962e-01,         6.23585369e-03])    
+    
+    lfg.prior_min_values = np.array([-10, 0, -5, -20, -10, 0, -2, -7, -5, -10, -10, -10, -10])
+    lfg.prior_max_values = np.array([-2, 10, 5, -10, -1, 2, 2, -1, 5, 10, 10, 10, 10])
+    assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
+    lfg.run_mcmc()

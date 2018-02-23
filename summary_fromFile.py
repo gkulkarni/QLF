@@ -212,12 +212,12 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 1)
         print 'cm=', coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3) 
 
-        def func(z, p0, p1, p2):
-            return T([p0, p1, p2])(z)
+        def func(z, p0, p1):
+            return T([p0, p1])(z)
 
         sigma = np.abs(u-l)
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -399,16 +399,16 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 3)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1, p2):
-                return T([p0, p1, p2])(z)
+        def func(z, p0, p1, p2, p3):
+                return T([p0, p1, p2, p3])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
-        print popt
+        print 'cb=', popt
         plt.plot(zc, func(zc+1, *popt), lw=1, c='r', dashes=[7,2])
 
     polyfit = False
