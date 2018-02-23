@@ -19,10 +19,10 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/jiang16s82_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
-             'Data_new/kashikawa15_sample.dat']
+             'Data_new/kashikawa15_sample.dat',
              #'Data_new/giallongo15_sample.dat',
-             #'Data_new/ukidss_sample.dat',
-             #'Data_new/banados_sample.dat']
+             'Data_new/ukidss_sample.dat',
+             'Data_new/banados_sample.dat']
 
 selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15),
@@ -39,12 +39,12 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13),
              ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18),
              ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10),
              ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10),
-             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11)]
+             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11),
              #('Data_new/giallongo15_sel.dat', 0.0, 0.0, 0.047, 7),
-             #('Data_new/ukidss_sel_3.dat', 0.1, 0.1, 3370.0, 19),
-             #('Data_new/banados_sel_3.dat', 0.1, 0.1, 2500.0, 20)]
+             ('Data_new/ukidss_sel_4.dat', 0.1, 0.1, 3370.0, 19),
+             ('Data_new/banados_sel_4.dat', 0.1, 0.1, 2500.0, 20)]
 
-case = 9
+case = 0
 
 if case == 0:
 
@@ -57,12 +57,8 @@ if case == 0:
                   -3.35945526, -0.26211017,
                   -2.47899576, 0.978408, 3.76233908, 10.96715636, -0.33557835])
 
-    lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0,
-                                     0.0, -2.0, -7.0, -5.0, -5.0, 0.0,
-                                     1.0, 1.0, -2.0])
-    lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0,
-                                     2.0, 2.0, -1.0, 5.0, 0.0, 5.0,
-                                     5.0, 200.0, 2.0])
+    lfg.prior_min_values = np.array([-15.0, 0.0, -5.0, -30.0, -10.0, 0.0, -2.0, -7.0, -5.0, -10.0, -10.0, -10.0, -10.0, -2.0])
+    lfg.prior_max_values = np.array([-5.0, 10.0, 5.0, -10.0, -1.0, 2.0, 2.0, -1.0, 5.0, 10.0, 10.0, 10.0, 200.0, 2.0])
 
     assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
 
@@ -268,8 +264,6 @@ elif case == 9:
     b = lfg.bestfit(g, method=method)
     print b
 
-array([ -7.89387141e+00,   1.24961557e+00,  -1.34104043e-01,   -1.62092084e+01,  -6.37733322e+00,   7.42609597e-01,     -3.23535832e-02,  -3.29121546e+00,  -2.30686425e-01,    -3.03009759e+00,   1.15077979e+00,  -1.62317962e-01,         6.23585369e-03])    
-    
     lfg.prior_min_values = np.array([-10, 0, -5, -20, -10, 0, -2, -7, -5, -10, -10, -10, -10])
     lfg.prior_max_values = np.array([-2, 10, 5, -10, -1, 2, 2, -1, 5, 10, 10, 10, 10])
     assert(np.all(lfg.prior_min_values < lfg.prior_max_values))

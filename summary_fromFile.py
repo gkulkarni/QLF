@@ -371,7 +371,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     ax.set_yticks(np.arange(-3, 0.2, 0.5))
     
     if compOpt is not None:
-        beta = compOpt.atz(z, compOpt.getparams(compOpt.bf.x)[3])
+        beta = compOpt.atz_beta(z, compOpt.getparams(compOpt.bf.x)[3])
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
@@ -380,9 +380,9 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
             for theta in composite.samples[np.random.randint(
                     len(composite.samples), size=900)]:
                 params = composite.getparams(theta)
-                beta = composite.atz(z, params[3]) 
+                beta = composite.atz_beta(z, params[3]) 
                 ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
-        beta = composite.atz(z, composite.getparams(bf)[3])
+        beta = composite.atz_beta(z, composite.getparams(bf)[3])
         ax.plot(z, beta, color='k', zorder=2, lw=2)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
