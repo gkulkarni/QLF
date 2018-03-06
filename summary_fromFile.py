@@ -12,10 +12,10 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import UnivariateSpline
 
 # These redshift bins are labelled "bad" and are plotted differently.
-# reject = [0, 1, 8, 9, 10, 11, 12, 13]
 reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
-colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown'] 
+# colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown']
+colors = ['k', 'k', 'k', 'k'] 
 nplots_x = 2
 nplots_y = 2
 nplots = 4
@@ -23,8 +23,59 @@ plot_number = 0
 
 zlims=(0.0,7.0)
 zmin, zmax = zlims
-z = np.linspace(zmin, zmax, num=50)
+z = np.linspace(zmin, zmax, num=500)
 cfit = False
+
+def plot_model(composite, param_number, ax):
+
+    if param_number == 0:
+        print 'phi'
+
+    nsample = 10000
+    np.random.seed()
+    rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+    nzs = len(z) 
+    beta = np.zeros((nsample, nzs))
+
+    for i, theta in enumerate(rsample):
+        params = composite.getparams(theta)
+        if param_number < 3: 
+            beta[i] = composite.atz(z, params[param_number])
+        else:
+            beta[i] = composite.atz_beta(z, params[3]) 
+
+    up = np.percentile(beta, 15.87, axis=0)
+    down = np.percentile(beta, 84.13, axis=0)
+    
+    ax.fill_between(z, down, y2=up, color='turquoise', zorder=1, label='Model 2')
+
+    beta = np.median(beta, axis=0)
+    ax.plot(z, beta, color='turquoise', zorder=2, lw=1)
+    
+    return
+
+def plot_model_polyb(composite, param_number, ax):
+
+    nsample = 10000
+    np.random.seed()
+    rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+    nzs = len(z) 
+    beta = np.zeros((nsample, nzs))
+
+    for i, theta in enumerate(rsample):
+        params = composite.getparams(theta)
+        beta[i] = composite.atz(z, params[param_number])
+
+    up = np.percentile(beta, 15.87, axis=0)
+    down = np.percentile(beta, 84.13, axis=0)
+    
+    ax.fill_between(z, down, y2=up, color='peru', zorder=1, label='Model 3')
+
+    beta = np.median(beta, axis=0)
+    ax.plot(z, beta, color='peru', zorder=2, lw=1)
+    
+    return
+
 
 def getParam(individuals, param, which='old', dtype='good'):
 
@@ -54,7 +105,9 @@ def getParam(individuals, param, which='old', dtype='good'):
 
     else:
 
-        zmean, zl, zu, u, l, c = np.loadtxt('bins.dat', usecols=(0,1,2,3+param*3,4+param*3,5+param*3), unpack=True)
+        zmean, zl, zu, u, l, c = np.loadtxt('bins.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
 
     m = np.ones_like(zmean, dtype=bool)
     m[reject] = False
@@ -66,13 +119,14 @@ def getParam(individuals, param, which='old', dtype='good'):
         return zmean[minv], zl[minv], zu[minv], u[minv], l[minv], c[minv]
 
         
-def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
+def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
 
-    ax.tick_params('both', which='major', length=2, width=1, direction='in')
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
     ax.tick_params('both', which='minor', length=2, width=1, direction='in')
     
     ax.set_xlim(zmin, zmax)
@@ -86,35 +140,47 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None: 
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(len(composite.samples),
-                                                             size=900)]:
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            phi = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                phi = composite.atz(z, params[0]) 
-                ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
-        phi = composite.atz(z, composite.getparams(bf)[0])
-        ax.plot(z, phi, color='k', zorder=2, lw=2)
+                phi[i] = composite.atz(z, params[0]) 
+                
+            up = np.percentile(phi, 15.87, axis=0)
+            down = np.percentile(phi, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+            
+        phi = np.median(phi, axis=0)
+        ax.plot(z, phi, color='k', zorder=2, lw=1)
+
+    plot_model(lfg_break, 0, ax)
+    plot_model_polyb(lfg_polyb, 0, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='good')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
+    ax.errorbar(zmean, c, ecolor='k', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=40)
+    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=30)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='bad')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
+    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=35)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
     
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -159,13 +225,14 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
     return
 
-def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
+def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+2)
 
-    ax.tick_params('both', which='major', length=2, width=1, direction='in')
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
     ax.tick_params('both', which='minor', length=2, width=1, direction='in')
     
     ax.yaxis.tick_right()
@@ -183,14 +250,26 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
-                params = composite.getparams(theta) 
-                M = composite.atz(z, params[1]) 
-                ax.plot(z, M, color='darkgrey', zorder=1)
-        M = composite.atz(z, composite.getparams(bf)[1])
-        ax.plot(z, M, color='k', zorder=2, lw=2)
 
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            M = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
+                params = composite.getparams(theta)
+                M[i] = composite.atz(z, params[1]) 
+                
+            up = np.percentile(M, 15.87, axis=0)
+            down = np.percentile(M, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+            
+        M = np.median(M, axis=0)
+        ax.plot(z, M, color='k', zorder=2, lw=1)
+
+    plot_model(lfg_break, 1, ax)
+    plot_model_polyb(lfg_polyb, 1, ax)
+        
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='good')
     left = zmean-zl
     right = zu-zmean
@@ -200,7 +279,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=40)
+    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=30)
 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
@@ -209,7 +288,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
-    cfit = True
+    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 1)
@@ -229,11 +308,11 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
+    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
         
     curvefit = False
     if curvefit:
@@ -263,15 +342,16 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
 
     return
 
-def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
+def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
 
-    ax.tick_params('both', which='major', length=2, width=1, direction='in')
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
     ax.tick_params('both', which='minor', length=2, width=1, direction='in')
-    
+
     ax.set_xlim(zmin, zmax)
     ax.set_ylim(-7, -1)
     ax.set_yticks(np.arange(-7, -0.9, 1))
@@ -285,13 +365,26 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
     if composite is not None:
         bf = np.median(composite.samples, axis=0)
         if sample:
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
+
+            nsample = 1000
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            alpha = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                alpha = composite.atz(z, params[2])
-                ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=1) 
-        alpha = composite.atz(z, composite.getparams(bf)[2])
-        ax.plot(z, alpha, color='k', zorder=2, lw=2)
+                alpha[i] = composite.atz(z, params[2]) 
+                
+            up = np.percentile(alpha, 15.87, axis=0)
+            down = np.percentile(alpha, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1, label='Model 1')
+
+        
+        alpha = np.median(alpha, axis=0) 
+        ax.plot(z, alpha, color='k', zorder=2, lw=1)
+
+    plot_model(lfg_break, 2, ax)
+    plot_model_polyb(lfg_polyb, 2, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='good')
     left = zmean-zl
@@ -302,20 +395,20 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=40)
+    ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=30)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
+    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
 
-    cfit = True
+    cfit = False
     if cfit: 
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1.0, c, 2)
@@ -344,7 +437,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
         
         
-    plt.legend(loc='upper left', fontsize=10, handlelength=3,
+    plt.legend(loc='upper left', fontsize=8, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.1, borderpad=0.01, scatterpoints=1)
 
@@ -354,15 +447,16 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
 
     return
 
-def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
+def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+4)
 
-    ax.tick_params('both', which='major', length=2, width=1, direction='in')
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
     ax.tick_params('both', which='minor', length=2, width=1, direction='in')
-    
+
     ax.yaxis.tick_right()
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
@@ -375,15 +469,49 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
         ax.plot(z, beta, color='g', zorder=2, dashes=[7,2])
 
     if composite is not None:
-        bf = np.median(composite.samples, axis=0)
-        if sample: 
-            for theta in composite.samples[np.random.randint(
-                    len(composite.samples), size=900)]:
+
+
+        # bf = np.median(composite.samples, axis=0)
+        # beta = composite.atz_beta(z, composite.getparams(bf)[3])
+        # ax.plot(z, beta, color='k', zorder=2, lw=1)
+        
+        # bf16 = np.percentile(composite.samples, 15.87, axis=0)
+        # beta16 = composite.atz_beta(z, composite.getparams(bf16)[3])
+
+        # bf84 = np.percentile(composite.samples, 84.13, axis=0)
+        # beta84 = composite.atz_beta(z, composite.getparams(bf84)[3])
+
+        # ax.fill_between(z, beta84, y2=beta16, color='grey', zorder=1)
+
+        
+        if sample:
+
+            nsample = 10000
+            np.random.seed()
+            rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+            nzs = len(z) 
+            beta = np.zeros((nsample, nzs))
+
+            for i, theta in enumerate(rsample):
                 params = composite.getparams(theta)
-                beta = composite.atz_beta(z, params[3]) 
-                ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=1) 
-        beta = composite.atz_beta(z, composite.getparams(bf)[3])
-        ax.plot(z, beta, color='k', zorder=2, lw=2)
+                beta[i] = composite.atz_beta(z, params[3]) 
+                
+            up = np.percentile(beta, 15.87, axis=0)
+            down = np.percentile(beta, 84.13, axis=0)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+
+        # bfs = np.median(rsample, axis=0) 
+        # print 'median beta (beta):', composite.getparams(bfs)[3]
+        # print 'median beta (samples):', composite.getparams(bf)[3]
+
+        beta = np.median(beta, axis=0)
+        ax.plot(z, beta, color='k', zorder=2, lw=1)
+
+        # beta = composite.atz_beta(z, composite.getparams(bf)[3])
+        # ax.plot(z, beta, color='k', zorder=2, lw=1)
+
+    plot_model(lfg_break, 3, ax)
+    plot_model_polyb(lfg_polyb, 3, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
     left = zmean-zl
@@ -394,9 +522,9 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=40)
+    ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=30)
 
-    cfit = True
+    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 3)
@@ -437,11 +565,11 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
+    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
         
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
@@ -456,7 +584,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
 
     return 
 
-def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
+def summary_plot(composite=None, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -478,10 +606,10 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
 
     print 'plotting now'
     
-    plot_phi_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample)
-    plot_m_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample)
-    plot_alpha(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample)
-    plot_beta(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample)
+    plot_phi_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
+    plot_m_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
+    plot_alpha(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
+    plot_beta(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
 
     plt.savefig('evolution.pdf',bbox_inches='tight')
 
