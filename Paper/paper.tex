@@ -7,6 +7,24 @@
 \usepackage{pdflscape}
 \usepackage{siunitx}
 \def\lya{Ly$\alpha$~}
+\usepackage{color}
+\definecolor{notecolor}{rgb}{0.8,0,0}
+\newcommand{\gk}[1]{{\bf \color{notecolor} [#1]}}
+\def\HI{\hbox{H~$\scriptstyle\rm I$}}
+\def\HII{\hbox{H~$\scriptstyle\rm II$}}
+\def\nHI{{\rm HI}}
+\def\nH{{\rm H}}
+\def\nHII{{\rm HII}}
+\def\nHe{{\rm He}}
+\def\nHeI{{\rm HeI}}
+\def\nHeII{{\rm HeII}}
+\def\nHeIII{{\rm HeIII}}
+\def\bHII{\hbox{\bf H~$\scriptstyle\bf II$}}
+\def\HeI{\hbox{He~$\scriptstyle\rm I$}}
+\def\HeII{\hbox{He~$\scriptstyle\rm II$}}
+\def\HeIII{\hbox{He~$\scriptstyle\rm III$}}
+\def\bHeII{\hbox{\bf He~$\scriptstyle\bf II$}}
+\def\HeIII{\hbox{He~$\scriptstyle\rm III$}}
 
 \title[AGN luminosity function]{Evolution of the AGN UV luminosity function from redshift 7.5}
 
@@ -218,6 +236,51 @@ observed magnitudes are point spread function (PSF) magnitudes
 \citep{2002AJ....123..485S} corrected for Galactic extinction
 \citep{1998ApJ...500..525S} unless otherwise noted.
 
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=\textwidth]{qsos.pdf}
+    % data.py 
+  \end{center}
+  \caption{Quasar samples.}
+  \label{fig:qsos}
+\end{figure*}
+
+\begin{table*}
+  % In published version of this table, we could remove file names and add data homogenisation in Notes.
+  % Add z ~ 7 qso when you add it to analysis
+  % See data.tex for a version of this table that includes file names
+  \caption{Quasar data sets}
+  \label{tab:samples}
+  \begin{tabular}{crcllrSl}
+    \hline
+    & ID & $z$ & Survey & Reference & Number & {Area} & Notes \\
+    & & & & & of quasars & {(deg$^2$)} & \\
+    \hline
+    1. & 13 & 0.1--2.2 & SDSS DR7 & \citet{2006AJ....131.2766R} & 48664 & 6248.0 & \\
+    2. & 15 & 0.4--2.6 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 3663 & 64.2 & \\
+    3. & 15  & 0.4--2.6 & --- NGP & \citet{2009MNRAS.392...19C} & 8153 & 127.7 & \\
+    4. &  1 & 2.2--3.5 & BOSS DR9 & \citet{2013ApJ...773...14R} & 23301 & 2236.0 & \\
+    5. & 13 & 3.7--4.7 & SDSS DR7 & \citet{2006AJ....131.2766R} & 1785 & 6248.0 & Restricted to $z<4.7$ \\
+    6. & 17 & 4.7--5.4 & SDSS+WISE & \citet{2016ApJ...829...33Y} & 99 & 14555.0 & Overlaps with 8 for $M_{1450}<-26.73$ \\
+    7. &  8 & 4.7--5.1 & SDSS DR7 & \citet{2013ApJ...768..105M} & 148 & 6248.0 & \\
+    8. &  8 & 4.7--5.1 & --- Stripe 82 & \citet{2013ApJ...768..105M} & 52 & 235.0 & \\
+    9. &  8 & 5.1--5.5 & --- DR7 Extended & \citet{2013ApJ...768..105M} & 28 & 6248.0 & \\
+    10. & 8 & 5.1--5.4 & ---  Stripe 82 Extended & \citet{2013ApJ...768..105M} & 10 & 235.0 & \\
+    11. & 6 & 3.7--4.8 & NDWFS & \citet{2011ApJ...728L..26G} & 12 & 1.71 & \\
+    12. & 6 & 3.8--5.1 & DLS & \citet{2011ApJ...728L..26G} & 12 & 2.05 & \\
+    13. & 7 & 4.1--6.3 & CANDELS GOODS-S & \citet{2015AA...578A..83G} & 19 & 0.047 & Rescaled selection probabilities \\
+    14. & 18 & 5.8--6.4 & --- Main & \citet{2016ApJ...833..222J} & 24 & 11240.0 & \\
+    15. & 18 & 5.9--6.1 & --- Overlap & \citet{2016ApJ...833..222J} & 10 & 4223.0 & \\
+    16. & 18 & 5.7--6.1 & --- Stripe 82 & \citet{2016ApJ...833..222J} & 13 & 277.0 & \\
+    17. & 10 & 6.0 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 & \\
+    18. & 10 & 5.9--6.4 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 & \\
+    19. & 11 & 6.0--6.2 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 & \\
+    20. & 19 & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 & \\
+    21. & 19 & 6.5--7.4 & UKIDSS & \citet{2007MNRAS.376L..76V} & 1 & 3370.0 & \\
+    \hline
+  \end{tabular}
+\end{table*}
+
 \section{Homogenised Quasar Sample}
 
 \subsection{Sample Selection}
@@ -389,50 +452,6 @@ essential. Although we will account for the slightly different
 redshift sensitivities for the different surveys, we will quote a
 nominal redshift range $5.7<z<6.5$ for the combined $z\sim 6$ sample.
 
-\begin{figure*}
-  \begin{center}
-    \includegraphics[width=\textwidth]{qsos.pdf}
-  \end{center}
-  \caption{Quasar samples.}
-  \label{fig:qsos}
-\end{figure*}
-
-\begin{table*}
-  % In published version of this table, we could remove file names and add data homogenisation in Notes.
-  % Add z ~ 7 qso when you add it to analysis
-  % See data.tex for a version of this table that includes file names
-  \caption{Quasar data sets}
-  \label{tab:samples}
-  \begin{tabular}{crcllrSl}
-    \hline
-    & ID & $z$ & Survey & Reference & Number & {Area} & Notes \\
-    & & & & & of quasars & {(deg$^2$)} & \\
-    \hline
-    1. & 13 & 0.1--2.2 & SDSS DR7 & \citet{2006AJ....131.2766R} & 48664 & 6248.0 & \\
-    2. & 15 & 0.4--2.6 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 3663 & 64.2 & \\
-    3. & 15  & 0.4--2.6 & --- NGP & \citet{2009MNRAS.392...19C} & 8153 & 127.7 & \\
-    4. &  1 & 2.2--3.5 & BOSS DR9 & \citet{2013ApJ...773...14R} & 23301 & 2236.0 & \\
-    5. & 13 & 3.7--4.7 & SDSS DR7 & \citet{2006AJ....131.2766R} & 1785 & 6248.0 & Restricted to $z<4.7$ \\
-    6. & 17 & 4.7--5.4 & SDSS+WISE & \citet{2016ApJ...829...33Y} & 99 & 14555.0 & Overlaps with 8 for $M_{1450}<-26.73$ \\
-    7. &  8 & 4.7--5.1 & SDSS DR7 & \citet{2013ApJ...768..105M} & 148 & 6248.0 & \\
-    8. &  8 & 4.7--5.1 & --- Stripe 82 & \citet{2013ApJ...768..105M} & 52 & 235.0 & \\
-    9. &  8 & 5.1--5.5 & --- DR7 Extended & \citet{2013ApJ...768..105M} & 28 & 6248.0 & \\
-    10. & 8 & 5.1--5.4 & ---  Stripe 82 Extended & \citet{2013ApJ...768..105M} & 10 & 235.0 & \\
-    11. & 6 & 3.7--4.8 & NDWFS & \citet{2011ApJ...728L..26G} & 12 & 1.71 & \\
-    12. & 6 & 3.8--5.1 & DLS & \citet{2011ApJ...728L..26G} & 12 & 2.05 & \\
-    13. & 7 & 4.1--6.3 & CANDELS GOODS-S & \citet{2015AA...578A..83G} & 19 & 0.047 & Rescaled selection probabilities \\
-    14. & 18 & 5.8--6.4 & --- Main & \citet{2016ApJ...833..222J} & 24 & 11240.0 & \\
-    15. & 18 & 5.9--6.1 & --- Overlap & \citet{2016ApJ...833..222J} & 10 & 4223.0 & \\
-    16. & 18 & 5.7--6.1 & --- Stripe 82 & \citet{2016ApJ...833..222J} & 13 & 277.0 & \\
-    17. & 10 & 6.0 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 & \\
-    18. & 10 & 5.9--6.4 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 & \\
-    19. & 11 & 6.0--6.2 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 & \\
-    20. & 19 & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 & \\
-    21. & 19 & 6.5--7.4 & UKIDSS & \citet{2007MNRAS.376L..76V} & 1 & 3370.0 & \\
-  \end{tabular}
-\end{table*}
-
-%\clearpage
 \subsection{Sample Homogenisation}
 \label{sect:datahom}
 
@@ -663,8 +682,8 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
 
 \begin{figure*}
   \begin{center}
-    % \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
-    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small.pdf}
+    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
+    % mosaic.py 
   \end{center}
   \caption{Luminosity function estimates from $z=0.3$ to $2.6$.  The
     symbols show our inferred binned luminosity functions.  In each
@@ -685,7 +704,8 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=\textwidth]{evolution_alldata.pdf}
+    \includegraphics[width=0.7\textwidth]{evolution_individuals.pdf}
+    % summary_fromFile.py 
   \end{center}
   \caption{Parameter evolution from individual fits in
     Figures~\ref{fig:mosaic}.  Parameters from BOSS quasars are seen
@@ -693,7 +713,57 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   \label{fig:evoln}
 \end{figure*}
 
+\begin{table*}
+  % bins_tabulate.py; Nqso added by hand
+  \caption{Best-fit double power law luminosity function parameters in
+    various redshift bins.  The luminosity function parameters
+    $\phi_*$, $M_*$, $\alpha$, and $\beta$ are defined in
+    Equation~(\ref{eqn:dpl}), with $\beta$ denoting the faint-end
+    slope.  Quasars in each bin have redshifts $z_\mathrm{min}\leq z <
+    z_\mathrm{max}$.  The number of quasars in each bin is given by
+    $N_\mathrm{qso}$.  The bin centre and sample mean redshift are
+    given by $z_\mathrm{bin}$ and $\langle z\rangle$, respectively.
+    Errors indicate one-sigma (68.26\%) uncertainties.  These values
+    are shown in Figure~\ref{fig:evoln}.  The corresponding luminosity
+    functions are shown in Figure~\ref{fig:mosaic}.  See
+    Section~\ref{sec:bins} for further details.}
+  \label{tab:bins}
+  \begin{tabular}{ccccrcccc}
+    \hline
+    $\langle z\rangle$ & $z_\mathrm{bin}$ & $z_\mathrm{min}$ & $z_\mathrm{max}$ & $N_\mathrm{qso}$ & $\log_{10}(\phi_*/$ & $M_*$ & $\alpha$ & $\beta$ \\
+    & & & & & cMpc$^{-3}$mag$^{-1}$) & & & \\
+    \hline
+    $0.31$ & $0.25$ & $0.10$ & $0.40$ & 3520 & $-5.62^{+0.09}_{-0.10}$ & $-21.37^{+0.21}_{-0.22}$ & $-2.94^{+0.09}_{-0.10}$ & $-1.22^{+0.18}_{-0.16}$ \\
+    $0.50$ & $0.50$ & $0.40$ & $0.60$ & 4555 & $-6.12^{+0.04}_{-0.04}$ & $-23.00^{+0.08}_{-0.08}$ & $-3.37^{+0.07}_{-0.08}$ & $-1.36^{+0.04}_{-0.04}$ \\
+    $0.72$ & $0.70$ & $0.60$ & $0.80$ & 3308 & $-6.42^{+0.09}_{-0.08}$ & $-24.03^{+0.15}_{-0.13}$ & $-3.55^{+0.12}_{-0.13}$ & $-1.75^{+0.05}_{-0.04}$ \\
+    $0.91$ & $0.90$ & $0.80$ & $1.00$ & 3922 & $-6.39^{+0.08}_{-0.07}$ & $-24.51^{+0.12}_{-0.11}$ & $-3.69^{+0.10}_{-0.11}$ & $-1.73^{+0.06}_{-0.05}$ \\
+    $1.10$ & $1.10$ & $1.00$ & $1.20$ & 6367 & $-6.53^{+0.03}_{-0.03}$ & $-25.14^{+0.04}_{-0.04}$ & $-4.17^{+0.08}_{-0.09}$ & $-1.73^{+0.02}_{-0.02}$ \\
+    $1.30$ & $1.30$ & $1.20$ & $1.40$ & 6479 & $-6.43^{+0.04}_{-0.04}$ & $-25.29^{+0.06}_{-0.06}$ & $-3.97^{+0.08}_{-0.08}$ & $-1.74^{+0.03}_{-0.03}$ \\
+    $1.50$ & $1.50$ & $1.40$ & $1.60$ & 7539 & $-6.51^{+0.03}_{-0.03}$ & $-25.68^{+0.04}_{-0.04}$ & $-4.28^{+0.08}_{-0.08}$ & $-1.75^{+0.02}_{-0.02}$ \\
+    $1.71$ & $1.70$ & $1.60$ & $1.80$ & 6788 & $-6.28^{+0.04}_{-0.04}$ & $-25.55^{+0.05}_{-0.05}$ & $-3.96^{+0.07}_{-0.07}$ & $-1.60^{+0.03}_{-0.03}$ \\
+    $1.98$ & $2.00$ & $1.80$ & $2.20$ & 10478 & $-6.72^{+0.03}_{-0.03}$ & $-26.26^{+0.04}_{-0.04}$ & $-4.20^{+0.07}_{-0.07}$ & $-1.87^{+0.02}_{-0.02}$ \\
+    $2.25$ & $2.25$ & $2.20$ & $2.30$ & 4102 & $-5.98^{+0.10}_{-0.09}$ & $-25.26^{+0.19}_{-0.18}$ & $-3.21^{+0.15}_{-0.16}$ & $-1.54^{+0.07}_{-0.06}$ \\
+    $2.35$ & $2.35$ & $2.30$ & $2.40$ & 4317 & $-6.28^{+0.09}_{-0.09}$ & $-25.63^{+0.17}_{-0.15}$ & $-3.39^{+0.17}_{-0.19}$ & $-1.64^{+0.06}_{-0.05}$ \\
+    $2.45$ & $2.45$ & $2.40$ & $2.50$ & 3403 & $-6.40^{+0.08}_{-0.07}$ & $-25.86^{+0.14}_{-0.13}$ & $-3.60^{+0.20}_{-0.21}$ & $-1.60^{+0.05}_{-0.05}$ \\
+    $2.65$ & $2.65$ & $2.60$ & $2.70$ & 1883 & $-5.98^{+0.06}_{-0.06}$ & $-25.15^{+0.14}_{-0.13}$ & $-3.13^{+0.12}_{-0.13}$ & $-1.05^{+0.09}_{-0.08}$ \\
+    $2.75$ & $2.75$ & $2.70$ & $2.80$ & 1135 & $-6.30^{+0.08}_{-0.07}$ & $-25.96^{+0.15}_{-0.13}$ & $-3.81^{+0.28}_{-0.31}$ & $-1.34^{+0.07}_{-0.06}$ \\
+    $2.85$ & $2.85$ & $2.80$ & $2.90$ & 1069 & $-6.46^{+0.12}_{-0.10}$ & $-26.23^{+0.23}_{-0.18}$ & $-3.60^{+0.36}_{-0.42}$ & $-1.46^{+0.08}_{-0.07}$ \\
+    $2.95$ & $2.95$ & $2.90$ & $3.00$ & 1104 & $-6.77^{+0.07}_{-0.06}$ & $-26.53^{+0.10}_{-0.09}$ & $-5.05^{+0.60}_{-0.64}$ & $-1.71^{+0.05}_{-0.04}$ \\
+    $3.05$ & $3.05$ & $3.00$ & $3.10$ & 1127 & $-6.77^{+0.08}_{-0.07}$ & $-26.48^{+0.12}_{-0.10}$ & $-4.71^{+0.46}_{-0.52}$ & $-1.70^{+0.06}_{-0.05}$ \\
+    $3.15$ & $3.15$ & $3.10$ & $3.20$ & 1041 & $-7.25^{+0.17}_{-0.12}$ & $-27.09^{+0.25}_{-0.18}$ & $-4.42^{+0.81}_{-1.23}$ & $-1.96^{+0.08}_{-0.06}$ \\
+    $3.25$ & $3.25$ & $3.20$ & $3.30$ & 815 & $-7.33^{+0.13}_{-0.13}$ & $-27.19^{+0.19}_{-0.23}$ & $-4.36^{+0.65}_{-0.76}$ & $-1.93^{+0.06}_{-0.06}$ \\
+    $3.34$ & $3.35$ & $3.30$ & $3.40$ & 510 & $-7.54^{+0.19}_{-0.21}$ & $-27.39^{+0.25}_{-0.37}$ & $-4.90^{+1.36}_{-1.35}$ & $-2.08^{+0.09}_{-0.07}$ \\
+    $3.44$ & $3.45$ & $3.40$ & $3.50$ & 155 & $-6.77^{+0.19}_{-0.20}$ & $-26.64^{+0.42}_{-0.35}$ & $-3.70^{+0.62}_{-0.80}$ & $-1.24^{+0.27}_{-0.22}$ \\
+    $3.88$ & $3.90$ & $3.70$ & $4.10$ & 628 & $-7.92^{+0.12}_{-0.10}$ & $-27.26^{+0.14}_{-0.12}$ & $-4.81^{+0.34}_{-0.39}$ & $-2.07^{+0.10}_{-0.09}$ \\
+    $4.35$ & $4.40$ & $4.10$ & $4.70$ & 442 & $-8.32^{+0.29}_{-0.26}$ & $-27.38^{+0.38}_{-0.31}$ & $-4.19^{+0.41}_{-0.47}$ & $-2.20^{+0.16}_{-0.13}$ \\
+    $4.92$ & $5.10$ & $4.70$ & $5.50$ & 263 & $-9.02^{+0.29}_{-0.22}$ & $-27.88^{+0.36}_{-0.27}$ & $-4.51^{+0.66}_{-0.83}$ & $-2.31^{+0.11}_{-0.08}$ \\
+    $6.00$ & $6.00$ & $5.50$ & $6.50$ & 66 & $-10.60^{+0.71}_{-1.06}$ & $-29.12^{+1.04}_{-1.78}$ & $-4.99^{+0.72}_{-1.22}$ & $-2.40^{+0.10}_{-0.08}$ \\
+    \hline
+  \end{tabular}
+\end{table*}
+
 \subsection{Luminosity function estimates in redshift bins}
+\label{sec:bins}
 
 As our next step, we stop binning the quasars in luminosity, and only
 bin them in redshifts.  In each redshift bin, we model the quasar
@@ -823,7 +893,8 @@ luminosities and redshifts while fitting the luminosity function model.
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[height=0.88\textheight,keepaspectratio]{mosaic_small_global.pdf}
+    \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small_global.pdf}
+    % mosaic.py 
   \end{center}
   \caption{Luminosity function estimates from $z=0.3$ to $2.6$.
     Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
@@ -838,7 +909,8 @@ luminosities and redshifts while fitting the luminosity function model.
 
 \begin{figure*}
   \begin{center}
-    \includegraphics[width=\textwidth]{evolution_global.pdf}
+    \includegraphics[width=0.7\textwidth]{evolution_global.pdf}
+    % summary_fromFile.py 
   \end{center}
   \caption{Luminosity function parameter evolution in the global
     model.  The symbols show the best fit parameters with 68\%
@@ -854,15 +926,15 @@ luminosities and redshifts while fitting the luminosity function model.
 \begin{figure}
   \begin{center}
     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+    % rhoqso.py -- draw_withGlobal()
   \end{center}
   \caption{AGN number density evolution in the global model.  Similar
     to Figure~\ref{fig:evoln_global}, symbols show the best fit
     parameters with 68\% uncertainties from the double power law fits
     to the data in redshift bins.  Black solid curve shows the best
     fit global model, and the coloured curves show a random sample
-    drawn from the global posterior.  \textbf{[Show rejected bins in
-        differnt symbols here.  Do not show the $-18$ case.  Cut the
-        figure off at 6.5.]}}
+    drawn from the global posterior. \gk{I still think we should show
+      the $-18$ case here.}}
   \label{fig:rhoqso}
 \end{figure}
 
@@ -870,7 +942,8 @@ luminosities and redshifts while fitting the luminosity function model.
   \begin{center}
     \begin{tabular}{cc}
     \includegraphics[width=0.5\textwidth]{emissivity_18.pdf}
-    \includegraphics[width=0.5\textwidth]{emissivity_20.pdf}
+    \includegraphics[width=0.5\textwidth]{emissivity_21.pdf}
+    % gammapi.py -- draw_emissivity() 
     \end{tabular}
   \end{center}
   \caption{LyC emissivity of AGN assuming 100\% escape fraction.
@@ -1107,6 +1180,35 @@ $z=4$--$6$, although they still fall short by a factor of $\sim 2$.
 Our derived emissivities are significantly smaller at $z>3.5$ than the
 model of \citet{2015ApJ...813L...8M}.
 
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+    \includegraphics[width=0.5\textwidth]{g_18.pdf}
+    \includegraphics[width=0.5\textwidth]{g_21.pdf}
+    \end{tabular}
+  \end{center}
+  \caption{AGN contribution to the hydrogen photoionisation rate,
+    assuming 100\% escape fraction.  Model luminosity functions are
+    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
+    the right panel.  The solid black curve shows the hydrogen
+    photoionisate rate in our best-fit global model, and the yellow
+    curves show a random sample from the global posterior.  The red
+    points with error bars in this figure show the measurements of
+    \citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$
+    forest, and the orange points show the measurements by
+    \citet{2011MNRAS.412.2543C} from quasar proximity zones.  The
+    dashed green curve shows the hydrogen photoionisation rate
+    evolution in the model of \citet{2012ApJ...746..125H}, while the
+    solid green curve shows the contribution of quasars to it. \gk{Two
+      problems to be addressed in these plots: (a) there is a
+      contribution of $z>7$ qsos to the photoionisation rate at $z<7$
+      but because our emissivity diverges at $z>7$, I had a to put an
+      arbitrary cut-off; (b) the plots are too messy; we probably
+      should show fewer things.}}
+  \label{fig:gammapi}
+\end{figure*}
+
 The 1~Ry emissivity can now be used to calculate the ionizing flux and
 photoionization rate contributed by quasars.  The frequency dependence
 above 1~Ry is given by Equation~(\ref{eqn:sed}) or
@@ -1116,7 +1218,7 @@ above 1~Ry is given by Equation~(\ref{eqn:sed}) or
   \label{eqn:epsilon_freq}
 \end{equation}
 where $\alpha=-1.70$ (Equation~\ref{eqn:sed}) or $-0.56$
-(Equation~\ref{eqn:sed_faint}).  The corresponding flux in the IGM is
+(Equation~\ref{eqn:sed_faint}).  The flux in the IGM is
 written as a solution of the cosmological radiative transfer equation
 as \citep{2012ApJ...746..125H}
 \begin{multline}
@@ -1168,29 +1270,6 @@ source approximation, that is by assuming that the photons emitted at
 redshift $z$ are absorbed at the same redshift without propagation to
 large distances.
 
-\begin{figure*}
-  \begin{center}
-    \begin{tabular}{cc}
-    \includegraphics[width=0.5\textwidth]{g_18.pdf}
-    \includegraphics[width=0.5\textwidth]{g_20.pdf}
-    \end{tabular}
-  \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming 100\% escape fraction.  Model luminosity functions are
-    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
-    the right panel.  The solid black curve shows the hydrogen
-    photoionisate rate in our best-fit global model, and the yellow
-    curves show a random sample from the global posterior.  The red
-    points with error bars in this figure show the measurements of
-    \citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$
-    forest, and the orange points show the measurements by
-    \citet{2011MNRAS.412.2543C} from quasar proximity zones.  The
-    dashed green curve shows the hydrogen photoionisation rate
-    evolution in the model of \citet{2012ApJ...746..125H}, while the
-    solid green curve shows the contribution of quasars to it. }
-  \label{fig:gammapi}
-\end{figure*}
-
 In the local source approximation, Equation~(\ref{eqn:flux}) becomes
 \begin{equation}
   j(\nu_0, z_0) = \frac{1}{4\pi}\lambda_\mathrm{mfp}(\nu_0, z_0)\epsilon(\nu_0, z_0),
@@ -1231,14 +1310,136 @@ At lower redshift, the photoionisation rate in the individual models
 is much higher than that in the global model, because the individual
 models overestimate the flux at these redshifts. 
 
-\begin{figure*}
+\begin{figure}
   \begin{center}
-    \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+    \includegraphics[width=\columnwidth,keepaspectratio]{g_puc.pdf}
   \end{center}
-  \caption{Parameter evolution from individual fits.  Coloured points
-    show results when Giallongo quasars are not included.  Black
-    points show results when Giallongo quasars are included.}
-\end{figure*}
+  \caption{Photon underproduction crisis.\label{fig:puc}}
+\end{figure}
+
+%% \begin{figure*}
+%%   \begin{center}
+%%     \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
+%%   \end{center}
+%%   \caption{Parameter evolution from individual fits.  Coloured points
+%%     show results when Giallongo quasars are not included.  Black
+%%     points show results when Giallongo quasars are included.}
+%% \end{figure*}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal_dense.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+%% \begin{figure}
+%%   \begin{center}
+%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff_ind.pdf}
+%%   \end{center}
+%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
+%% \end{figure}
+
+\section{Hydrogen and helium reionization}
+
+We now consider the implications for hydrogen and helium reionization
+for the ionizing photon emissivity derived above.  This requires that
+we extrapolate the emissivity of Equation XX to higher redshifts.
+Unfortunately, the volume emissivity in our model cannot be
+extrapolated to higher redshifts.  The model of Hopkins suffered with
+the same problem.  \gk{Do we need to show two cases here?  One in
+  which we extrapolate the emissivity and another in which we stop
+  where data end.  There is perhaps a third possibility in which use
+  the current emissivity model upto where data end.}  The evolution of
+the volume averaged ionized fraction of hydrogen is given by
+\citep{2012ApJ...746..125H}
+\begin{equation}
+{dQ_\nHII\over dt}={\dot n_{\rm ion}\over \langle n_\nH \rangle} -{Q_\nHII\over
+\langle t_{\rm rec}\rangle},
+\label{eq:qdot}
+\end{equation}
+and the corresponding equation doubly ionized Helium is
+\begin{equation}
+{dQ_\nHeIII\over dt}={\dot n_{\rm ion,4}\over \langle n_\nHe \rangle} -{Q_\nHeIII\over
+\langle t_{\rm rec,He}\rangle}.
+\label{eq:qHedot}
+\end{equation}
+We assume that the Helium is singly reionized together with hydrogen.
+In order to get the 4~Ry emissivity of quasars we use the SED from
+equation XX.  The recombination times are given by
+\begin{equation}
+\langle t_{\rm rec}\rangle=[\chi \langle n\rangle \alpha_B\,C]^{-1},
+\label{eq:trec}
+\end{equation}
+where $n$ is the volume averaged density of hydrogen and helium,
+respectively.  We assume that hydrogen and helium have similar
+clumping factors, given by \citep{2015ApJ...813L...8M}
+\begin{equation}
+  C = 2.8\left(\frac{1+z}{6}\right)^{-1.1}.
+\end{equation}
+For the helium recombination coeffienct, we use the fitting function
+provided by \citet{1997MNRAS.292...27H}.  For hydrogen recombination
+coefficient, we use the fitting function provided by
+\citet{2011piim.book.....D}.
+
+The resultant reionization histories of hydrogen and helium are shown
+in Figure XX.  We also show the reionization histories from
+\citep{2012ApJ...746..125H} and \citep{2015ApJ...813L...8M} for
+comparison.  As expected from the emissivity result of the previous
+section, quasars cannot single handedly reionize hydrogen.  However
+they can reionise \HeII.  The Helium reionization completes at
+redshift $z=3.5$--$3.7$ depending on the luminosity down to which you
+integrate the quasar luminosity function.  This is consistent with the
+Helium \lya opacity measurements of \citet{2016ApJ...825..144W}.
+
+\section{Photon underproduction}
+
+Our derivation of the LyC emissivity of AGN allows us to see if the
+corresponding hydrogen photoionization rate is consistent with the
+measured CDDF of the low-redshift ($z<0.5$) Ly$\alpha$ forest
+\citep{2016ApJ...817..111D}.  \citet{2014ApJ...789L..32K} argued that
+in order to match the CDDF observed by \citet{2016ApJ...817..111D} at
+\gk{Define acronym CDDF.}  these redshifts, hydrodynamical
+cosmological simulations require a hydrogen photoionization rate that
+is a factor of five larger than that in the UV background (UVB) model
+of \citet{2012ApJ...746..125H}.  \gk{This factor looks more than five
+  in our plot!}  Several recent studies in the literature have
+addressed this ``photon underproduction crisis''.  On the one hand,
+these studies emphasised the uncertainty in the
+\citet{2012ApJ...746..125H} UVB model at these redshifts due to the
+lack of certainty in the UV photon emissivities of galaxies and AGN
+\citep{2015MNRAS.451L..30K, 2015ApJ...811....3S}.  On the other hand,
+they noted the uncertainty in the results of the cosmological
+simulations at these redshifts, due to effects such as AGN feedback
+and limited numerical resolution \citep{2015ApJ...811....3S,
+  2017MNRAS.467L..86V, 2017MNRAS.471.1056N, 2017ApJ...837..106O,
+  2017MNRAS.466..838G, 2017MNRAS.467.3172G, 2017ApJ...835..175G}.  A
+general conclusion of these studies was that the discrepancy between
+the photoionization rate required by the observed CDDF and predicted
+by the UVB model of \citet{2012ApJ...746..125H} is likely to be
+smaller than that found by \citet{2014ApJ...789L..32K}.  The
+discrepancy is about a factor of 2 instead of 5.
+
+The black curve in Figure~\ref{fig:puc} shows the evolution of the
+hydrogen photoionization rate due to AGN in our best-fit global
+luminosity function model.  (Yellow shaded region around the black
+curve shows the small 68\% uncertainty.)  We find that the
+photoionisation rate in our model due to AGN alone is higher than that
+in the \citet{2012ApJ...746..125H} UVB model by a factor of 2.  This
+higher photoionisation rate is consistent with that derived by
+\citet{2015MNRAS.451L..30K} using the quasar luminosity function
+measurements of \citet{2009MNRAS.392...19C} and
+\citet{2013A&A...551A..29P}.  It is also consistent with the
+photoionization rate found by \citet{2017MNRAS.467.3172G}, who found
+that this photoionisation rate is sufficient to explain the CDDF
+measured by \citet{2016ApJ...817..111D}.
 
 \begin{figure}
   \begin{center}
@@ -1246,6 +1447,101 @@ models overestimate the flux at these redshifts.
   \end{center}
   \caption{Helium reionization.}
 \end{figure}
+
+\section{Conclusions}
+
+We have presented an analysis of the evolution of the UV luminosity
+function of AGN from redshift $z=0$ to $7.5$ using a combined
+homogenised sample of close to 90,000 UV-selected AGN.  We only
+consider quasars with spectroscopic redshifts and reliable
+completeness estimates.  These data span magnitudes down to
+$M_{1450}=-22$ at high redshifts ($z\gtrsim 3.5$).
+
+\begin{itemize}
+\item The AGN luminosity function prefers a double power law
+  description at all redshift, except possibly at very high redshifts
+  ($z\sim 6$) where only the faint-end of the luminosity function is
+  observed.
+
+\item The break magnitude $M_*$ of the double power law luminosity
+  function shows a steep brightening towards the high redshift.  The
+  break evolves from $M_*<-25$ at $z\sim 2$ to $M_*\sim -29$ at $z\sim
+  6$.  Correspondingly, the amplitude $\phi_*$ of the luminosity
+  function drops rapidly towards high redshifts from $\phi_*\sim
+  10^{-6}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 2$ to $\phi_*<
+  10^{-10}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 6$.  The break magnitude
+  at $z=6$ is very bright, about $-30$, which is why the constraints
+  on the bright end slope at these redshifts are weak.
+
+\item The faint end slope $\beta$ of the luminosity function shows
+  increased steepening at high redshifts, consistent with the findings
+  of \citep{2015AA...578A..83G}.  The faint-end slope is $\beta\sim
+  -1.8$ at $z\sim 2$ and steepens to $\beta\sim-2.5$ at $z\sim 6$.
+  The bright-end slope $\alpha$ also shows moderate steepening towards
+  high redshifts.  However, the constraints on $\alpha$ are weak,
+  particularly at the high redshift because of the bright break
+  luminosity.
+
+\item A fourteen-parameter model accurately captures the redshift
+  evolution of the luminosity function.  In this model, the evolution
+  of the break magnitude $M_*$ is described by a cubic polynomial in
+  $1+z$, while the evolution of the luminosity function amplitude
+  follows a quadratic polynomial in $1+z$.  The evolution of the
+  bright-end slope $\alpha$ evolves linearly in $1+z$.  The evolution
+  of the faint-end slope $\beta$ is more complicated.  The faint-end
+  slope stays roughly constant at lower redshifts $z<3$, steepens
+  rapidly at $z\sim 3$--$4$, and then remains constant at higher
+  redshifts.
+
+\item An important finding of this work is that there are severe
+  systematic errors in observed luminosity function.  We find that the
+  most significant systematic bias is at redshift $z\sim 3$ in the
+  BOSS sample of quasars.  There is also some evidence of a systematic
+  bias in the lowest redshifts $z\lesssim 0.5$.  At $z<2.2$ there is
+  some indication of a systematic error in completeness estimates at
+  the faintest magnitudes $M_{1450}\sim -19$.  
+
+\item In spite of the rapid steepening of the luminosity function at
+  high redshifts, our derived LyC emissivity from AGN is quite low.
+  This is because of the bright break luminosities, which results in a
+  reduced contribution of intermediate brightness quasars to the Lyc
+  emissivity as compared to some other determinations in the
+  literature.  The LyC emissivity increases with time and peaks at
+  $z\sim 2$.  At lower redshifts, the emissivity drops rapidly with
+  time.  When our luminoisty function model is extrapolated and
+  integrated down to $M_{1450}\sim -20$, the implied LyC emissivity is
+  comparable to that in the model of \citet{2007ApJ...654..731H} and
+  \citet{2012ApJ...746..125H}.  This indicates that hydrogen
+  reionization is unlikely to have caused by AGN alone.
+
+\item We derive photoionization rate by considering the HI column
+  density distribution used by \citep{2012ApJ...746..125H}.  We find
+  that the HI photoionization rate is significantly lower than that
+  required by the Lyman-$\alpha$ forest data at $z>2$.  Our hydrogen
+  photoionization rate estimates are also considerably lower (by a
+  factor of at least two) than that of \citet{2015AA...578A..83G}.  At
+  the lowest redshifts, we find that the hydrogen photoionization rate
+  is about a factor of two higher than the estimate of
+  \citet{2007ApJ...654..731H} and \citet{2012ApJ...746..125H}.  When
+  compared with the recent analysis of \citet{2017MNRAS.467.3172G},
+  this photoionisation rate appears to allevaite the photon
+  underproduction crisis.  Cite Kollmeier here.  
+  
+\item Helium reionization in our model occurs at redshift $z\sim
+  3$ or $z=3.5$ if the luminosity function is integrated down to
+  $M_{1450}=-20$ and $-18$, respectively.
+  
+\item Our analysis allows us to analyse the X-ray selected quasars of
+  \citet{2015AA...578A..83G} in the larger context of UV-selected
+  quasars.  We find that the the faint-end luminosity function
+  measurements of \citet{2015AA...578A..83G} at $z=4$--$6$ are
+  consitent with the measurements of the luminosity function at
+  brighter luminosities.  Stil, our inferred value of the hydrogen
+  ionizing luminosity density from quasars at these redshifts is much
+  lower that the value derived by \citet{2015AA...578A..83G}.  This
+  difference arises due to the difference in the data used in the two
+  analyses at intermediate to bright luminosities.  
+\end{itemize}
 
 \section*{Acknowledgements}
 
@@ -1258,6 +1554,41 @@ Haehnelt, Sergey Koposov, Richard McMahon, Ewald Puchwein, Gordon
 Richards, and Alberto Rorai.  GK is supported by ERC Advanced Grant
 320596 `The Emergence of Structure During the Epoch of Reionization'.
 
+\appendix
+
+\section{Comparison with Giallongo sample}
+\label{sec:conv}
+
+In our analysis above, we did not include the 22 low-luminosity
+($M_{1450}>-22.6$) AGN between redshifts $z=4.1$ and $6.3$ reported by
+\citet{2015AA...578A..83G} using a novel X-ray/NIR selection
+criterion.  This was because we wanted to restrict our sample to
+quasars that have robust spectroscopic redshift determinations.  In
+their work, \citet{2015AA...578A..83G} found a steep faint-end of the
+luminosity function at these redshifts.  With this luminosity function
+they obtained a large value of hydrogen ionizing emissivity that could
+explain the \lya data singlehandedly.  In this section, we compare our
+results with \citet{2015AA...578A..83G}.  The black points in Figure
+XX show the parameters of the double power law luminosity function
+when the \citet{2015AA...578A..83G} sample is added to our analysis.
+The parameter values do not change significantly.  The
+\citet{2015AA...578A..83G} sample is thus consistent with the double
+power law luminosity function preferred by other data at comparable
+redshifts.  However, as we see in Figure XX, the total emissivity in
+our model is still significantly lower than that obtained by
+\citet{2015AA...578A..83G}.  Figure XX provides an explanation for
+this. The double power law fits favoured by \citet{2015AA...578A..83G}
+are quite different from our fits.  The character luminosity $M_*$
+favoured by \citet{2015AA...578A..83G} is much fainter ($\sim -23$ at
+$z = 5$) than that resulting out of our analysis ($\sim -29$ at $z =
+5$).  Figure XX suggests that this is because of the SDSS Stripe 82
+data \gk{citation} and because \citet{2015AA...578A..83G} ignore the
+Kashikawa and Willott samples \gk{citation}.  It is possible that our
+corrections to the Glikman data \gk{citation} also plays a role in
+this.  In sum, the differnce in our emissivities is not due to lack of
+faint quasars but because of the difference with Giallongo at
+intermediate luminosities.
+
 \bibliographystyle{mnras}
 \bibliography{refs}
 
@@ -1266,3 +1597,9 @@ Richards, and Alberto Rorai.  GK is supported by ERC Advanced Grant
 \end{document}
 
 
+%% Tables:
+%% Individual fit results
+%% Global models best fit parameters
+%% Emissivity (H and He)
+%% Photoionization rates (H and He)
+%% 
