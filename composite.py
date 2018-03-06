@@ -160,6 +160,10 @@ class selmap:
             
 class lf:
 
+    """5-parameter model for beta; for polynomial model see lf_polyb below.
+
+    """
+
     def __init__(self, quasar_files=None, selection_maps=None, pnum=np.array([2,2,1,1])):
 
         self.pnum = pnum 
@@ -215,6 +219,183 @@ class lf:
         alpha = self.atz(z, params[2])
         #beta = self.atz(z, params[3])
         beta = self.atz_beta(z, params[3])
+        
+        phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
+                                     10.0**(0.4*(beta+1)*(mag-M_star)))
+        return np.log10(phi)
+
+    def lfnorm(self, theta):
+
+        ns = np.array([x.nqso(self, theta) for x in self.maps])
+        return np.sum(ns) 
+        
+    def neglnlike(self, theta):
+
+        logphi = self.log10phi(theta, self.M1450, self.z) # Mpc^-3 mag^-1
+        logphi /= np.log10(np.e) # Convert to base e 
+
+        return -2.0*logphi.sum() + 2.0*self.lfnorm(theta)
+
+    def bestfit(self, guess, method='Nelder-Mead'):
+        result = op.minimize(self.neglnlike,
+                             guess,
+                             method=method, options={'maxfev': 20000,
+                                                     'maxiter': 20000,
+                                                     'disp': True})
+
+        if not result.success:
+            print 'Likelihood optimisation did not converge.'
+
+        self.bf = result 
+        return result
+    
+    def create_param_range(self):
+
+        half = self.bf.x/2.0
+        double = 2.0*self.bf.x
+        self.prior_min_values = np.where(half < double, half, double) 
+        self.prior_max_values = np.where(half > double, half, double)
+        assert(np.all(self.prior_min_values < self.prior_max_values))
+
+        return
+
+    def lnprior(self, theta):
+        """
+        Set up uniform priors.
+
+        """
+
+        params = self.getparams(theta)
+        alpha = params[2]
+        alpha_atz6 = self.atz(6.0, alpha) 
+        
+        if (np.all(theta < self.prior_max_values) and
+            np.all(theta > self.prior_min_values) and
+            alpha_atz6 < -4.0):
+            return 0.0 
+
+        return -np.inf
+
+    def lnprob(self, theta):
+
+        lp = self.lnprior(theta)
+        
+        if not np.isfinite(lp):
+            return -np.inf
+
+        return lp - self.neglnlike(theta)
+
+    def run_mcmc(self):
+        """
+        Run emcee.
+
+        """
+        self.ndim, self.nwalkers = self.bf.x.size, 100
+        self.mcmc_start = self.bf.x 
+        pos = [self.mcmc_start + 1e-4*np.random.randn(self.ndim) for i
+               in range(self.nwalkers)]
+        
+        self.sampler = emcee.EnsembleSampler(self.nwalkers, self.ndim,
+                                             self.lnprob)
+
+        self.sampler.run_mcmc(pos, 1000)
+        self.samples = self.sampler.chain[:, 500:, :].reshape((-1, self.ndim))
+
+        return
+
+    def corner_plot(self, labels=None, dirname=''):
+
+        mpl.rcParams['font.size'] = '14'
+        f = corner.corner(self.samples, labels=labels, truths=self.bf.x)
+        plotfile = dirname+'triangle.png'
+        f.savefig(plotfile)
+        mpl.rcParams['font.size'] = '22'
+
+        return
+
+    def plot_chains(self, fig, param, ylabel):
+        ax = fig.add_subplot(self.bf.x.size, 1, param+1)
+        for i in range(self.nwalkers): 
+            ax.plot(self.sampler.chain[i,:,param], c='k', alpha=0.1)
+        ax.axhline(self.bf.x[param], c='#CC9966', dashes=[7,2], lw=2) 
+        ax.set_ylabel(ylabel)
+        if param+1 != self.bf.x.size:
+            ax.set_xticklabels('')
+        else:
+            ax.set_xlabel('step')
+            
+        return 
+
+    def chains(self, labels=None, dirname=''):
+
+        mpl.rcParams['font.size'] = '10'
+        nparams = self.bf.x.size
+        plot_number = 0 
+
+        fig = plt.figure(figsize=(12, 2*nparams), dpi=100)
+        for i in range(nparams): 
+            self.plot_chains(fig, i, ylabel=labels[i])
+            
+        plotfile = dirname+'chains.pdf' 
+        plt.savefig(plotfile,bbox_inches='tight')
+        plt.close('all')
+        mpl.rcParams['font.size'] = '22'
+        
+        return
+
+class lf_polyb:
+
+    """Same as lf above, except this has polynomial model for beta. 
+
+    """
+    
+
+    def __init__(self, quasar_files=None, selection_maps=None, pnum=np.array([2,2,1,1])):
+
+        self.pnum = pnum 
+        
+        for datafile in quasar_files:
+            z, m, p = getqlums(datafile)
+            try:
+                self.z=np.append(self.z,z)
+                self.M1450=np.append(self.M1450,m)
+                self.p=np.append(self.p,p)
+            except(AttributeError):
+                self.z=z
+                self.M1450=m
+                self.p=p
+
+        self.maps = [selmap(*x) for x in selection_maps]
+
+        return
+
+    def atz(self, z, p):
+
+        """Redshift evolution of QLF parameters."""
+        
+        return T(p)(1+z)
+    
+    def getparams(self, theta):
+
+        if isinstance(self.pnum, int):
+            # Evolution of each LF parameter described by 'atz' using same
+            # number 'self.pnum' of parameters.
+            splitlocs = self.pnum*np.array([1,2,3])
+        else:
+            # Evolution of each LF parameter described by 'atz' using
+            # different number 'self.pnum[i]' of parameters.
+            splitlocs = np.cumsum(self.pnum)
+
+        return np.split(theta,splitlocs)
+
+    def log10phi(self, theta, mag, z):
+
+        params = self.getparams(theta)
+
+        log10phi_star = self.atz(z, params[0])
+        M_star = self.atz(z, params[1])
+        alpha = self.atz(z, params[2])
+        beta = self.atz(z, params[3])
         
         phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
                                      10.0**(0.4*(beta+1)*(mag-M_star)))
