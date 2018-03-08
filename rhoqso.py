@@ -192,16 +192,16 @@ def draw(individuals, zlims, select=False):
 
     return
 
-def global_cumulative(ax, composite, mlim, color):
+def global_cumulative(ax, composite, mlim, color, **kwargs):
 
-    nzs = 50 
+    nzs = 500
     z = np.linspace(0, 7, nzs)
     nsample = 300
     rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
 
-    bf = np.median(composite.samples, axis=0)
-    r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
-    ax.plot(z, r, color='k', zorder=7)
+    # bf = np.median(composite.samples, axis=0)
+    # r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    # ax.plot(z, r, color='k', zorder=7)
 
     r = np.zeros((nsample, nzs))
     for i, theta in enumerate(rsample):
@@ -209,8 +209,11 @@ def global_cumulative(ax, composite, mlim, color):
 
     up = np.percentile(r, 15.87, axis=0)
     down = np.percentile(r, 84.13, axis=0)
-    ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.5)
+    ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.5, **kwargs)
 
+    c = np.median(r, axis=0)
+    ax.plot(z, c, color=color, zorder=7)
+    
     return
 
 
@@ -379,6 +382,76 @@ def individuals_cumulative(ax, individuals, mlim, color, label):
 
     
     return 
+
+def individuals_cumulative_multiple(ax, individuals, mlim, color, label):
+
+    """A copy of individuals_cumulative for rhoqso_withGlobal_multiple.
+
+    Some changes.
+
+    """
+
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    m = np.ones(len(individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m)
+
+    individuals_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    for x in individuals:
+        get_rhoqso(x, mlim, x.z.mean())
+    
+    c = np.array([x.rhoqso[2] for x in individuals_good])
+    u = np.array([x.rhoqso[0] for x in individuals_good])
+    l = np.array([x.rhoqso[1] for x in individuals_good])
+
+    rho = c
+    rho_up = u - c
+    rho_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.scatter(zs, rho, c=color, edgecolor='None',
+               s=42, zorder=10, linewidths=2) 
+
+    ax.errorbar(zs, rho, ecolor=color, capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((rho_low, rho_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    c = np.array([x.rhoqso[2] for x in individuals_bad])
+    u = np.array([x.rhoqso[0] for x in individuals_bad])
+    l = np.array([x.rhoqso[1] for x in individuals_bad])
+
+    rho = c
+    rho_up = u - c
+    rho_low = c - l 
+    
+    zs = np.array([x.z.mean() for x in individuals_bad])
+    uz = np.array([x.zlims[0] for x in individuals_bad])
+    lz = np.array([x.zlims[1] for x in individuals_bad])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+    ax.errorbar(zs, rho, ecolor=color, capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((rho_low, rho_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    ax.scatter(zs, rho, c='#ffffff', edgecolor=color,
+               s=42, zorder=10, linewidths=1) 
+
+    
+    return 
     
 
 def draw_withGlobal_dense(composite, individuals, zlims, select=False):
@@ -484,6 +557,56 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
     c = '#17becf'
     individuals_cumulative(ax, individuals, mlim, c, '$M<-27$')
     global_cumulative(ax, composite, mlim, c)
+    
+    plt.legend(loc='upper left', fontsize=14, handlelength=1,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.01,
+               scatterpoints=1)
+    
+    plt.savefig('rhoqso_withGlobal.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+def draw_withGlobal_multiple(c1, c2, c3, individuals, zlims, select=False):
+
+    fig = plt.figure(figsize=(7, 9), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-10, 1.0e-4)
+
+    mlim = -21
+    individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-18$')
+    global_cumulative(ax, c1, mlim, 'grey', label='Model 1')
+    global_cumulative(ax, c2, mlim, 'turquoise', label='Model 2')
+    global_cumulative(ax, c3, mlim, 'peru', label='Model 3')
+
+    mlim = -23
+    individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-21$')
+    global_cumulative(ax, c1, mlim, 'grey')
+    global_cumulative(ax, c2, mlim, 'turquoise')
+    global_cumulative(ax, c3, mlim, 'peru')
+        
+    mlim = -25
+    individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-24$')
+    global_cumulative(ax, c1, mlim, 'grey')
+    global_cumulative(ax, c2, mlim, 'turquoise')
+    global_cumulative(ax, c3, mlim, 'peru')
+
+    mlim = -27
+    c = '#17becf'
+    individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-27$')
+    global_cumulative(ax, c1, mlim, 'grey')
+    global_cumulative(ax, c2, mlim, 'turquoise')
+    global_cumulative(ax, c3, mlim, 'peru')
     
     plt.legend(loc='upper left', fontsize=14, handlelength=1,
                frameon=False, framealpha=0.0, labelspacing=.1,

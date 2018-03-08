@@ -283,6 +283,13 @@ def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
 
     return np.trapz(farr, m, axis=0) # erg s^-1 Hz^-1 Mpc^-3
 
+def emissivity_18(w, z):
+
+    a, b, c, d, e = 24.52559521, 5.24382682, 0.48997737, 1.48864669, 20.11666297
+    e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
 def g_lsa(z, loglf, theta):
 
     """Photoionisation rate with Local Source Approx.
@@ -565,7 +572,7 @@ def khaire(ax):
     # z = np.array([0.0, 0.2, 0.4, 0.6])
     # g = np.array([4.1e-14, 9.4e-14, 1.9e-13, 3.3e-13]) # s^-1
 
-    z, g = np.loadtxt('Data_new/Gama_full_fe00.txt',
+    z, g = np.loadtxt('Data_new/khaire15_gammaHI.dat',
                       usecols=(0,1), unpack=True)
     
     ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015 QSOs')
@@ -597,7 +604,7 @@ def onorbe(ax):
 
     """
 
-    log1pz, g = np.loadtxt('Data_new/onorbe.dat', usecols=(0,1), unpack=True)
+    log1pz, g = np.loadtxt('Data_new/onorbe17_gammaHI.dat', usecols=(0,1), unpack=True)
     z = 10.0**log1pz - 1.0 
 
     ax.plot(z, g*1.0e12, c='#bcbd22', lw=2, label='O\~norbe et al.\ 2017')
@@ -815,6 +822,130 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     
     plt.savefig('g.pdf'.format(z),bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+def draw_g_paper(individuals=None):
+
+    fig = plt.figure(figsize=(11.33, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    #ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-2, 100)
+    ax.set_xlim(0.,7)
+
+    locs = (0.01, 0.1, 1, 10, 100)
+    labels = ('0.01', '0.1', '1', '10', '100')
+    plt.yticks(locs, labels)
+
+    zmax = 9.7
+    zmin = 0.0
+    dz = 0.1 
+    n = (zmax-zmin)/dz+1
+    zc = np.linspace(zmax, zmin, num=n)
+
+    z, g = j(emissivity_18, zmax=15.0)
+    ax.plot(z, g/1.0e-12, c='k', lw=4, label=r'Global model ($M<-18$)')
+    
+    # nsample = 100
+    # rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
+    # nzs = len(zc) 
+    # g = np.zeros((nsample, nzs))
+
+    # for i, x in enumerate(rsample):
+    #     print i 
+    #     z, g[i] = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=zmax)
+
+    # up = np.percentile(g, 15.87, axis=0)/1.0e-12
+    # down = np.percentile(g, 84.13, axis=0)/1.0e-12
+    # ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
+        
+    # theta = np.median(lfg.samples, axis=0)
+    # z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
+    # ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
+    
+    # if z2 is not None:
+    #     ax.plot(z2, g2/1.0e-12, c='k', lw=2,
+    #             label=r'Global model ($M<-18$) local source approximation')
+    
+    zs_hm12, gs_hm12 = j(em_qso_hm12)
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='dodgerblue', lw=2,
+            label='Haardt \& Madau 2012 QSOs')
+
+    g_hm12_total(ax)
+
+    zs_mh15, gs_mh15 = j(em_qso_mh15)
+    ax.plot(zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=2,
+            label=r'Madau \& Haardt 2015')
+    
+    bb13(ax)
+    calverley(ax)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+
+    gg = Gamma_HI(eg, zg)
+    gg_lerr = gg - Gamma_HI(eg-eg_lerr, zg)
+    gg_uerr = gg - Gamma_HI(eg-eg_uerr, zg)
+
+    gg *= 1.0e12
+    gg_lerr *= 1.0e12
+    gg_uerr *= 1.0e12
+    
+    ax.scatter(zg, gg, c='grey', edgecolor='None',
+               label=r'Giallongo et al.\ 2015 ($M<-18$)',
+               s=72, zorder=4)
+
+    ax.errorbar(zg, gg, ecolor='grey', capsize=0, fmt='None', elinewidth=2,
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                yerr=np.vstack((gg_lerr, gg_uerr)), 
+                zorder=3, mew=1)
+
+    g_M17 = gamma_HI_Manti17(zc)
+    ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
+
+    shull(ax)
+
+    khaire(ax)
+
+    bolton(ax)
+
+    onorbe(ax)
+
+    fumagalli(ax)
+
+    if individuals is not None:
+        lfis(individuals, ax)
+
+    kollmeier(ax)
+
+    viel(ax)
+
+    gaikwad_a(ax)
+
+    gaikwad_b(ax)
+
+    handles, labels = ax.get_legend_handles_labels()
+
+    plt.legend(handles[::-1], labels[::-1], loc='upper right',
+               fontsize=10, handlelength=3, frameon=False,
+               framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+
+    
+    plt.savefig('g.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
