@@ -79,7 +79,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
+    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
 
     return
 
@@ -164,7 +164,7 @@ def totBinVol_all(lf, m, mbins, selmaps):
 
 
 def get_lf(lf, sid, z_plot):
-
+    
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
 
@@ -330,7 +330,7 @@ def plot_giallongo_z5p75(lf, ax, mags):
     p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
     
     phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=5.75$')
+    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=5.75$', dashes=[7,2])
 
     return 
 
@@ -345,7 +345,7 @@ def plot_giallongo_z4p75(lf, ax, mags):
     p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
     
     phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.75$')
+    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.75$', dashes=[7,2])
 
     return 
 
@@ -360,7 +360,7 @@ def plot_giallongo_z4p25(lf, ax, mags):
     p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
     
     phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=3, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.25$')
+    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.25$', dashes=[7,2])
 
     return 
 
@@ -380,8 +380,17 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
         plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
         plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-                             c='#ffbf00', zorder=3, label='individual fit')
-        plot_giallongo_z4p25(lf, ax, mag_plot)
+                             c='#ffbf00', zorder=3, label='This work')
+
+        if z_plot < 4.5:
+            plot_giallongo_z4p25(lf, ax, mag_plot)
+
+        if z_plot < 5.5 and z_plot > 4.7:
+            plot_giallongo_z4p75(lf, ax, mag_plot)
+
+        if z_plot > 5.5:
+            plot_giallongo_z5p75(lf, ax, mag_plot)
+            
 
     if composite is not None:
 
@@ -429,7 +438,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left, right)), 
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
-            ax.scatter(mags, logphi, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected)')
+            ax.scatter(mags, logphi, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected bins)')
         return
 
     for i in sids[::-1]:
@@ -469,7 +478,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         yerr=np.vstack((uperr_all, downerr_all)),
                         fmt='None', zorder=4)
             ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i],
-                       zorder=4, s=16, label=dsl(i)+' (rejected)')
+                       zorder=4, s=16, label=dsl(i)+' (rejected bin)')
 
     if showMockSample:
         for i in sids:
