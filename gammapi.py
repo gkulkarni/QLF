@@ -475,6 +475,8 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     u = np.array([x.emissivity[0] for x in individuals_good])
     l = np.array([x.emissivity[1] for x in individuals_good])
 
+    print c 
+
     em = c
     em_up = u - c
     em_low = c - l 
@@ -505,8 +507,16 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     popt, pcov = curve_fit(func, zs, em, sigma=sigma, p0=[24.6, 4.68, 0.28, 1.77, 26.3])
     print popt
     z = np.linspace(0, 7)
-    plt.plot(z, func(z, *popt), lw=3, c='k')
 
+    dz = 0.1
+    zmax = 15.0
+    zmin = 0.0 
+    n = (zmax-zmin)/dz+1
+    z = np.linspace(zmax, zmin, num=n)
+    em18 =  func(z, *popt)
+    plt.plot(z, em18, lw=3, c='k')
+
+    
 
     for x in individuals_good:
         get_emissivity(x, x.z.mean(), Mfaint=-21.0)
@@ -539,8 +549,13 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
     sigma = u-l 
     popt, pcov = curve_fit(func, zs, em, sigma=sigma, p0=[24.6, 4.68, 0.28, 1.77, 26.3])
     print popt
-    z = np.linspace(0, 7)
-    plt.plot(z, func(z, *popt), lw=3, c='peru')
+    em21 = func(z, *popt)
+    plt.plot(z, em21, lw=3, c='peru')
+
+    tabulate = False
+    if tabulate:
+        for i in range(len(em21)):
+            print r'{:.1f}  {:.3e}  {:.3e}'.format(z[i], em18[i], em21[i])
 
     
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
