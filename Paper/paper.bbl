@@ -25,6 +25,11 @@
   {10.1093/mnras/stv1062}, \href
   {http://adsabs.harvard.edu/abs/2015MNRAS.451.1892A} {451, 1892}
 
+\bibitem[\protect\citeauthoryear{{Ba{\~n}ados} et~al.,}{{Ba{\~n}ados}
+  et~al.}{2018}]{2018Natur.553..473B}
+{Ba{\~n}ados} E.,  et~al., 2018, \mn@doi [\nat] {10.1038/nature25180}, \href
+  {http://adsabs.harvard.edu/abs/2018Natur.553..473B} {553, 473}
+
 \bibitem[\protect\citeauthoryear{{Baldwin}}{{Baldwin}}{1977}]{1977ApJ...214..679B}
 {Baldwin} J.~A.,  1977, \mn@doi [\apj] {10.1086/155294}, \href
   {http://adsabs.harvard.edu/abs/1977ApJ...214..679B} {214, 679}
@@ -151,6 +156,12 @@
 {Finlator} K.,  {Oppenheimer} B.~D.,  {Dav{\'e}} R.,  {Zackrisson} E.,
   {Thompson} R.,   {Huang} S.,  2016, \mn@doi [\mnras] {10.1093/mnras/stw805},
   \href {http://adsabs.harvard.edu/abs/2016MNRAS.459.2299F} {459, 2299}
+
+\bibitem[\protect\citeauthoryear{{Foreman-Mackey}, {Hogg}, {Lang}  \&
+  {Goodman}}{{Foreman-Mackey} et~al.}{2013}]{2013PASP..125..306F}
+{Foreman-Mackey} D.,  {Hogg} D.~W.,  {Lang} D.,   {Goodman} J.,  2013, \mn@doi
+  [\pasp] {10.1086/670067}, \href
+  {http://adsabs.harvard.edu/abs/2013PASP..125..306F} {125, 306}
 
 \bibitem[\protect\citeauthoryear{{Gaikwad}, {Khaire}, {Choudhury}  \&
   {Srianand}}{{Gaikwad} et~al.}{2017a}]{2017MNRAS.466..838G}
