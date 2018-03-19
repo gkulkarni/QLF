@@ -11,6 +11,27 @@ from scipy.interpolate import RectBivariateSpline
 import sys
 import gammapi
 from gammapi import get_gammapi_percentiles
+import matplotlib.patches as mpatches
+
+data = np.load('e1450_18.npz')
+z18 = data['z']
+medianbright18 = data['medianbright']
+medianfaint18 = data['medianfaint']
+downbright18 = data['downbright']
+upbright18 = data['upbright']
+downfaint18 = data['downfaint']
+upfaint18 = data['upfaint']
+
+data = np.load('e1450_21.npz')
+z21 = data['z']
+medianbright21 = data['medianbright']
+medianfaint21 = data['medianfaint']
+downbright21 = data['downbright']
+upbright21 = data['upbright']
+downfaint21 = data['downfaint']
+upfaint21 = data['upfaint']
+
+print 'data loaded'
 
 z_HM12 = np.loadtxt('z_HM12.txt')
 data_HM12 = np.loadtxt('hm12.txt')
@@ -274,6 +295,46 @@ def fnu(nu, M):
 
 vfnu = np.vectorize(fnu, excluded=['M'], otypes=[np.float])
 
+def fnu_bright(nu):
+
+    # Only the frequency term for M < -23 
+    
+    w = c_angPerSec / nu
+    nu_912 = c_angPerSec / 912.0
+    nu_1450 = c_angPerSec / 1450.0
+
+    a = 1.0
+    b = a * (912.0/1450.0)**0.61
+    
+    if w > 912.0:
+        e = a*(w/1450.0)**0.61
+    else:
+        e = b*(w/912.0)**1.70
+            
+    return e
+
+vfnu_bright = np.vectorize(fnu_bright, otypes=[np.float])
+
+def fnu_faint(nu):
+
+    # Only the frequency term for M > -23 
+    
+    w = c_angPerSec / nu
+    nu_912 = c_angPerSec / 912.0
+    nu_1450 = c_angPerSec / 1450.0
+
+    a = 1.0
+    b = a * (912.0/1450.0)**0.61
+    
+    if w > 912.0:
+        e = a*(w/1450.0)**0.61
+    else:
+        e = b*(w/912.0)**0.56 
+            
+    return e
+
+vfnu_faint = np.vectorize(fnu_faint, otypes=[np.float])
+
 def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
 
     m = np.linspace(mbright, mfaint, num=100)
@@ -285,10 +346,97 @@ def emissivity(w, z, loglf, theta, mbright=-30, mfaint=-18):
 
 def emissivity_18(w, z):
 
-    a, b, c, d, e = 24.52559521, 5.24382682, 0.48997737, 1.48864669, 20.11666297
-    e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z18, medianfaint18)
+    e2 = np.interp(z, z18, medianbright18) 
+
+    # # Fits obtained using rhoqso_fit
+    
+    # # for -23 to -18
+    # a, b, c, d, e = 25.83947371, 1.49746658, -0.42718037, 1.66253803, 131.26998765
+    # e1 = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+    # # for -30 to -23 
+    # a, b, c, d, e = 23.66938351, 7.47623638, 0.09101987, 2.5619266, 25.61735222
+    # e2 = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
     
     return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_18_down(w, z):
+
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z18, downfaint18)
+    e2 = np.interp(z, z18, downbright18) 
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_18_up(w, z):
+
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z18, upfaint18)
+    e2 = np.interp(z, z18, upbright18) 
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_21(w, z):
+
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z21, medianfaint21)
+    e2 = np.interp(z, z21, medianbright21) 
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_21_down(w, z):
+
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z21, downfaint21)
+    e2 = np.interp(z, z21, downbright21) 
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+def emissivity_21_up(w, z):
+
+    nu = c_angPerSec/w
+
+    e1 = np.interp(z, z21, upfaint21)
+    e2 = np.interp(z, z21, upbright21) 
+
+    e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+    return e # erg s^-1 Hz^-1 Mpc^-3
+
+# def emissivity_21(w, z):
+
+#     nu = c_angPerSec/w
+
+#     # Fits obtained using rhoqso_fit
+    
+#     # for -23 to -21
+#     a, b, c, d, e = 2.50712863e+01, 2.74475622e+00, -3.59655052e-02, 1.65215132e+00, 6.17997075e+01
+#     e1 = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+#     # for -30 to -23 
+#     a, b, c, d, e = 23.66938351, 7.47623638, 0.09101987, 2.5619266, 25.61735222
+#     e2 = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+#     e = e1*vfnu_faint(nu) + e2*vfnu_bright(nu)
+    
+#     return e # erg s^-1 Hz^-1 Mpc^-3
 
 def g_lsa(z, loglf, theta):
 
@@ -396,9 +544,9 @@ def calverley(ax):
     gml_up = 10.0**(gm+gm_sigma)-10.0**gm
     gml_low = 10.0**gm - 10.0**(gm-gm_sigma)
     
-    ax.scatter(zm, gml, c='darkorange', edgecolor='None',
-               label='Calverley et al.\ 2011', s=64) 
-    ax.errorbar(zm, gml, ecolor='darkorange', capsize=5,
+    ax.scatter(zm, gml, c='k', edgecolor='None',
+               label='Calverley et al.\ 2011', s=64, marker='v') 
+    ax.errorbar(zm, gml, ecolor='k', capsize=5,
                 elinewidth=1.5, capthick=1.5,
                 yerr=np.vstack((gml_low, gml_up)),
                 fmt='None', zorder=1, mfc='darkorange',
@@ -406,7 +554,7 @@ def calverley(ax):
 
     return
 
-def bb13(ax):
+def bb13(ax, puc=False):
 
     zm, gm, gm_up, gm_low = np.loadtxt('Data/BeckerBolton.dat', unpack=True)
     
@@ -414,17 +562,27 @@ def bb13(ax):
     gml_up = 10.0**(gm+gm_up)-10.0**gm
     gml_low = 10.0**gm - 10.0**(gm-np.abs(gm_low))
 
-    ax.scatter(zm, gml, c='#d7191c', edgecolor='None',
-               label='Becker \& Bolton 2013', s=64)
-    ax.errorbar(zm, gml, ecolor='#d7191c', capsize=5,
-                elinewidth=1.5, capthick=1.5,
+    if puc:
+        ax.scatter(1+zm, gml, c='k', edgecolor='None', marker='v',
+                   label='Becker \& Bolton 2013', s=64, zorder=10)
+        ax.errorbar(1+zm, gml, ecolor='k', capsize=5,
+                    elinewidth=2, capthick=3,
+                    yerr=np.vstack((gml_low, gml_up)),
+                    fmt='None', zorder=10, mfc='k', mec='k',
+                    markeredgewidth=1.5, ms=5)
+        return
+        
+    ax.scatter(zm, gml, c='k', edgecolor='None',
+               label='Becker \& Bolton 2013', s=64, zorder=10)
+    ax.errorbar(zm, gml, ecolor='k', capsize=5,
+                elinewidth=2, capthick=3,
                 yerr=np.vstack((gml_low, gml_up)),
-                fmt='None', zorder=1, mfc='#d7191c', mec='#d7191c',
-                markeredgewidth=1, ms=5)
+                fmt='None', zorder=10, mfc='k', mec='k',
+                markeredgewidth=1.5, ms=5)
 
     return
 
-def g_hm12_total(ax):
+def g_hm12_total(ax, puc=False):
 
     zs = np.linspace(0.0, 7.0, num=200)
     nu = np.logspace(np.log10(nu0), 18, num=100)
@@ -436,8 +594,14 @@ def g_hm12_total(ax):
         s = np.array([sigma_HI(x) for x in nu])
         g_hm12.append(np.trapz(n*s, x=nu)) # s^-1
 
-    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='dodgerblue', lw=2,
-            dashes=[7,2], label='Haardt \& Madau 2012')
+    if puc:
+        ax.plot(1+zs, np.array(g_hm12)/1.0e-12, c='brown', lw=1, dashes=[1,1],
+                label='Haardt \& Madau 2012', zorder=2)
+        return
+
+        
+    ax.plot(zs, np.array(g_hm12)/1.0e-12, c='brown', lw=1, dashes=[1,1],
+            label='Haardt \& Madau 2012')
 
     return
 
@@ -528,7 +692,7 @@ def gamma_HI_Manti17(z):
     
     return 10.0**logg # s^-1
 
-def kollmeier(ax):
+def kollmeier(ax, puc=False):
     """Plot Kollmeier's Gamma_HI values.
 
     These are from 2014 ApJ 789 L32.  Adjusted by Gabor to our 373
@@ -539,12 +703,16 @@ def kollmeier(ax):
     z = 0.1
     g = 2.2e-13 # s^-1
 
-    ax.scatter(z, g*1.0e12, c='#2ca02c', edgecolor='None',
-               label='Kollmeier et al.\ 2014', s=64)
+    if puc:
+        ax.scatter(1+z, g*1.0e12, c='k', edgecolor='None',
+                   label='Kollmeier et al.\ 2014', s=64, marker='p')
+    else:
+        ax.scatter(z, g*1.0e12, c='k', edgecolor='None',
+                   label='Kollmeier et al.\ 2014', s=64)
 
     return
 
-def shull(ax):
+def shull(ax, puc=False):
     
     """Plot Shull's Gamma_HI values.
 
@@ -553,14 +721,20 @@ def shull(ax):
 
     """
 
+    if puc: 
+        z = np.linspace(0, 0.47)
+        g = 5.0e-14 * (1.0+z)**4.4 # s^-1
+        ax.plot(1+z, g*1.0e12, lw=2, c='k', label='Shull et al.\ 2015', dashes=[7,2], zorder=5)
+        return
+    
     z = np.linspace(0, 0.47)
     g = 5.0e-14 * (1.0+z)**4.4 # s^-1
-    ax.plot(z, g*1.0e12, lw=2, c='#8c564b', label='Shull et al.\ 2015')
+    ax.plot(z, g*1.0e12, lw=4, c='#8c564b', label='Shull et al.\ 2015')
 
     return
 
 
-def khaire(ax):
+def khaire(ax, puc=False):
     
     """Plot Khaire's Gamma_HI values. 
 
@@ -574,8 +748,32 @@ def khaire(ax):
 
     z, g = np.loadtxt('Data_new/khaire15_gammaHI.dat',
                       usecols=(0,1), unpack=True)
+
+    if puc:
+        ax.plot(1+z, g*1.0e12, lw=2, c='peru', label='Khaire \& Srianand 2015 QSOs', zorder=2, dashes=[5,2])
+        return 
+        
+    ax.plot(z, g*1.0e12, lw=2, c='peru', label='Khaire \& Srianand 2015 QSOs', zorder=2, dashes=[5,2])
+
+    return
+
+def puchwein(ax, puc=False):
     
-    ax.plot(z, g*1.0e12, lw=2, c='#ff7f0e', label='Khaire \& Srianand 2015 QSOs')
+    """Plot Puchwein's Gamma_HI values. 
+    
+    These are from https://arxiv.org/src/1801.04931v1/anc/rates_fiducial.txt
+
+    """
+
+    z, g = np.loadtxt('Data_new/puchwein18_gammaHI.dat',
+                      usecols=(0,1), unpack=True)
+
+    if puc:
+
+        ax.plot(1+z, g*1.0e12, lw=2, c='brown', label='Puchwein et al.\ 2018', dashes=[7,2], zorder=2)
+        return
+    
+    ax.plot(z, g*1.0e12, lw=2, c='grey', label='Puchwein et al.\ 2018', dashes=[7,2], zorder=2)
 
     return
 
@@ -596,7 +794,7 @@ def bolton(ax):
     return 
 
 
-def onorbe(ax):
+def onorbe(ax, puc=False):
 
     """Plot Onorbe's Gamma_HI values.
 
@@ -607,11 +805,15 @@ def onorbe(ax):
     log1pz, g = np.loadtxt('Data_new/onorbe17_gammaHI.dat', usecols=(0,1), unpack=True)
     z = 10.0**log1pz - 1.0 
 
-    ax.plot(z, g*1.0e12, c='#bcbd22', lw=2, label='O\~norbe et al.\ 2017')
+    if puc:
+        ax.plot(1+z, g*1.0e12, c='grey', lw=2, label='O\~norbe et al.\ 2017', dashes=[2,2], zorder=2)
+        return
+        
+    ax.plot(z, g*1.0e12, c='grey', lw=2, label='O\~norbe et al.\ 2017', dashes=[2,2], zorder=2)
     
     return
 
-def viel(ax):
+def viel(ax, puc=False):
 
     """Plot Viel's Gamma_HI values. 
 
@@ -622,8 +824,25 @@ def viel(ax):
     z = 0.1
     g = 0.071e-12 # s^-1
 
-    ax.scatter(z, g*1.0e12, c='#1f77b4', edgecolor='None',
-               label='Viel et al.\ 2017', s=64, zorder=10)
+    if puc:
+
+        zmin = 1.09
+        emin = 0.05
+        zmax = 1.11
+        emax = 0.1 
+        dz = zmax - zmin
+        de = emax - emin
+        rect = mpatches.Rectangle((zmin, emin),  dz, de, ec='k', color='#ffffff', lw=2, zorder=10, label='Viel et al.\ 2017')
+        ax.add_patch(rect)
+        
+        # ax.scatter(1+z, g*1.0e12, c='#ffffff', edgecolor='k',
+        #            label='Viel et al.\ 2017', s=58, zorder=11)
+
+        return
+
+        
+    # ax.scatter(z, g*1.0e12, c='#ffffff', edgecolor='k',
+    #            label='Viel et al.\ 2017', s=58, zorder=11)
 
     return
 
@@ -647,17 +866,17 @@ def gaikwad_a(ax):
 
     ax.scatter(z, g*1.0e12, c='#d62728', edgecolor='None',
                label='Gaikwad et al.\ 2017a',
-               s=64, zorder=4, linewidths=1.5) 
+               s=64, zorder=10, linewidths=1.5) 
 
     ax.errorbar(z, g*1.0e12, ecolor='#d62728', capsize=0,
-                fmt='None', elinewidth=1.5, zorder=4,
+                fmt='None', elinewidth=1.5, zorder=10,
                 xerr=np.vstack((lzerr, uzerr)),
                 yerr=gerr*1.0e12)
     
     return 
 
 
-def gaikwad_b(ax):
+def gaikwad_b(ax, puc=False):
 
     """Plot Gaikwad's Gamma_HI values.
 
@@ -675,18 +894,33 @@ def gaikwad_b(ax):
     g = np.array([6.7e-14, 9.5e-14, 1.45e-13, 2.0e-13])
     gerr = np.array([5.0e-15, 5.0e-15, 1.5e-14, 2.2e-14])
 
-    ax.scatter(z, g*1.0e12, c='#e377c2', edgecolor='None',
-               label='Gaikwad et al.\ 2017b',
-               s=64, zorder=4, linewidths=1.5) 
+    if puc: 
 
-    ax.errorbar(z, g*1.0e12, ecolor='#e377c2', capsize=0,
-                fmt='None', elinewidth=1.5, zorder=4,
-                xerr=np.vstack((lzerr, uzerr)),
-                yerr=gerr*1.0e12)
+        ax.scatter(1+z, g*1.0e12, c='k', edgecolor='None',
+                   label='Gaikwad et al.\ 2017b', 
+                   s=64, zorder=10, linewidths=1.5) 
+
+        ax.errorbar(1+z, g*1.0e12, ecolor='k', capsize=0,
+                    fmt='None', elinewidth=1.5, zorder=10,
+                    xerr=np.vstack((lzerr, uzerr)),
+                    yerr=gerr*1.0e12, linewidths=1.5)
+
+        return
     
-    return 
+    ax.scatter(z, g*1.0e12, c='k', edgecolor='None',
+               label='Gaikwad et al.\ 2017b', marker='p',
+               s=80, zorder=10, linewidths=1.5) 
 
-def fumagalli(ax):
+    # ax.errorbar(z, g*1.0e12, ecolor='k', capsize=0,
+    #             fmt='None', elinewidth=1.5, zorder=10,
+    #             xerr=np.vstack((lzerr, uzerr)),
+    #             yerr=gerr*1.0e12)
+    
+    return
+
+
+
+def fumagalli(ax, puc=False):
 
     z = 0.0
     g_up = 8.0e-2 # 10^-12 s^-1
@@ -695,13 +929,21 @@ def fumagalli(ax):
     z = np.array([0.0, 0.0])+0.05
     g = np.array([6.4e-14, 7.6e-14]) # s^-1
 
-    
-    ax.plot(z, g*1.0e12, lw=6, c='#d7191c', label='Fumagalli et al.\ 2017', zorder=20)
-    
-    # ax.errorbar(z, 0.07, ecolor='#d7191c', capsize=5,
-    #             elinewidth=4.5, capthick=1.5,
-    #             yerr=np.array((0.01,0.01)).reshape((2,1)),
-    #             fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
+    if puc:
+
+        zmin = 0.99
+        emin = 0.06 
+        zmax = 1.01
+        emax = 0.08 
+        dz = zmax - zmin
+        de = emax - emin
+        rect = mpatches.Rectangle((zmin, emin),  dz, de, ec='orange', color='None', lw=2, zorder=10, label='Fumagalli et al.\ 2017')
+        ax.add_patch(rect)
+        
+        # ax.errorbar([1+0.0], [0.07], ecolor='#d7191c', capsize=5,
+        #             elinewidth=2, capthick=1.5,
+        #             yerr=np.array((0.01,0.01)).reshape((2,1)),
+        #             fmt='None', zorder=5, label='Fumagalli et al.\ 2017')
 
     return
 
@@ -789,8 +1031,8 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
                 yerr=np.vstack((gg_lerr, gg_uerr)), 
                 zorder=3, mew=1)
 
-    g_M17 = gamma_HI_Manti17(zc)
-    ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
+    # g_M17 = gamma_HI_Manti17(zc)
+    # ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
 
     shull(ax)
 
@@ -809,7 +1051,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     viel(ax)
 
-    gaikwad_a(ax)
+    # gaikwad_a(ax)
 
     gaikwad_b(ax)
 
@@ -826,7 +1068,7 @@ def draw_g(lfg, z2=None, g2=None, individuals=None):
 
     return
 
-def draw_g_paper(individuals=None):
+def draw_g_paper():
 
     fig = plt.figure(figsize=(11.33, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -834,17 +1076,16 @@ def draw_g_paper(individuals=None):
     plt.minorticks_on()
     ax.tick_params('both', which='major', length=7, width=1)
     ax.tick_params('both', which='minor', length=5, width=1)
-    #ax.tick_params('x', which='major', pad=6)
 
     ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
     ax.set_xlabel('$z$')
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-2, 100)
+    ax.set_ylim(1.0e-2, 10)
     ax.set_xlim(0.,7)
 
-    locs = (0.01, 0.1, 1, 10, 100)
-    labels = ('0.01', '0.1', '1', '10', '100')
+    locs = (0.01, 0.1, 1, 10)#, 100)
+    labels = ('0.01', '0.1', '1', '10')#, '100')
     plt.yticks(locs, labels)
 
     zmax = 9.7
@@ -854,38 +1095,38 @@ def draw_g_paper(individuals=None):
     zc = np.linspace(zmax, zmin, num=n)
 
     z, g = j(emissivity_18, zmax=15.0)
-    ax.plot(z, g/1.0e-12, c='k', lw=4, label=r'Global model ($M<-18$)')
-    
-    # nsample = 100
-    # rsample = lfg.samples[np.random.randint(len(lfg.samples), size=nsample)]
-    # nzs = len(zc) 
-    # g = np.zeros((nsample, nzs))
+    z, g_down = j(emissivity_18_down, zmax=15.0)
+    z, g_up = j(emissivity_18_up, zmax=15.0)
+    g18f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    g18, = plt.plot(z, g/1.0e-12, lw=2, c='red', zorder=5)
 
-    # for i, x in enumerate(rsample):
-    #     print i 
-    #     z, g[i] = j(emissivity, loglf=lfg.log10phi, theta=x, zmax=zmax)
-
-    # up = np.percentile(g, 15.87, axis=0)/1.0e-12
-    # down = np.percentile(g, 84.13, axis=0)/1.0e-12
-    # ax.fill_between(zc, down, y2=up, color='goldenrod', zorder=1)
-        
-    # theta = np.median(lfg.samples, axis=0)
-    # z, g = j(emissivity, loglf=lfg.log10phi, theta=theta, zmax=9.7)
-    # ax.plot(z, g/1.0e-12, c='k', lw=2, label=r'Global model ($M<-18$)')
+    z, g = j(emissivity_21, zmax=15.0)
+    z, g_down = j(emissivity_21_down, zmax=15.0)
+    z, g_up = j(emissivity_21_up, zmax=15.0)
+    g21f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12, color='blue', zorder=5, alpha=0.6, edgecolor='None')
+    g21, = plt.plot(z, g/1.0e-12, lw=2, c='blue', zorder=5)
     
-    # if z2 is not None:
-    #     ax.plot(z2, g2/1.0e-12, c='k', lw=2,
-    #             label=r'Global model ($M<-18$) local source approximation')
+    # g18 = g
+
+    # z, g = j(emissivity_21, zmax=15.0)
+    # ax.plot(z, g/1.0e-12, c='peru', lw=4, label=r'This work ($M_{1450}<-21$)', zorder=9)
+
+    # g20 = g
+
+    # tabulate = True 
+    # if tabulate:
+    #     for i in range(len(g20)):
+    #         print r'{:.1f}  {:.3e}  {:.3e}'.format(z[i], g18[i], g20[i])
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
-    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='dodgerblue', lw=2,
-            label='Haardt \& Madau 2012 QSOs')
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='maroon', lw=2, zorder=4,
+            label='Haardt \& Madau 2012 QSOs', dashes=[7,2])
 
     g_hm12_total(ax)
 
     zs_mh15, gs_mh15 = j(em_qso_mh15)
-    ax.plot(zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=2,
-            label=r'Madau \& Haardt 2015')
+    ax.plot(zs_mh15, gs_mh15/1.0e-12, c='darkgreen', lw=1,
+            label=r'Madau \& Haardt 2015', zorder=2, dashes=[1,1])
     
     bb13(ax)
     calverley(ax)
@@ -903,44 +1144,42 @@ def draw_g_paper(individuals=None):
     gg *= 1.0e12
     gg_lerr *= 1.0e12
     gg_uerr *= 1.0e12
-    
-    ax.scatter(zg, gg, c='grey', edgecolor='None',
-               label=r'Giallongo et al.\ 2015 ($M<-18$)',
-               s=72, zorder=4)
 
-    ax.errorbar(zg, gg, ecolor='grey', capsize=0, fmt='None', elinewidth=2,
+    ax.errorbar(zg, gg, ecolor='tomato', capsize=0, fmt='None', elinewidth=1.5, 
                 xerr=np.vstack((zg_lerr, zg_uerr)),
                 yerr=np.vstack((gg_lerr, gg_uerr)), 
-                zorder=3, mew=1)
+                zorder=9, mew=1)
 
-    g_M17 = gamma_HI_Manti17(zc)
-    ax.plot(zc, g_M17*1.0e12, lw=2, c='brown', label='Manti et al.\ 2017 ($M<-19$)')
-
-    shull(ax)
+    ax.scatter(zg, gg, c='#ffffff', edgecolor='tomato',
+               label='Giallongo et al.\ 2015 ($M_\mathrm{1450}<-18$)',
+               s=55, zorder=9, linewidths=1.5)
+    
+    # shull(ax)
 
     khaire(ax)
 
-    bolton(ax)
+    # bolton(ax)
 
     onorbe(ax)
 
-    fumagalli(ax)
+    puchwein(ax)
 
-    if individuals is not None:
-        lfis(individuals, ax)
+    # fumagalli(ax)
 
-    kollmeier(ax)
+    # kollmeier(ax)
 
-    viel(ax)
-
-    gaikwad_a(ax)
+    # viel(ax)
 
     gaikwad_b(ax)
 
     handles, labels = ax.get_legend_handles_labels()
+    handles.append((g18f,g18))
+    labels.append('This work ($M_\mathrm{1450}<-18$)')
+    handles.append((g21f,g21))
+    labels.append('This work ($M_\mathrm{1450}<-21$)')
 
     plt.legend(handles[::-1], labels[::-1], loc='upper right',
-               fontsize=10, handlelength=3, frameon=False,
+               fontsize=12, handlelength=3, frameon=False,
                framealpha=0.0, labelspacing=.1,
                handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
 
@@ -949,4 +1188,106 @@ def draw_g_paper(individuals=None):
     plt.close('all')
 
     return
+
+import matplotlib.ticker as ticker
+
+def draw_g_puc():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    ax.set_ylim(1.0e-2, 10)
+    ax.set_xlim(0.9,4)
+
+    locs = (0.01, 0.1, 1, 10)#, 100)
+    labels = ('0.01', '0.1', '1', '10')#, '100')
+    plt.yticks(locs, labels)
+
+    locs = (1,2,3,4)#, 100)
+    labels = ('0', '1', '2', '3')#, '100')
+    plt.xticks(locs, labels)
+
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.1))
+    
+    zmax = 9.7
+    zmin = 0.0
+    dz = 0.1 
+    n = (zmax-zmin)/dz+1
+    zc = np.linspace(zmax, zmin, num=n)
+
+    z, g = j(emissivity_18, zmax=15.0)
+    z, g_down = j(emissivity_18_down, zmax=15.0)
+    z, g_up = j(emissivity_18_up, zmax=15.0)
+    g18f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    g18, = plt.plot(1+z, g/1.0e-12, lw=2, c='red', zorder=5)
+
+    z, g = j(emissivity_21, zmax=15.0)
+    z, g_down = j(emissivity_21_down, zmax=15.0)
+    z, g_up = j(emissivity_21_up, zmax=15.0)
+    g21f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12, color='blue', zorder=5, alpha=0.6, edgecolor='None')
+    g21, = plt.plot(1+z, g/1.0e-12, lw=2, c='blue', zorder=5)
+    
+    # z, g = j(emissivity_18, zmax=15.0)
+    # ax.plot(z, g/1.0e-12, c='k', lw=4, label=r'This work ($M_{1450}<-18$)', zorder=9)
+
+    # g18 = g
+
+    # z, g = j(emissivity_21, zmax=15.0)
+    # ax.plot(z, g/1.0e-12, c='peru', lw=4, label=r'This work ($M_{1450}<-21$)', zorder=9)
+
+    # g20 = g
+
+    zs_hm12, gs_hm12 = j(em_qso_hm12)
+    ax.plot(1+zs_hm12, gs_hm12/1.0e-12, c='grey', lw=2, zorder=2,
+            label='Haardt \& Madau 2012 QSOs', dashes=[7,2])
+
+    g_hm12_total(ax, puc=True)
+
+    zs_mh15, gs_mh15 = j(em_qso_mh15)
+    ax.plot(1+zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=1, zorder=2, dashes=[1,1],
+            label=r'Madau \& Haardt 2015')
+    
+    bb13(ax, puc=True)
+
+    shull(ax, puc=True)
+
+    khaire(ax, puc=True)
+
+    onorbe(ax, puc=True)
+
+    puchwein(ax, puc=True)
+
+    fumagalli(ax, puc=True)
+
+    kollmeier(ax, puc=True)
+
+    viel(ax, puc=True)
+
+    gaikwad_b(ax, puc=True)
+
+    handles, labels = ax.get_legend_handles_labels()
+    handles.append((g18f,g18))
+    labels.append('This work ($M_\mathrm{1450}<-18$)')
+    handles.append((g21f,g21))
+    labels.append('This work ($M_\mathrm{1450}<-21$)')
+
+    plt.legend(handles, labels, loc='upper right',
+               fontsize=11, handlelength=3, frameon=False,
+               framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+    
+    plt.savefig('g_puc.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return 
 
