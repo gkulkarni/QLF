@@ -75,14 +75,19 @@ def qso_emissivity_HM12(z):
 
 def qso_emissivity_m18(z):
 
-     return 10.0**(26.462071*np.exp(-1.623373e-2*z)-3.47793833*np.exp(-8.282491e-1*z))
+    # Fit obtained using gammapi.py
+
+    a, b, c, d, e = 24.44478825, 5.17788495, 0.35096674, 1.57899542,  17.36182159
+    return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
 
 
-def qso_emissivity_m20(z):
+def qso_emissivity_m21(z):
 
-     return 10.0**(2.724976e1*np.exp(-2.385609e-2*z)-4.397757*np.exp(-7.115348e-1*z))
+    # Fit obtained using gammapi.py
 
- 
+    a, b, c, d, e = 24.2257009, 5.77594251, 0.21447066, 2.00733499, 23.23731843
+    return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+    
 def plot_epsqso():
     fig = plt.figure(figsize=(6, 6), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -289,12 +294,36 @@ def dqdz_HeIII(q, z, emissivity):
 
     return dqdt_HeIII(q, z, emissivity)*dtdz(z)
 
+def laplante16(ax):
+
+    zc, qc = np.loadtxt('Data_new/laplante16_c.dat', unpack=True)
+    zl, ql = np.loadtxt('Data_new/laplante16_l.dat', unpack=True)
+    zu, qu = np.loadtxt('Data_new/laplante16_u.dat', unpack=True) 
+
+    z = np.linspace(12, 2, 1000)
+    assert(np.all(np.diff(zl) > 0))
+    q_dn = np.interp(z, zl, ql)
+    assert(np.all(np.diff(zu) > 0))
+    q_up = np.interp(z, zu, qu)
+    ax.fill_between(z, q_dn, y2=q_up, color='#7F9E9A', zorder=8, alpha=0.7)
+
+    assert(np.all(np.diff(zc) > 0))
+    q = np.interp(z, zc, qc)
+    ax.plot(z, q, c='#7F9E9A', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
+    
+    return
+
+def puchwein18(ax):
+
+    dat = np.loadtxt("Data_new/puchwein18_qheiii.txt")
+    ax.plot(1.0/dat[:,0]-1.0, dat[:,8]/7.894736842105262720e-02, lw=2,
+            c='steelblue', label=r'Puchwein et al.\ 2018', zorder=9)
 
 def plotq():
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
-    ax.set_ylabel(r'$Q_V$')
+    ax.set_ylabel(r'$Q_V^\mathrm{HeIII}$')
     ax.set_xlabel('$z$')
 
     plt.minorticks_on()
@@ -302,49 +331,54 @@ def plotq():
     ax.tick_params('both', which='minor', length=3, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    z = np.linspace(12, 2, 1000)
-    q0 = 1.0e-10
-    q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_MH15,))
-    q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='k', lw=2, label=r'H~\textsc{ii} (MH15; AGN only)')
+    z = np.linspace(12, 0, 1000)
+
+    # q0 = 1.0e-10
+    # q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_MH15,))
+    # q = np.where(q<1.0, q, 1.0) 
+    # plt.plot(z, q, c='k', lw=2, label=r'H~\textsc{ii} (MH15; AGN only)')
 
     q_file = 'hm12/q.dat'
-    z_model, q_model = np.loadtxt(q_file, usecols=(0,1), unpack=True)
-    q_model = np.where(q_model<1.0, q_model, 1.0) 
-    plt.plot(z_model, q_model, lw=2, dashes=[7,2], c='k', label=r'H~\textsc{ii} (HM12; Galaxies+AGN)', zorder=-4)
+    # z_model, q_model = np.loadtxt(q_file, usecols=(0,1), unpack=True)
+    # q_model = np.where(q_model<1.0, q_model, 1.0) 
+    # plt.plot(z_model, q_model, lw=2, dashes=[7,2], c='k', label=r'H~\textsc{ii} (HM12; Galaxies+AGN)', zorder=-4)
 
     # z = np.linspace(12, 2, 1000)
     # q0 = 1.0e-10
     # q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_m18,))
     # q = np.where(q<1.0, q, 1.0) 
-    # plt.plot(z, q, c='k', lw=3, label=r'H~\textsc{ii} (our model $M<-18$)', zorder=-3)
+    # plt.plot(z, q, c='k', lw=3, label=r'H~\textsc{ii} (This work $M<-18$)', zorder=-3)
 
-    z = np.linspace(12, 2, 1000)
+    z = np.linspace(12, 1, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_MH15,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='tomato', lw=2, label=r'He~\textsc{iii} (MH15)', zorder=-3)
+    plt.plot(z, q, c='grey', lw=2, label=r'Madau \& Haardt 2015', zorder=-3, dashes=[7,2])
 
     z_model, q_model = np.loadtxt(q_file, usecols=(0,2), unpack=True)
     q_model = np.where(q_model<1.0, q_model, 1.0) 
-    plt.plot(z_model, q_model, lw=2, dashes=[7,2], c='tomato', label=r'He~\textsc{iii} (HM12)', zorder=-5)
+    plt.plot(z_model, q_model, lw=2, c='grey', label=r'Haardt \& Madau 2012', zorder=-5)
 
-    z = np.linspace(12, 2, 1000)
+    laplante16(ax)
+
+    puchwein18(ax)
+    
+    z = np.linspace(12, 0, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='forestgreen', lw=3, label=r'He~\textsc{iii} (our model $M<-18$)', zorder=-3)
+    plt.plot(z, q, c='peru', lw=3, label=r'This work ($M_{1450}<-18$)', zorder=10)
 
-    z = np.linspace(12, 2, 1000)
+    z = np.linspace(12, 0, 1000)
     q0 = 1.0e-10
-    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m20,))
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='goldenrod', lw=3, label=r'He~\textsc{iii} (our model $M<-20$)', zorder=-3)
-    
-    plt.ylim(0,1.1)
-    plt.xlim(2,15)
+    plt.plot(z, q, c='k', lw=3, label=r'This work ($M_{1450}<-21$)', zorder=10)
 
-    plt.legend(loc='upper right', fontsize=10, handlelength=3,
+    plt.ylim(0,1.1)
+    plt.xlim(0,12)
+
+    plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.5)
     
