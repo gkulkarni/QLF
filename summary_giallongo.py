@@ -14,7 +14,7 @@ LFs.
 
 """
 
-colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown'] 
+colors = ['k', 'k', 'k', 'k'] 
 nplots_x = 2
 nplots_y = 2
 nplots = 4
@@ -24,25 +24,33 @@ zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 
-        
-def plot_phi_star(fig, composite):
+def getParam(param, dtype='notwithg'):
+
+    if dtype=='withg':
+        zmean, zl, zu, u, l, c = np.loadtxt('bins_withg.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
+    else:
+        zmean, zl, zu, u, l, c = np.loadtxt('bins.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
+    return zmean, zl, zu, u, l, c
+
+
+def plot_phi_star(fig):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+1)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
+    ax.tick_params('both', which='minor', length=2, width=1, direction='in')
+    
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-13, -5)
+    ax.set_ylim(-12, -5)
 
-    if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta) 
-            phi = composite.atz(z, params[0]) 
-            ax.plot(z, phi, color=colors[0], alpha=0.02, zorder=1) 
-        phi = composite.atz(z, bf[0]) 
-        ax.plot(z, phi, color='k', zorder=2)
-
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/phi_star_withGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(0)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -53,16 +61,16 @@ def plot_phi_star(fig, composite):
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
 
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/phi_star_withoutGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(0, dtype='withg')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='k', capsize=0,
+    ax.errorbar(zmean, c, ecolor='tomato', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='k', zorder=2, s=30)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
@@ -70,27 +78,23 @@ def plot_phi_star(fig, composite):
 
     return
 
-def plot_m_star(fig, composite):
+def plot_m_star(fig):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+2)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
+    ax.tick_params('both', which='minor', length=2, width=1, direction='in')
+    
     ax.yaxis.tick_right()
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-32, -22.0)
+    ax.set_ylim(-32, -20)
 
-    if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta) 
-            M = composite.atz(z, params[1]) 
-            ax.plot(z, M, color=colors[1], alpha=0.02, zorder=3)
-        M = composite.atz(z, bf[1]) 
-        ax.plot(z, M, color='k', zorder=4)
-    
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/M_star_withGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(1)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -101,16 +105,16 @@ def plot_m_star(fig, composite):
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
 
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/M_star_withoutGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(1, dtype='withg')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='k', capsize=0,
+    ax.errorbar(zmean, c, ecolor='tomato', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='k', zorder=2, s=30)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -118,24 +122,20 @@ def plot_m_star(fig, composite):
 
     return
 
-def plot_alpha(fig, composite):
+def plot_alpha(fig):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+3)
-    ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-7, -2)
 
-    if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta)
-            alpha = composite.atz(z, params[2])
-            ax.plot(z, alpha, color=colors[2], alpha=0.02, zorder=3) 
-        alpha = composite.atz(z, bf[2]) 
-        ax.plot(z, alpha, color='k', zorder=4)
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
+    ax.tick_params('both', which='minor', length=2, width=1, direction='in')
     
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/alpha_withGiallongo.dat', unpack=True)
+    ax.set_xlim(zmin, zmax)
+    ax.set_ylim(-7, -1)
+
+    zmean, zl, zu, u, l, c = getParam(2)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -146,16 +146,20 @@ def plot_alpha(fig, composite):
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
 
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/alpha_withoutGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(2, dtype='withg')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='k', capsize=0,
+    ax.errorbar(zmean, c, ecolor='tomato', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='k', zorder=2, s=30)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30, label='with Giallongo et al.\ 2015 qsos')
+
+    plt.legend(loc='upper right', fontsize=10, handlelength=2,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=-0.4, borderpad=0.1, scatterpoints=1, borderaxespad=0.3)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright end slope)')
@@ -163,27 +167,23 @@ def plot_alpha(fig, composite):
 
     return
 
-def plot_beta(fig, composite):
+def plot_beta(fig):
 
     mpl.rcParams['font.size'] = '14'
 
     ax = fig.add_subplot(nplots_x, nplots_y, plot_number+4)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=4, width=1, direction='in')
+    ax.tick_params('both', which='minor', length=2, width=1, direction='in')
+    
     ax.yaxis.tick_right()
     ax.yaxis.set_ticks_position('both')
     ax.yaxis.set_label_position('right')
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-3, -1)
+    ax.set_ylim(-3, 0)
 
-    if composite is not None: 
-        bf = composite.getparams(composite.samples.mean(axis=0))
-        for theta in composite.samples[np.random.randint(len(composite.samples), size=900)]:
-            params = composite.getparams(theta)
-            beta = composite.atz(z, params[3]) 
-            ax.plot(z, beta, color=colors[3], alpha=0.02, zorder=3) 
-        beta = composite.atz(z, bf[3]) 
-        ax.plot(z, beta, color='k', zorder=4)
-    
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/beta_withGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(3)
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
@@ -194,20 +194,17 @@ def plot_beta(fig, composite):
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
 
-    zmean, zl, zu, u, l, c = np.loadtxt('Scratch/beta_withoutGiallongo.dat', unpack=True)
+    zmean, zl, zu, u, l, c = getParam(3, dtype='withg')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='k', capsize=0,
+    ax.errorbar(zmean, c, ecolor='tomato', capsize=0,
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='k', zorder=2, label='without Giallongo qsos', s=30)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30)
 
-    plt.legend(loc='lower left', fontsize=10, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=-0.4, borderpad=0.2, scatterpoints=1)
 
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
@@ -216,7 +213,7 @@ def plot_beta(fig, composite):
 
     return 
 
-def summary_plot(composite=None):
+def summary_plot():
 
     mpl.rcParams['font.size'] = '14'
     
@@ -234,12 +231,12 @@ def summary_plot(composite=None):
     fig.subplots_adjust(left=lb, bottom=lb, right=tr, top=tr,
                         wspace=whspace, hspace=whspace)
 
-    plot_phi_star(fig, composite)
-    plot_m_star(fig, composite)
-    plot_alpha(fig, composite)
-    plot_beta(fig, composite)
+    plot_phi_star(fig)
+    plot_m_star(fig)
+    plot_alpha(fig)
+    plot_beta(fig)
 
-    plt.savefig('evolution.pdf',bbox_inches='tight')
+    plt.savefig('evolution_g.pdf',bbox_inches='tight')
 
     mpl.rcParams['font.size'] = '22'
     
