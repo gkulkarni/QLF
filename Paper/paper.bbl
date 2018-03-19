@@ -25,6 +25,11 @@
   {10.1093/mnras/stv1062}, \href
   {http://adsabs.harvard.edu/abs/2015MNRAS.451.1892A} {451, 1892}
 
+\bibitem[\protect\citeauthoryear{{Ba{\~n}ados} et~al.,}{{Ba{\~n}ados}
+  et~al.}{2018}]{2018Natur.553..473B}
+{Ba{\~n}ados} E.,  et~al., 2018, \mn@doi [\nat] {10.1038/nature25180}, \href
+  {http://adsabs.harvard.edu/abs/2018Natur.553..473B} {553, 473}
+
 \bibitem[\protect\citeauthoryear{{Baldwin}}{{Baldwin}}{1977}]{1977ApJ...214..679B}
 {Baldwin} J.~A.,  1977, \mn@doi [\apj] {10.1086/155294}, \href
   {http://adsabs.harvard.edu/abs/1977ApJ...214..679B} {214, 679}
@@ -151,6 +156,12 @@
 {Finlator} K.,  {Oppenheimer} B.~D.,  {Dav{\'e}} R.,  {Zackrisson} E.,
   {Thompson} R.,   {Huang} S.,  2016, \mn@doi [\mnras] {10.1093/mnras/stw805},
   \href {http://adsabs.harvard.edu/abs/2016MNRAS.459.2299F} {459, 2299}
+
+\bibitem[\protect\citeauthoryear{{Foreman-Mackey}, {Hogg}, {Lang}  \&
+  {Goodman}}{{Foreman-Mackey} et~al.}{2013}]{2013PASP..125..306F}
+{Foreman-Mackey} D.,  {Hogg} D.~W.,  {Lang} D.,   {Goodman} J.,  2013, \mn@doi
+  [\pasp] {10.1086/670067}, \href
+  {http://adsabs.harvard.edu/abs/2013PASP..125..306F} {125, 306}
 
 \bibitem[\protect\citeauthoryear{{Gaikwad}, {Khaire}, {Choudhury}  \&
   {Srianand}}{{Gaikwad} et~al.}{2017a}]{2017MNRAS.466..838G}
@@ -304,6 +315,11 @@ Cambridge University Press
 {Kormendy} J.,  {Ho} L.~C.,  2013, \mn@doi [\araa]
   {10.1146/annurev-astro-082708-101811}, \href
   {http://adsabs.harvard.edu/abs/2013ARA%26A..51..511K} {51, 511}
+
+\bibitem[\protect\citeauthoryear{{La Plante} \& {Trac}}{{La Plante} \&
+  {Trac}}{2016}]{2016ApJ...828...90L}
+{La Plante} P.,  {Trac} H.,  2016, \mn@doi [\apj] {10.3847/0004-637X/828/2/90},
+  \href {http://adsabs.harvard.edu/abs/2016ApJ...828...90L} {828, 90}
 
 \bibitem[\protect\citeauthoryear{{Livermore}, {Finkelstein}  \&
   {Lotz}}{{Livermore} et~al.}{2017}]{2017ApJ...835..113L}
@@ -459,6 +475,12 @@ Cambridge University Press
 {Prochaska} J.~X.,  {Worseck} G.,   {O'Meara} J.~M.,  2009, \mn@doi [\apjl]
   {10.1088/0004-637X/705/2/L113}, \href
   {http://adsabs.harvard.edu/abs/2009ApJ...705L.113P} {705, L113}
+
+\bibitem[\protect\citeauthoryear{{Puchwein}, {Haardt}, {Haehnelt}  \&
+  {Madau}}{{Puchwein} et~al.}{2018}]{2018arXiv180104931P}
+{Puchwein} E.,  {Haardt} F.,  {Haehnelt} M.~G.,   {Madau} P.,  2018, preprint,
+  \href {http://adsabs.harvard.edu/abs/2018arXiv180104931P} {} (\mn@eprint
+  {arXiv} {1801.04931})
 
 \bibitem[\protect\citeauthoryear{{Ricci}, {Marchesi}, {Shankar}, {La Franca}
   \& {Civano}}{{Ricci} et~al.}{2017}]{2017MNRAS.465.1915R}
