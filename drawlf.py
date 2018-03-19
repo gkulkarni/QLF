@@ -79,7 +79,8 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
+    # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
+    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
 
     return
 
@@ -379,17 +380,20 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
         mag_plot = np.linspace(-32.0, -16.0, num=200) 
         plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
+        # plot_bestfit_lf(lf, ax, mag_plot, lw=2,
+        #                      c='#ffbf00', zorder=3, label='This work')
+
         plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-                             c='#ffbf00', zorder=3, label='This work')
+                             c='#ffbf00', zorder=3)
+        
+        # if z_plot < 4.5:
+        #     plot_giallongo_z4p25(lf, ax, mag_plot)
 
-        if z_plot < 4.5:
-            plot_giallongo_z4p25(lf, ax, mag_plot)
+        # if z_plot < 5.5 and z_plot > 4.7:
+        #     plot_giallongo_z4p75(lf, ax, mag_plot)
 
-        if z_plot < 5.5 and z_plot > 4.7:
-            plot_giallongo_z4p75(lf, ax, mag_plot)
-
-        if z_plot > 5.5:
-            plot_giallongo_z5p75(lf, ax, mag_plot)
+        # if z_plot > 5.5:
+        #     plot_giallongo_z5p75(lf, ax, mag_plot)
             
 
     if composite is not None:
