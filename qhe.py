@@ -409,11 +409,18 @@ def dqdz_HeIII_bolton_cHM12(q, z, emissivity):
     return dqdt_HeIII_bolton_cHM12(q, z, emissivity)*dtdz(z)
 
 
-def laplante16(ax):
+def laplante16(ax, minus=False):
 
     zc, qc = np.loadtxt('Data_new/laplante16_c.dat', unpack=True)
     zl, ql = np.loadtxt('Data_new/laplante16_l.dat', unpack=True)
-    zu, qu = np.loadtxt('Data_new/laplante16_u.dat', unpack=True) 
+    zu, qu = np.loadtxt('Data_new/laplante16_u.dat', unpack=True)
+
+    if minus:
+        z = np.linspace(12, 2, 1000)
+        assert(np.all(np.diff(zc) > 0))
+        q = np.interp(z, zc, qc)
+        ax.plot(z, 1-q, c='orange', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
+        return 
 
     z = np.linspace(12, 2, 1000)
     assert(np.all(np.diff(zl) > 0))
@@ -425,30 +432,54 @@ def laplante16(ax):
     assert(np.all(np.diff(zc) > 0))
     q = np.interp(z, zc, qc)
     ax.plot(z, q, c='#7F9E9A', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
+    return 
     
     return
 
-def puchwein18(ax):
+def puchwein18(ax, minus=False):
+
 
     dat = np.loadtxt("Data_new/puchwein18_qheiii.txt")
+
+    if minus:
+        ax.plot(1.0/dat[:,0]-1.0, 1-dat[:,8]/7.894736842105262720e-02, lw=2,
+                c='steelblue', label=r'Puchwein et al.\ 2018', zorder=9)
+        return 
+    
     ax.plot(1.0/dat[:,0]-1.0, dat[:,8]/7.894736842105262720e-02, lw=2,
             c='steelblue', label=r'Puchwein et al.\ 2018', zorder=9)
+    return
 
-def mcquinn09(ax):    
+def mcquinn09(ax, minus=False):    
 
     data = np.loadtxt("Data_new/mcquinn09.txt")
     z = data[:,0]
     x = data[:,1]
+
+    if minus: 
+        ax.plot(z, 1-x, lw=2,
+                c='k', label=r'McQuinn et al.\ 2009', zorder=9)
+        return
+    
     ax.plot(z, x, lw=2,
             c='b', label=r'McQuinn et al.\ 2009', zorder=9)
+    return
 
-def compostella14(ax):    
+def compostella14(ax, minus=False):    
 
     data = np.loadtxt("Data_new/compostella14.txt")
     z = data[:,0]
     x = data[:,1]
+
+    if minus: 
+        ax.plot(z, 1-x, lw=2,
+                c='brown', label=r'Compostella et al.\ 2014', zorder=9)
+        return
+    
     ax.plot(z, x, lw=2,
             c='g', label=r'Compostella et al.\ 2014', zorder=9)
+
+    return
     
 def plotq():
 
@@ -502,6 +533,62 @@ def plotq():
     
     plt.savefig('q.pdf', bbox_inches='tight')
     return 
+
+
+def plot_1minusq():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.set_ylabel(r'$1-Q_V^\mathrm{HeIII}$')
+    ax.set_xlabel('$z$')
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=3, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    z = np.linspace(12, 1, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_MH15,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, 1-q, c='grey', lw=2, label=r'Madau \& Haardt 2015', zorder=-3, dashes=[7,2])
+
+    q_file = 'hm12/q.dat'
+    z_model, q_model = np.loadtxt(q_file, usecols=(0,2), unpack=True)
+    q_model = np.where(q_model<1.0, q_model, 1.0) 
+    plt.plot(z_model, 1-q_model, lw=2, c='grey', label=r'Haardt \& Madau 2012', zorder=-5)
+
+    laplante16(ax, minus=True)
+
+    puchwein18(ax, minus=True)
+
+    mcquinn09(ax, minus=True)
+
+    compostella14(ax, minus=True)
+    
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, 1-q, c='red', lw=3, label=r'This work ($M_{1450}<-18$)', zorder=10)
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, 1-q, c='blue', lw=3, label=r'This work ($M_{1450}<-21$)', zorder=10)
+
+    #plt.ylim(0,1.1)
+    plt.yscale('log')
+    plt.xlim(1,12)
+
+    plt.legend(loc='upper right', fontsize=14, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.4, borderpad=0.5)
+    
+    plt.savefig('q.pdf', bbox_inches='tight')
+    return 
+
 
 def plotq_lls():
 
@@ -561,6 +648,6 @@ def plotq_lls():
     plt.savefig('q.pdf', bbox_inches='tight')
     return 
 
-plotq()
+plot_1minusq()
 
 
