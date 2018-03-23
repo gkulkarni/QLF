@@ -410,37 +410,85 @@ def emissivity_Manti17(z):
     
     return 10.0**loge # erg s^-1 Hz^-1 Mpc^-3
 
-def pd13(ax):
+def pd13(ax, only18=False, only21=False):
 
     z, e912_21, e912_18 = np.loadtxt('Data_new/emissivity_pd13.dat', usecols=(1,4,5), unpack=True)
+
+    if only18:
+            ax.plot(z, e912_18*1.0e24, lw=1.5, color='dodgerblue', zorder=1, label='Palanque-Delabrouille et al.\ 2013', dashes=[7,2])
+            return 
+
+    if only21:
+            ax.plot(z, e912_21*1.0e24, lw=1.5, color='dodgerblue', zorder=1, label='Palanque-Delabrouille et al.\ 2013', dashes=[7,2])
+            return 
+        
     ax.plot(z, e912_18*1.0e24, lw=1.5, color='sandybrown', zorder=1, dashes=[7,2])
     ax.plot(z, e912_21*1.0e24, lw=1.5, color='sandybrown', zorder=1, label='Palanque-Delabrouille et al.\ 2013 ($M_\mathrm{1450}<-21$; dashed $<-18$)')
     
     return 
 
-def pd16(ax):
+def pd16(ax, only18=False, only21=False):
 
     z, e912_21, e912_18 = np.loadtxt('Data_new/emissivity_pd16.dat', usecols=(1,4,5), unpack=True)
+
+    if only18:
+        ax.plot(z, e912_18*1.0e24, lw=1.5, color='c', zorder=1, label='Palanque-Delabrouille et al.\ 2016')
+        return
+
+    if only21:
+        ax.plot(z, e912_21*1.0e24, lw=1.5, color='c', zorder=1, label='Palanque-Delabrouille et al.\ 2016')
+        return
+    
     ax.plot(z, e912_18*1.0e24, lw=1.5, color='yellowgreen', zorder=1, dashes=[7,2])
     ax.plot(z, e912_21*1.0e24, lw=1.5, color='yellowgreen', zorder=1, label='Palanque-Delabrouille et al.\ 2016 ($M_\mathrm{1450}<-21$; dashed $<-18$)')
     
     return 
 
-def c17(ax):
+def c17(ax, only18=False, only21=False):
 
     z, e912_21, e912_18 = np.loadtxt('Data_new/emissivity_c17.dat', usecols=(1,4,5), unpack=True)
+
+    if only18:
+        ax.plot(z, e912_18*1.0e24, lw=1.5, color='blue', zorder=1, label='Caditz 2017')
+        return
+
+    if only21:
+        ax.plot(z, e912_21*1.0e24, lw=1.5, color='blue', zorder=1, label='Caditz 2017')
+        return
+    
     ax.plot(z, e912_18*1.0e24, lw=1.5, color='peru', zorder=1, dashes=[7,2])
     ax.plot(z, e912_21*1.0e24, lw=1.5, color='peru', zorder=1, label='Caditz 2017 ($M_\mathrm{1450}<-21$; dashed $<-18$)')
     
     return
 
-def akiyama18(ax):
+def akiyama18(ax, only18=False, only21=False):
 
     z = 3.9
     e18 = 2.4331e24 # erg s^-1 Hz^-1 Mpc^-3
     e21 = 2.3358e24 # erg s^-1 Hz^-1 Mpc^-3
-    # ax.scatter(z, e18, c='None', edgecolor='gold',
-    #            s=60, zorder=9, linewidths=2)
+
+    if only18:
+        ax.scatter(z, e18, c='blue', edgecolor='None',
+                   s=36, zorder=9, linewidths=2, label='Akiyama et al.\ 2018', marker='^')
+        z_lerr = np.array([3.9-3.5])
+        z_uerr = np.array([4.3-3.9])
+        ax.errorbar(z, e18, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((z_lerr, z_uerr)),
+                zorder=9, mew=1, linewidths=1.5)
+        return
+
+    if only21:
+        ax.scatter(z, e21, c='blue', edgecolor='None',
+                   s=36, zorder=9, linewidths=2, label='Akiyama et al.\ 2018', marker='^')
+        z_lerr = np.array([3.9-3.5])
+        z_uerr = np.array([4.3-3.9])
+        ax.errorbar(z, e21, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((z_lerr, z_uerr)),
+                zorder=9, mew=1, linewidths=1.5)
+        return
+    
+    # when showing both Mlim=-18 and -21, only need to show one
+    # because the two cases give almost the same result 
     ax.scatter(z, e21, c='gold', edgecolor='None',
                s=64, zorder=9, linewidths=2, label='Akiyama et al.\ 2018 ($M_\mathrm{1450}<-21$)')
 
@@ -729,3 +777,321 @@ def get_gammapi_percentiles(lfi, z):
     lfi.gammapi = [u, l, c]
 
     return 
+
+
+def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
+
+    """
+    Calculates and plots LyC emissivity.
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1, zorder=20)
+    ax.tick_params('both', which='minor', length=5, width=1, zorder=20)
+    ax.set_ylabel(r'$\epsilon_{912}$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(-0.2,7.)
+    ax.set_yscale('log')
+    ax.set_ylim(4.0e22, 2.0e25)
+    ax.set_axisbelow(False)
+    
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    
+    m = np.ones(len(all_individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m) 
+    individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+
+    # Plot individual emissivits for Mlim = -18 
+    for x in individuals_good:
+        get_emissivity(x, x.z.mean(), Mfaint=-18.0)
+    c = np.array([x.emissivity[2] for x in individuals_good])
+    u = np.array([x.emissivity[0] for x in individuals_good])
+    l = np.array([x.emissivity[1] for x in individuals_good])
+    em = c
+    em_up = u - c
+    em_low = c - l 
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    uzerr = uz-zs
+    lzerr = zs-lz 
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                ms=5)
+    ax.scatter(zs, em, c='k', edgecolor='None',
+               label='Kulkarni et al.\ 2018 (this work)',
+               s=36, zorder=6, linewidths=1.5) 
+
+    # Plot best-fit model for Mlim=-18
+    def func(z, a, b, c, d, e):
+        e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+        return e # erg s^-1 Hz^-1 Mpc^-3
+
+    sigma = u-l 
+    z = np.linspace(0.0, 7, num=1000)
+    samples = fit_emissivity.fit(zs, em, sigma)
+    nsample = 300
+    rsample = samples[np.random.randint(len(samples), size=nsample)]
+    nzs = len(z) 
+    e = np.zeros((nsample, nzs))
+    for i, theta in enumerate(rsample):
+        e[i] = np.array(func(z, *theta))
+
+    up = np.percentile(e, 15.87, axis=0)
+    down = np.percentile(e, 84.13, axis=0)
+    tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    b = np.median(e, axis=0)
+    tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+    ax.errorbar(zg, eg, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                yerr=np.vstack((eg_lerr, eg_uerr)), 
+                zorder=3, mew=1)
+
+    ax.scatter(zg, eg, c='blue', edgecolor='None',
+               label='Giallongo et al.\ 2015', marker='s',
+               s=36, zorder=4, linewidths=1.5)
+
+    e_MH15 = emissivity_MH15(z)
+    # ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015', zorder=1)
+    ax.plot(z, e_MH15, lw=1, c='darkgreen', label='Madau and Haardt 2015', zorder=1, dashes=[1,1])
+
+    e_HM12 = emissivity_HM12(z)
+    ax.plot(z, e_HM12, lw=2, c='brown', label='Haardt and Madau 2012', zorder=3, dashes=[7,2])
+
+    e_M17 = emissivity_Manti17(z)
+    ax.plot(z, e_M17, lw=2, c='grey', label='Manti et al.\ 2017', zorder=2, dashes=[7,2])
+
+    # Emissivity at z = 0 from Schulze et al. 2009 A&A 507 781.  This
+    # number is rederived by Gabor.  See his email of 8 March 2018.
+    z_Schulze09 = np.array([0.0])
+    e_Schulze09 = np.array([0.2561e24]) # erg/s/Hz/Mpc^3
+    ax.scatter(z_Schulze09, e_Schulze09, c='blue', edgecolor='None', marker='p',
+               s=36, zorder=12, linewidths=2, label='Schulze et al.\ 2009')
+
+    # Emissivity at z = 5 from McGreer et al. 2018 AJ 155 131.  This
+    # number is rederived by Gabor.  See his email of 12 March 2018.
+    z_McGreer18 = np.array([4.9])
+    e_McGreer18 = np.array([0.9641e24]) # erg/s/Hz/Mpc^3
+    ax.scatter(z_McGreer18, e_McGreer18, c='blue', edgecolor='None',
+               s=36, zorder=10, linewidths=2, label='McGreer et al.\ 2018')
+
+    z_McGreer_lerr = np.array([4.9-4.7])
+    z_McGreer_uerr = np.array([5.1-4.9])
+    ax.errorbar(z_McGreer18, e_McGreer18, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((z_McGreer_lerr, z_McGreer_uerr)),
+                zorder=10, mew=1, linewidths=1.5)
+    
+    zmin_Onoue17 = 5.5
+    emin_Onoue17 = 0.1531e24
+    zmax_Onoue17 = 6.5
+    emax_Onoue17 = 0.2051e24
+    dz_Onoue17 = zmax_Onoue17 - zmin_Onoue17
+    de_Onoue17 = emax_Onoue17 - emin_Onoue17
+    rect = mpatches.Rectangle((zmin_Onoue17, emin_Onoue17),
+                              dz_Onoue17, de_Onoue17,
+                              ec='blue', color='None',
+                              lw=2, zorder=10, label='Onoue et al.\ 2017')
+    ax.add_patch(rect)
+
+    pd13(ax, only18=True)
+
+    pd16(ax, only18=True)
+
+    c17(ax, only18=True)
+
+    akiyama18(ax, only18=True)
+    
+    handles, labels = ax.get_legend_handles_labels()
+    handles.append((tw18f,tw18))
+    labels.append('Kulkarni et al.\ 2018 (this work; fit)')
+
+    #print len(handles)
+    # myorder = [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 7, 8, 7, 12]
+    myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    handles = [handles[x] for x in myorder]
+    labels = [labels[x] for x in myorder]
+    
+    plt.legend(handles, labels, loc='center', fontsize=10, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1, #ncol=2, columnspacing=2,
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.2])
+
+    plt.text(0.94, 0.94, '$M_\mathrm{1450}<-18$', horizontalalignment='right',
+             verticalalignment='center', transform=ax.transAxes, fontsize='16')
+    
+    
+    plt.savefig('emissivity.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+
+def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
+
+    """
+    Calculates and plots LyC emissivity.
+
+    """
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1, zorder=20)
+    ax.tick_params('both', which='minor', length=5, width=1, zorder=20)
+    ax.set_ylabel(r'$\epsilon_{912}$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(-0.2,7.)
+    ax.set_yscale('log')
+    ax.set_ylim(4.0e22, 2.0e25)
+    ax.set_axisbelow(False)
+    
+    # These redshift bins are labelled "bad" and are plotted differently.
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    
+    m = np.ones(len(all_individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m) 
+    individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+
+    # Plot individual emissivits for Mlim = -18 
+    for x in individuals_good:
+        get_emissivity(x, x.z.mean(), Mfaint=-21.0)
+    c = np.array([x.emissivity[2] for x in individuals_good])
+    u = np.array([x.emissivity[0] for x in individuals_good])
+    l = np.array([x.emissivity[1] for x in individuals_good])
+    em = c
+    em_up = u - c
+    em_low = c - l 
+    zs = np.array([x.z.mean() for x in individuals_good])
+    uz = np.array([x.zlims[0] for x in individuals_good])
+    lz = np.array([x.zlims[1] for x in individuals_good])
+    uzerr = uz-zs
+    lzerr = zs-lz 
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                ms=5)
+    ax.scatter(zs, em, c='k', edgecolor='None',
+               label='Kulkarni et al.\ 2018 (this work)',
+               s=36, zorder=6, linewidths=1.5) 
+
+    # Plot best-fit model for Mlim=-18
+    def func(z, a, b, c, d, e):
+        e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+        return e # erg s^-1 Hz^-1 Mpc^-3
+
+    sigma = u-l 
+    z = np.linspace(0.0, 7, num=1000)
+    samples = fit_emissivity.fit(zs, em, sigma)
+    nsample = 300
+    rsample = samples[np.random.randint(len(samples), size=nsample)]
+    nzs = len(z) 
+    e = np.zeros((nsample, nzs))
+    for i, theta in enumerate(rsample):
+        e[i] = np.array(func(z, *theta))
+
+    up = np.percentile(e, 15.87, axis=0)
+    down = np.percentile(e, 84.13, axis=0)
+    tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    b = np.median(e, axis=0)
+    tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+    ax.errorbar(zg, eg, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                yerr=np.vstack((eg_lerr, eg_uerr)), 
+                zorder=3, mew=1)
+
+    ax.scatter(zg, eg, c='blue', edgecolor='None',
+               label='Giallongo et al.\ 2015', marker='s',
+               s=36, zorder=4, linewidths=1.5)
+
+    e_MH15 = emissivity_MH15(z)
+    ax.plot(z, e_MH15, lw=1, c='darkgreen', label='Madau and Haardt 2015', zorder=1, dashes=[1,1])
+
+    e_HM12 = emissivity_HM12(z)
+    ax.plot(z, e_HM12, lw=2, c='brown', label='Haardt and Madau 2012', zorder=3, dashes=[7,2])
+
+    e_M17 = emissivity_Manti17(z)
+    ax.plot(z, e_M17, lw=2, c='grey', label='Manti et al.\ 2017', zorder=2, dashes=[7,2])
+
+    # Emissivity at z = 0 from Schulze et al. 2009 A&A 507 781.  This
+    # number is rederived by Gabor.  See his email of 8 March 2018.
+    z_Schulze09 = np.array([0.0])
+    e_Schulze09 = np.array([0.0435e24]) # erg/s/Hz/Mpc^3
+    ax.scatter(z_Schulze09, e_Schulze09, c='blue', edgecolor='None', marker='p',
+               s=36, zorder=12, linewidths=2, label='Schulze et al.\ 2009')
+
+    # Emissivity at z = 5 from McGreer et al. 2018 AJ 155 131.  This
+    # number is rederived by Gabor.  See his email of 12 March 2018.
+    z_McGreer_lerr = np.array([4.9-4.7])
+    z_McGreer_uerr = np.array([5.1-4.9])
+    z_McGreer18 = np.array([4.9])
+    e_McGreer18 = np.array([0.6836e24]) # erg/s/Hz/Mpc^3
+    ax.scatter(z_McGreer18, e_McGreer18, c='blue', edgecolor='None',
+               label='McGreer et al.\ 2018', s=36, zorder=10)
+
+    ax.errorbar(z_McGreer18, e_McGreer18, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+                xerr=np.vstack((z_McGreer_lerr, z_McGreer_uerr)),
+                zorder=10, mew=1, linewidths=1.5)
+    
+    
+    zmin_Onoue17 = 5.5
+    zmax_Onoue17 = 6.5
+    emin_Onoue17 = 0.1118e24
+    emax_Onoue17 = 0.1299e24
+    dz_Onoue17 = zmax_Onoue17 - zmin_Onoue17
+    de_Onoue17 = emax_Onoue17 - emin_Onoue17
+    rect = mpatches.Rectangle((zmin_Onoue17, emin_Onoue17),
+                              dz_Onoue17, de_Onoue17,
+                              ec='blue', color='None',
+                              lw=2, zorder=10, label='Onoue et al.\ 2017')
+    ax.add_patch(rect)
+
+    pd13(ax, only21=True)
+
+    pd16(ax, only21=True)
+
+    c17(ax, only21=True)
+
+    akiyama18(ax, only21=True)
+    
+    handles, labels = ax.get_legend_handles_labels()
+    handles.append((tw18f,tw18))
+    labels.append('Kulkarni et al.\ 2018 (this work; fit)')
+
+    #print len(handles)
+    # myorder = [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 7, 8, 7, 12]
+    myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    handles = [handles[x] for x in myorder]
+    labels = [labels[x] for x in myorder]
+    
+    plt.legend(handles, labels, loc='center', fontsize=10, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1, #ncol=2, columnspacing=2,
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.2])
+
+    plt.text(0.94, 0.94, '$M_\mathrm{1450}<-21$', horizontalalignment='right',
+             verticalalignment='center', transform=ax.transAxes, fontsize='16')
+    
+    
+    plt.savefig('emissivity_21.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
