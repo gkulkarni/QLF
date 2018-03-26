@@ -18,6 +18,26 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     import sys 
 
+data = np.load('e1450_18.npz')
+z18 = data['z']
+medianbright18 = data['medianbright']
+medianfaint18 = data['medianfaint']
+downbright18 = data['downbright']
+upbright18 = data['upbright']
+downfaint18 = data['downfaint']
+upfaint18 = data['upfaint']
+
+data = np.load('e1450_21.npz')
+z21 = data['z']
+medianbright21 = data['medianbright']
+medianfaint21 = data['medianfaint']
+downbright21 = data['downbright']
+upbright21 = data['upbright']
+downfaint21 = data['downfaint']
+upfaint21 = data['upfaint']
+
+print 'data loaded'
+
 hplanck = 6.62e-27
 c_angPerSec = 2.998e18
 nu0 = 3.288e15 # threshold freq for H I ionization; s^-1 (Hz)
@@ -49,7 +69,9 @@ def em_hm12(w, z):
 
     """HM12 Galaxies+QSO emissivity."""
 
-    return emissivity_HM12(w, z*np.ones_like(w), grid=False)
+    e = emissivity_HM12(w, z*np.ones_like(w), grid=False)
+
+    return e, 0.0 
 
 
 Y_He = 0.24
@@ -65,29 +87,88 @@ nHe = rho_critical * 1.0e10 * msolkg * omega_b * Y_He / (4*mproton) # Mpc^-3
 
 def qso_emissivity_MH15(z):
 
-    return 10.0**(25.15*np.exp(-0.0026*z)-1.5*np.exp(-1.3*z))
+    e = 10.0**(25.15*np.exp(-0.0026*z)-1.5*np.exp(-1.3*z))
+
+    return e, 0.0 
 
 
 def qso_emissivity_HM12(z):
 
-    return 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3) 
+    e = 10.0**24.6 * (1.0+z)**4.68 * np.exp(-0.28*z)/(np.exp(1.77*z)+26.3)
+
+    return e, 0.0
 
 
 def qso_emissivity_m18(z):
 
     # Fit obtained using gammapi.py
 
-    a, b, c, d, e = 24.44478825, 5.17788495, 0.35096674, 1.57899542,  17.36182159
-    return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+    # a, b, c, d, e = 24.44478825, 5.17788495, 0.35096674, 1.57899542,  17.36182159
+    # return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
 
+    e1 = np.interp(z, z18, medianfaint18)
+    e2 = np.interp(z, z18, medianbright18)
+
+    return e1, e2 
+
+
+def qso_emissivity_m18_down(z):
+
+    # Fit obtained using gammapi.py
+
+    # a, b, c, d, e = 24.44478825, 5.17788495, 0.35096674, 1.57899542,  17.36182159
+    # return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+    e1 = np.interp(z, z18, downfaint18)
+    e2 = np.interp(z, z18, downbright18)
+
+    return e1, e2 
+
+def qso_emissivity_m18_up(z):
+
+    # Fit obtained using gammapi.py
+
+    # a, b, c, d, e = 24.44478825, 5.17788495, 0.35096674, 1.57899542,  17.36182159
+    # return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+    e1 = np.interp(z, z18, upfaint18)
+    e2 = np.interp(z, z18, upbright18)
+
+    return e1, e2 
 
 def qso_emissivity_m21(z):
 
     # Fit obtained using gammapi.py
 
-    a, b, c, d, e = 24.2257009, 5.77594251, 0.21447066, 2.00733499, 23.23731843
-    return 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
-    
+    # a, b, c, d, e = 24.2257009, 5.77594251, 0.21447066, 2.00733499, 23.23731843
+    # em = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+
+    e1 = np.interp(z, z21, medianfaint21)
+    e2 = np.interp(z, z21, medianbright21)
+
+    return e1, e2 
+
+
+def qso_emissivity_m21_down(z):
+
+    # Fit obtained using gammapi.py
+
+    e1 = np.interp(z, z21, downfaint21)
+    e2 = np.interp(z, z21, downbright21)
+
+    return e1, e2 
+
+
+def qso_emissivity_m21_up(z):
+
+    # Fit obtained using gammapi.py
+
+    e1 = np.interp(z, z21, upfaint21)
+    e2 = np.interp(z, z21, upbright21)
+
+    return e1, e2 
+
+
 def plot_epsqso():
     fig = plt.figure(figsize=(6, 6), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -186,6 +267,21 @@ def alpha_B_HeII_HuiGnedin1997(T):
     return 1.26e-14 * reclambda**0.75 # cm^3 s^-1 
     
 
+def alpha_A_HeIII_HuiGnedin1997(T):
+    """Case A He III recombination coefficient.
+
+    Hui and Gnedin 1997 (MNRAS 292 27; Appendix A).
+
+    """
+
+    t_HeII = 6.31515E5 # K; He single ionization threshold 
+    reclambda = 2.0*t_HeII/T
+
+    return (2.0 * 1.269e-13 *
+            (reclambda**1.503 /
+             (1.0 + (reclambda/0.522)**0.470)**1.923)) # cm^3 s^-1
+
+
 def alpha_B_HeIII_HuiGnedin1997(T):
     """Case B He III recombination coefficient.
 
@@ -213,6 +309,17 @@ def trec_HII(z):
 
 
 def trec_HeIII(z):
+
+    chi = 0.083
+    temperature = 2.0e4 # K 
+    alpha_r = alpha_B_HeIII_HuiGnedin1997(temperature/4.0) # cm^3 s^-1
+
+    r = (1+2*chi) * (1+z)**3 * alpha_r * nH * cmbympccb * clumping_factor(z) # s^-1
+
+    return 1/r # s 
+
+
+def trec_HeIII_noclump(z):
 
     chi = 0.083
     temperature = 2.0e4 # K 
@@ -258,11 +365,81 @@ def dqdt_HeIII(q, z, emissivity):
 
     yrbys = 3.154e7 # yr/s conversion factor
 
+    # Integrate qso emissivity from 4 to 10 Ry
+    ebright, efaint = emissivity(z)
+    
+    nbright = (ebright/(1.70*hplanck) *
+         (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
+
+    nfaint = (efaint/(1.70*hplanck) *
+         (4**-0.56 - 10.0**-0.56)) # s^-1 Mpc^-3
+
+    n = nfaint+nbright
+    
+    d = n/nHe - q/trec_HeIII(z) # s^-1
+
+    return d * yrbys # yr
+
+def dqdt_HeIII_noclump(q, z, emissivity):
+
+    yrbys = 3.154e7 # yr/s conversion factor
+
     # Integrate qso emissivity from 4 to 10 Ry 
     n = (emissivity(z)/(1.70*hplanck) *
          (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
     
-    d = n/nHe - q/trec_HeIII(z) # s^-1
+    d = n/nHe - q/trec_HeIII_noclump(z) # s^-1
+
+    return d * yrbys # yr
+
+def dqdt_HeIII_bolton_llsonly(q, z, emissivity):
+
+    yrbys = 3.154e7 # yr/s conversion factor
+
+    # Integrate qso emissivity from 4 to 10 Ry 
+    n = (emissivity(z)/(1.70*hplanck) *
+         (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
+    
+    d = n*(1-q)/nHe # s^-1
+
+    return d * yrbys # yr
+
+
+def dqdt_HeIII_bolton_c1(q, z, emissivity):
+
+    yrbys = 3.154e7 # yr/s conversion factor
+
+    # Integrate qso emissivity from 4 to 10 Ry 
+    n = (emissivity(z)/(1.70*hplanck) *
+         (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
+    
+    d = n*(1-q)/nHe - q/trec_HeIII_noclump(z) # s^-1
+
+    return d * yrbys # yr
+
+
+def dqdt_HeIII_bolton_cHM12(q, z, emissivity):
+
+    yrbys = 3.154e7 # yr/s conversion factor
+
+    # Integrate qso emissivity from 4 to 10 Ry 
+    n = (emissivity(z)/(1.70*hplanck) *
+         (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
+    
+    d = n*(1-q)/nHe - q/trec_HeIII(z) # s^-1
+
+    return d * yrbys # yr
+
+
+def dqdt_HeIII_norec(q, z, emissivity):
+
+    yrbys = 3.154e7 # yr/s conversion factor
+
+    # Integrate qso emissivity from 4 to 10 Ry 
+    n = (emissivity(z)/(1.70*hplanck) *
+         (4**-1.7 - 10.0**-1.7)) # s^-1 Mpc^-3 
+    
+    d = n/nHe # s^-1
 
     return d * yrbys # yr
 
@@ -273,7 +450,6 @@ def H(z):
     hubp = H0*np.sqrt(omega_nr*(1+z)**3+omega_lambda) # yr^-1
 
     return hubp
-
 
 def dzdt(z):
 
@@ -294,31 +470,103 @@ def dqdz_HeIII(q, z, emissivity):
 
     return dqdt_HeIII(q, z, emissivity)*dtdz(z)
 
-def laplante16(ax):
+
+def dqdz_HeIII_noclump(q, z, emissivity):
+
+    return dqdt_HeIII_noclump(q, z, emissivity)*dtdz(z)
+
+
+def dqdz_HeIII_norec(q, z, emissivity):
+
+    return dqdt_HeIII_norec(q, z, emissivity)*dtdz(z)
+
+
+def dqdz_HeIII_bolton_llsonly(q, z, emissivity):
+
+    return dqdt_HeIII_bolton_llsonly(q, z, emissivity)*dtdz(z)
+
+
+def dqdz_HeIII_bolton_c1(q, z, emissivity):
+
+    return dqdt_HeIII_bolton_c1(q, z, emissivity)*dtdz(z)
+
+
+def dqdz_HeIII_bolton_cHM12(q, z, emissivity):
+
+    return dqdt_HeIII_bolton_cHM12(q, z, emissivity)*dtdz(z)
+
+
+def laplante16(ax, minus=False):
 
     zc, qc = np.loadtxt('Data_new/laplante16_c.dat', unpack=True)
     zl, ql = np.loadtxt('Data_new/laplante16_l.dat', unpack=True)
-    zu, qu = np.loadtxt('Data_new/laplante16_u.dat', unpack=True) 
+    zu, qu = np.loadtxt('Data_new/laplante16_u.dat', unpack=True)
+
+    if minus:
+        z = np.linspace(12, 2, 1000)
+        assert(np.all(np.diff(zc) > 0))
+        q = np.interp(z, zc, qc)
+        ax.plot(z, 1-q, c='orange', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
+        return 
 
     z = np.linspace(12, 2, 1000)
     assert(np.all(np.diff(zl) > 0))
     q_dn = np.interp(z, zl, ql)
     assert(np.all(np.diff(zu) > 0))
     q_up = np.interp(z, zu, qu)
-    ax.fill_between(z, q_dn, y2=q_up, color='#7F9E9A', zorder=8, alpha=0.7)
+    r = ax.fill_between(z, q_dn, y2=q_up, color='#7F9E9A', zorder=8, alpha=0.7, edgecolor='None')
 
     assert(np.all(np.diff(zc) > 0))
     q = np.interp(z, zc, qc)
-    ax.plot(z, q, c='#7F9E9A', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
-    
-    return
+    bf, = ax.plot(z, q, c='#7F9E9A', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
 
-def puchwein18(ax):
+    return r, bf 
+    
+def puchwein18(ax, minus=False):
+
 
     dat = np.loadtxt("Data_new/puchwein18_qheiii.txt")
+
+    if minus:
+        ax.plot(1.0/dat[:,0]-1.0, 1-dat[:,8]/7.894736842105262720e-02, lw=2,
+                c='steelblue', label=r'Puchwein et al.\ 2018', zorder=9)
+        return 
+    
     ax.plot(1.0/dat[:,0]-1.0, dat[:,8]/7.894736842105262720e-02, lw=2,
             c='steelblue', label=r'Puchwein et al.\ 2018', zorder=9)
+    return
 
+def mcquinn09(ax, minus=False):    
+
+    data = np.loadtxt("Data_new/mcquinn09.txt")
+    z = data[:,0]
+    x = data[:,1]
+
+    if minus: 
+        ax.plot(z, 1-x, lw=2,
+                c='k', label=r'McQuinn et al.\ 2009', zorder=9)
+        return
+    
+    ax.plot(z, x, lw=2,
+            c='brown', label=r'McQuinn et al.\ 2009', zorder=9)
+    return
+
+def compostella14(ax, minus=False):    
+
+    data = np.loadtxt("Data_new/compostella14.txt")
+    z = data[:,0]
+    x = data[:,1]
+
+    if minus: 
+        ax.plot(z, 1-x, lw=2,
+                c='brown', label=r'Compostella et al.\ 2014', zorder=9)
+        return
+    
+    ax.plot(z, x, lw=2,
+            c='g', label=r'Compostella et al.\ 2014', zorder=9)
+
+    return
+    
 def plotq():
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -331,52 +579,190 @@ def plotq():
     ax.tick_params('both', which='minor', length=3, width=1)
     ax.tick_params('x', which='major', pad=6)
 
-    z = np.linspace(12, 0, 1000)
-
-    # q0 = 1.0e-10
-    # q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_MH15,))
-    # q = np.where(q<1.0, q, 1.0) 
-    # plt.plot(z, q, c='k', lw=2, label=r'H~\textsc{ii} (MH15; AGN only)')
-
-    q_file = 'hm12/q.dat'
-    # z_model, q_model = np.loadtxt(q_file, usecols=(0,1), unpack=True)
-    # q_model = np.where(q_model<1.0, q_model, 1.0) 
-    # plt.plot(z_model, q_model, lw=2, dashes=[7,2], c='k', label=r'H~\textsc{ii} (HM12; Galaxies+AGN)', zorder=-4)
-
-    # z = np.linspace(12, 2, 1000)
-    # q0 = 1.0e-10
-    # q = odeint(dqdz_HII, q0, z, args=(qso_emissivity_m18,))
-    # q = np.where(q<1.0, q, 1.0) 
-    # plt.plot(z, q, c='k', lw=3, label=r'H~\textsc{ii} (This work $M<-18$)', zorder=-3)
-
     z = np.linspace(12, 1, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_MH15,))
     q = np.where(q<1.0, q, 1.0) 
     plt.plot(z, q, c='grey', lw=2, label=r'Madau \& Haardt 2015', zorder=-3, dashes=[7,2])
 
+    q_file = 'hm12/q.dat'
     z_model, q_model = np.loadtxt(q_file, usecols=(0,2), unpack=True)
     q_model = np.where(q_model<1.0, q_model, 1.0) 
     plt.plot(z_model, q_model, lw=2, c='grey', label=r'Haardt \& Madau 2012', zorder=-5)
 
-    laplante16(ax)
+    lr, lbf = laplante16(ax)
 
     puchwein18(ax)
+
+    mcquinn09(ax)
+
+    compostella14(ax)
     
     z = np.linspace(12, 0, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='peru', lw=3, label=r'This work ($M_{1450}<-18$)', zorder=10)
+
+    qdown = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18_down,))
+    qdown = np.where(qdown<1.0, qdown, 1.0) 
+
+    qup = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18_up,))
+    qup = np.where(qup<1.0, qup, 1.0)
+
+    q18 = ax.fill_between(z, qup.flatten(), y2=qdown.flatten(), color='red', zorder=10, alpha=0.6, edgecolor='None')
+    q18bf, = plt.plot(z, q.flatten(), c='red', lw=2, label=r'Kulkarni et al.\ 2018 (this work; $M_{1450}<-18$)', zorder=10) 
+
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21,))
+    q = np.where(q<1.0, q, 1.0) 
+
+    qdown = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21_down,))
+    qdown = np.where(qdown<1.0, qdown, 1.0) 
+
+    qup = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21_up,))
+    qup = np.where(qup<1.0, qup, 1.0)
+    
+    q21 = ax.fill_between(z, qup.flatten(), y2=qdown.flatten(), color='blue', zorder=10, alpha=0.6, edgecolor='None')
+    q21bf, = plt.plot(z, q.flatten(), c='blue', lw=2, label=r'Kulkarni et al.\ 2018 (this work; $M_{1450}<-21$)', zorder=10) 
+    
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='k', lw=3, label=r'Kulkarni et al.\ 2018 (this work; $M_{1450}<-21$)', zorder=10)
+
+    plt.ylim(0,1.1)
+    plt.xlim(2,6)
+    plt.xticks(np.arange(2,6.5,1))
+
+    handles, labels = ax.get_legend_handles_labels()
+    myorder = [6,7,2,5,4,3,1,0]
+    handles = [handles[x] for x in myorder]
+    labels = [labels[x] for x in myorder]
+
+    handles[0] = (q18, q18bf)
+    handles[1] = (q21, q21bf)
+    handles[2] = (lr, lbf)
+
+    l1 = plt.legend(handles[:2], labels[:2], loc='upper right', fontsize=10, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.4, borderpad=0.5)
+
+    l2 = plt.legend(handles[2:], labels[2:], loc='upper right', fontsize=10, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+                    handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.99, 0.94])
+
+    ax.add_artist(l1)
+    #ax.add_artist(l2)
+    
+    plt.savefig('q.pdf', bbox_inches='tight')
+    return 
+
+
+def plot_1minusq():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.set_ylabel(r'$1-Q_V^\mathrm{HeIII}$')
+    ax.set_xlabel('$z$')
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=3, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    z = np.linspace(12, 1, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_MH15,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, 1-q, c='grey', lw=2, label=r'Madau \& Haardt 2015', zorder=-3, dashes=[7,2])
+
+    q_file = 'hm12/q.dat'
+    z_model, q_model = np.loadtxt(q_file, usecols=(0,2), unpack=True)
+    q_model = np.where(q_model<1.0, q_model, 1.0) 
+    plt.plot(z_model, 1-q_model, lw=2, c='grey', label=r'Haardt \& Madau 2012', zorder=-5)
+
+    laplante16(ax, minus=True)
+
+    puchwein18(ax, minus=True)
+
+    mcquinn09(ax, minus=True)
+
+    compostella14(ax, minus=True)
+    
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, 1-q, c='red', lw=3, label=r'This work ($M_{1450}<-18$)', zorder=10)
 
     z = np.linspace(12, 0, 1000)
     q0 = 1.0e-10
     q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m21,))
     q = np.where(q<1.0, q, 1.0) 
-    plt.plot(z, q, c='k', lw=3, label=r'This work ($M_{1450}<-21$)', zorder=10)
+    plt.plot(z, 1-q, c='blue', lw=3, label=r'This work ($M_{1450}<-21$)', zorder=10)
 
-    plt.ylim(0,1.1)
-    plt.xlim(0,12)
+    #plt.ylim(0,1.1)
+    plt.yscale('log')
+    plt.xlim(1,12)
+
+    plt.legend(loc='upper right', fontsize=14, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.4, borderpad=0.5)
+    
+    plt.savefig('q.pdf', bbox_inches='tight')
+    return 
+
+
+def plotq_lls():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.set_ylabel(r'$Q_V^\mathrm{HeIII}$')
+    ax.set_xlabel('$z$')
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=3, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII_norec, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='b', lw=2, label=r'$\mathcal{C}=0$')
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII_noclump, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='b', lw=2, label=r'$\mathcal{C}=1$', dashes=[7,2])
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='b', lw=2, label=r'$\mathcal{C}=\mathrm{HM12}$', dashes=[7,2,2,2])
+    
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII_bolton_llsonly, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='r', lw=2, label=r'with LLS, $\mathcal{C}=0$')
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII_bolton_c1, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='r', lw=2, label=r'with LLS, $\mathcal{C}=1$', dashes=[7,2])
+
+    z = np.linspace(12, 0, 1000)
+    q0 = 1.0e-10
+    q = odeint(dqdz_HeIII_bolton_cHM12, q0, z, args=(qso_emissivity_m18,))
+    q = np.where(q<1.0, q, 1.0) 
+    plt.plot(z, q, c='r', lw=2, label=r'with LLS, $\mathcal{C}=\mathrm{HM12}$', dashes=[7,2,2,2])
+    
+    plt.ylim(0,1.3)
+    plt.xlim(1,10)
 
     plt.legend(loc='upper right', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
