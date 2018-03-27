@@ -1236,7 +1236,9 @@ as Model 1.  \gk{Discuss comparison of expected number of quasars at
   \end{tabular}
 \end{table}
 
-\section{Hydrogen photoionization rate}
+\section{Contribution of AGN to reionization}
+
+\subsection{Hydrogen-ionizing emissivity}
 
 We can now calculate the contribution of quasars to the hydrogen
 photoionization rate in the intergalactic medium (IGM).  We assume
@@ -1260,7 +1262,7 @@ quasars at $z<0.1$, is somewhat steeper, with a EUV slope of $-0.56$.
 The quasars considered by \citet{2004ApJ...615..135S} are fainter
 ($M_i(z=2)>-26$) than those considered by \citet{2015MNRAS.449.4204L},
 which suggest that faint quasars may have a steeper EUV spectrum.  We
-therefore also consider an SED of the form
+therefore assume an SED of the form
 \begin{equation}
 f_\nu\propto\begin{cases}
                \nu^{-0.61\pm 0.01} & \text{if}~\lambda\geq 912~\text{\AA},\\
@@ -1268,7 +1270,7 @@ f_\nu\propto\begin{cases}
                \end{cases}
 \label{eqn:sed_faint}
 \end{equation}
-for qsos with $M_{1450}<-23$.
+for AGN with $M_{1450}<-23$.
 
 The rate of emission of photons of frequency $\nu$ by quasars can be
 written as
@@ -1287,51 +1289,179 @@ Equation~(\ref{eqn:sed}) or (\ref{eqn:sed_faint})
 \begin{equation}
   L_{912}=L_{1450}\left(\frac{\nu_{912}}{\nu_{1450}}\right)^{-0.61}=L_{1450}\left(\frac{912}{1450}\right)^{0.61},
 \end{equation}
-depending on the qso luminosity.  The corresponding physical volume
+depending on the AGN luminosity.  The corresponding physical volume
 emissivity is 
 \begin{equation}
 \epsilon_\nu = \dot n_\nu h\nu (1+z)^3.
 \label{eqn:epsilon}
 \end{equation}
-Figure~\ref{fig:e912} shows the resultant 1~Ry emissivity when the
-luminosity function is integrated down to $M_{1450}=-20$ (right panel)
-and when it is integrated down to $M_{1450}=-18$ (left panel).
-Similar to the previous figures, the black open circles in this figure
-show the result form individual redshift bins, while the black curve
-shown the result from best-fit global model.  Yellow curves show a
-random sample from the global posterior distribution.  For comparison,
-various other published determinations of the 1~Ry emissivity of
-quasars are also shown in both panels of Figure~\ref{fig:e912}.  The
-blue curve in these panels shows the AGN 1~Ry emissivity model of
-\citet{2012ApJ...746..125H}, which is very similar to the model of
-\citet{2007ApJ...654..731H}.  The red symbols with error bars show the
-determination from the fits of \citet{2015AA...578A..83G}.  The maroon
-curve is the published fit to the 1~Ry emissivity evolution in the
-fits of \citet{2017MNRAS.466.1160M}.  The green curve is the model of
-\citet{2015ApJ...813L...8M}.  Note that the integration limits for
-these other models are not homogeneous.  \citet{2017MNRAS.466.1160M}
-integrate the luminosity function down to $M_{1450}=-19$, while
-\citet{2015AA...578A..83G} integrate down to $M_{1450}=-18$.  \gk{Add
-  discussion about Madau and Khaire's integration limit from Gabor's 8
-  March email here.  Also discussion on McGreer's data from Gabor's 12
-  March email.}
+The open and filled black circles with errorbars in
+Figure~\ref{fig:e912} show the resultant 1~Ry emissivity when the
+luminosity function is integrated down to $M_{1450}<-21$ (open
+circles) and when it is integrated down to $M_{1450}<-18$ (filled
+circles).  Redshift bins that were removed from analysis due to large
+systematic errors are not shown.  Similar to the previous figures, the
+black open circles in this figure show the result form individual
+redshift bins, while the black curve shown the result from best-fit
+global model.  Due to the problems with the global luminosity function
+models discussed above, we avoid using them to describe the emissivity
+evolution.  Instead, we describe the emissivity evolution by the
+5-parameter functional form \citep{2012ApJ...746..125H}
+\begin{equation}
+  \epsilon_{912}=\epsilon_0(1+z)^a\frac{\exp(-bz)}{\exp(cz)+d}.
+  \label{eqn:e912fit}
+\end{equation}
+We fit this to the points shown in Figure~\ref{fig:e912} assuming a
+Gaussian likelihood in each bin.  The corresponding best-fit curves
+and the corresponding one-sigma uncertainty is shown in red
+($M_{1450}<-18$) and blue ($M_{1450}<-21$).  The best-fit form of
+Equation~\ref{eqn:e912fit} is given by 
+\begin{multline}
+  \epsilon_{912}=(10^{24.49}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}})(1+z)^{7.57}\\\times\frac{\exp(-1.78z)}{\exp(1.01z)+29.20}
+\end{multline}
+for $M_{1450}<-18$, and by 
+\begin{multline}
+  \epsilon_{912}=(10^{24.11}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}})(1+z)^{6.64}\\\times\frac{\exp(-0.65z)}{\exp(1.82z)+20.45}
+\end{multline}
+for $M_{1450}<-21$.  The 1~Ry emissivity increases rapidly from $z=0$
+up to $z=2$ and then stays roughly constant until up to $z=3.5$.  At
+higher redshifts, due to the relatively steeper faint end slope of the
+luminosity function, the integration limit makes a large difference in
+the resultant emissivity.  For the conservative case, in which we
+integrate under the luminosity function down to $M_{1450}=-20$, the
+emissivity drops rapidly at $z>3.5$For comparison, various other
+published determinations of the 1~Ry emissivity of quasars are also
+shown in both panels of Figure~\ref{fig:e912}.  We now comment on the
+comparison of our results with these measurements.
+\citet{2009A&A...507..781S} combined data from the Hamburg/ESO survey
+and the SDSS to measure a quasar luminosity function at $z=0$ in their
+$B_J$ band to minimize host galaxy contribution.  We convert their
+$B_J$ magnitudes (Vega system) to $M_{1450}$ (AB) as
+\begin{equation}
+  M_{1450,\mathrm{AB}}=M_{B_J, \mathrm{Vega}}+0.59.  
+\end{equation}
+In this magnitude system, the luminosity function reported by
+\citet{2009A&A...507..781S} has a very faint break luminosity of
+$M_*=-18.87$.  The faint-end slope is also steep ($\beta=-2$).  We
+integrate this luminosity function down to our limiting magnitudes of
+$M_{1450}=-18$ and $-21$.  The resultant values are shown by the open
+and closed brown circles at $z=0$ in Figure~\ref{fig:e912}.  Our
+emissivity values at $z=0$ lie in between the
+\citet{2009A&A...507..781S} measurements.  The convergence in the
+emissivity is slower in their measurements than in our models because
+of the shallower faint-end slope at this redshift in our model
+($\beta\sim -1.22$).  We discuss the 1~Ry emissivity and the
+corresponding hydrogen photoionization rate at $z=0$ below.
 
-The 1~Ry emissivity increases rapidly from $z=0$ up to $z=2$ and then
-stays roughly constant until up to $z=3.5$.  At higher redshifts, due
-to the relatively steeper faint end slope of the luminosity function,
-the integration limit makes a large difference in the resultant
-emissivity.  For the conservative case, in which we integrate under
-the luminosity function down to $M_{1450}=-20$, the emissivity drops
-rapidly at $z>3.5$, and is only about 10--20\% higher than that in the
-\citet{2012ApJ...746..125H} model at $z\sim 6$.  However, in the model
-in which we integrate down to $M_{1450}=-18$, the emissivity is higher
-by a factor of almost 10 than that in the \citet{2012ApJ...746..125H}
-model at $z\sim 6$.  In this case, our derived emissivities are
-consistent with the values published by \citet{2015AA...578A..83G} at
-$z=4$--$6$, although they still fall short by a factor of $\sim 2$.
-Our derived emissivities are significantly smaller at $z>3.5$ than the
-model of \citet{2015ApJ...813L...8M}.
+The brown dashed curve in Figure~\ref{fig:e912} shows the AGN 1~Ry
+emissivity model of \citet{2012ApJ...746..125H}, which based on the
+bolometric luminosity function model of \citet{2007ApJ...654..731H}.
+Their assumed emissivity agrees reasonably well with our
+$M_{1450}<-21$ case.  The green dotten curve in Figure~\ref{fig:e912}
+shows the model presented by \citet{2015ApJ...813L...8M}.  This model
+disagrees with ours rather severely at almost all redshifts in the
+range considered here.  Note that a direct comparison with
+\citet{2012ApJ...746..125H} and \citet{2015ApJ...813L...8M} is
+difficult because these models integrate the luminosity function to a
+fixed fraction of the break luminosity $L_*$ instead of a fixed
+absolute magnitude.  The chosen limite by \citet{2012ApJ...746..125H}
+and \citet{2015ApJ...813L...8M} is $0.01L_*$.  Using a limit that
+depends on the break luminosity can be problematic as different quasar
+surveys used to develop these emissivity models often report
+strikingly different break luminosity values.  Even when these samples
+are homogeneized appropriately, have such an integration limit is only
+justified if the faint-end slope of the luminosity function is
+sufficiently shallow.
 
+The grey dashed curve shows the emissivity model of
+\citet{2017MNRAS.466.1160M}.  These authors integrate the luminosity
+function down to $M_{1450}=-19$.  However, their model strongly
+disagrees with our inference, potentially due to biases resulting from
+combining binned luminosity function estimates from different sources
+inhomogeneously.  The green curves in Figure~\ref{fig:e912} show the
+luminosity function derived from a variability-selected sample
+observed using the Sloan telescope and the Multiple Mirror Telescope
+(MMT) by \citet{2013A&A...551A..29P}.  This sample of 1877 quasars
+does not overlap with the variability-selected sample reported by the
+BOSS survey \citep{2013ApJ...773...14R}.  \citet{2013A&A...551A..29P}
+assum constant luminosity function slopes with a break at $z=2.2$ and
+assume a pure luminosity evolution.  This leads to a discontinuity in
+the emissivity evolution in their model at $z=2.2$.  We convert their
+$g$-band magnitudes to $M_{1450}$ and integrate the resultant
+luminosity function down to our two chosen integration limits.  The
+result is shown in Figure~\ref{fig:e912} by the solid and dashed
+orange curves, which correspond to $M_{1450}<-21$ and $-18$,
+respectively.  For $M_{1450}<-21$, our models are in reasonable
+agreement at $z<2.2$.  At other redshifts and for $M_{1450}<-21$, the
+models disagree by 10--30\%.  Figure~\ref{fig:e912} also shows the
+model presented by \citet{2016A&A...587A..41P}.  We consider their
+PLE$+$LEDE model, in which the faint-end slope is assumed to stay
+constant with redshift.  Although the emissivity evolution in this
+model is continuous at $z=2.2$, it is not smooth.  This model agrees
+with our $M_{1450}<-18$ result to a better degree relative to the
+\citet{2013A&A...551A..29P} model.  We also compare our result with
+the PLE$+$LEDE luminosity function model presented by
+\citet{2017A&A...608A..64C} by reanalysing the
+\citet{2016A&A...587A..41P} sample with an improved $K$-correction
+implementation.  \citet{2017ApJ...847L..15O} recently fit a double
+power law luminosity function model to a combined binned samples of
+\citet{2016ApJ...833..222J}, \citet{2010AJ....139..906W}, and
+\citet{2015ApJ...798...28K}, and an X-ray-selected AGN candidate with
+photometric redshift $z\sim 6$ reported by
+\citet{2018MNRAS.474.2904P}.  We show the resultant 1~Ry emissivity by
+orange rectangle in Figure~\ref{fig:e912}.  The lower side of the
+rectangle corresponds to the emissivity for the
+\citet{2017ApJ...847L..15O} model excluding the
+\citet{2018MNRAS.474.2904P} AGN.  When this AGN candidate is included,
+the emissivity is higher; this is shown by the upper end of the
+rectangle.  The open rectangle corresponds to $M_{1450}<-18$ and the
+closed rectangle corresponds to $M_{1450}<-21$.
+
+The red open cirles with error bars in Figure~\ref{fig:e912} show the
+determination from the fits of \citet{2015AA...578A..83G}.  These
+authors also choose a break luminosity-dependent integration limit of
+$0.01L_*$, which corresponds to $M_{1450}\sim -18$ in their model.
+The resultant emissivities are factors of 2 to 3 higher than our
+determinations for $z=4$--$6$.  This is puzzling at first sight,
+because the AGN candidates reported by \citet{2015AA...578A..83G} are
+consistent with our luminosity function estimates obtained without
+these candidates (see Appendix~\ref{sec:conv}).  Our luminosity
+function are also somewhat steeper than those reported by
+\citet{2015AA...578A..83G}.  The discrepancy is explained by the
+difference in the two luminosity function models at intermediate
+magnitudes.  We find that the data prefer a much brighter break
+luminosity than that infered by \citet{2015AA...578A..83G}.  This
+reduces our emissivities relative to their estimates.  We go into this
+issue in further detail in Appendix~\ref{sec:conv}.
+
+\citet{2018AJ....155..131M} recently extended their previous Stripe~82
+AGN sample by 1.5 magnitude and fit a double power law luminosity
+function model to a combined SDSS $+$ Stripe~82 $+$ CFHTLS sample at
+$4.7 < z < 5.1$.  These authors fixed the bright-end slope to
+$\alpha=-4$ and obtained a shallower faint-end slope ($\beta=-1.97$)
+than our models at this redshift ($\beta\sim -2.3$).  Rescaling their
+LF to our cosmology and assumed our SED obtain the emissivities shown
+by the green circles in Figure~\ref{fig:e912}.  Again the open and
+filled circles corresponds to our two integration limits.  Our
+emissivity agrees with the measurement of \citet{2018AJ....155..131M}
+for $M_{1450}<-21$ but is higher than their measurement for
+$M_{1450}<-18$, which is not surprising due to the difference in the
+luminosity function slopes.  The emissivity derived from the
+luminosity function of \citet{2018PASJ...70S..34A} is shown in yellow
+in Figure~\ref{fig:e912}.  These authors report 1668 AGN candidates at
+$3.5<z<4.3$, of which 76 have spectroscopic redshifts.  Their reported
+faint-end slope is very flat ($\beta=-1.3\pm 0.05$), inconsistent with
+our determination at all redshifts.  Their inferred emissivity is
+consistent with our estimate for $M_{1450}\sim -21$.  Their emissivity
+does not change significantly with the integration limit thanks to the
+shallow slope.  We also compare our emissivities with the
+determinations reported by \citet{2012ApJ...755..169M} at $z\sim 3.2$
+and $z\sim 4$.  Their emissivity in reasonably agreement with our
+model for $M_{1450}<-21$ at $z\sim 3.2$.  But their $M_{1450}<-18$
+emissivity disagrees with all other high-redshift estimates, possibly
+indicating a systematic error.  Our emissivity estimates are in good
+agreement with those of \citet{2018MNRAS.474.2904P}.  Mention
+Bongiorno.
 
 \begin{figure*}
   \begin{center}
@@ -1353,6 +1483,8 @@ model of \citet{2015ApJ...813L...8M}.
     solid green curve shows the contribution of quasars to it. }
   \label{fig:gammapi}
 \end{figure*}
+
+\subsection{Hydrogen photoionization rate}
 
 The 1~Ry emissivity can now be used to calculate the ionizing flux and
 photoionization rate contributed by quasars.  The frequency dependence
@@ -1539,7 +1671,7 @@ measured by \citet{2016ApJ...817..111D}.
 \gk{Add discussion about Schulze point from Gabor's 8 March email
   here.}
 
-\section{Helium reionization}
+\subsection{Helium reionization}
 
 \begin{figure}
   \begin{center}
@@ -1605,6 +1737,8 @@ they can reionise \HeII.  The Helium reionization completes at
 redshift $z=3.5$--$3.7$ depending on the luminosity down to which you
 integrate the quasar luminosity function.  This is consistent with the
 Helium \lya opacity measurements of \citet{2016ApJ...825..144W}.
+Discuss Mitra et al. 2018 and Khaire and Srianand 2018.  See Gabor's
+email of 14 March 13:18.
 
 \section{Conclusions}
 
@@ -1700,6 +1834,12 @@ $M_{1450}=-22$ at high redshifts ($z\gtrsim 3.5$).
   difference arises due to the difference in the data used in the two
   analyses at intermediate to bright luminosities.  
 \end{itemize}
+
+Some next steps at $z>4$: 1. include extended objects at faint
+magntiudes that could be impacted by host galaxy light, 2. take
+follow-up spectroscopy to confirm a fration of these as high-z broad
+line AGN, 3. carefully assess host galaxy contamination.  See Gabor's
+email of 14 March 13:18.
 
 \section*{Acknowledgements}
 
