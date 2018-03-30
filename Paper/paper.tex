@@ -35,10 +35,10 @@
       kulkarni@ast.cam.ac.uk}, G\'abor Worseck$^{2}$ and Joseph
     F.~Hennawi$^{3}$} \\ $^1$Institute of Astronomy and Kavli
   Institute of Cosmology, University of Cambridge, Madingley Road,
-  Cambridge CB3 0HA, UK \\ $^2$Max Planck Institute for Astronomy,
-  K\"onigstuhl 17, D-69117 Heidelberg, Germany\\ $^3$Department of
-  Physics, Broida Hall, UC Santa Barbara, Santa Barbara, CA 93106-9530
-  USA}
+  Cambridge CB3 0HA, UK \\ $^2$Institute f\"ur Physik und Astronomie,
+  Universit\"at Potsdam, Karl-Liebknecht-Str.\ 24/25, 14476 Potsdam,
+  Germany\\ $^3$Department of Physics, Broida Hall, UC Santa Barbara,
+  Santa Barbara, CA 93106-9530 USA}
 % Update Gabor's address to Potsdam
 \date{Accepted ---. Received ---; in original form ---}
 
@@ -1677,72 +1677,133 @@ measured by \citet{2016ApJ...817..111D}.
 
 \subsection{Helium reionization}
 
+%% Q notation is different on figure and in text.
+%% MH15 curve seems wrong; it should reionize at z ~ 4 or so.
 \begin{figure}
   \begin{center}
     \includegraphics[width=\columnwidth,keepaspectratio]{q.pdf}
   \end{center}
   \caption{Evolution of the \HeIII\ ionization fraction in our model,
-    when the qso luminosity function is integrated down to
-    $M_{1450}=-21$ (black curve) and when it is extrapolated and
-    integrated down to $M_{1450}=-18$ (brown curve).  Other curves
-    show models of \citet[solid grey]{2012ApJ...746..125H},
+    when the AGN luminosity function is integrated down to
+    $M_{1450}=-21$ (blue curve) and $M_{1450}=-18$ (red curve).  The
+    shaded regions show the one-sigma (68.26\%) uncertainty.  Other
+    curves show models of \citet[solid grey]{2012ApJ...746..125H},
     \citet[dashed grey]{2015ApJ...813L...8M}, \citet[light blue and
       shaded region]{2016ApJ...828...90L},
-    \citet[blue]{2018arXiv180104931P}. \gk{Do we need to add any more
-      models from literature?}}
+    \citet[blue]{2018arXiv180104931P},
+    \citet[brown]{2009ApJ...694..842M}, and
+    \citet[green]{2014MNRAS.445.4186C}.  Note that we derive
+    $Q_\nHeIII$ using Equation~(\ref{eqn:qHedot}), which ignores the
+    presence of \HeII\ Lyman-limit systems and becomes inaccurate
+    towards the end of \HeII\ reionization. \label{fig:qhe}}
 \end{figure}
 
-We now consider the implications for hydrogen and helium reionization
-for the ionizing photon emissivity derived above.  This requires that
-we extrapolate the emissivity of Equation XX to higher redshifts.
-Unfortunately, the volume emissivity in our model cannot be
-extrapolated to higher redshifts.  The model of Hopkins suffered with
-the same problem.  \gk{Do we need to show two cases here?  One in
-  which we extrapolate the emissivity and another in which we stop
-  where data end.  There is perhaps a third possibility in which use
-  the current emissivity model upto where data end.}  The evolution of
-the volume averaged ionized fraction of hydrogen is given by \gk{Is
-  this really volume-weighted?}  \citep{2012ApJ...746..125H}
-\begin{equation}
-{dQ_\nHII\over dt}={\dot n_{\rm ion}\over \langle n_\nH \rangle} -{Q_\nHII\over
-\langle t_{\rm rec}\rangle},
-\label{eq:qdot}
-\end{equation}
-and the corresponding equation doubly ionized Helium is
+We now consider the implications of our AGN luminosity function models
+for \HeII\ reionization.  We use the emissivity model developed in
+Section~\ref{sec:e912} for this purpose.  The evolution of the volume-
+averaged fraction $Q_\nHeIII$ of \HeIII\ is given by
+\citep{2012ApJ...746..125H}
 \begin{equation}
 {dQ_\nHeIII\over dt}={\dot n_{\rm ion,4}\over \langle n_\nHe \rangle} -{Q_\nHeIII\over
-\langle t_{\rm rec,He}\rangle}.
-\label{eq:qHedot}
+\langle t_{\rm rec,He}\rangle},
+\label{eqn:qHedot}
 \end{equation}
-We assume that the Helium is singly reionized together with hydrogen.
-In order to get the 4~Ry emissivity of quasars we use the SED from
-equation XX.  The recombination times are given by
+where $\dot n_{\rm ion,4}$ is the number density of photons with
+energy 4~Ry and above produced per unit time, $n_\nHe$ is the Helium
+number density, and $\langle t_{\rm rec,He}\rangle$ is an average
+recombination time scale for \HeIII.  We obtain the evolution of $\dot
+n_{\rm ion,4}$ for AGN with $M_\mathrm{1450}<-21$ and
+$M_\mathrm{1450}<-18$ by integrating the contribution of double power
+law luminosity function obtained in distinct redshifts bins and
+fitting \ref{eqn:e912fit} to the resultant \HeII-ionizing
+emissivities.  We extrapolate the resultant fit to $z>7$, although the
+contribution from this to \HeII-reionization is small.  The SEDs from
+Equation~(\ref{eqn:sed}) and (\ref{eqn:sed_faint}) are assumed for
+bright and faint AGN, respectively.  The recombination time scale in
+Equation~(\ref{eqn:qHedot}) is given by
 \begin{equation}
-\langle t_{\rm rec}\rangle=[\chi \langle n\rangle \alpha_B\,C]^{-1},
+\langle t_{\rm rec}\rangle=[(1+2\chi) \langle n_\nH\rangle \alpha_B\,C]^{-1},
 \label{eq:trec}
 \end{equation}
-where $n$ is the volume averaged density of hydrogen and helium,
-respectively.  We assume that hydrogen and helium have similar
-clumping factors, given by \citep{2015ApJ...813L...8M}
+where $n_\nH$ is the volume-averaged density of hydrogen, $\alpha_B$
+is the case-B \HeIII\ recombination rate, and $\chi=0.083$ is the
+cosmic number fraction of Helium.  We assume that the helium clumping
+factor $C$ is given by \citep{2015ApJ...813L...8M}
 \begin{equation}
   C = 2.8\left(\frac{1+z}{6}\right)^{-1.1}.
 \end{equation}
-For the helium recombination coeffienct, we use the fitting function
-provided by \citet{1997MNRAS.292...27H}.  For hydrogen recombination
-coefficient, we use the fitting function provided by
-\citet{2011piim.book.....D}.
+We use the fitting function provided by \citet{1997MNRAS.292...27H}
+for the recombination coefficient.  Note that
+Equation~\ref{eqn:qHedot} neglects the \HeII\ Lyman-limit systems that
+play an increasingly important role towards the end of Helium
+reionization \citep{2009MNRAS.395..736B, 2017ApJ...851...50M}.  In the
+absence of these self-shielded systems of high-density \HeII,
+$Q_\nHeIII$ can continue to increase beyond unity.  We set it to one
+when this happens.  This can be corrected by accounting for the
+\HeII\ column density distribution and filtering the \HeII-ionizing
+radiation background through it.  Unfortunately, the \HeII\ column
+density distribution is itself uncertain.  We therefore consider our
+treatment of $Q_\nHeIII$ accurate enough for the purpose of this
+work.
 
-The resultant reionization histories of hydrogen and helium are shown
-in Figure XX.  We also show the reionization histories from
-\citep{2012ApJ...746..125H} and \citep{2015ApJ...813L...8M} for
-comparison.  As expected from the emissivity result of the previous
-section, quasars cannot single handedly reionize hydrogen.  However
-they can reionise \HeII.  The Helium reionization completes at
-redshift $z=3.5$--$3.7$ depending on the luminosity down to which you
-integrate the quasar luminosity function.  This is consistent with the
-Helium \lya opacity measurements of \citet{2016ApJ...825..144W}.
-Discuss Mitra et al. 2018 and Khaire and Srianand 2018.  See Gabor's
-email of 14 March 13:18.
+The resultant reionization histories of \HeII\ are shown in
+Figure~\ref{fig:qhe} for $M_\mathrm{1450}<-21$ and
+$M_\mathrm{1450}<-18$ in red and blue, respectively.  We find that
+Helium reionization is complete at $z\sim 3.2$ and $3.1$ in these
+models, respectively, with a one-sigma uncertainty of about $\Delta
+z\sim 0.2$.  This is likely consistent with the \HeII\ \lya effective
+optical depth measurements of \citet{2016ApJ...825..144W}, who find
+that the effective optical depth rises at $z>2.7$, but the incidence
+of low optical depth sightlines beyond this redshift implies that the
+substantial volume of \HeII\ was ionized already at $z=3.4$.
+\HeII\ reionization begins at $z\gtrsim 5$ in our models.  This could
+explain the transmissive sightlines reported by
+\citet{2016ApJ...825..144W}, although a comparison with their data
+requires a more detailed modelling of the IGM.
+
+In Figure~\ref{fig:qhe}, we also show the reionization histories from
+other models of \HeII\ reionization in the literature.  Helium
+reionization is delayed in the model of \citet{2012ApJ...746..125H}
+due to their reduced emissivity at $z\sim 3$.  In the
+\citet{2015ApJ...813L...8M} model, a significant \HeII\ fraction is
+ionized already at $z=6$ due to the very high emissivity assumed in
+this model.  In the radiation-hydrodynamic simulations by
+\citet{2016ApJ...828...90L}, the AGN population is calibrated to the
+SDSS and COSMOS data at $z>3.5$ \citep{2012ApJ...755..169M,
+  2013ApJ...768..105M}, combined with a model for quasar light curves.
+The fiducial \HeII\ reionization history obtained by these authors is
+shown in Figure~\ref{fig:qhe} along with an estimate of the
+uncertainty.  Reionization ends considerably later in this model
+($z\sim 2.6$).  Our model curves are closest in agreement to the
+simulations of \citet{2009ApJ...694..842M} and the analytical model of
+\citet{2018arXiv180104931P}.  Still, reionization completes earlier in
+our model, partly due to the absence of \HeII\ Lyman-limit systems.
+Our redshift of reionization agrees more closely with that in the
+simulations presented by \citet{2014MNRAS.445.4186C}.
+
+Helium reionization has also been studied by
+\citet{2018MNRAS.473.1416M}, who constrained the evolution of the
+emissivity from AGN using the effect optical depth measurement of
+\citet{2016ApJ...825..144W}, combined with an analytical model of the
+IGM.  While a detailed comparison with their work is difficult because
+of reasons, \citet{2018MNRAS.473.1416M} find that the AGN emissivity
+has to drop considerably rapidly at $z>4$. \citet{2018arXiv180109693K}
+have recently presented a model of Helium reionization.  Reionization
+ends at redshift 2.8 in their model.  The AGN luminosity function used
+is by a combination of deteminations from various data sets
+\citep{2015MNRAS.451L..30K}.  The integration limits are inconsistent
+however as they are $0.01L_*$.  Resulting emissivity is comparable to
+our model at $z\sim 2$ but drops more rapidly towards higher
+redshifts.  For a steep EUV spectral index of $\alpha=-1.8$ their
+helium reionization redshift is $z=2.8$.  \citet{2016arXiv160706467D}
+considered the effect of AGN-dominated reionization on the Ly$\alpha$
+opacity at $z>5$, He~\textsc{ii} Ly$\alpha$ opacity at $z\sim
+3.1$--$3.3$, and the thermal history of the IGM.  In agreement with
+\citet{2015MNRAS.453.2943C}, these authors found that AGN did provide
+a plausible explanation for the large fluctuations in the Ly$\alpha$
+opacity at $z>5$.  However, they found that reionization of
+He~\textsc{ii} occurs much earlier in these AGN-dominated models (see
+also \citealt{2018MNRAS.473.1416M}).
 
 \section{Conclusions}
 
@@ -1857,59 +1918,63 @@ Hewett, David Hogg, Vikram Khaire, Sergey Koposov, Donald Lynden-Bell,
 Roberto Maiolino, Richard McMahon, Daniel Mortlock, Ewald Puchwein,
 Gordon Richards, Alberto Rorai, Bram Venemans and Stephen Warren.  GK
 acknowledges support from ERC Advanced Grant 320596 `The Emergence of
-Structure During the Epoch of Reionization'. \gk{Joe, do you need to
-  add anything to acknowledgements?}
+Structure During the Epoch of Reionization'.
+%% Joe, do you need to add anything to acknowledgements? 
 
 \appendix
 
-\section{Comparison with Giallongo sample}
+\section{Comparison with G15}
 \label{sec:conv}
-
-In our analysis above, we did not include the 22 low-luminosity
-($M_{1450}>-22.6$) AGN between redshifts $z=4.1$ and $6.3$ reported by
-\citet{2015AA...578A..83G} using a novel X-ray/NIR selection
-criterion.  This was because we wanted to restrict our sample to
-quasars that have robust spectroscopic redshift determinations.  In
-their work, \citet{2015AA...578A..83G} found a steep faint-end of the
-luminosity function at these redshifts.  With this luminosity function
-they obtained a large value of hydrogen ionizing emissivity that could
-explain the \lya data singlehandedly.  In this section, we compare our
-results with \citet{2015AA...578A..83G}.  The black points in Figure
-XX show the parameters of the double power law luminosity function
-when the \citet{2015AA...578A..83G} sample is added to our analysis.
-The parameter values do not change significantly.  The
-\citet{2015AA...578A..83G} sample is thus consistent with the double
-power law luminosity function preferred by other data at comparable
-redshifts.  However, as we see in Figure XX, the total emissivity in
-our model is still significantly lower than that obtained by
-\citet{2015AA...578A..83G}.  Figure XX provides an explanation for
-this. The double power law fits favoured by \citet{2015AA...578A..83G}
-are quite different from our fits.  The character luminosity $M_*$
-favoured by \citet{2015AA...578A..83G} is much fainter ($\sim -23$ at
-$z = 5$) than that resulting out of our analysis ($\sim -29$ at $z =
-5$).  Figure XX suggests that this is because of the SDSS Stripe 82
-data \gk{citation} and because \citet{2015AA...578A..83G} ignore the
-Kashikawa and Willott samples \gk{citation}.  It is possible that our
-corrections to the Glikman data \gk{citation} also plays a role in
-this.  In sum, the differnce in our emissivities is not due to lack of
-faint quasars but because of the difference with Giallongo at
-intermediate luminosities.  However, our double power law fits are
-virtually identical to those shown in Figure~\ref{fig:mosaic}.
-
+%% Define 'G15' somewhere above.
+In the double power law luminosity function models presented in
+distinct redshift bins in Section~\ref{sec:bins}, we did not include
+the 19 low-luminosity ($M_{1450}>-22.6$) AGN between redshifts $z=4.1$
+and $6.3$ reported by G15.  While this was done in order to restrict
+our sample to quasars with spectroscopic redshift determinations, it
+is instructive to consider how our results are affected if the G15 AGN
+are added to the analysis.  In their work, G15 found a shallower
+faint-end slope ($\beta\sim -1.5$ to $-1.8$) for the luminosity
+function at $4.1 < z < 6.3$, relative to our result from other AGN
+samples at these redshifts ($\beta\sim -2.0$ to $-2.5$).  Still, G15
+derived a higher 912\,\AA\ emissivity than our estimates
+(cf.\ Figure~\ref{fig:e912}), so that in their analysis AGN can
+produce all ionizing photons necessary to keep hydrogen ionized and
+explain the \lya data.  The black points in
+Figure~\ref{fig:params_giallongo} show the parameters of the double
+power law luminosity function from our analysis of
+Section~\ref{sec:bins}.  The red open circles show the parameter
+values obtained when the G15 sample is added to the analysis.  We find
+that the two results are highly consistent, showing that the G15
+sample is consistent with our double power law fit obtained from other
+AGN samples are comparable redshifts.  This is surprising as the
+integrated 912\,\AA\ emissivities in our model are smaller than those
+derived by G15.  Figure~\ref{fig:lf_giallongo} provides an
+explanation.  As seen in this figure, the double power law fits
+favoured by G15 (red dashed curves) are quite different from our fits
+(black curves).  The characteristic luminosity $M_*$ obtained by G15
+is much fainter ($\sim -23$ at $z = 5$) than that resulting out of our
+analysis ($\sim -29$ at $z = 5$).  Thus the 912\,\AA\ emissivities are
+enhanced in G15 because of the increase contribution from
+intermediate-luminosity AGN in their model.
+Figure~\ref{fig:lf_giallongo} suggests that this is possibly because
+of the inclusion of SDSS Stripe 82 data from
+\citet{2013ApJ...768..105M} and the AGN samples of
+\citet{2010AJ....139..906W} and \citet{2015ApJ...798...28K} in our
+analysis.  Additionally, the homogenisation of data in our work may
+also cause part of the difference.
 
 \begin{figure*}
   \begin{center}
     \includegraphics[width=0.7\textwidth]{evolution_g.pdf}
   \end{center}
-  \caption{Effect of the 19 qsos reported by
-    \citet{2015AA...578A..83G} on the best-fit double power law
-    luminosity function parameters in redshift bins from $z=0$ to $7$.
-    Black points show parameter values from Figure~\ref{fig:evoln}.
-    Red open circles show the parameter values obtained when the
-    sample of \citet{2015AA...578A..83G} is added to the analysis.  In
-    both cases, vertical error bars show one-sigma (68.26\%)
-    uncertainties, whereas horizontal error bars show widths of the
-    redshift bins.}
+  \caption{Effect of the 19 AGN reported by \citet{2015AA...578A..83G}
+    on the best-fit double power law luminosity function parameters in
+    redshift bins from $z=0$ to $7$.  Black points show parameter
+    values from Figure~\ref{fig:evoln}.  Red open circles show the
+    parameter values obtained when the sample of G15 is added to the
+    analysis.  In both cases, vertical error bars show one-sigma
+    (68.26\%) uncertainties, and horizontal error bars show widths of
+    the redshift bins. \label{fig:params_giallongo}}
 \end{figure*}
 
 \begin{figure*}
@@ -1919,14 +1984,13 @@ virtually identical to those shown in Figure~\ref{fig:mosaic}.
   \caption{Luminosity functions in three redshift bins at $z>4.1$.
     Black curves in each panel show the best-fit double power law,
     with the corresponding one-sigma (68.26\%) uncertainty shown by
-    the grey shaded area.  There are 451, 270, and 69 qsos in each
+    the grey shaded area.  There are 451, 270, and 69 AGN in each
     redshift bin from left to right, respectively.  These numbers are
     higher than those in Figure~\ref{fig:mosaic} because they include,
-    respectively, 9, 7, and 3 qsos from \citet{2015AA...578A..83G}.
-    The magnitude bins containing these qsos are shown in purple.  The
-    red dashed curves show the double power law fits reported by
-    \citet{2015AA...578A..83G} at $z=4.25, 4.75,$ and
-    $5.75$.}
+    respectively, 9, 7, and 3 AGN from G15.  The magnitude bins
+    containing these AGN are shown in purple.  The red dashed curves
+    show the double power law fits reported by G15 at $z=4.25, 4.75,$
+    and $5.75$. \label{fig:lf_giallongo}}
 \end{figure*}
 
 \section{Tables of emissivities and photoionisation rates}
