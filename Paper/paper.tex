@@ -1700,8 +1700,8 @@ measured by \citet{2016ApJ...817..111D}.
 
 We now consider the implications of our AGN luminosity function models
 for \HeII\ reionization.  We use the emissivity model developed in
-Section~\ref{sec:e912} for this purpose.  The evolution of the volume-
-averaged fraction $Q_\nHeIII$ of \HeIII\ is given by
+Section~\ref{sec:e912} for this purpose.  The evolution of the
+volume-averaged fraction $Q_\nHeIII$ of \HeIII\ is given by
 \citep{2012ApJ...746..125H}
 \begin{equation}
 {dQ_\nHeIII\over dt}={\dot n_{\rm ion,4}\over \langle n_\nHe \rangle} -{Q_\nHeIII\over
@@ -1715,71 +1715,115 @@ recombination time scale for \HeIII.  We obtain the evolution of $\dot
 n_{\rm ion,4}$ for AGN with $M_\mathrm{1450}<-21$ and
 $M_\mathrm{1450}<-18$ by integrating the contribution of double power
 law luminosity function obtained in distinct redshifts bins and
-fitting \ref{eqn:e912fit} to the resultant \HeII-ionizing
+fitting Equation~(\ref{eqn:e912fit}) to the resultant \HeII-ionizing
 emissivities.  We extrapolate the resultant fit to $z>7$, although the
-contribution from this to \HeII-reionization is small.  The SEDs from
-Equation~(\ref{eqn:sed}) and (\ref{eqn:sed_faint}) are assumed for
-bright and faint AGN, respectively.  The recombination time scale in
+contribution from this extrapolated emissivity to \HeII-reionization
+is small.  As before, we assume the SEDs given by
+Equations~(\ref{eqn:sed}) and (\ref{eqn:sed_faint}) for bright and
+faint AGN, respectively.  The recombination time scale in
 Equation~(\ref{eqn:qHedot}) is given by
 \begin{equation}
 \langle t_{\rm rec}\rangle=[(1+2\chi) \langle n_\nH\rangle \alpha_B\,C]^{-1},
 \label{eq:trec}
 \end{equation}
-where $n_\nH$ is the volume-averaged density of hydrogen, $\alpha_B$
-is the case-B \HeIII\ recombination rate, and $\chi=0.083$ is the
-cosmic number fraction of Helium.  We assume that the helium clumping
-factor $C$ is given by \citep{2015ApJ...813L...8M}
+where $n_\nH$ is the average physical number density of hydrogen,
+$\alpha_B$ is the case-B \HeIII\ recombination rate, and $\chi=0.083$
+is the cosmic number fraction of Helium.  We assume that the helium
+clumping factor $C$ is given by \citep{2015ApJ...813L...8M}
 \begin{equation}
-  C = 2.8\left(\frac{1+z}{6}\right)^{-1.1}.
+  C = 2.9\left(\frac{1+z}{6}\right)^{-1.1}.
 \end{equation}
 We use the fitting function provided by \citet{1997MNRAS.292...27H}
-for the recombination coefficient.  Note that
-Equation~\ref{eqn:qHedot} neglects the \HeII\ Lyman-limit systems that
-play an increasingly important role towards the end of Helium
-reionization \citep{2009MNRAS.395..736B, 2017ApJ...851...50M}.  In the
-absence of these self-shielded systems of high-density \HeII,
+for the recombination coefficient.
+
+Note that Equation~(\ref{eqn:qHedot}) neglects the \HeII\ Lyman-limit
+systems that play an increasingly important role towards the end of
+Helium reionization \citep{2009MNRAS.395..736B, 2017ApJ...851...50M}.
+In the absence of these self-shielded systems of high-density \HeII,
 $Q_\nHeIII$ can continue to increase beyond unity.  We set it to one
 when this happens.  This can be corrected by accounting for the
 \HeII\ column density distribution and filtering the \HeII-ionizing
 radiation background through it.  Unfortunately, the \HeII\ column
 density distribution is itself uncertain.  We therefore consider our
-treatment of $Q_\nHeIII$ accurate enough for the purpose of this
-work.
+treatment of $Q_\nHeIII$ accurate enough for the purpose of this work.
 
 The resultant reionization histories of \HeII\ are shown in
-Figure~\ref{fig:qhe} for $M_\mathrm{1450}<-21$ and
-$M_\mathrm{1450}<-18$ in red and blue, respectively.  We find that
-Helium reionization is complete at $z\sim 3.2$ and $3.1$ in these
-models, respectively, with a one-sigma uncertainty of about $\Delta
-z\sim 0.2$.  This is likely consistent with the \HeII\ \lya effective
+Figure~\ref{fig:qhe} for $M_\mathrm{1450}<-18$ and
+$M_\mathrm{1450}<-21$ in red and blue, respectively.  We find that
+Helium reionization is complete, respectively, at $z\sim 3.2$ and
+$3.1$ in these models, with a one-sigma uncertainty of about $\Delta
+z\sim 0.2$.  Observational constraints on the \HeII\ reionization
+history are derived from measurements of the effective \HeII\ \lya
+optical depth \citep{2001Sci...293.1112K, 2004ApJ...600..570S,
+  2006A&A...455...91F, 2010ApJ...722.1312S, 2011ApJ...733L..24W,
+  2016ApJ...825..144W}.  While we do not compute the effective
+\HeII\ \lya optical depth in our model, the reionization histories
+shown in Figure~\ref{fig:qhe} may likely be consistent with the
 optical depth measurements of \citet{2016ApJ...825..144W}, who find
-that the effective optical depth rises at $z>2.7$, but the incidence
-of low optical depth sightlines beyond this redshift implies that the
-substantial volume of \HeII\ was ionized already at $z=3.4$.
-\HeII\ reionization begins at $z\gtrsim 5$ in our models.  This could
-explain the transmissive sightlines reported by
-\citet{2016ApJ...825..144W}, although a comparison with their data
-requires a more detailed modelling of the IGM.
+that the effective optical depth rises at $z>2.7$, but low optical
+depth sightlines continue to be seen beyond this redshift.  The
+incidence of these low opacity sightlines implies that the substantial
+volume of \HeII\ was ionized already at $z=3.4$.  \HeII\ reionization
+begins at $z\gtrsim 5$ in our models.  When we consider AGN with
+$M_\mathrm{1450}<-18$, the ionization fraction $Q_\nHeIII$ has a
+one-sigma spread of 0.8--1 at $z=3.4$.
 
 In Figure~\ref{fig:qhe}, we also show the reionization histories from
-other models of \HeII\ reionization in the literature.  Helium
-reionization is delayed in the model of \citet{2012ApJ...746..125H}
-due to their reduced emissivity at $z\sim 3$.  In the
-\citet{2015ApJ...813L...8M} model, a significant \HeII\ fraction is
-ionized already at $z=6$ due to the very high emissivity assumed in
-this model.  In the radiation-hydrodynamic simulations by
-\citet{2016ApJ...828...90L}, the AGN population is calibrated to the
-SDSS and COSMOS data at $z>3.5$ \citep{2012ApJ...755..169M,
-  2013ApJ...768..105M}, combined with a model for quasar light curves.
-The fiducial \HeII\ reionization history obtained by these authors is
-shown in Figure~\ref{fig:qhe} along with an estimate of the
-uncertainty.  Reionization ends considerably later in this model
-($z\sim 2.6$).  Our model curves are closest in agreement to the
-simulations of \citet{2009ApJ...694..842M} and the analytical model of
-\citet{2018arXiv180104931P}.  Still, reionization completes earlier in
-our model, partly due to the absence of \HeII\ Lyman-limit systems.
-Our redshift of reionization agrees more closely with that in the
-simulations presented by \citet{2014MNRAS.445.4186C}.
+other models of \HeII\ reionization in the literature.  Our model
+curves are closest in agreement to the simulations of
+\citet{2009ApJ...694..842M} and the analytical model of
+\citet{2018arXiv180104931P}.  \citet{2018arXiv180104931P} model the
+\HeII-ionizing emissivity of AGN by fitting the function form in
+Equation~(\ref{eqn:e912fit}) to the emissivities reported by
+\citet{2009A&A...507..781S}, \citet{2007A&A...472..443B}, and
+\citet{2012ApJ...755..169M}.  The resultant emissivity in the model of
+\citet{2018arXiv180104931P} is similar in shape but higher in
+amplitude than the emissivity in the \citet{2012ApJ...746..125H}
+model.  The \HeII-ionizing emissivity of \citet{2018arXiv180104931P}
+is closer to our inference for $M_\mathrm{1450}<-21$ than the model of
+\citet{2012ApJ...746..125H}.  (However, note that both these models
+suffer from inhomogeneous luminosity function integration limits, as
+the integration limit is set to a fixed fraction of the break
+luminosity (cf.\ discussion in Section~\ref{sec:e912}.)  A spectral
+index of $\alpha_\mathrm{UV}=-1.7$ is assumed.
+\citet{2018arXiv180104931P} compute the evolution of $Q_\nHeIII$ by
+evolving the \HeIII\ ionization fraction in a gas cloud with the mean
+cosmic baryonic density exposed to the average \HeII-ionizing flux.
+The ionizing flux is obtained by filtering the ionizing emissivity
+through an inhomogeneous IGM in which the column density distribution
+of \HeIII\ is derived from that of \HI\ in a manner similar to
+\citet{2012ApJ...746..125H}.  As a result, this model incorporates the
+effect of \HeII\ Lyman-limit systems, and the $Q_\nHeIII$ evolution in
+this model deviates from our predictions towards the end of
+reionization, as seen in Figure~\ref{fig:qhe}.  Comparing the
+emissivity model in the cosmological radiative transfer simulations of
+\citet{2009ApJ...694..842M} with our models is less straightforward.
+Quasars are modelled in the simulations of \citet{2009ApJ...694..842M}
+by relating quasar luminosities and lifetimes to halo masses following
+the galaxy-merger-induced quasar activity model of
+\citet{2005ApJ...630..705H}.  The resultant bolometric quasar
+luminosity functions are somewhat shallower than those of
+\citet{2007ApJ...654..731H}, but with a higher amplitude.  A spectral
+index of $\alpha_\mathrm{UV}=-1.6$ is assumed.  Figure~\ref{fig:qhe}
+shows that the resultant reionization history in these simulations
+agrees with our model for $M_\mathrm{1450}<-21$, except towards the
+end of reionization, where, as before, \HeII\ Lyman-limit systems
+become important.
+
+Helium reionization is delayed in the model of
+\citet{2012ApJ...746..125H} due to their reduced emissivity at $z\sim
+3$.  In the \citet{2015ApJ...813L...8M} model, a significant
+\HeII\ fraction is ionized already at $z=6$ due to the very high
+emissivity assumed in this model.  In the radiation-hydrodynamic
+simulations by \citet{2016ApJ...828...90L}, the AGN population is
+calibrated to the SDSS and COSMOS data at $z>3.5$
+\citep{2012ApJ...755..169M, 2013ApJ...768..105M}, combined with a
+model for quasar light curves.  The fiducial \HeII\ reionization
+history obtained by these authors is shown in Figure~\ref{fig:qhe}
+along with an estimate of the uncertainty.  Reionization ends
+considerably later in this model ($z\sim 2.6$).  Our redshift of
+reionization agrees more closely with that in the simulations
+presented by \citet{2014MNRAS.445.4186C}.
 
 Helium reionization has also been studied by
 \citet{2018MNRAS.473.1416M}, who constrained the evolution of the
