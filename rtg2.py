@@ -13,7 +13,7 @@ import gammapi
 from gammapi import get_gammapi_percentiles
 import matplotlib.patches as mpatches
 
-data = np.load('e1450_18.npz')
+data = np.load('e1450_18_2.npz')
 z18 = data['z']
 medianbright18 = data['medianbright']
 medianfaint18 = data['medianfaint']
@@ -22,7 +22,7 @@ upbright18 = data['upbright']
 downfaint18 = data['downfaint']
 upfaint18 = data['upfaint']
 
-data = np.load('e1450_21.npz')
+data = np.load('e1450_21_2.npz')
 z21 = data['z']
 medianbright21 = data['medianbright']
 medianfaint21 = data['medianfaint']
@@ -30,6 +30,18 @@ downbright21 = data['downbright']
 upbright21 = data['upbright']
 downfaint21 = data['downfaint']
 upfaint21 = data['upfaint']
+
+data = np.load('e912_18_2.npz')
+z18_912 = data['z']
+median18_912 = data['median']
+down18_912 = data['down']
+up18_912 = data['up']
+
+data = np.load('e912_21_2.npz')
+z21_912 = data['z']
+median21_912 = data['median']
+down21_912 = data['down']
+up21_912 = data['up']
 
 print 'data loaded'
 
@@ -1100,23 +1112,64 @@ def draw_g_paper():
     g18f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12, color='red', zorder=5, alpha=0.6, edgecolor='None')
     g18, = plt.plot(z, g/1.0e-12, lw=2, c='red', zorder=5)
 
+    gamma18 = g
+    gamma18_up = g_up
+    gamma18_low = g_down 
+
     z, g = j(emissivity_21, zmax=15.0)
     z, g_down = j(emissivity_21_down, zmax=15.0)
     z, g_up = j(emissivity_21_up, zmax=15.0)
     g21f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12, color='blue', zorder=5, alpha=0.6, edgecolor='None')
     g21, = plt.plot(z, g/1.0e-12, lw=2, c='blue', zorder=5)
     
-    # g18 = g
+    gamma21 = g
+    gamma21_up = g_up
+    gamma21_low = g_down 
 
-    # z, g = j(emissivity_21, zmax=15.0)
-    # ax.plot(z, g/1.0e-12, c='peru', lw=4, label=r'This work ($M_{1450}<-21$)', zorder=9)
+    tabulate = False
+    if tabulate:
+        e1 = np.interp(z, z18, medianfaint18)
+        e2 = np.interp(z, z18, medianbright18)
+        e1450_18 = e1+e2 
 
-    # g20 = g
+        e1 = np.interp(z, z18, downfaint18)
+        e2 = np.interp(z, z18, downbright18)
+        e1450_18_low = e1+e2 
 
-    # tabulate = True 
-    # if tabulate:
-    #     for i in range(len(g20)):
-    #         print r'{:.1f}  {:.3e}  {:.3e}'.format(z[i], g18[i], g20[i])
+        e1 = np.interp(z, z18, upfaint18)
+        e2 = np.interp(z, z18, upbright18)
+        e1450_18_up = e1+e2 
+        
+        e1 = np.interp(z, z21, medianfaint21)
+        e2 = np.interp(z, z21, medianbright21)
+        e1450_21 = e1+e2 
+
+        e1 = np.interp(z, z21, downfaint21)
+        e2 = np.interp(z, z21, downbright21)
+        e1450_21_low = e1+e2 
+
+        e1 = np.interp(z, z21, upfaint21)
+        e2 = np.interp(z, z21, upbright21)
+        e1450_21_up = e1+e2
+
+        e912_18 = np.interp(z, z18_912, median18_912)
+        e912_18_up = np.interp(z, z18_912, up18_912)
+        e912_18_low = np.interp(z, z18_912, down18_912)
+
+        e912_21 = np.interp(z, z21_912, median21_912)
+        e912_21_up = np.interp(z, z21_912, up21_912)
+        e912_21_low = np.interp(z, z21_912, down21_912)
+
+        with open('rtg2_data.txt', 'w') as f: 
+            fs = r'{:.1f}  ' + '{:.3e}  {:.3e}  {:.3e}  '*6 + '\n'
+            for i in range(len(gamma21)):
+                f.write(fs.format(z[i],
+                                e1450_18[i], e1450_18_up[i], e1450_18_low[i],
+                                e1450_21[i], e1450_21_up[i], e1450_21_low[i],
+                                e912_18[i], e912_18_up[i], e912_18_low[i],
+                                e912_21[i], e912_21_up[i], e912_21_low[i],                            
+                                gamma18[i], gamma18_up[i], gamma18_low[i],
+                                gamma21[i], gamma21_up[i], gamma21_low[i]))
     
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(zs_hm12, gs_hm12/1.0e-12, c='maroon', lw=2, zorder=4,
