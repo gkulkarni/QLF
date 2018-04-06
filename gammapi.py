@@ -50,6 +50,42 @@ def get_emissivity(lfi, z, Mfaint=-18.0):
     return 
 
 
+def f_1450(loglf, theta, M, z, fit='composite'):
+    # SED power law index is from Beta's paper.
+    L = luminosity(M)
+    if fit=='individual':
+        # If this gammapi calculation is for an individual fit (in,
+        # say, fitlf.py) then loglf might not have any z argument.
+        return (10.0**loglf(theta, M))*L
+    return (10.0**loglf(theta, M, z))*L
+
+
+def emissivity_1450(loglf, theta, z, mlims, fit='composite'):
+    # mlims = (lowest magnitude, brightest magnitude)
+    #       = (brightest magnitude, faintest magnitude)
+    m = np.linspace(mlims[0], mlims[1], num=1000)
+    if fit=='individual':
+        farr = f_1450(loglf, theta, m, z, fit='individual')
+    else:
+        farr = f_1450(loglf, theta, m, z)
+    return np.trapz(farr, m) # erg s^-1 Hz^-1 Mpc^-3
+
+
+def get_emissivity_1450(lfi, z, Mfaint=-18.0):
+
+    rindices = np.random.randint(len(lfi.samples), size=300)
+    e = np.array([emissivity_1450(lfi.log10phi, theta, z, (-30.0, Mfaint), fit='individual')
+                          for theta
+                          in lfi.samples[rindices]])
+    l = np.percentile(e, 15.87) 
+    u = np.percentile(e, 84.13)
+    c = np.mean(e)
+    lfi.emissivity_1450 = [u, l, c]
+
+    return 
+
+
+
 def Gamma_HI(loglf, theta, z, fit='composite'):
 
     if fit=='composite':
@@ -499,6 +535,51 @@ def akiyama18(ax, only18=False, only21=False):
                 zorder=9, mew=1, linewidths=1.5)
     
     return
+
+def parsa18(ax, only18=False, only21=False):
+
+    z = np.array([4.25, 4.75, 5.75])
+    e18 = np.array([3.9619, 1.5898, 0.3401])*1.0e24
+    e21 = np.array([2.6278, 1.0707, 0.2323])*1.0e24 
+
+    if only18:
+        ax.scatter(z, e18, c='dodgerblue', edgecolor='None',
+                   s=36, zorder=9, linewidths=2, label='Parsa et al.\ 2018', marker='D')
+        z_err = np.array([0.25, 0.25, 0.75])
+        ax.errorbar(z, e18, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+                    xerr=z_err,
+                    zorder=9, mew=1, linewidths=1.5)
+    if only21:
+        ax.scatter(z, e21, c='dodgerblue', edgecolor='None',
+                   s=36, zorder=9, linewidths=2, label='Parsa et al.\ 2018', marker='D')
+        z_err = np.array([0.25, 0.25, 0.75])
+        ax.errorbar(z, e21, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+                    xerr=z_err,
+                    zorder=9, mew=1, linewidths=1.5)
+
+    return
+
+def masters12(ax, only18=False, only21=False):
+
+    z = np.array([3.25, 3.75])
+    e18 = np.array([5.3431, 1.7853])*1.0e24
+    e21 = np.array([4.3646, 1.5072])*1.0e24
+
+    if only18:
+        ax.scatter(z, e18, c='dodgerblue', edgecolor='None',
+                   s=66, zorder=9, linewidths=2, label='Masters et al.\ 2012', marker='*')
+        z_err = np.array([0.25, 0.25])
+        ax.errorbar(z, e18, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+                    xerr=z_err,
+                    zorder=9, mew=1, linewidths=1.5)
+    if only21:
+        ax.scatter(z, e21, c='dodgerblue', edgecolor='None',
+                   s=66, zorder=9, linewidths=2, label='Masters et al.\ 2012', marker='*')
+        z_err = np.array([0.25, 0.25])
+        ax.errorbar(z, e21, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+                    xerr=z_err,
+                    zorder=9, mew=1, linewidths=1.5)
+
     
 def draw_emissivity(all_individuals, zlims, composite=None, select=False):
 
@@ -548,8 +629,61 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
                 ms=5)
     ax.scatter(zs, em, c='#ffffff', edgecolor='k',
                label='This work ($M_\mathrm{1450}<-18$)',
-               s=48, zorder=6, linewidths=1.5) 
+               s=48, zorder=6, linewidths=1.5)
 
+    tabulate = True
+    if tabulate:
+        # This will ruin the fits below so turn off when not in use!
+        # See emissivity.txt and tabulate_emissivity.py for how to use
+        # this information.
+
+        zs = np.array([x.z.mean() for x in all_individuals])
+        uz = np.array([x.zlims[0] for x in all_individuals])
+        lz = np.array([x.zlims[1] for x in all_individuals])
+        uzerr = uz-zs
+        lzerr = zs-lz 
+        
+        for x in all_individuals:
+            get_emissivity(x, x.z.mean(), Mfaint=-18.0)
+        c2 = np.array([x.emissivity[2] for x in all_individuals])
+        u2 = np.array([x.emissivity[0] for x in all_individuals])
+        l2 = np.array([x.emissivity[1] for x in all_individuals])
+        em = c2
+        em_up = u2 - c2
+        em_low = c2 - l2 
+
+        for x in all_individuals:
+            get_emissivity_1450(x, x.z.mean(), Mfaint=-18.0)
+        c2 = np.array([x.emissivity_1450[2] for x in all_individuals])
+        u2 = np.array([x.emissivity_1450[0] for x in all_individuals])
+        l2 = np.array([x.emissivity_1450[1] for x in all_individuals])
+        em_1450 = c2
+        em_up_1450 = u2 - c2
+        em_low_1450 = c2 - l2
+
+        for x in all_individuals:
+            get_emissivity(x, x.z.mean(), Mfaint=-21.0)
+        c2 = np.array([x.emissivity[2] for x in all_individuals])
+        u2 = np.array([x.emissivity[0] for x in all_individuals])
+        l2 = np.array([x.emissivity[1] for x in all_individuals])
+        em21 = c2
+        em21_up = u2 - c2
+        em21_low = c2 - l2 
+
+        for x in all_individuals:
+            get_emissivity_1450(x, x.z.mean(), Mfaint=-21.0)
+        c2 = np.array([x.emissivity_1450[2] for x in all_individuals])
+        u2 = np.array([x.emissivity_1450[0] for x in all_individuals])
+        l2 = np.array([x.emissivity_1450[1] for x in all_individuals])
+        em21_1450 = c2
+        em21_up_1450 = u2 - c2
+        em21_low_1450 = c2 - l2 
+        
+        for i in range(len(zs)):
+            print zs[i], lz[i], uz[i], em[i]/1.0e24, em_up[i]/1.0e24, em_low[i]/1.0e24, em_1450[i]/1.0e24, em_up_1450[i]/1.0e24, em_low_1450[i]/1.0e24, em21[i]/1.0e24, em21_up[i]/1.0e24, em21_low[i]/1.0e24, em21_1450[i]/1.0e24, em21_up_1450[i]/1.0e24, em21_low_1450[i]/1.0e24
+
+        return 
+            
     # Plot best-fit model for Mlim=-18
     def func(z, a, b, c, d, e):
         e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
@@ -593,6 +727,44 @@ def draw_emissivity(all_individuals, zlims, composite=None, select=False):
                 xerr=np.vstack((lzerr, uzerr)), 
                 mfc='#ffffff', mec='#404040', zorder=11, mew=1,
                 ms=5)
+
+    for x in individuals_good:
+        get_emissivity_1450(x, x.z.mean(), Mfaint=-21.0)
+    c2 = np.array([x.emissivity_1450[2] for x in individuals_good])
+    u2 = np.array([x.emissivity_1450[0] for x in individuals_good])
+    l2 = np.array([x.emissivity_1450[1] for x in individuals_good])
+    em_1450 = c2
+    em_up_1450 = u2 - c2
+    em_low_1450 = c2 - l2 
+    
+    if tabulate:
+
+        zs = np.array([x.z.mean() for x in all_individuals])
+        uz = np.array([x.zlims[0] for x in all_individuals])
+        lz = np.array([x.zlims[1] for x in all_individuals])
+        uzerr = uz-zs
+        lzerr = zs-lz 
+        
+        for x in all_individuals:
+            get_emissivity(x, x.z.mean(), Mfaint=-21.0)
+        c2 = np.array([x.emissivity[2] for x in all_individuals])
+        u2 = np.array([x.emissivity[0] for x in all_individuals])
+        l2 = np.array([x.emissivity[1] for x in all_individuals])
+        em = c2
+        em_up = u2 - c2
+        em_low = c2 - l2 
+
+        for x in all_individuals:
+            get_emissivity_1450(x, x.z.mean(), Mfaint=-21.0)
+        c2 = np.array([x.emissivity_1450[2] for x in all_individuals])
+        u2 = np.array([x.emissivity_1450[0] for x in all_individuals])
+        l2 = np.array([x.emissivity_1450[1] for x in all_individuals])
+        em_1450 = c2
+        em_up_1450 = u2 - c2
+        em_low_1450 = c2 - l2 
+        
+        for i in range(len(zs)):
+            print zs[i], lz[i], uz[i], em[i]/1.0e23, em_up[i]/1.0e23, em_low[i]/1.0e23, em_1450[i]/1.0e23, em_up_1450[i]/1.0e23, em_low_1450[i]/1.0e23    
 
     sigma = u-l 
     samples = fit_emissivity.fit(zs, em, sigma)
@@ -805,6 +977,7 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     m[reject] = False
     minv = np.logical_not(m) 
     individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(all_individuals) if i in set(reject)]
 
     # Plot individual emissivits for Mlim = -18 
     for x in individuals_good:
@@ -850,17 +1023,40 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     b = np.median(e, axis=0)
     tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
 
+    show_bad = True
+    if show_bad:
+        for x in individuals_bad:
+            get_emissivity(x, x.z.mean(), Mfaint=-18.0)
+        c = np.array([x.emissivity[2] for x in individuals_bad])
+        u = np.array([x.emissivity[0] for x in individuals_bad])
+        l = np.array([x.emissivity[1] for x in individuals_bad])
+        em = c
+        em_up = u - c
+        em_low = c - l 
+        zs = np.array([x.z.mean() for x in individuals_bad])
+        uz = np.array([x.zlims[0] for x in individuals_bad])
+        lz = np.array([x.zlims[1] for x in individuals_bad])
+        uzerr = uz-zs
+        lzerr = zs-lz 
+        ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                    yerr=np.vstack((em_low, em_up)),
+                    xerr=np.vstack((lzerr, uzerr)), 
+                    mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                    ms=5)
+        ax.scatter(zs, em, c='#ffffff', edgecolor='k',
+                   s=42, zorder=6, linewidths=1.5) 
+
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
     eg *= 1.0e24
     eg_lerr *= 1.0e24
     eg_uerr *= 1.0e24
-    ax.errorbar(zg, eg, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+    ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
                 xerr=np.vstack((zg_lerr, zg_uerr)),
                 yerr=np.vstack((eg_lerr, eg_uerr)), 
                 zorder=3, mew=1)
 
-    ax.scatter(zg, eg, c='blue', edgecolor='None',
+    ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
                label='Giallongo et al.\ 2015', marker='s',
                s=36, zorder=4, linewidths=1.5)
 
@@ -878,19 +1074,19 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     # number is rederived by Gabor.  See his email of 8 March 2018.
     z_Schulze09 = np.array([0.0])
     e_Schulze09 = np.array([0.2561e24]) # erg/s/Hz/Mpc^3
-    ax.scatter(z_Schulze09, e_Schulze09, c='blue', edgecolor='None', marker='p',
+    ax.scatter(z_Schulze09, e_Schulze09, c='dodgerblue', edgecolor='None', marker='p',
                s=36, zorder=12, linewidths=2, label='Schulze et al.\ 2009')
 
     # Emissivity at z = 5 from McGreer et al. 2018 AJ 155 131.  This
     # number is rederived by Gabor.  See his email of 12 March 2018.
     z_McGreer18 = np.array([4.9])
     e_McGreer18 = np.array([0.9641e24]) # erg/s/Hz/Mpc^3
-    ax.scatter(z_McGreer18, e_McGreer18, c='blue', edgecolor='None',
+    ax.scatter(z_McGreer18, e_McGreer18, c='dodgerblue', edgecolor='None',
                s=36, zorder=10, linewidths=2, label='McGreer et al.\ 2018')
 
     z_McGreer_lerr = np.array([4.9-4.7])
     z_McGreer_uerr = np.array([5.1-4.9])
-    ax.errorbar(z_McGreer18, e_McGreer18, ecolor='blue', capsize=0, fmt='None', elinewidth=1.5,
+    ax.errorbar(z_McGreer18, e_McGreer18, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
                 xerr=np.vstack((z_McGreer_lerr, z_McGreer_uerr)),
                 zorder=10, mew=1, linewidths=1.5)
     
@@ -902,7 +1098,7 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     de_Onoue17 = emax_Onoue17 - emin_Onoue17
     rect = mpatches.Rectangle((zmin_Onoue17, emin_Onoue17),
                               dz_Onoue17, de_Onoue17,
-                              ec='blue', color='None',
+                              ec='dodgerblue', color='None',
                               lw=2, zorder=10, label='Onoue et al.\ 2017')
     ax.add_patch(rect)
 
@@ -913,6 +1109,10 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     c17(ax, only18=True)
 
     akiyama18(ax, only18=True)
+
+    parsa18(ax, only18=True)
+
+    masters12(ax, only18=True)
     
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
@@ -920,19 +1120,23 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
 
     #print len(handles)
     # myorder = [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 7, 8, 7, 12]
-    myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    # myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    # handles = [handles[x] for x in myorder]
+    # labels = [labels[x] for x in myorder]
+
+    myorder = [9, 13, 8, 11, 10, 12, 6, 0, 1, 2, 3, 4, 5, 7, 14]
     handles = [handles[x] for x in myorder]
     labels = [labels[x] for x in myorder]
     
-    plt.legend(handles, labels, loc='center', fontsize=10, handlelength=3,
+    plt.legend(handles, labels, loc='center', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1, #ncol=2, columnspacing=2,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.2])
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.24])
 
     plt.text(0.94, 0.94, '$M_\mathrm{1450}<-18$', horizontalalignment='right',
              verticalalignment='center', transform=ax.transAxes, fontsize='16')
     
     
-    plt.savefig('emissivity.pdf',bbox_inches='tight')
+    plt.savefig('emissivity_18.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
@@ -964,6 +1168,7 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
     m[reject] = False
     minv = np.logical_not(m) 
     individuals_good = [x for i, x in enumerate(all_individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(all_individuals) if i in set(reject)]
 
     # Plot individual emissivits for Mlim = -18 
     for x in individuals_good:
@@ -1008,6 +1213,29 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
     tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
     b = np.median(e, axis=0)
     tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
+
+    show_bad = True
+    if show_bad:
+        for x in individuals_bad:
+            get_emissivity(x, x.z.mean(), Mfaint=-21.0)
+        c = np.array([x.emissivity[2] for x in individuals_bad])
+        u = np.array([x.emissivity[0] for x in individuals_bad])
+        l = np.array([x.emissivity[1] for x in individuals_bad])
+        em = c
+        em_up = u - c
+        em_low = c - l 
+        zs = np.array([x.z.mean() for x in individuals_bad])
+        uz = np.array([x.zlims[0] for x in individuals_bad])
+        lz = np.array([x.zlims[1] for x in individuals_bad])
+        uzerr = uz-zs
+        lzerr = zs-lz 
+        ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                    yerr=np.vstack((em_low, em_up)),
+                    xerr=np.vstack((lzerr, uzerr)), 
+                    mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                    ms=5)
+        ax.scatter(zs, em, c='#ffffff', edgecolor='k',
+                   s=42, zorder=6, linewidths=1.5) 
 
     zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
@@ -1072,14 +1300,18 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
     c17(ax, only21=True)
 
     akiyama18(ax, only21=True)
+
+    parsa18(ax, only21=True)
+
+    masters12(ax, only21=True)
     
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
     labels.append('Kulkarni et al.\ 2018 (this work; fit)')
 
     #print len(handles)
-    # myorder = [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 7, 8, 7, 12]
-    myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    # myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
+    myorder = [9, 13, 8, 11, 10, 12, 6, 0, 1, 2, 3, 4, 5, 7, 14]
     handles = [handles[x] for x in myorder]
     labels = [labels[x] for x in myorder]
     
