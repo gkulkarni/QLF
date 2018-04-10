@@ -1471,38 +1471,46 @@ Bongiorno.
     \includegraphics[scale=0.65]{g.pdf}
   \end{center}
   \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming 100\% escape fraction.  Model luminosity functions are
-    integrated down to $M_{1450}=-18$ in the left panel and $-20$ in
-    the right panel.  The solid black curve shows the hydrogen
-    photoionisate rate in our best-fit global model, and the yellow
-    curves show a random sample from the global posterior.  The red
-    points with error bars in this figure show the measurements of
-    \citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$
-    forest, and the orange points show the measurements by
-    \citet{2011MNRAS.412.2543C} from quasar proximity zones.  The
-    dashed green curve shows the hydrogen photoionisation rate
-    evolution in the model of \citet{2012ApJ...746..125H}, while the
-    solid green curve shows the contribution of quasars to it. }
+    assuming unit escape fraction, when the AGN luminosity function is
+    integrated down to $M_{1450}=-21$ (blue curve and shaded region)
+    and $M_{1450}=-18$ (red curve and shaded region).  The shaded
+    regions show the one-sigma (68.26\%) uncertainty.  Also shown are
+    the photoionization rate measurements by \citet[filled
+      circles]{2013MNRAS.436.1023B}, \citet[inverted
+      triangles]{2011MNRAS.412.2543C}, and
+    \citet[pentagons]{2017MNRAS.467.3172G}, and models of
+    \citet[dotted brown curve]{2012ApJ...746..125H}, the QSO
+    contribution in this model (dashed grey), \citet[dashed
+      brown]{2015ApJ...813L...8M}, the QSO contribution from the model
+    of \citet[dashed orange]{2015MNRAS.451L..30K}, \citet[dotted
+      grey]{2017ApJ...837..106O}, and \citet[dashed
+      grey]{2018arXiv180104931P}.}
   \label{fig:gammapi}
 \end{figure*}
 
 \subsection{Hydrogen photoionization rate}
 \label{sec:gammahi}
 
-The 1~Ry emissivity can now be used to calculate the ionizing flux and
-photoionization rate contributed by quasars.  The frequency dependence
-above 1~Ry is given by Equation~(\ref{eqn:sed}) or
-(\ref{eqn:sed_faint}), so that for $\nu > \nu_{912}$
+The 912\,\AA\ emissivity can now be used to calculate the hydrogen
+ionizing flux and the hydrogen photoionization rate contributed by
+AGN.  This adds an additional layer of uncertainty as the \HI\ column
+density structure of the IGM has not been measured at all redshifts of
+interests, thereby requiring uncertain extrapolation.  The frequency
+dependence of the AGN SED above 1~Ry is given by
+Equation~(\ref{eqn:sed}) or (\ref{eqn:sed_faint}), so that for $\nu >
+\nu_{912}$
 \begin{equation}
   \epsilon_\nu = \epsilon_{912}\left(\frac{\nu}{\nu_{912}}\right)^\alpha,
   \label{eqn:epsilon_freq}
 \end{equation}
 where $\alpha=-1.70$ (Equation~\ref{eqn:sed}) or $-0.56$
-(Equation~\ref{eqn:sed_faint}).  The flux in the IGM is
-written as a solution of the cosmological radiative transfer equation
-as \citep{2012ApJ...746..125H}
+(Equation~\ref{eqn:sed_faint}).  We assume that faint AGN
+($M_{1450}>-23$) have the shallower spectral slope.  The flux in the
+IGM is written as a solution of the cosmological radiative transfer
+equation as \citep{2012ApJ...746..125H}
 \begin{multline}
-  j(\nu_0, z_0)=\frac{1}{4\pi}\int_{z_0}^\infty dz\frac{dl}{dz}\frac{(1+z_0)^3}{(1+z)^3}\epsilon(\nu,z)\\
+  j(\nu_0, z_0)=\frac{1}{4\pi}\int_{z_0}^\infty dz\frac{dl}{dz}
+  \frac{(1+z_0)^3}{(1+z)^3}\epsilon(\nu,z)\\
   \times\exp{(-\tau_\mathrm{eff}(\nu_0, z_0, z))},
   \label{eqn:flux}
 \end{multline}
@@ -1512,113 +1520,64 @@ where
 \end{equation}
 Here the effective optical depth is estimated as
 \begin{equation}
-  \tau_\mathrm{eff}(\nu_0, z_0, z) = \int_{z_0}^z dz^\prime\int_0^\infty dN_\mathrm{HI} f(N_\mathrm{HI}, z^\prime) (1-e^{-\tau_\nu}),
+  \tau_\mathrm{eff}(\nu_0, z_0, z) = \int_{z_0}^z dz^\prime\int_0^\infty
+  dN_\mathrm{HI} f(N_\mathrm{HI}, z^\prime) (1-e^{-\tau_\nu}),
 \end{equation}
-where $\tau_\nu=\sigma_\nu N_\mathrm{HI}$ and the column density
-distribution $f(N_\mathrm{HI}, z)$ is taken to be a power law \citep{2013MNRAS.436.1023B}
+where $\tau_\nu=\sigma_\nu N_\mathrm{HI}$.  (We ignore the small
+contribution of helium to the opacity.)  We assume the \HI\ column
+density distribution given by \citet{2012ApJ...746..125H}.  The
+\HI\ photoionization rate is then given by
 \begin{equation}
-  f(N_\mathrm{HI}, z) = \frac{A}{N_\mathrm{LL}}\left(\frac{N_\mathrm{HI}}{N_\mathrm{LL}}\right)^{-\beta_N}\left(\frac{1+z}{4.5}\right)^{-\beta_z},
+  \Gamma_\mathrm{HI}=\int_{\nu_{912}}^\infty d\nu
+  \frac{4\pi j(\nu,z)}{h\nu} \sigma(\nu),
 \end{equation}
-with $A=0.93$, $\beta_N=1.33$, $\beta_z=1.92$, and
-$N_\mathrm{LL}=10^{17.2}$~cm$^{-2}$.  The hydrogen photoionization
-rate is then given by
-\begin{equation}
-  \Gamma_\mathrm{HI}=4\pi\int_{\nu_{912}}^\infty d\nu \frac{j(\nu,z)}{h\nu} \sigma(\nu),
-\end{equation}
-where $\sigma$ is the photoionization cross-section.  The result is
-shown in Figure~\ref{fig:gammapi}, in which as before the solid black
-curve shows the hydrogen photoionisate rate in our best-fit global
-model, and the yellow curves show a random sample from the global
-posterior.  Also, as before, the right panel of
-Figure~\ref{fig:gammapi} shows the result when we only account for
-quasars brighter than $M_{1450}=-20$, while the left panel shows the
-result when the integration limit is $M_{1450}=-18$.  The red points
-with error bars in this figure show the measurements of
-\citet{2013MNRAS.436.1023B}, derived from the Lyman-$\alpha$ forest,
-and the orange points show the measurements by
-\citet{2011MNRAS.412.2543C} from quasar proximity zones.  The dashed
-green curve shows the hydrogen photoionisation rate evolution in the
-model of \citet{2012ApJ...746..125H}, while the solid green curve
-shows the contribution of quasars to it.
+where $\sigma$ is the photoionization cross-section.  We assume an
+upper limit of $z=15$ while integrating Equation~(\ref{eqn:flux}).
+The result is shown in Figure~\ref{fig:gammapi} for the luminosity
+function integration limits of $M_{1450}=-21$ and $-18$.  Also shown
+for comparison are the measurements of \citet{2013MNRAS.436.1023B},
+derived from the Lyman-$\alpha$ forest, and the measurements by
+\citet{2011MNRAS.412.2543C} from quasar proximity zones.  For an
+integration limit of $M_{1450}=-21$ the AGN contribution to the
+hydrogen photoionization rate falls short of 100\% across the redshift
+range.  It is marginally consistent with the measured photoionization
+rate at $z=2.4$.  The photoionization rate in our model for
+$M_{1450}=-21$ has the same evolution but a higher amplitude by a
+factor of $\sim 2$ as the QSO contribution to the \HI\ photoionization
+rate in the model of \citet{2012ApJ...746..125H}.  For both of our
+integration limits, the photoionisation rate peaks at $z\sim 2$.  For
+the integration limit of $M_{1450}=-18$, AGN can provide all the flux
+necessary to explain the observed \lya forest between $z=2.4$ and
+$3.2$, with a contribution from other sources necessary only at higher
+redshifts.  The photoionization rate in the $M_{1450}<-18$ case also
+agrees with the inference of \citet{2017MNRAS.467.3172G} from the
+low-redshift ($z<0.6$) \lya\ data.  We discuss this low-redshift
+evolution in greater detail in the next section.
 
-The black open circles show the photoionisation rate values derived
-from our fits in the individual redshift bins.  However, note that
-unlike in the global model it is not possible to do the integral in
-Equation~(\ref{eqn:flux}) for these individual fits.  We can only
-derive the photoionisatoin rate by assuming what is known as the local
-source approximation, that is by assuming that the photons emitted at
-redshift $z$ are absorbed at the same redshift without propagation to
-large distances.
-
-In the local source approximation, Equation~(\ref{eqn:flux}) becomes
-\begin{equation}
-  j(\nu_0, z_0) = \frac{1}{4\pi}\lambda_\mathrm{mfp}(\nu_0, z_0)\epsilon(\nu_0, z_0),
-\end{equation}
-where $\lambda_\mathrm{mfp}$ is the mean free path.  The hydrogen
-photoionization rate is given by
-\begin{equation}
-  \Gamma_\mathrm{HI}=4\pi\int_{\nu_{912}}^\infty d\nu \frac{j_\nu}{h\nu} \sigma(\nu),
-  \label{eqn:gammapi}
-\end{equation}
-where $\sigma$ is the ionization cross-section
-\begin{equation}
-  \sigma(\nu) = \sigma_0\left(\frac{\nu}{\nu_{912}}\right)^{-3},
-  \label{eqn:sigma}
-\end{equation}
-with $\sigma_0=6.3\times 10^{-18}$~cm$^2$ \citep{2006agna.book.....O}.
-In the redshift range $z=2.3$--$5.5$, the mean free path is measured
-to be \citep{2014MNRAS.445.1745W}
-\begin{equation}
-  \lambda_\mathrm{mfp}(\nu, z)= \lambda_0\left(\frac{1+z}{5}\right)^{-5.4}\left(\frac{\nu}{\nu_{912}}\right)^{1.5},
-  \label{eqn:mfp}
-\end{equation}
-where the frequency dependence comes from the assumed column density
-distribution $f(N_\mathrm{HI})\propto N_\mathrm{HI}^{-1.5}$.  We
-extrapolate the redshift dependence in Equation~(\ref{eqn:mfp}) at
-$z<2.3$ and $z>5.5$.  Combining Equations~(\ref{eqn:epsilon_freq}),
-(\ref{eqn:sigma}), and (\ref{eqn:mfp}), Equation~(\ref{eqn:gammapi})
-gives
-\begin{multline}
-  \Gamma_\mathrm{HI}=4.6\times 10^{-13} \mathrm{s}^{-1} \left(\frac{\epsilon_{912}}{10^{24}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}}}\right)\\
-  \times\left(\frac{1}{1.5-\alpha}\right)\left(\frac{1+z}{5}\right)^{-2.4}.
-\end{multline}
-Note that this equation refers to the \emph{comoving} emissivity.  The
-local source approximation works well for $z>3$, as can be seen in
-Figure~\ref{fig:gammapi}, where the points from the individual fits
-are in much better agreement with the curves from the global model.
-At lower redshift, the photoionisation rate in the individual models
-is much higher than that in the global model, because the individual
-models overestimate the flux at these redshifts. 
-
-%% \begin{figure*}
-%%   \begin{center}
-%%     \includegraphics[width=\textwidth,keepaspectratio]{evolution.pdf}
-%%   \end{center}
-%%   \caption{Parameter evolution from individual fits.  Coloured points
-%%     show results when Giallongo quasars are not included.  Black
-%%     points show results when Giallongo quasars are included.}
-%% \end{figure*}
-
-%% \begin{figure}
-%%   \begin{center}
-%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal_dense.pdf}
-%%   \end{center}
-%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
-%% \end{figure}
-
-%% \begin{figure}
-%%   \begin{center}
-%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff.pdf}
-%%   \end{center}
-%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
-%% \end{figure}
-
-%% \begin{figure}
-%%   \begin{center}
-%%     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_diff_ind.pdf}
-%%   \end{center}
-%%   \caption{Alternative presentation of Figure~\ref{fig:rhoqso}.}
-%% \end{figure}
+An important conclusion from Figure~\ref{fig:gammapi} is that the AGN
+contribution to hydrogen reionization is likely subdominant, although
+it can be non-negligible if faint AGN down to $M_{1450}=-18$ emit
+hydrogen-ionizing photons with our assumed SED and a unit escape
+fraction.  At $z=6.1$, AGN with $M_{1450}<-18$ contribute about $10\%$
+of the required \HI\ ionizing flux.  The contribution of
+$M_{1450}<-21$ at this redshift is $\sim 3\%$.  At $z=6$, our
+determinations are lower than those by \citet{2015AA...578A..83G} by
+almost an order of magnitude.  This difference arises from the
+difference in the inferred emissivities in our models relative to
+\citet{2015AA...578A..83G}, as discussed in the previous section.  The
+photoionization rate evolution in the model of
+\citet{2015ApJ...813L...8M} agrees with our determination at low
+redshifts ($z<0.5$) for $M_{1450}<-18$ but is much higher at $z>4$, as
+expected from the higher emissivities assumed by these authors.  At
+$3<z<6$ our model photoionization rates are understandably lower than
+those in the models of \citet{2017ApJ...837..106O} and
+\citet{2018arXiv180104931P} as these authors include contribution to
+the photoionization rate from galaxies in their models. The
+differences in our model from that of \citet{2015MNRAS.451L..30K} are
+a result of our differences from the reported emissivities of
+\citet{2009MNRAS.392...19C} and \citet{2013A&A...551A..29P}, which are
+used by \citet{2015MNRAS.451L..30K} to derive an emissivity evolution
+model.
 
 \subsection{Photon underproduction at $z=0$?}
 % Kollmeier number of ~10 times higher than HM12 in figure.
@@ -1649,9 +1608,6 @@ that the discrepancy between the photoionization rate required by the
 observed \HI\ column density distribution and predicted by the UVB
 model of \citet{2012ApJ...746..125H} is likely to be smaller than that
 found by \citet{2014ApJ...789L..32K}.
-
-%% The discrepancy is about a
-%% factor of two instead of five.
 
 \begin{figure}
   \begin{center}
