@@ -36,7 +36,7 @@
     F.~Hennawi$^{3}$} \\ $^1$Institute of Astronomy and Kavli
   Institute of Cosmology, University of Cambridge, Madingley Road,
   Cambridge CB3 0HA, UK \\ $^2$Institute f\"ur Physik und Astronomie,
-  Universit\"at Potsdam, Karl-Liebknecht-Str.\ 24/25, 14476 Potsdam,
+  Universit\"at Potsdam, Karl-Liebknecht-Stra\ss e\ 24/25, 14476 Potsdam,
   Germany\\ $^3$Department of Physics, Broida Hall, UC Santa Barbara,
   Santa Barbara, CA 93106-9530 USA}
 \date{Accepted ---. Received ---; in original form ---}
@@ -243,7 +243,7 @@ observed magnitudes are point spread function (PSF) magnitudes
     \includegraphics[width=\textwidth]{qsos.pdf}
     % data.py 
   \end{center}
-  \caption{Redshift distribution of the XX quasars considered in this
+  \caption{Redshift distribution of the 86,015 AGN considered in this
     analysis.  Shown here are the observed quasar numbers, without
     correcting for incompleteness.  Further details on each of these
     data sets are in Table~\ref{tab:samples} and
@@ -755,36 +755,52 @@ In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
     functions are shown in Figure~\ref{fig:mosaic}.  See
     Section~\ref{sec:bins} for further details.}
   \label{tab:bins}
-  \begin{tabular}{ccccrcccc}
+  \begin{tabular}{ccccr....}
     \hline
-    $\langle z\rangle$ & $z_\mathrm{bin}$ & $z_\mathrm{min}$ & $z_\mathrm{max}$ & $N_\mathrm{qso}$ & $\log_{10}(\phi_*/$ & $M_*$ & $\alpha$ & $\beta$ \\
-    & & & & & cMpc$^{-3}$mag$^{-1}$) & & & \\
+    $\langle z\rangle$ &
+    $z_\mathrm{bin}$ &
+    $z_\mathrm{min}$ &
+    $z_\mathrm{max}$ &
+    $N_\mathrm{qso}$ &
+    \multicolumn{1}{c}{$\log_{10}(\phi_*/$} &
+    \multicolumn{1}{c}{$M_*$} &
+    \multicolumn{1}{c}{$\alpha$} &
+    \multicolumn{1}{c}{$\beta$} \\
+    
+    &
+    &
+    &
+    &
+    &
+    \multicolumn{1}{c}{cMpc$^{-3}$mag$^{-1}$)} &
+    &
+    & \\
     \hline
-    $0.31$ & $0.25$ & $0.10$ & $0.40$ & 3520 & $-5.62^{+0.09}_{-0.10}$ & $-21.37^{+0.21}_{-0.22}$ & $-2.94^{+0.09}_{-0.10}$ & $-1.22^{+0.18}_{-0.16}$ \\
-    $0.50$ & $0.50$ & $0.40$ & $0.60$ & 4555 & $-6.12^{+0.04}_{-0.04}$ & $-23.00^{+0.08}_{-0.08}$ & $-3.37^{+0.07}_{-0.08}$ & $-1.36^{+0.04}_{-0.04}$ \\
-    $0.72$ & $0.70$ & $0.60$ & $0.80$ & 3308 & $-6.42^{+0.09}_{-0.08}$ & $-24.03^{+0.15}_{-0.13}$ & $-3.55^{+0.12}_{-0.13}$ & $-1.75^{+0.05}_{-0.04}$ \\
-    $0.91$ & $0.90$ & $0.80$ & $1.00$ & 3922 & $-6.39^{+0.08}_{-0.07}$ & $-24.51^{+0.12}_{-0.11}$ & $-3.69^{+0.10}_{-0.11}$ & $-1.73^{+0.06}_{-0.05}$ \\
-    $1.10$ & $1.10$ & $1.00$ & $1.20$ & 6367 & $-6.53^{+0.03}_{-0.03}$ & $-25.14^{+0.04}_{-0.04}$ & $-4.17^{+0.08}_{-0.09}$ & $-1.73^{+0.02}_{-0.02}$ \\
-    $1.30$ & $1.30$ & $1.20$ & $1.40$ & 6479 & $-6.43^{+0.04}_{-0.04}$ & $-25.29^{+0.06}_{-0.06}$ & $-3.97^{+0.08}_{-0.08}$ & $-1.74^{+0.03}_{-0.03}$ \\
-    $1.50$ & $1.50$ & $1.40$ & $1.60$ & 7539 & $-6.51^{+0.03}_{-0.03}$ & $-25.68^{+0.04}_{-0.04}$ & $-4.28^{+0.08}_{-0.08}$ & $-1.75^{+0.02}_{-0.02}$ \\
-    $1.71$ & $1.70$ & $1.60$ & $1.80$ & 6788 & $-6.28^{+0.04}_{-0.04}$ & $-25.55^{+0.05}_{-0.05}$ & $-3.96^{+0.07}_{-0.07}$ & $-1.60^{+0.03}_{-0.03}$ \\
-    $1.98$ & $2.00$ & $1.80$ & $2.20$ & 10478 & $-6.72^{+0.03}_{-0.03}$ & $-26.26^{+0.04}_{-0.04}$ & $-4.20^{+0.07}_{-0.07}$ & $-1.87^{+0.02}_{-0.02}$ \\
-    $2.25$ & $2.25$ & $2.20$ & $2.30$ & 4102 & $-5.98^{+0.10}_{-0.09}$ & $-25.26^{+0.19}_{-0.18}$ & $-3.21^{+0.15}_{-0.16}$ & $-1.54^{+0.07}_{-0.06}$ \\
-    $2.35$ & $2.35$ & $2.30$ & $2.40$ & 4317 & $-6.28^{+0.09}_{-0.09}$ & $-25.63^{+0.17}_{-0.15}$ & $-3.39^{+0.17}_{-0.19}$ & $-1.64^{+0.06}_{-0.05}$ \\
-    $2.45$ & $2.45$ & $2.40$ & $2.50$ & 3403 & $-6.40^{+0.08}_{-0.07}$ & $-25.86^{+0.14}_{-0.13}$ & $-3.60^{+0.20}_{-0.21}$ & $-1.60^{+0.05}_{-0.05}$ \\
-    $2.65$ & $2.65$ & $2.60$ & $2.70$ & 1883 & $-5.98^{+0.06}_{-0.06}$ & $-25.15^{+0.14}_{-0.13}$ & $-3.13^{+0.12}_{-0.13}$ & $-1.05^{+0.09}_{-0.08}$ \\
-    $2.75$ & $2.75$ & $2.70$ & $2.80$ & 1135 & $-6.30^{+0.08}_{-0.07}$ & $-25.96^{+0.15}_{-0.13}$ & $-3.81^{+0.28}_{-0.31}$ & $-1.34^{+0.07}_{-0.06}$ \\
-    $2.85$ & $2.85$ & $2.80$ & $2.90$ & 1069 & $-6.46^{+0.12}_{-0.10}$ & $-26.23^{+0.23}_{-0.18}$ & $-3.60^{+0.36}_{-0.42}$ & $-1.46^{+0.08}_{-0.07}$ \\
-    $2.95$ & $2.95$ & $2.90$ & $3.00$ & 1104 & $-6.77^{+0.07}_{-0.06}$ & $-26.53^{+0.10}_{-0.09}$ & $-5.05^{+0.60}_{-0.64}$ & $-1.71^{+0.05}_{-0.04}$ \\
-    $3.05$ & $3.05$ & $3.00$ & $3.10$ & 1127 & $-6.77^{+0.08}_{-0.07}$ & $-26.48^{+0.12}_{-0.10}$ & $-4.71^{+0.46}_{-0.52}$ & $-1.70^{+0.06}_{-0.05}$ \\
-    $3.15$ & $3.15$ & $3.10$ & $3.20$ & 1041 & $-7.25^{+0.17}_{-0.12}$ & $-27.09^{+0.25}_{-0.18}$ & $-4.42^{+0.81}_{-1.23}$ & $-1.96^{+0.08}_{-0.06}$ \\
-    $3.25$ & $3.25$ & $3.20$ & $3.30$ & 815 & $-7.33^{+0.13}_{-0.13}$ & $-27.19^{+0.19}_{-0.23}$ & $-4.36^{+0.65}_{-0.76}$ & $-1.93^{+0.06}_{-0.06}$ \\
-    $3.34$ & $3.35$ & $3.30$ & $3.40$ & 510 & $-7.54^{+0.19}_{-0.21}$ & $-27.39^{+0.25}_{-0.37}$ & $-4.90^{+1.36}_{-1.35}$ & $-2.08^{+0.09}_{-0.07}$ \\
-    $3.44$ & $3.45$ & $3.40$ & $3.50$ & 155 & $-6.77^{+0.19}_{-0.20}$ & $-26.64^{+0.42}_{-0.35}$ & $-3.70^{+0.62}_{-0.80}$ & $-1.24^{+0.27}_{-0.22}$ \\
-    $3.88$ & $3.90$ & $3.70$ & $4.10$ & 628 & $-7.92^{+0.12}_{-0.10}$ & $-27.26^{+0.14}_{-0.12}$ & $-4.81^{+0.34}_{-0.39}$ & $-2.07^{+0.10}_{-0.09}$ \\
-    $4.35$ & $4.40$ & $4.10$ & $4.70$ & 442 & $-8.32^{+0.29}_{-0.26}$ & $-27.38^{+0.38}_{-0.31}$ & $-4.19^{+0.41}_{-0.47}$ & $-2.20^{+0.16}_{-0.13}$ \\
-    $4.92$ & $5.10$ & $4.70$ & $5.50$ & 263 & $-9.02^{+0.29}_{-0.22}$ & $-27.88^{+0.36}_{-0.27}$ & $-4.51^{+0.66}_{-0.83}$ & $-2.31^{+0.11}_{-0.08}$ \\
-    $6.00$ & $6.00$ & $5.50$ & $6.50$ & 66 & $-10.60^{+0.71}_{-1.06}$ & $-29.12^{+1.04}_{-1.78}$ & $-4.99^{+0.72}_{-1.22}$ & $-2.40^{+0.10}_{-0.08}$ \\
+    0.31 & 0.25 & 0.10 & 0.40 & 3520 & -5.62^{+0.09}_{-0.10} & -21.37^{+0.21}_{-0.22} & -2.94^{+0.09}_{-0.10} & -1.22^{+0.18}_{-0.16} \\
+    0.50 & 0.50 & 0.40 & 0.60 & 4555 & -6.12^{+0.04}_{-0.04} & -23.00^{+0.08}_{-0.08} & -3.37^{+0.07}_{-0.08} & -1.36^{+0.04}_{-0.04} \\
+    0.72 & 0.70 & 0.60 & 0.80 & 3308 & -6.42^{+0.09}_{-0.08} & -24.03^{+0.15}_{-0.13} & -3.55^{+0.12}_{-0.13} & -1.75^{+0.05}_{-0.04} \\
+    0.91 & 0.90 & 0.80 & 1.00 & 3922 & -6.39^{+0.08}_{-0.07} & -24.51^{+0.12}_{-0.11} & -3.69^{+0.10}_{-0.11} & -1.73^{+0.06}_{-0.05} \\
+    1.10 & 1.10 & 1.00 & 1.20 & 6367 & -6.53^{+0.03}_{-0.03} & -25.14^{+0.04}_{-0.04} & -4.17^{+0.08}_{-0.09} & -1.73^{+0.02}_{-0.02} \\
+    1.30 & 1.30 & 1.20 & 1.40 & 6479 & -6.43^{+0.04}_{-0.04} & -25.29^{+0.06}_{-0.06} & -3.97^{+0.08}_{-0.08} & -1.74^{+0.03}_{-0.03} \\
+    1.50 & 1.50 & 1.40 & 1.60 & 7539 & -6.51^{+0.03}_{-0.03} & -25.68^{+0.04}_{-0.04} & -4.28^{+0.08}_{-0.08} & -1.75^{+0.02}_{-0.02} \\
+    1.71 & 1.70 & 1.60 & 1.80 & 6788 & -6.28^{+0.04}_{-0.04} & -25.55^{+0.05}_{-0.05} & -3.96^{+0.07}_{-0.07} & -1.60^{+0.03}_{-0.03} \\
+    1.98 & 2.00 & 1.80 & 2.20 & 10478 & -6.72^{+0.03}_{-0.03} & -26.26^{+0.04}_{-0.04} & -4.20^{+0.07}_{-0.07} & -1.87^{+0.02}_{-0.02} \\
+    2.25 & 2.25 & 2.20 & 2.30 & 4102 & -5.98^{+0.10}_{-0.09} & -25.26^{+0.19}_{-0.18} & -3.21^{+0.15}_{-0.16} & -1.54^{+0.07}_{-0.06} \\
+    2.35 & 2.35 & 2.30 & 2.40 & 4317 & -6.28^{+0.09}_{-0.09} & -25.63^{+0.17}_{-0.15} & -3.39^{+0.17}_{-0.19} & -1.64^{+0.06}_{-0.05} \\
+    2.45 & 2.45 & 2.40 & 2.50 & 3403 & -6.40^{+0.08}_{-0.07} & -25.86^{+0.14}_{-0.13} & -3.60^{+0.20}_{-0.21} & -1.60^{+0.05}_{-0.05} \\
+    2.65 & 2.65 & 2.60 & 2.70 & 1883 & -5.98^{+0.06}_{-0.06} & -25.15^{+0.14}_{-0.13} & -3.13^{+0.12}_{-0.13} & -1.05^{+0.09}_{-0.08} \\
+    2.75 & 2.75 & 2.70 & 2.80 & 1135 & -6.30^{+0.08}_{-0.07} & -25.96^{+0.15}_{-0.13} & -3.81^{+0.28}_{-0.31} & -1.34^{+0.07}_{-0.06} \\
+    2.85 & 2.85 & 2.80 & 2.90 & 1069 & -6.46^{+0.12}_{-0.10} & -26.23^{+0.23}_{-0.18} & -3.60^{+0.36}_{-0.42} & -1.46^{+0.08}_{-0.07} \\
+    2.95 & 2.95 & 2.90 & 3.00 & 1104 & -6.77^{+0.07}_{-0.06} & -26.53^{+0.10}_{-0.09} & -5.05^{+0.60}_{-0.64} & -1.71^{+0.05}_{-0.04} \\
+    3.05 & 3.05 & 3.00 & 3.10 & 1127 & -6.77^{+0.08}_{-0.07} & -26.48^{+0.12}_{-0.10} & -4.71^{+0.46}_{-0.52} & -1.70^{+0.06}_{-0.05} \\
+    3.15 & 3.15 & 3.10 & 3.20 & 1041 & -7.25^{+0.17}_{-0.12} & -27.09^{+0.25}_{-0.18} & -4.42^{+0.81}_{-1.23} & -1.96^{+0.08}_{-0.06} \\
+    3.25 & 3.25 & 3.20 & 3.30 & 815 & -7.33^{+0.13}_{-0.13} & -27.19^{+0.19}_{-0.23} & -4.36^{+0.65}_{-0.76} & -1.93^{+0.06}_{-0.06} \\
+    3.34 & 3.35 & 3.30 & 3.40 & 510 & -7.54^{+0.19}_{-0.21} & -27.39^{+0.25}_{-0.37} & -4.90^{+1.36}_{-1.35} & -2.08^{+0.09}_{-0.07} \\
+    3.44 & 3.45 & 3.40 & 3.50 & 155 & -6.77^{+0.19}_{-0.20} & -26.64^{+0.42}_{-0.35} & -3.70^{+0.62}_{-0.80} & -1.24^{+0.27}_{-0.22} \\
+    3.88 & 3.90 & 3.70 & 4.10 & 628 & -7.92^{+0.12}_{-0.10} & -27.26^{+0.14}_{-0.12} & -4.81^{+0.34}_{-0.39} & -2.07^{+0.10}_{-0.09} \\
+    4.35 & 4.40 & 4.10 & 4.70 & 442 & -8.32^{+0.29}_{-0.26} & -27.38^{+0.38}_{-0.31} & -4.19^{+0.41}_{-0.47} & -2.20^{+0.16}_{-0.13} \\
+    4.92 & 5.10 & 4.70 & 5.50 & 263 & -9.02^{+0.29}_{-0.22} & -27.88^{+0.36}_{-0.27} & -4.51^{+0.66}_{-0.83} & -2.31^{+0.11}_{-0.08} \\
+    6.00 & 6.00 & 5.50 & 6.50 & 66 & -10.60^{+0.71}_{-1.06} & -29.12^{+1.04}_{-1.78} & -4.99^{+0.72}_{-1.22} & -2.40^{+0.10}_{-0.08} \\
     \hline
   \end{tabular}
 \end{table*}
@@ -907,23 +923,20 @@ luminosity function evolution indicated by BOSS in the redshift range
 $z=2$--$3$ is physical.  Indeed, in this redshift range BOSS quasar
 selection is known to be affected by a colour bias
 \citep{2011ApJ...728...23W}, which can make estimating completeness
-difficult \citep{2006AJ....131.2766R}.  \gk{Gabor, could you please
-  check if I have written this paragraph OK?}
+difficult \citep{2006AJ....131.2766R}.  
 
 \begin{figure*}
   \begin{center}
     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small_global.pdf}
     % mosaic.py 
   \end{center}
-  \caption{Luminosity function estimates from $z=0.3$ to $2.6$.
+  \caption{Luminosity function estimates from $z=0.6$ to $6.5$.
     Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
     binned luminosity functions.  In each redshift bin, the yellow
     curves show the best-fit double power law luminosity function in
-    that redshift bin.  The green curves show the posterior
-    distribution of the global model.  The global model agrees very
-    well with the data in all redshift bins, except those spanned by
-    BOSS, as BOSS quasars are excluded from the global
-    analysis. \gk{Show all three models here.}}
+    that redshift bin.  Other curves show the three global evolution
+    models.  Shaded regions show the one-sigma (68.26\%)
+    uncertainties.}
   \label{fig:mosaic_global}
 \end{figure*}
 
@@ -933,32 +946,31 @@ difficult \citep{2006AJ....131.2766R}.  \gk{Gabor, could you please
     % summary_fromFile.py 
   \end{center}
   \caption{Luminosity function parameter evolution in the global
-    model.  The symbols show the best fit parameters with 68\%
-    uncertainties from the double power law fits to the data in
-    redshift bins.  These points are identical to those in
-    Figure~\ref{fig:evoln}, except that bins with BOSS qsos ($z\sim
-    2$--$3$) are not shown.  In each panel, the black solid curve
-    shows the best fit global model, and the coloured curves show a
-    random sample drawn from the global posterior. \gk{Cannot see
-      best-fit curves.  Add open and closed circles to legend.}}
+    models.  The symbols show the best-fit parameters with one-sigma
+    (68.26\%) uncertainties in redshift bins from
+    Figure~\ref{fig:evoln}.  Redshift bins deemed to be affected by
+    systematics and removed from the global analysis are shown in
+    grey.  In each panel, the solid curves and shaded regions show the
+    three best-fit global models with one-sigma uncertainties.
+    Model~1 provides a better fit, but requires a rapid change in the
+    faint-end slope at $z\sim 3.5$.}
   \label{fig:evoln_global}
 \end{figure*}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
-    % rhoqso.py -- draw_withGlobal()
+    % rhoqso.py -- draw_withGlobal_multiple()
   \end{center}
-  \caption{AGN number density evolution in the global model.  Similar
-    to Figure~\ref{fig:evoln_global}, symbols show the best fit
-    parameters with 68\% uncertainties from the double power law fits
-    to the data in redshift bins.  Black solid curve shows the best
-    fit global model, and the coloured curves show a random sample
-    drawn from the global posterior. \gk{I still think we should show
-      the $-18$ case here.  Mention magnitude limits.  Reduce
-      transarency.  Extend plot to at least redshift 7.5.  Increase
-      legend handle length to match other figure. Should we add French
-      curve fits to this?}}
+  \caption{AGN number density evolution in the global model, when the
+    luminosity function is integrated (from top to bottom) down to
+    $M_\mathrm{1450}=-18, -21, -24,$ and $-27$.  Filled black circles
+    show the estimates from the best-fit double power law luminosity
+    functions in various redshift bins, with vertical error bars
+    denoting one-sigma (68.26\%) uncertainties.  Open circles show the
+    same in redshifts bins affected by systematics.  Curves show the
+    estimated density from the global models, with the accompanying
+    shaded regions denoting the one-sigma uncertainty. }
   \label{fig:rhoqso}
 \end{figure}
 
@@ -1017,30 +1029,31 @@ difficult \citep{2006AJ....131.2766R}.  \gk{Gabor, could you please
       grey]{2017MNRAS.466.1160M}, \citet[dashed
       blue]{2013A&A...551A..29P}, \citet[solid
       cyan]{2016A&A...587A..41P}, and \citet[solid
-      blue]{2017A&A...608A..64C}}
+      blue]{2017A&A...608A..64C}}.
   \label{fig:e912_2}
 \end{figure*}
 
 \subsection{Evolution of the luminosity function}
+\label{sec:global}
 
 The smooth evolution of the luminosity function parameters apparant in
 Figure~\ref{fig:evoln} suggests that it should be possible to describe
-the quasar UV luminosity function evolution out to $z\sim 7$ using far
-fewer number of parameters.  Such descriptions have been developed in
-the literature for the X-ray \citep[e.g.,][]{2015MNRAS.451.1892A} and
+the quasar UV luminosity function evolution out to $z\sim 7$ using
+fewer parameters.  Such descriptions have been developed in the
+literature for the X-ray \citep[e.g.,][]{2015MNRAS.451.1892A} and
 bolometric luminosity functions \citep[e.g.,][]{2007ApJ...654..731H}.
-Such ``global'' descriptions of the luminosity function evolution are
-useful as they give a continuous description of the luminosity
-function.  This allows one to reduce the bias introduced by binning
-the data in arbitrary redshift bins.  By potentially allowing for
-extrapolations beyond the redshift range spanned by the data, such
-models are valuable for understanding of the physics behind the
-luminosity function.  Ideally, one would want to use physically
-meaningful parameters that govern the formation and evolution of the
-AGN population.  Unfortunately, such physical parameterisation is yet
-to be developed.  We therefore set up an empirical parameterisation to
+Such ``global'' models of the luminosity function evolution are useful
+as they give a continuous description of the luminosity function.
+This allows one to reduce the bias introduced by binning the data in
+arbitrary redshift bins.  By potentially allowing for extrapolations
+beyond the redshift range spanned by the data, such models are
+valuable for understanding of the physics behind the luminosity
+function.  Ideally, one would want to use physically meaningful
+parameters that govern the formation and evolution of the AGN
+population.  Unfortunately, such physical parameterisation is yet to
+be developed.  We therefore set up an empirical parameterisation to
 describe the evolution of the four parameters of the double power law
-model in Equation~(\ref{eqn:dpl}) as 
+model in Equation~(\ref{eqn:dpl}) as
 \begin{align}
   &\phi_*(z) = f_0(\{c_{0,i}\}, z)\nonumber\\
   &M_*(z) = f_1(\{c_{1,i}\}, z)\nonumber\\
@@ -1066,7 +1079,7 @@ parameters in that equation are redshift-dependent, so that
   \phi(M,z) = \phi_*(z) \left[10^{0.4(\alpha(z)+1)(M-M_*(z))}\right. \\ \left.+ 10^{0.4(\beta(z)+1)(M-M_*(z))}\right]^{-1}.
 \end{multline}
 The negative logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ is
-straightforward generalisation of Equation~(\ref{eqn:S}), given by 
+a straightforward generalisation of Equation~(\ref{eqn:S}), given by
 \begin{multline}
   S = -2\sum_{i=1}^N\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}dM\int_{z_\mathrm{min}}^{z_\mathrm{max}}dz\, \phi(M,z) f(M, z)\,\frac{dV}{dz},
   \label{eqn:S2}
@@ -1075,10 +1088,10 @@ where now $N$ is the total number of quasars included in the analysis,
 and the integrals in the second term on the right-hand side are over
 the complete surveyed range of luminosity and redshift, instead of
 redshift and luminosity bins.  We consider models in which the
-evolution of the four double power law parameter is modelled
-independently as in Equations~(\ref{eqn:global}).  This approach has
-been termed as ``flexible double power law'' by
-\citet{2015MNRAS.451.1892A}.  We present three such models in this
+evolution of the four double power law parameters is modelled
+independently as in Equations~(\ref{eqn:global}), an approach
+sometimes termed as ``flexible double power law''
+\citep{2015MNRAS.451.1892A}.  We present three such models in this
 paper.  These are shown in Figure~\ref{fig:evoln_global}.  The three
 models differ in the way they describe the evolution of the faint-end
 slope $\beta$ and in the selection of the AGN data.  The models are
@@ -1086,7 +1099,7 @@ defined as follows.
 
 \begin{itemize}
 
-\item In Model 1, the parameters $\phi_*$, $M_*$ and $\alpha$ we
+\item In Model 1, for the parameters $\phi_*$, $M_*$ and $\alpha$ we
   assume that the functions $f_i$'s in Equations~(\ref{eqn:global})
   are Chebyshev polynomials in $(1+z)$.  Thus the functions $f_i$s are
   written as
@@ -1104,10 +1117,10 @@ defined as follows.
   evolution at $z\sim 3$, as discussed in the previous section.  As a
   result, it is difficult to model the evolution of $\beta$ using the
   Chebyshev expansion of Equation~(\ref{eqn:cbs}).  Instead, we
-  consider a double power law model for $\beta$ and write \gk{Is this
-    really only four parameters?}
+  consider a double power law model for $\beta$ and write 
   \begin{equation}
     f_3(1+z)=c_{3,0}+\frac{c_{3,1}}{10^{c_{3,3}\zeta}+10^{c_{3,4}\zeta}},
+    \label{eqn:beta}
   \end{equation}
   where
   \begin{equation}
@@ -1165,7 +1178,7 @@ uncertainty.  The model is in excellent agreement with the results of
 the fits in redshift bins discussed in the previous section.  The
 deviation of the BOSS quasars at $z=2$--$4$ from the smooth evolution
 is again strikingly apparent.  So is the deviation of the SDSS and
-2SLAQ quasars at $z<0.6$.  This is an indirect justification of the
+2SLAQ quasars at $z<0.6$.  This is an indirect justification for the
 data selection discussion previously in Section~\ref{sec:bins}.
 Unfortunately, this model suffers with a remarkably sharp break in the
 evolution of the faint-end slope $\beta$ at about $z\sim 3.5$.  As
@@ -1180,43 +1193,42 @@ tabulated in Table~\ref{tab:global}.
 The evolution of the comoving number density of quasars is shown in
 Figure~\ref{fig:rhoqso} when the luminosity function is integrated
 down to different limits.  Similar to Figure~\ref{fig:evoln_global},
-symbols show the best-fit values with 68\% uncertainties from the
-double power law fits to the data in redshift bins.  Black solid curve
-shows the best fit global model, and the coloured curves show a random
-sample drawn from the global posterior.  This number density evolution
+symbols show the best-fit values with one-sigma uncertainties from the
+double power law fits to the data in redshift bins.  Solid curves and
+shaded regions show the global models.  This number density evolution
 again highlights the systematic error in data at $z\sim 3$.  The
 number density of AGN down to the limit of spectroscopic data
 ($M_{1450}<-21$) is about $10^{-5}$ cMpc$^{-3}$ at its peak.  This
 density rapidly increases at low redshifts and then drops gradually at
 high redshifts.  Figure~\ref{fig:rhoqso} also shows the familiar
-downsizing feature in which the number density of faint qsos peaks are
-lower redshifts than that of the bright qsos.  While the number
-density of qsos with $M_*<-27$ peaks at $z\sim 2.5$, the number
-density of qsos with $M_*<-24$ peaks at $z\sim 2$.  At the faintest
-luminosity at which spectroscopic data exist, $M_*<-21$, the number
-density of qsos peaks at $z\sim 1$.  However, the difference between
-our three models is dramatically evidencet in Figure~\ref{fig:rhoqso}.
-Model~1 prefers a decrease in the number density of faint quasars at
-$z\sim 3$ followed by an increase at higher redshift.  This is caused
-by the rapid steepening of the faint-end slope in this model at this
-redshift.  Figure~\ref{fig:rhoqso} reveals another property of these
-models: when extrapolated, the AGN number density diverges in all
-three models are high redshifts.  This is result of the steep
-faint-end slope at high redshifts combined with the rapid brightening
-of the break luminosity at $z\sim 3$.  While no data exist at redshift
-$z>7.5$, this divergent behaviour is shared by previous models in the
-literature.  Figure~\ref{fig:rhoqso} also shows that although Models 2
-and 3 exhibit regular behaviour in the evolution of the AGN number
-density at $z\sim 3$, they do not fit the $z\sim 4$--$5$ data as well
-as Model 1.  \gk{Discuss comparison of expected number of quasars at
-  redshift 7 with UKIDSS.  Also discuss our new fit?}
+downsizing feature in which the number density of faint AGN peaks at
+lower redshifts than that of the bright AGN.  While the number density
+of AGN with $M_*<-27$ peaks at $z\sim 2.5$, the number density of AGN
+with $M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at
+which spectroscopic data exist, $M_*<-21$, the number density of qsos
+peaks at $z\sim 1$.  However, the difference between our three models
+is dramatically evident in Figure~\ref{fig:rhoqso}.  Model~1 prefers a
+decrease in the number density of faint quasars at $z\sim 3$ followed
+by an increase at higher redshift.  This is caused by the rapid
+steepening of the faint-end slope in this model at this redshift.
+Figure~\ref{fig:rhoqso} reveals another property of these models: when
+extrapolated, the AGN number density diverges in all three models at
+high redshifts.  This is result of the steep faint-end slope at high
+redshifts combined with the rapid brightening of the break luminosity.
+While no data exist at redshift $z>7.5$, this divergent behaviour is
+shared by previous models in the literature
+\citep{2007ApJ...654..731H}.  Figure~\ref{fig:rhoqso} also shows that
+although Models 2 and 3 exhibit regular behaviour in the evolution of
+the AGN number density at $z\sim 3$, they do not fit the $z\sim
+4$--$5$ data as well as Model 1.
 
 \begin{table}
   \caption{Best-fit luminosity function evolution models.  These
-    parameters are defined in Equations XX.  See Section XX for
-    further details and the redshift range of validity of these
-    models.  Errors indicate one-sigma (68.26\%) uncertainties.  Model
-    2 is our preferred model.}
+    parameters are defined in Equations~(\ref{eqn:cbs}) and
+    (\ref{eqn:beta}).  See Section~\ref{sec:global} for further
+    details and the redshift range of validity of these models.
+    Errors indicate one-sigma (68.26\%) uncertainties.  Model 2 is our
+    preferred model.}
   \label{tab:global}
   \begin{tabular}{lrrr}
     \hline 
@@ -1920,103 +1932,92 @@ models for future work.
 \section{Conclusions}
 
 We have presented an analysis of the evolution of the UV luminosity
-function of AGN from redshift $z=0$ to $7.5$ using a combined
-homogenised sample of close to 90,000 UV-selected AGN.  We only
-consider quasars with spectroscopic redshifts and reliable
-completeness estimates.  These data span magnitudes down to
-$M_{1450}=-22$ at high redshifts ($z\gtrsim 3.5$).
+function of AGN from redshift $z=0$ to $7.5$ using a combined sample
+of close to 85,000 colour-selected AGN from 12 data sets, homogenized
+with respect to the assumed cosmology, intrinsic AGN spectrum, and the
+magnitude system.  AGN from 11 of these 12 samples have reported
+spectroscopic redshifts, and all but two AGN have known completeness
+estimates.  These data span magnitudes down to $M_{1450}=-22$ at high
+redshifts ($z\gtrsim 3.5$).
 
-\begin{itemize}
-\item The AGN luminosity function prefers a double power law
-  description at all redshift, except possibly at very high redshifts
-  ($z\sim 6$) where only the faint-end of the luminosity function is
-  observed.
+We find that the UV luminosity function of AGN prefers a double power
+law description at all redshifts considered in this study, except
+possibly at very high redshifts ($z\sim 6$) where a single power law
+seems to be preferred.  The behaviour of the luminosity function at
+lower redshifts ($z=4$--$5.5$) suggests that this single power law at
+$z\sim 6$ can be interpreted as the faint end of the double power law
+with a break at $M_*=-29$.  The break magnitude $M_*$ of the double
+power law luminosity function shows a steep brightening towards high
+redshifts.  The break evolves from $M_*<-25$ at $z\sim 1$ to $M_*\sim
+-29$ at $z\sim 6$.  Correspondingly, the amplitude $\phi_*$ of the
+luminosity function drops rapidly towards high redshifts from
+$\phi_*\sim 10^{-6}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 1$ to $\phi_*<
+10^{-10}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 6$.  The faint-end slope
+$\beta$ becomes increasingly negative towards high redshifts,
+resulting in the a steepening of the luminosity function.  The
+faint-end slope is $\beta\sim -1.8$ at $z\sim 1$ and steepens to
+$\beta\sim-2.5$ at $z\sim 6$.  The bright-end slope $\alpha$ also
+shows moderate steepening towards high redshifts.  However, the
+constraints on $\alpha$ are weak, particularly at the high redshift
+because of the bright break luminosity.
 
-\item The break magnitude $M_*$ of the double power law luminosity
-  function shows a steep brightening towards the high redshift.  The
-  break evolves from $M_*<-25$ at $z\sim 2$ to $M_*\sim -29$ at $z\sim
-  6$.  Correspondingly, the amplitude $\phi_*$ of the luminosity
-  function drops rapidly towards high redshifts from $\phi_*\sim
-  10^{-6}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 2$ to $\phi_*<
-  10^{-10}$~mag$^{-1}$cMpc$^{-3}$ at $z\sim 6$.  The break magnitude
-  at $z=6$ is very bright, about $-30$, which is why the constraints
-  on the bright end slope at these redshifts are weak.
+An important finding of this work is that there are severe systematic
+errors in observed luminosity function at certain redshifts.  We find
+that the most significant systematic bias is at redshift $z\sim 3$ in
+the BOSS sample of quasars.  There is also some evidence of a
+systematic bias in the lowest redshifts $z\lesssim 0.5$.  At $z<2.2$
+there is some indication of a systematic error in completeness
+estimates at the faintest magnitudes $M_{1450}\sim -19$.  Systematic
+errors make it harder to construct simple empirical models to describe
+the luminosity function evolution.  We develop three such models in
+this paper.  We find that a fourteen-parameter model (Model 1)
+describes the redshift evolution of the luminosity function rather
+well.  However, this model prefers a very rapid evolution in the
+faint-end slope at $z=3.5$, which is probably unphysical.  Our other
+models (Models 2 and 3) do not have this feature, but these models do
+not fit the data as well as Model 1 at $z=4$--$6$.  The integrated
+quasar number density diverges at high redshifts in all three models.
 
-\item The faint end slope $\beta$ of the luminosity function shows
-  increased steepening at high redshifts, consistent with the findings
-  of \citep{2015AA...578A..83G}.  The faint-end slope is $\beta\sim
-  -1.8$ at $z\sim 2$ and steepens to $\beta\sim-2.5$ at $z\sim 6$.
-  The bright-end slope $\alpha$ also shows moderate steepening towards
-  high redshifts.  However, the constraints on $\alpha$ are weak,
-  particularly at the high redshift because of the bright break
-  luminosity.
+In spite of the rapid steepening of the faint end of the luminosity
+function at high redshifts, our derived hydrogen-ionizing emissivity
+from AGN is lower that recent determinations from the literature
+\citep{2015AA...578A..83G}.  This is because the bright break
+luminosities reduce the contribution of intermediate-brightness AGN to
+the LyC emissivity .  We find that the LyC emissivity peaks at $z\sim
+2$.  We derive the average hydrogen photoionization rate by filtering
+the hydrogen-ionizing emissivity through the intergalactic \HI\ column
+density distribution.  We find that the HI photoionization rate is
+lower than that required by the Lyman-$\alpha$ forest data at $z>2$.
+Our hydrogen photoionization rate estimates are also considerably
+lower (by a factor of 10) than that of \citet{2015AA...578A..83G}.
+This indicates that hydrogen reionization is unlikely to have caused
+by AGN alone.  Extrapolating the \HI\ column density distribution
+function to $z>3.5$, we find that even when AGN down to $M_{1450}=-18$
+are assumed to supply hydrogen-ionizing photons with a unit escape
+fraction, the resultant photoionization rate is only about 10\% of
+what is observed at $z\sim 6$.  At the lowest redshifts ($z\sim 0$),
+we find that the hydrogen photoionization rate is about a factor of
+two higher than the estimate of \citet{2007ApJ...654..731H} and
+\citet{2012ApJ...746..125H}.  When compared with the recent analysis
+of \citet{2017MNRAS.467.3172G}, this photoionisation rate appears to
+alleviate the photon underproduction crisis
+\citep{2014ApJ...789L..32K}.  Helium reionization in our model occurs
+at redshift $z=3.2$ or $z=3.5$ if the luminosity function is
+integrated down to $M_{1450}=-21$ and $-18$, respectively.
 
-\item A fourteen-parameter model accurately captures the redshift
-  evolution of the luminosity function.  In this model, the evolution
-  of the break magnitude $M_*$ is described by a cubic polynomial in
-  $1+z$, while the evolution of the luminosity function amplitude
-  follows a quadratic polynomial in $1+z$.  The evolution of the
-  bright-end slope $\alpha$ evolves linearly in $1+z$.  The evolution
-  of the faint-end slope $\beta$ is more complicated.  The faint-end
-  slope stays roughly constant at lower redshifts $z<3$, steepens
-  rapidly at $z\sim 3$--$4$, and then remains constant at higher
-  redshifts.
-
-\item An important finding of this work is that there are severe
-  systematic errors in observed luminosity function.  We find that the
-  most significant systematic bias is at redshift $z\sim 3$ in the
-  BOSS sample of quasars.  There is also some evidence of a systematic
-  bias in the lowest redshifts $z\lesssim 0.5$.  At $z<2.2$ there is
-  some indication of a systematic error in completeness estimates at
-  the faintest magnitudes $M_{1450}\sim -19$.  
-
-\item In spite of the rapid steepening of the luminosity function at
-  high redshifts, our derived LyC emissivity from AGN is quite low.
-  This is because of the bright break luminosities, which results in a
-  reduced contribution of intermediate brightness quasars to the Lyc
-  emissivity as compared to some other determinations in the
-  literature.  The LyC emissivity increases with time and peaks at
-  $z\sim 2$.  At lower redshifts, the emissivity drops rapidly with
-  time.  When our luminoisty function model is extrapolated and
-  integrated down to $M_{1450}\sim -20$, the implied LyC emissivity is
-  comparable to that in the model of \citet{2007ApJ...654..731H} and
-  \citet{2012ApJ...746..125H}.  This indicates that hydrogen
-  reionization is unlikely to have caused by AGN alone.
-
-\item We derive photoionization rate by considering the HI column
-  density distribution used by \citep{2012ApJ...746..125H}.  We find
-  that the HI photoionization rate is significantly lower than that
-  required by the Lyman-$\alpha$ forest data at $z>2$.  Our hydrogen
-  photoionization rate estimates are also considerably lower (by a
-  factor of at least two) than that of \citet{2015AA...578A..83G}.  At
-  the lowest redshifts, we find that the hydrogen photoionization rate
-  is about a factor of two higher than the estimate of
-  \citet{2007ApJ...654..731H} and \citet{2012ApJ...746..125H}.  When
-  compared with the recent analysis of \citet{2017MNRAS.467.3172G},
-  this photoionisation rate appears to allevaite the photon
-  underproduction crisis.  Cite Kollmeier here.  
-  
-\item Helium reionization in our model occurs at redshift $z\sim
-  3$ or $z=3.5$ if the luminosity function is integrated down to
-  $M_{1450}=-20$ and $-18$, respectively.
-  
-\item Our analysis allows us to analyse the X-ray selected quasars of
-  \citet{2015AA...578A..83G} in the larger context of UV-selected
-  quasars.  We find that the the faint-end luminosity function
-  measurements of \citet{2015AA...578A..83G} at $z=4$--$6$ are
-  consitent with the measurements of the luminosity function at
-  brighter luminosities.  Stil, our inferred value of the hydrogen
-  ionizing luminosity density from quasars at these redshifts is much
-  lower that the value derived by \citet{2015AA...578A..83G}.  This
-  difference arises due to the difference in the data used in the two
-  analyses at intermediate to bright luminosities.  
-\end{itemize}
-
-Some next steps at $z>4$: 1. include extended objects at faint
-magntiudes that could be impacted by host galaxy light, 2. take
-follow-up spectroscopy to confirm a fration of these as high-z broad
-line AGN, 3. carefully assess host galaxy contamination.  See Gabor's
-email of 14 March 13:18.
+These results will be made more robust with new data from deep
+large-area surveys to discover faint quasars at high redshifts, such
+as the Subaru High-z Exploration of Low-Luminosity Quasars (SHELLQs)
+project \citep{2016ApJ...828...26M} and the VISTA Extragalactic
+Infrared Legacy Survey (VEILS; \citealt{2017MNRAS.464.1693H}),
+followed by the Wide Field Infrared Survey Telescope (WFIRST;
+\citealt{2013arXiv1305.5422S}) and Euclid \citep{2011arXiv1110.3193L}.
+This study highlights the need for a better understanding of
+luminosity function systematics.  In particular, at $z>4$, it seems
+important to include extended objects at faint magnitudes that could
+be impacted by host galaxy light, take follow-up spectroscopy to
+confirm a fraction of these as high-redshift broad-line AGN, and
+carefully assess host galaxy contamination.
 
 \section*{Acknowledgements}
 

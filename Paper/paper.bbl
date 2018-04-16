@@ -277,6 +277,11 @@
   ArXiv Astrophysics e-prints, \href
   {http://adsabs.harvard.edu/abs/2002astro.ph.10394H} {}
 
+\bibitem[\protect\citeauthoryear{{H{\"o}nig} et~al.,}{{H{\"o}nig}
+  et~al.}{2017}]{2017MNRAS.464.1693H}
+{H{\"o}nig} S.~F.,  et~al., 2017, \mn@doi [\mnras] {10.1093/mnras/stw2484},
+  \href {http://adsabs.harvard.edu/abs/2017MNRAS.464.1693H} {464, 1693}
+
 \bibitem[\protect\citeauthoryear{{Hopkins}, {Hernquist}, {Cox}, {Di Matteo},
   {Martini}, {Robertson}  \& {Springel}}{{Hopkins}
   et~al.}{2005}]{2005ApJ...630..705H}
@@ -390,6 +395,12 @@ Cambridge University Press
 {La Plante} P.,  {Trac} H.,  2016, \mn@doi [\apj] {10.3847/0004-637X/828/2/90},
   \href {http://adsabs.harvard.edu/abs/2016ApJ...828...90L} {828, 90}
 
+\bibitem[\protect\citeauthoryear{{Laureijs} et~al.,}{{Laureijs}
+  et~al.}{2011}]{2011arXiv1110.3193L}
+{Laureijs} R.,  et~al., 2011, preprint, \href
+  {http://adsabs.harvard.edu/abs/2011arXiv1110.3193L} {} (\mn@eprint {arXiv}
+  {1110.3193})
+
 \bibitem[\protect\citeauthoryear{{Livermore}, {Finkelstein}  \&
   {Lotz}}{{Livermore} et~al.}{2017}]{2017ApJ...835..113L}
 {Livermore} R.~C.,  {Finkelstein} S.~L.,   {Lotz} J.~M.,  2017, \mn@doi [\apj]
@@ -441,6 +452,11 @@ Cambridge University Press
 \bibitem[\protect\citeauthoryear{{Mathez}}{{Mathez}}{1978}]{1978A&A....68...17M}
 {Mathez} G.,  1978, \aap, \href
   {http://adsabs.harvard.edu/abs/1978A%26A....68...17M} {68, 17}
+
+\bibitem[\protect\citeauthoryear{{Matsuoka} et~al.,}{{Matsuoka}
+  et~al.}{2016}]{2016ApJ...828...26M}
+{Matsuoka} Y.,  et~al., 2016, \mn@doi [\apj] {10.3847/0004-637X/828/1/26},
+  \href {http://adsabs.harvard.edu/abs/2016ApJ...828...26M} {828, 26}
 
 \bibitem[\protect\citeauthoryear{{McConnell} \& {Ma}}{{McConnell} \&
   {Ma}}{2013}]{2013ApJ...764..184M}
@@ -691,6 +707,12 @@ Cambridge University Press
   {Snyder} G.~F.,  {Nelson} D.,   {Hernquist} L.,  2015, \mn@doi [\mnras]
   {10.1093/mnras/stv1340}, \href
   {http://adsabs.harvard.edu/abs/2015MNRAS.452..575S} {452, 575}
+
+\bibitem[\protect\citeauthoryear{{Spergel} et~al.,}{{Spergel}
+  et~al.}{2013}]{2013arXiv1305.5422S}
+{Spergel} D.,  et~al., 2013, preprint, \href
+  {http://adsabs.harvard.edu/abs/2013arXiv1305.5422S} {} (\mn@eprint {arXiv}
+  {1305.5422})
 
 \bibitem[\protect\citeauthoryear{{Stark} et~al.,}{{Stark}
   et~al.}{2015a}]{2015MNRAS.450.1846S}
