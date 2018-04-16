@@ -71,18 +71,18 @@ def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
 
     up = np.percentile(phi, 15.87, axis=0)
     down = np.percentile(phi, 84.13, axis=0)
-    ax.fill_between(mags, down, y2=up, color='grey')
+    f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
 
-    return
+    return f
 
 def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
     # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
-    ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
+    bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
 
-    return
+    return bf 
 
 def binVol(self, selmap, mrange, zrange):
 
@@ -366,7 +366,7 @@ def plot_giallongo_z4p25(lf, ax, mags):
     return 
 
 
-def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=True):
+def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=True, c2=None, c3=None):
 
     """
 
@@ -378,12 +378,12 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
     if show_individual_fit: 
         mag_plot = np.linspace(-32.0, -16.0, num=200) 
-        plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
+        indf = plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
                                        c='#ffbf00', alpha=0.1, zorder=2) 
         # plot_bestfit_lf(lf, ax, mag_plot, lw=2,
         #                      c='#ffbf00', zorder=3, label='This work')
 
-        plot_bestfit_lf(lf, ax, mag_plot, lw=2,
+        indbf = plot_bestfit_lf(lf, ax, mag_plot, lw=2,
                              c='#ffbf00', zorder=3)
         
         # if z_plot < 4.5:
@@ -410,8 +410,50 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
         up = np.percentile(phi, 15.87, axis=0)
         down = np.percentile(phi, 84.13, axis=0)
-        ax.fill_between(mags, down, y2=up, color='forestgreen')
-            
+        c1f = ax.fill_between(mags, down, y2=up, color='grey', zorder=6, alpha=0.7)
+
+        p = np.median(phi, axis=0)
+        c1bf, = ax.plot(mags, p, color='k', zorder=6, lw=1)
+
+
+    if c2 is not None: 
+        nmags = 200 
+        mags = np.linspace(-32.0, -16.0, num=nmags)
+        bf = np.median(c2.samples, axis=0)
+        nsample = 1000
+        rsample = c2.samples[np.random.randint(len(c2.samples), size=nsample)]
+        phi = np.zeros((nsample, nmags))
+        
+        for i, theta in enumerate(rsample):
+            phi[i] = c2.log10phi(theta, mags, z_plot)
+
+        up = np.percentile(phi, 15.87, axis=0)
+        down = np.percentile(phi, 84.13, axis=0)
+        c2f = ax.fill_between(mags, down, y2=up, color='forestgreen', zorder=4, alpha=0.7)
+
+        p = np.median(phi, axis=0)
+        c2bf, = ax.plot(mags, p, color='forestgreen', zorder=4, lw=1)
+
+
+    if c3 is not None: 
+        nmags = 200 
+        mags = np.linspace(-32.0, -16.0, num=nmags)
+        bf = np.median(c3.samples, axis=0)
+        nsample = 1000
+        rsample = c3.samples[np.random.randint(len(c3.samples), size=nsample)]
+        phi = np.zeros((nsample, nmags))
+        
+        for i, theta in enumerate(rsample):
+            phi[i] = c3.log10phi(theta, mags, z_plot)
+
+        up = np.percentile(phi, 15.87, axis=0)
+        down = np.percentile(phi, 84.13, axis=0)
+        c3f = ax.fill_between(mags, down, y2=up, color='peru', zorder=5, alpha=0.7)
+
+        p = np.median(phi, axis=0)
+        c3bf, = ax.plot(mags, p, color='brown', zorder=5, lw=1)
+        
+        
     cs = { 1 : '#1f77b4', # "blue"
            6 : '#17becf', # "cyan"
            7 : '#9467bd', # "purple"
@@ -493,7 +535,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
         
-    return 
+    return (indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
 
 def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
 
