@@ -47,12 +47,12 @@ def plot_model(composite, param_number, ax):
     up = np.percentile(beta, 15.87, axis=0)
     down = np.percentile(beta, 84.13, axis=0)
     
-    ax.fill_between(z, down, y2=up, color='turquoise', zorder=1, label='Model 2')
+    mf = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=1, alpha=0.7)
 
     beta = np.median(beta, axis=0)
-    ax.plot(z, beta, color='turquoise', zorder=2, lw=1)
+    m, = ax.plot(z, beta, color='forestgreen', zorder=2, lw=1)
     
-    return
+    return mf, m
 
 def plot_model_polyb(composite, param_number, ax):
 
@@ -69,16 +69,14 @@ def plot_model_polyb(composite, param_number, ax):
     up = np.percentile(beta, 15.87, axis=0)
     down = np.percentile(beta, 84.13, axis=0)
     
-    ax.fill_between(z, down, y2=up, color='peru', zorder=1, label='Model 3')
+    mf = ax.fill_between(z, down, y2=up, color='peru', zorder=1, alpha=0.7)
 
     beta = np.median(beta, axis=0)
-    ax.plot(z, beta, color='peru', zorder=2, lw=1)
+    m, = ax.plot(z, beta, color='brown', zorder=2, lw=1)
     
-    return
-
+    return mf, m 
 
 def getParam(individuals, param, which='old', dtype='good'):
-
 
     if individuals is not None: 
     
@@ -152,10 +150,10 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
                 
             up = np.percentile(phi, 15.87, axis=0)
             down = np.percentile(phi, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
             
         phi = np.median(phi, axis=0)
-        ax.plot(z, phi, color='k', zorder=2, lw=1)
+        ax.plot(z, phi, color='k', zorder=5, lw=1)
 
     plot_model(lfg_break, 0, ax)
     plot_model_polyb(lfg_polyb, 0, ax)
@@ -262,10 +260,10 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
                 
             up = np.percentile(M, 15.87, axis=0)
             down = np.percentile(M, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
             
         M = np.median(M, axis=0)
-        ax.plot(z, M, color='k', zorder=2, lw=1)
+        ax.plot(z, M, color='k', zorder=5, lw=1)
 
     plot_model(lfg_break, 1, ax)
     plot_model_polyb(lfg_polyb, 1, ax)
@@ -279,7 +277,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=30)
+    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=30, label='included data')
 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
@@ -312,7 +310,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27, label='excluded data')
         
     curvefit = False
     if curvefit:
@@ -339,6 +337,12 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
     ax.set_ylabel(r'$M_*$')
     ax.yaxis.labelpad = 12
     ax.set_xticklabels('')
+
+    plt.legend(loc='upper right', fontsize=10,
+               handlelength=3, frameon=False, framealpha=0.0,
+               labelspacing=.1, handletextpad=-0.3, borderpad=0.1,
+               scatterpoints=1)
+    
 
     return
 
@@ -377,14 +381,14 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
                 
             up = np.percentile(alpha, 15.87, axis=0)
             down = np.percentile(alpha, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=1, label='Model 1')
+            m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=5, label='Model 1', alpha=0.7)
 
         
         alpha = np.median(alpha, axis=0) 
-        ax.plot(z, alpha, color='k', zorder=2, lw=1)
+        m1, = ax.plot(z, alpha, color='k', zorder=5, lw=1)
 
-    plot_model(lfg_break, 2, ax)
-    plot_model_polyb(lfg_polyb, 2, ax)
+    m2f, m2 = plot_model(lfg_break, 2, ax)
+    m3f, m3 = plot_model_polyb(lfg_polyb, 2, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='good')
     left = zmean-zl
@@ -436,10 +440,22 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
         
-        
-    plt.legend(loc='upper left', fontsize=8, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1)
+
+    handles, labels = [], []
+
+    handles.append((m1f,m1))
+    labels.append('Model 1')
+
+    handles.append((m2f,m2))
+    labels.append('Model 2')
+
+    handles.append((m3f,m3))
+    labels.append('Model 3')
+    
+    plt.legend(handles, labels, loc='upper right', fontsize=10,
+               handlelength=3, frameon=False, framealpha=0.0,
+               labelspacing=.1, handletextpad=0.3, borderpad=0.1,
+               scatterpoints=1)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
@@ -498,14 +514,14 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
                 
             up = np.percentile(beta, 15.87, axis=0)
             down = np.percentile(beta, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
 
         # bfs = np.median(rsample, axis=0) 
         # print 'median beta (beta):', composite.getparams(bfs)[3]
         # print 'median beta (samples):', composite.getparams(bf)[3]
 
         beta = np.median(beta, axis=0)
-        ax.plot(z, beta, color='k', zorder=2, lw=1)
+        ax.plot(z, beta, color='k', zorder=5, lw=1)
 
         # beta = composite.atz_beta(z, composite.getparams(bf)[3])
         # ax.plot(z, beta, color='k', zorder=2, lw=1)
