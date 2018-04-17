@@ -6,6 +6,7 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
+import fit_emissivity
 
 def f(loglf, theta, m, z, fit='individual'):
 
@@ -209,12 +210,20 @@ def global_cumulative(ax, composite, mlim, color, **kwargs):
 
     up = np.percentile(r, 15.87, axis=0)
     down = np.percentile(r, 84.13, axis=0)
-    ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.5, **kwargs)
+    f = ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.7, **kwargs)
 
     c = np.median(r, axis=0)
-    ax.plot(z, c, color=color, zorder=7)
+
+    if color == 'forestgreen':
+        p, = ax.plot(z, c, color=color, zorder=7)
     
-    return
+    if color == 'peru': 
+        p, = ax.plot(z, c, color='brown', zorder=7)
+
+    if color == 'grey': 
+        p, = ax.plot(z, c, color='k', zorder=7)
+        
+    return f, p 
 
 
 def global_differential(ax, composite, mbright, mfaint, color):
@@ -427,6 +436,30 @@ def individuals_cumulative_multiple(ax, individuals, mlim, color, label):
                 xerr=np.vstack((lzerr, uzerr)), 
                 zorder=10, mew=1, ms=5)
 
+    # def func(z, a, b, c, d, e):
+    #     e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
+    #     return e 
+    
+    # sigma = u-l 
+    # z = np.linspace(0.0, 7, num=1000)
+    # samples = fit_emissivity.fit(zs, rho, sigma)
+    # nsample = 300
+    # rsample = samples[np.random.randint(len(samples), size=nsample)]
+    # nzs = len(z) 
+    # e = np.zeros((nsample, nzs))
+    # for i, theta in enumerate(rsample):
+    #     e[i] = np.array(func(z, *theta))
+    #     plt.plot(z, e[i], lw=2, c='red', zorder=5, alpha=0.1)
+
+    # up = np.percentile(e, 15.87, axis=0)
+    # print 'up=', up 
+    # down = np.percentile(e, 84.13, axis=0)
+    # print 'down=', down
+    # tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    
+    # b = np.median(e, axis=0)
+    # tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
+
     c = np.array([x.rhoqso[2] for x in individuals_bad])
     u = np.array([x.rhoqso[0] for x in individuals_bad])
     l = np.array([x.rhoqso[1] for x in individuals_bad])
@@ -570,7 +603,7 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
 
 def draw_withGlobal_multiple(c1, c2, c3, individuals, zlims, select=False):
 
-    fig = plt.figure(figsize=(7, 9), dpi=100)
+    fig = plt.figure(figsize=(7, 11), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
     ax.tick_params('both', which='major', length=7, width=1)
@@ -581,36 +614,54 @@ def draw_withGlobal_multiple(c1, c2, c3, individuals, zlims, select=False):
     ax.set_xlim(0.,7)
 
     ax.set_yscale('log')
-    ax.set_ylim(1.0e-10, 1.0e-4)
+    ax.set_ylim(1.0e-10, 1.0e-3)
 
-    mlim = -21
+    mlim = -18
     individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-18$')
     global_cumulative(ax, c1, mlim, 'grey', label='Model 1')
-    global_cumulative(ax, c2, mlim, 'turquoise', label='Model 2')
+    global_cumulative(ax, c2, mlim, 'forestgreen', label='Model 2')
     global_cumulative(ax, c3, mlim, 'peru', label='Model 3')
 
-    mlim = -23
+    plt.text(0.7, 1.2e-4, '$M_{1450}<-18$', rotation=52, fontsize=14, ha='center')
+
+    mlim = -21
     individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-21$')
     global_cumulative(ax, c1, mlim, 'grey')
-    global_cumulative(ax, c2, mlim, 'turquoise')
+    global_cumulative(ax, c2, mlim, 'forestgreen')
     global_cumulative(ax, c3, mlim, 'peru')
+
+    plt.text(0.7, 1.2e-5, '$M_{1450}<-21$', rotation=55, fontsize=14, ha='center')
         
-    mlim = -25
+    mlim = -24
     individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-24$')
     global_cumulative(ax, c1, mlim, 'grey')
-    global_cumulative(ax, c2, mlim, 'turquoise')
+    global_cumulative(ax, c2, mlim, 'forestgreen')
     global_cumulative(ax, c3, mlim, 'peru')
+
+    plt.text(0.5, 2e-7, '$M_{1450}<-24$', rotation=72, fontsize=14, ha='center')
 
     mlim = -27
     c = '#17becf'
     individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-27$')
-    global_cumulative(ax, c1, mlim, 'grey')
-    global_cumulative(ax, c2, mlim, 'turquoise')
-    global_cumulative(ax, c3, mlim, 'peru')
-    
-    plt.legend(loc='upper left', fontsize=14, handlelength=1,
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')
+
+    plt.text(1, 2.0e-9, '$M_{1450}<-27$', rotation=67, fontsize=14, ha='center')
+
+    handles, labels = [], []
+    handles.append((m1f, m1))
+    labels.append('Model 1')
+
+    handles.append((m2f, m2))
+    labels.append('Model 2')
+
+    handles.append((m3f, m3))
+    labels.append('Model 3')
+
+    plt.legend(handles, labels, loc='upper left', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.01,
+               handletextpad=0.3, borderpad=0.1,
                scatterpoints=1)
     
     plt.savefig('rhoqso_withGlobal.pdf',bbox_inches='tight')

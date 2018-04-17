@@ -1344,3 +1344,109 @@ def draw_g_puc():
 
     return 
 
+def draw_g_puc_talk():
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    ax.tick_params('x', which='major', pad=6)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    ax.set_ylim(1.0e-2, 10)
+    ax.set_xlim(0.9,4)
+
+    locs = (0.01, 0.1, 1, 10)#, 100)
+    labels = ('0.01', '0.1', '1', '10')#, '100')
+    plt.yticks(locs, labels)
+
+    locs = (1,2,3,4)#, 100)
+    labels = ('0', '1', '2', '3')#, '100')
+    plt.xticks(locs, labels)
+
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.1))
+    
+    zmax = 9.7
+    zmin = 0.0
+    dz = 0.1 
+    n = (zmax-zmin)/dz+1
+    zc = np.linspace(zmax, zmin, num=n)
+
+    # z, g = j(emissivity_18, zmax=15.0)
+    # z, g_down = j(emissivity_18_down, zmax=15.0)
+    # z, g_up = j(emissivity_18_up, zmax=15.0)
+    # g18f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12, color='red', zorder=5, alpha=0.6, edgecolor='None')
+    # g18, = plt.plot(1+z, g/1.0e-12, lw=2, c='red', zorder=5)
+
+    # z, g = j(emissivity_21, zmax=15.0)
+    # z, g_down = j(emissivity_21_down, zmax=15.0)
+    # z, g_up = j(emissivity_21_up, zmax=15.0)
+    # g21f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12, color='blue', zorder=5, alpha=0.6, edgecolor='None')
+    # g21, = plt.plot(1+z, g/1.0e-12, lw=2, c='blue', zorder=5)
+    
+    # z, g = j(emissivity_18, zmax=15.0)
+    # ax.plot(z, g/1.0e-12, c='k', lw=4, label=r'This work ($M_{1450}<-18$)', zorder=9)
+
+    # g18 = g
+
+    # z, g = j(emissivity_21, zmax=15.0)
+    # ax.plot(z, g/1.0e-12, c='peru', lw=4, label=r'This work ($M_{1450}<-21$)', zorder=9)
+
+    # g20 = g
+
+    zs_hm12, gs_hm12 = j(em_qso_hm12)
+    ax.plot(1+zs_hm12, gs_hm12/1.0e-12, c='grey', lw=2, zorder=2,
+            label='Haardt \& Madau 2012 QSOs', dashes=[7,2])
+
+    g_hm12_total(ax, puc=True)
+
+    zs_mh15, gs_mh15 = j(em_qso_mh15)
+    ax.plot(1+zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=1, zorder=2, dashes=[1,1],
+            label=r'Madau \& Haardt 2015')
+    
+    # bb13(ax, puc=True)
+
+    # shull(ax, puc=True)
+
+    # khaire(ax, puc=True)
+
+    # onorbe(ax, puc=True)
+
+    # puchwein(ax, puc=True)
+
+    # fumagalli(ax, puc=True)
+
+    # kollmeier(ax, puc=True)
+
+    # viel(ax, puc=True)
+
+    # gaikwad_b(ax, puc=True)
+
+    l1 = plt.legend(loc='upper right',
+                    fontsize=11, handlelength=3, frameon=False,
+                    framealpha=0.0, labelspacing=.1,
+                    handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+
+    # handles, labels = [], [] 
+    # handles.append((g18f,g18))
+    # labels.append('Kulkarni et al.\ 2018 ($M_\mathrm{1450}<-18$)')
+    # handles.append((g21f,g21))
+    # labels.append('Kulkarni et al.\ 2018 ($M_\mathrm{1450}<-21$)')
+
+    # l2 = plt.legend(handles, labels, loc='lower right',
+    #                 fontsize=11, handlelength=3, frameon=False,
+    #                 framealpha=0.0, labelspacing=.1,
+    #                 handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=1)
+
+    # ax.add_artist(l1)
+
+    plt.savefig('g_puc.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return 
