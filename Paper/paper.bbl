@@ -74,6 +74,13 @@
 {Bongiorno} A.,  et~al., 2007, \mn@doi [\aap] {10.1051/0004-6361:20077611},
   \href {http://ukads.nottingham.ac.uk/abs/2007A%26A...472..443B} {472, 443}
 
+\bibitem[\protect\citeauthoryear{{Bosman}, {Fan}, {Jiang}, {Reed}, {Matsuoka},
+  {Becker}  \& {Haehnelt}}{{Bosman} et~al.}{2018}]{2018arXiv180208177B}
+{Bosman} S.~E.~I.,  {Fan} X.,  {Jiang} L.,  {Reed} S.~L.,  {Matsuoka} Y.,
+  {Becker} G.~D.,   {Haehnelt} M.~G.,  2018, preprint, \href
+  {http://adsabs.harvard.edu/abs/2018arXiv180208177B} {} (\mn@eprint {arXiv}
+  {1802.08177})
+
 \bibitem[\protect\citeauthoryear{{Boutsia} et~al.,}{{Boutsia}
   et~al.}{2011}]{2011ApJ...736...41B}
 {Boutsia} K.,  et~al., 2011, \mn@doi [\apj] {10.1088/0004-637X/736/1/41}, \href
@@ -148,13 +155,6 @@
   {http://adsabs.harvard.edu/abs/2009MNRAS.392...19C} {392, 19}
 
 \bibitem[\protect\citeauthoryear{{D'Aloisio}, {Upton Sanderbeck}, {McQuinn},
-  {Trac}  \& {Shapiro}}{{D'Aloisio} et~al.}{2016}]{2016arXiv160706467D}
-{D'Aloisio} A.,  {Upton Sanderbeck} P.~R.,  {McQuinn} M.,  {Trac} H.,
-  {Shapiro} P.~R.,  2016, preprint, \href
-  {http://adsabs.harvard.edu/abs/2016arXiv160706467D} {} (\mn@eprint {arXiv}
-  {1607.06467})
-
-\bibitem[\protect\citeauthoryear{{D'Aloisio}, {Upton Sanderbeck}, {McQuinn},
   {Trac}  \& {Shapiro}}{{D'Aloisio} et~al.}{2017}]{2017MNRAS.468.4691D}
 {D'Aloisio} A.,  {Upton Sanderbeck} P.~R.,  {McQuinn} M.,  {Trac} H.,
   {Shapiro} P.~R.,  2017, \mn@doi [\mnras] {10.1093/mnras/stx711}, \href
@@ -164,12 +164,6 @@
   et~al.}{2016}]{2016ApJ...817..111D}
 {Danforth} C.~W.,  et~al., 2016, \mn@doi [\apj] {10.3847/0004-637X/817/2/111},
   \href {http://adsabs.harvard.edu/abs/2016ApJ...817..111D} {817, 111}
-
-\bibitem[\protect\citeauthoryear{{Davies} \& {Furlanetto}}{{Davies} \&
-  {Furlanetto}}{2016}]{2016MNRAS.460.1328D}
-{Davies} F.~B.,  {Furlanetto} S.~R.,  2016, \mn@doi [\mnras]
-  {10.1093/mnras/stw931}, \href
-  {http://adsabs.harvard.edu/abs/2016MNRAS.460.1328D} {460, 1328}
 
 \bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
   et~al.}{2001}]{2001AJ....121...54F}
@@ -407,11 +401,6 @@ Cambridge University Press
   {10.3847/1538-4357/835/2/113}, \href
   {http://adsabs.harvard.edu/abs/2017ApJ...835..113L} {835, 113}
 
-\bibitem[\protect\citeauthoryear{{Lusso} et~al.,}{{Lusso}
-  et~al.}{2010}]{2010A&A...512A..34L}
-{Lusso} E.,  et~al., 2010, \mn@doi [\aap] {10.1051/0004-6361/200913298}, \href
-  {http://adsabs.harvard.edu/abs/2010A%26A...512A..34L} {512, A34}
-
 \bibitem[\protect\citeauthoryear{{Lusso}, {Worseck}, {Hennawi}, {Prochaska},
   {Vignali}, {Stern}  \& {O'Meara}}{{Lusso} et~al.}{2015}]{2015MNRAS.449.4204L}
 {Lusso} E.,  {Worseck} G.,  {Hennawi} J.~F.,  {Prochaska} J.~X.,  {Vignali} C.,
@@ -483,23 +472,11 @@ Cambridge University Press
   {10.1088/0004-637X/694/2/842}, \href
   {http://adsabs.harvard.edu/abs/2009ApJ...694..842M} {694, 842}
 
-\bibitem[\protect\citeauthoryear{{Micheva}, {Iwata}  \& {Inoue}}{{Micheva}
-  et~al.}{2017a}]{2017MNRAS.465..302M}
-{Micheva} G.,  {Iwata} I.,   {Inoue} A.~K.,  2017a, \mn@doi [\mnras]
-  {10.1093/mnras/stw1329}, \href
-  {http://adsabs.harvard.edu/abs/2017MNRAS.465..302M} {465, 302}
-
 \bibitem[\protect\citeauthoryear{{Micheva}, {Iwata}, {Inoue}, {Matsuda},
-  {Yamada}  \& {Hayashino}}{{Micheva} et~al.}{2017b}]{2017MNRAS.465..316M}
+  {Yamada}  \& {Hayashino}}{{Micheva} et~al.}{2017}]{2017MNRAS.465..316M}
 {Micheva} G.,  {Iwata} I.,  {Inoue} A.~K.,  {Matsuda} Y.,  {Yamada} T.,
-  {Hayashino} T.,  2017b, \mn@doi [\mnras] {10.1093/mnras/stw2700}, \href
+  {Hayashino} T.,  2017, \mn@doi [\mnras] {10.1093/mnras/stw2700}, \href
   {http://adsabs.harvard.edu/abs/2017MNRAS.465..316M} {465, 316}
-
-\bibitem[\protect\citeauthoryear{{Mitra}, {Choudhury}  \& {Ferrara}}{{Mitra}
-  et~al.}{2016}]{2016arXiv160602719M}
-{Mitra} S.,  {Choudhury} T.~R.,   {Ferrara} A.,  2016, preprint, \href
-  {http://adsabs.harvard.edu/abs/2016arXiv160602719M} {} (\mn@eprint {arXiv}
-  {1606.02719})
 
 \bibitem[\protect\citeauthoryear{{Mitra}, {Choudhury}  \& {Ferrara}}{{Mitra}
   et~al.}{2018}]{2018MNRAS.473.1416M}
