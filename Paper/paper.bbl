@@ -220,6 +220,11 @@
 {Gehrels} N.,  1986, \mn@doi [\apj] {10.1086/164079}, \href
   {http://adsabs.harvard.edu/abs/1986ApJ...303..336G} {303, 336}
 
+\bibitem[\protect\citeauthoryear{{Georgakakis} et~al.,}{{Georgakakis}
+  et~al.}{2015}]{2015MNRAS.453.1946G}
+{Georgakakis} A.,  et~al., 2015, \mn@doi [\mnras] {10.1093/mnras/stv1703},
+  \href {http://ukads.nottingham.ac.uk/abs/2015MNRAS.453.1946G} {453, 1946}
+
 \bibitem[\protect\citeauthoryear{{Giallongo} et~al.,}{{Giallongo}
   et~al.}{2015}]{2015AA...578A..83G}
 {Giallongo} E.,  et~al., 2015, \mn@doi [\aap] {10.1051/0004-6361/201425334},
@@ -400,6 +405,17 @@ Cambridge University Press
 {Livermore} R.~C.,  {Finkelstein} S.~L.,   {Lotz} J.~M.,  2017, \mn@doi [\apj]
   {10.3847/1538-4357/835/2/113}, \href
   {http://adsabs.harvard.edu/abs/2017ApJ...835..113L} {835, 113}
+
+\bibitem[\protect\citeauthoryear{{Lusso} \& {Risaliti}}{{Lusso} \&
+  {Risaliti}}{2016}]{2016ApJ...819..154L}
+{Lusso} E.,  {Risaliti} G.,  2016, \mn@doi [\apj]
+  {10.3847/0004-637X/819/2/154}, \href
+  {http://ukads.nottingham.ac.uk/abs/2016ApJ...819..154L} {819, 154}
+
+\bibitem[\protect\citeauthoryear{{Lusso} et~al.,}{{Lusso}
+  et~al.}{2010}]{2010A&A...512A..34L}
+{Lusso} E.,  et~al., 2010, \mn@doi [\aap] {10.1051/0004-6361/200913298}, \href
+  {http://adsabs.harvard.edu/abs/2010A%26A...512A..34L} {512, A34}
 
 \bibitem[\protect\citeauthoryear{{Lusso}, {Worseck}, {Hennawi}, {Prochaska},
   {Vignali}, {Stern}  \& {O'Meara}}{{Lusso} et~al.}{2015}]{2015MNRAS.449.4204L}
@@ -718,16 +734,10 @@ Cambridge University Press
   {http://adsabs.harvard.edu/abs/2002AJ....123..485S} {123, 485}
 
 \bibitem[\protect\citeauthoryear{{Telfer}, {Zheng}, {Kriss}  \&
-  {Davidsen}}{{Telfer} et~al.}{2002a}]{2002ApJ...565..773T}
-{Telfer} R.~C.,  {Zheng} W.,  {Kriss} G.~A.,   {Davidsen} A.~F.,  2002a,
-  \mn@doi [\apj] {10.1086/324689}, \href
+  {Davidsen}}{{Telfer} et~al.}{2002}]{2002ApJ...565..773T}
+{Telfer} R.~C.,  {Zheng} W.,  {Kriss} G.~A.,   {Davidsen} A.~F.,  2002, \mn@doi
+  [\apj] {10.1086/324689}, \href
   {http://adsabs.harvard.edu/abs/2002ApJ...565..773T} {565, 773}
-
-\bibitem[\protect\citeauthoryear{{Telfer}, {Kriss}, {Zheng}, {Davidsen}  \&
-  {Tytler}}{{Telfer} et~al.}{2002b}]{2002ApJ...579..500T}
-{Telfer} R.~C.,  {Kriss} G.~A.,  {Zheng} W.,  {Davidsen} A.~F.,   {Tytler} D.,
-  2002b, \mn@doi [\apj] {10.1086/342836}, \href
-  {http://adsabs.harvard.edu/abs/2002ApJ...579..500T} {579, 500}
 
 \bibitem[\protect\citeauthoryear{{Vanden Berk} et~al.,}{{Vanden Berk}
   et~al.}{2001}]{2001AJ....122..549V}
@@ -739,13 +749,10 @@ Cambridge University Press
 {Vanzella} E.,  et~al., 2010, \mn@doi [\apj] {10.1088/0004-637X/725/1/1011},
   \href {http://adsabs.harvard.edu/abs/2010ApJ...725.1011V} {725, 1011}
 
-\bibitem[\protect\citeauthoryear{{Venemans}, {McMahon}, {Warren},
-  {Gonzalez-Solares}, {Hewett}, {Mortlock}, {Dye}  \& {Sharp}}{{Venemans}
-  et~al.}{2007}]{2007MNRAS.376L..76V}
-{Venemans} B.~P.,  {McMahon} R.~G.,  {Warren} S.~J.,  {Gonzalez-Solares} E.~A.,
-   {Hewett} P.~C.,  {Mortlock} D.~J.,  {Dye} S.,   {Sharp} R.~G.,  2007,
-  \mn@doi [\mnras] {10.1111/j.1745-3933.2007.00290.x}, \href
-  {http://adsabs.harvard.edu/abs/2007MNRAS.376L..76V} {376, L76}
+\bibitem[\protect\citeauthoryear{{Venemans} et~al.,}{{Venemans}
+  et~al.}{2015}]{2015ApJ...801L..11V}
+{Venemans} B.~P.,  et~al., 2015, \mn@doi [\apjl] {10.1088/2041-8205/801/1/L11},
+  \href {http://ukads.nottingham.ac.uk/abs/2015ApJ...801L..11V} {801, L11}
 
 \bibitem[\protect\citeauthoryear{{Viel}, {Haehnelt}, {Bolton}, {Kim},
   {Puchwein}, {Nasir}  \& {Wakker}}{{Viel} et~al.}{2017}]{2017MNRAS.467L..86V}
