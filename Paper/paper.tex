@@ -229,7 +229,7 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
     \includegraphics[width=\textwidth]{qsos.pdf}
     % data.py 
   \end{center}
-  \caption{Redshift distribution of the 86,015 AGN considered in this
+  \caption{Redshift distribution of the 83,488 AGN considered in this
     analysis.  Shown here are the observed quasar numbers, without
     correcting for incompleteness.  Further details on each of these
     data sets are in Table~\ref{tab:samples} and
@@ -245,15 +245,15 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
     Sample& $z$ range$^a$& Survey & Reference & Number & {Area} \\
     & & & & of quasars & {(deg$^2$)} \\
     \hline
-    1 & 0.1--2.2 & SDSS DR7 & \citet{2010AJ....139.2360S} & 48664 & 6248.0 \\
-    2 & 0.4--2.6 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 3663 & 64.2 \\
-    3 & 0.4--2.6 & --- NGP & \citet{2009MNRAS.392...19C} & 8153 & 127.7 \\
+    1 & 0.065--2.2 & SDSS DR7 & \citet{2010AJ....139.2360S} & 48664 & 6248.0 \\
+    2$^b$ & 0.4--2.2 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 2338 & 64.2 \\
+    3$^b$ & 0.4--2.2 & --- NGP & \citet{2009MNRAS.392...19C} & 7027 & 127.7 \\
     4 & 2.2--3.5 & BOSS DR9 & \citet{2013ApJ...773...14R} & 23301 & 2236.0 \\
     5 & 3.7--4.7 & SDSS DR7 & \citet{2010AJ....139.2360S} & 1785 & 6248.0 \\
     6 & 3.6--5.2 & NDWFS & \citet{2011ApJ...728L..26G} & 12 & 1.71 \\
     7 & 3.8--5.3 & DLS & \citet{2011ApJ...728L..26G} & 12 & 2.05 \\
     8 & 4.7--5.4 & SDSS+WISE & \citet{2016ApJ...829...33Y} & 99 & 14555.0 \\
-    9$^b$ & 4.7--5.5 & SDSS DR7 & \citet{2013ApJ...768..105M} & 103 & 6248.0 \\
+    9$^c$ & 4.7--5.5 & SDSS DR7 & \citet{2013ApJ...768..105M} & 103 & 6248.0 \\
     10 & 4.7--5.5 & --- Stripe 82 & \citet{2013ApJ...768..105M} & 59 & 235.0 \\
     11 & 5.7--6.5 & SDSS Main & \citet{2016ApJ...833..222J} & 24 & 11240.0 \\
     12 & 5.7--6.5 & --- Overlap & \citet{2016ApJ...833..222J} & 10 & 4223.0 \\
@@ -261,17 +261,24 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
     14 & 5.8--6.6 & CFHQS Deep & \citet{2010AJ....139..906W} & 1 & 4.47 \\
     15 & 5.8--6.6 & --- Very Wide & \citet{2010AJ....139..906W} & 16 & 494.0 \\
     16 & 5.8--6.5 & Subaru High-$z$ Quasar & \citet{2015ApJ...798...28K} & 2 & 6.5 \\
-    17$^c$ &4.0--6.5 & CANDELS GOODS-S & \citet{2015AA...578A..83G} & 19 & 0.047 \\
-    18$^d$ & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 \\
-    19$^d$ & 6.5--7.4 & UKIDSS & \citet{2015ApJ...801L..11V} & 1 & 3370.0 \\
-    20$^d$ & 6.5--7.4 & ALLWISE+UKIDSS+DECaLS & \citet{2018Natur.553..473B} & 1 & 2500.0 \\
+    17$^d$ &4.0--6.5 & CANDELS GOODS-S & \citet{2015AA...578A..83G} & 19 & 0.047 \\
+    18$^e$ & 6.5--7.4 & UKIDSS & \citet{2011Natur.474..616M} & 1 & 3370.0 \\
+    19$^e$ & 6.5--7.4 & UKIDSS & \citet{2015ApJ...801L..11V} & 1 & 3370.0 \\
+    20$^e$ & 6.5--7.4 & ALLWISE+UKIDSS+DECaLS & \citet{2018Natur.553..473B} & 1 & 2500.0 \\
     \hline
   \end{tabular}\\
   \begin{minipage}{14.5cm}
-   \textsuperscript{$c$}{Redshift range of the sample or, for small samples, approximate redshift range in which the survey is sensitive.}\\
-  \textsuperscript{$b$}{Restricted to $M_{1450}>-26.73$ quasars to avoid overlap with the \citet{2016ApJ...829...33Y} sample.}\\
- \textsuperscript{$c$}{Used only in Section~\ref{sec:global} and Appendix~\ref{sec:conv} due to lack of spectroscopic redshifts for majority of the sample.}\\
- \textsuperscript{$d$}{Used only in Section~\ref{sec:global} due to roughly estimated selection function.}
+    \textsuperscript{$a$}{Redshift range of the sample or, for small
+      samples, approximate redshift range in which the survey is
+      sensitive.}\\
+    \textsuperscript{$b$}{Restricted to $z<2.2$.}\\
+    \textsuperscript{$c$}{Restricted to $M_{1450}>-26.73$ quasars to
+      avoid overlap with the \citet{2016ApJ...829...33Y} sample.}\\
+    \textsuperscript{$d$}{Used only in Section~\ref{sec:global} and
+      Appendix~\ref{sec:conv} due to lack of spectroscopic redshifts
+      for majority of the sample.}\\
+    \textsuperscript{$e$}{Used only in Section~\ref{sec:global} due to
+      roughly estimated selection function.}
  \end{minipage}
 \end{table*}
 
