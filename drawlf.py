@@ -72,6 +72,7 @@ def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
     up = np.percentile(phi, 15.87, axis=0)
     down = np.percentile(phi, 84.13, axis=0)
     f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
+    #f = ax.fill_between(mags, down, y2=up, color='grey', alpha=0.7)
 
     return f
 
@@ -81,6 +82,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
     phi_fit = lf.log10phi(bf, mags)
     # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
     bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
+    #bf, = ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
 
     return bf 
 
@@ -168,7 +170,6 @@ def get_lf(lf, sid, z_plot):
     
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
-
     m = lf.M1450[lf.sid==sid]
 
     selmaps = [x for x in lf.maps if x.sid == sid]
@@ -199,6 +200,11 @@ def get_lf(lf, sid, z_plot):
 
     phi = nums
     logphi = np.log10(phi) # cMpc^-3 mag^-1
+
+    # print 'sid=', sid 
+    # print 'mags=', mags
+    # print 'nums=', nums
+    # print 'total=', np.sum(nums)
 
     # Calculate errorbars on our binned LF.  These have been estimated
     # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
@@ -458,6 +464,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
            6 : '#17becf', # "cyan"
            7 : '#9467bd', # "purple"
            8 : '#8c564b', # "brown"
+           9 : 'r', 
            10 : '#ff7f0e', # "orange"
            11 : '#7f7f7f', # "grey"
            13 : '#d62728', # "red"
@@ -489,9 +496,8 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
     for i in sids[::-1]:
 
-        print i 
-        
         mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
+
         print mags[logphi>-100.0]
         print logphi[logphi>-100.0]
         ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=20, label=dsl(i))
@@ -535,7 +541,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
         
-    return (indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
+    return # (indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
 
 def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
 
