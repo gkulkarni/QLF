@@ -245,7 +245,7 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
     Sample& $z$ range$^a$& Survey & Reference & Number & {Area} \\
     & & & & of quasars & {(deg$^2$)} \\
     \hline
-    1 & 0.1--2.2 & SDSS DR7 & \citet{2010AJ....139.2360S} & 48664 & 6248.0 \\
+    1 & 0.0--2.2 & SDSS DR7 & \citet{2010AJ....139.2360S} & 48664 & 6248.0 \\
     2$^b$ & 0.4--2.2 & 2SLAQ SGP & \citet{2009MNRAS.392...19C} & 2338 & 64.2 \\
     3$^b$ & 0.4--2.2 & --- NGP & \citet{2009MNRAS.392...19C} & 7027 & 127.7 \\
     4 & 2.2--3.5 & BOSS DR9 & \citet{2013ApJ...773...14R} & 23301 & 2236.0 \\
@@ -671,37 +671,34 @@ by eye and discard them from our analysis.
 %%GW: We should also set the selection functions to zero in these bins.
 The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by open circles.
 
-
-%%GW: 2.5<z<2.6 QSOs are missing in this plot! Also, there are no open symbols for BOSS, but the numbers indicate that you excluded some in several redshift bins. The total numbers per redshift bin are not matching the number of BOSS QSOs.
 \begin{figure*}
   \begin{center}
     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small.pdf}
     % mosaic.py 
   \end{center}
-  \caption{Homogenised quasar luminosity functions at $\lambda=1450$\,\AA\ in redshift bins from
-    $z=0.1$ to $6.5$.  The symbols show our inferred binned
-    luminosity functions from various data sets:
+  \caption{Homogenised quasar luminosity functions at
+    $\lambda=1450$\,\AA\ in redshift bins from $z=0.1$ to $6.5$.  The
+    symbols show our inferred binned luminosity functions from various
+    data sets:
     \citet[red]{2010AJ....139.2360S},
     \citet[green]{2009MNRAS.392...19C},
     \citet[dark blue]{2013ApJ...773...14R},
     \citet[light blue]{2011ApJ...728L..26G},
     \citet[yellow]{2016ApJ...829...33Y},
-    \citet[brown]{2013ApJ...768..105M},
+    \citet[DR7 brown]{2013ApJ...768..105M},
+    \citet[Stripe 82 teal]{2013ApJ...768..105M},
     \citet[pink]{2016ApJ...833..222J},
     \citet[orange]{2010AJ....139..906W}, and
-    \citet[grey]{2015ApJ...798...28K}.  Open circles in
-    corresponding colours indicate excluded incomplete magnitude bins for
-    the respective data sets. In each panel we give the number
-    of considered quasars in the respective redshift bin,
-    with the number in parentheses indicating the total number of quasars before
-    excluding incomplete magnitude bins.
-    In each redshift bin, the black
-    curve shows the best-fit double power law model, which is
-    represented by the median of the posterior probability
-    distribution function.  The grey shaded area shows the
-    one-sigma (68.26\%) uncertainty. 
-    See Sections~\ref{sec:binnedlf} and \ref{sec:bins} for further
-    details.}
+    \citet[grey]{2015ApJ...798...28K}.
+    Open circles in corresponding colours indicate magnitude bins
+    excluded due to incompleteness for the respective data sets.  The
+    number of AGN before this selection is shown in parentheses; the
+    selected number of AGN is shown outside parentheses.  In each
+    redshift bin, the black curve shows the best-fit double power law
+    model, which is represented by the median of the posterior
+    probability distribution function.  The grey shaded area shows the
+    one-sigma (68.26\%) uncertainty.  See Sections~\ref{sec:binnedlf}
+    and \ref{sec:bins} for further details.}
   \label{fig:mosaic}
 \end{figure*}
 
