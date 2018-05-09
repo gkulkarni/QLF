@@ -7,6 +7,7 @@ mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '22'
 import matplotlib.pyplot as plt
 from random import shuffle
+import sys 
 
 """
 
@@ -31,11 +32,15 @@ class sample:
             z, m, p = getqlums(f)
             try:
                 self.z = np.append(self.z, z)
+                self.m = np.append(self.m, m)
             except(AttributeError):
                 self.z = z
+                self.m = m 
         
         self.color = color
-        self.label = label
+
+        if label is not None: 
+            self.label = label
 
         return 
 
@@ -44,42 +49,56 @@ def plot_data(data):
     fig = plt.figure(figsize=(14, 7), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.tick_params('both', which='major', length=7, width=1)
-    ax.tick_params('both', which='minor', length=3, width=1)
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1, direction='in')
+    ax.tick_params('both', which='minor', length=3, width=1, direction='in')
     ax.set_yscale('log')
 
     bin_width = 0.1
     bins = np.arange(0.0, 7.0, bin_width)
 
-    # seaborn.color_palette('husl', 16).as_hex()
-    cs = [u'#f77189', u'#f7754f', u'#dc8932', u'#c39532', u'#ae9d31', u'#97a431',
-          u'#77ab31', u'#31b33e', u'#33b07a', u'#35ae93', u'#36ada4', u'#37abb4',
-          u'#38a9c5', u'#3aa5df', u'#6e9bf4', u'#a48cf4', u'#cc7af4', u'#f45cf2',
-          u'#f565cc', u'#f66bad']
-
-    shuffle(cs)
-    print cs
-
-    cs = [u'#a48cf4', u'#f7754f', u'#3aa5df', u'#f565cc', u'#6e9bf4',
-          u'#31b33e', u'#33b07a', u'#dc8932', u'#f77189', u'#cc7af4',
-          u'#ae9d31', u'#77ab31', u'#35ae93', u'#97a431', u'#f45cf2',
-          u'#37abb4', u'#36ada4']#, u'#f66bad', u'#38a9c5', u'#c39532']
+    # Colours were obtained from Matplotlib 2.0 colour palette
+    # (mpl.rcParams['axes.prop_cycle']), combined with some colours
+    # from seaborn.color_palette('husl', 16).as_hex() and
+    # colorbrewer2.org.
+    cs = [u'#1f77b4', u'#ff7f0e', u'#2ca02c', u'#d62728', u'#9467bd',
+          u'#8c564b', u'#e377c2', u'#7f7f7f', u'#bcbd22', u'#17becf',
+          u'#77ab31', u'#d8b365', u'#cc7af4', u'#f66bad']
 
     d = [x.z for x in data]
-    print len(d), len(cs)
     l = [x.label for x in data]
-    plt.hist(d, histtype='bar', stacked=True, rwidth=1.0, ec='None', bins=bins, color=cs, label=l, lw=0.0)
-    
+    plt.hist(d, histtype='bar', stacked=True, rwidth=1.0,
+             ec='None', bins=bins, color=cs, label=l, lw=0.0)
+
+    # Three qsos added by hand 
     z = 7.085
     zlim = (z-bin_width/2.0, z+bin_width/2.0)
     nbins = 1
-    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=u'#f77189', 
-                                histtype='stepfilled', ec='None', label='UKIDSS Mortlock et al.\ (2011)')
-            
-    ax.set_xlabel(r'redshift')
-    ax.set_ylabel(r'Number of quasars')
+    name = r'UKIDSS Mortlock et al.\ (2011)'
+    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=u'#beaed4', 
+                                histtype='stepfilled', ec='None',
+                                label=name)
 
-    plt.ylim(7e-1, 5.0e4)
+    z = 6.530 
+    zlim = (z-bin_width/2.0, z+bin_width/2.0)
+    nbins = 1
+    name = r'UKIDSS Venemans et al.\ (2015)'
+    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=u'#f0027f', 
+                                histtype='stepfilled', ec='None',
+                                label=name)
+
+    z = 7.54 
+    zlim = (z-bin_width/2.0, z+bin_width/2.0)
+    nbins = 1
+    name = r'ALLWISE+UKIDSS+DECaLS Ba\~nados et al.\ (2018)'
+    n, bins, patches = plt.hist(z, bins=nbins, range=zlim, color=u'#bf5b17', 
+                                histtype='stepfilled', ec='None',
+                                label=name)
+    
+    ax.set_xlabel(r'redshift')
+    ax.set_ylabel(r'Number of AGN')
+
+    plt.ylim(7e-1, 1.0e4)
     plt.xlim(0., 8.)
 
     plt.legend(loc='upper right', fontsize=10, handlelength=3,
@@ -90,103 +109,89 @@ def plot_data(data):
 
     return
 
-# seaborn.color_palette('husl', 16).as_hex()
-cs = [u'#f77189', u'#f7754f', u'#dc8932', u'#c39532', u'#ae9d31', u'#97a431',
-      u'#77ab31', u'#31b33e', u'#33b07a', u'#35ae93', u'#36ada4', u'#37abb4',
-      u'#38a9c5', u'#3aa5df', u'#6e9bf4', u'#a48cf4', u'#cc7af4', u'#f45cf2',
-      u'#f565cc', u'#f66bad']
-
-shuffle(cs)
-
 data = []
 
-f = ['Data_new/dr7z2p2_sample.dat']
-l = r'SDSS DR7 with Richards et al.\ (2006) selection function'
-s = sample(f, color=cs[0], label=l)
+f = ['Data_new/dr7z2p2_sample.dat',
+     'Data_new/dr7z3p7_sample.dat']
+l = r'SDSS DR7 Schneider et al.\ 2010'
+s = sample(f, label=l)
+s.z = s.z[s.z<4.7]
 data.append(s)
 
 f = ['Data_new/croom09sgp_sample.dat',
      'Data_new/croom09ngp_sample.dat']
-l = r'2SLAQ NGP+SGP Croom et al.\ (2009a, 2009b)'
-s = sample(f, color=cs[1], label=l)
-data.append(s)
-
-f = ['Data_new/dr7z3p7_sample.dat']
-l = r'SDSS DR7 with Richards et al.\ (2006) selection function'
-s = sample(f, color=cs[0], label=l)
-# Use only up to z = 4.7 to avoid overlap with McGreer and Yang 
-s.z = s.z[s.z<4.7]
+l = r'2SLAQ NGP+SGP Croom et al.\ (2009)'
+s = sample(f, label=l)
+s.z = s.z[s.z<2.2]
 data.append(s)
 
 f = ['Data_new/bossdr9color.dat']
 l = r'BOSS DR9 colour-selected Ross et al.\ (2013)'
-s = sample(f, color=cs[2], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/yang16_sample.dat']
 l = r'SDSS+Wise Yang et al.\ (2016)'
-s = sample(f, color=cs[3], label=l)
+s = sample(f, label=l)
 data.append(s)
 
-f = ['Data_new/mcgreer13_dr7sample.dat']
+f = ['Data_new/mcgreer13_dr7sample.dat',
+     'Data_new/mcgreer13_dr7extend.dat']
 l = r'SDSS DR7 McGreer et al.\ (2013)'
-s = sample(f, color=cs[4], label=l)
+s = sample(f, label=l)
+s.z = s.z[s.m>-26.73]
 data.append(s)
 
-f = ['Data_new/mcgreer13_s82sample.dat']
+f = ['Data_new/mcgreer13_s82sample.dat',
+     'Data_new/mcgreer13_s82extend.dat']
 l = r'SDSS Stripe 82 McGreer et al.\ (2013)'
-s = sample(f, color=cs[5], label=l)
-data.append(s)
-
-f = ['Data_new/mcgreer13_dr7extend.dat']
-l = r'SDSS DR7 extended McGreer et al.\ (2013)'
-s = sample(f, color=cs[6], label=l)
-data.append(s)
-
-f = ['Data_new/mcgreer13_s82extend.dat']
-l = r'SDSS Stripe 82 extended McGreer et al.\ (2013)'
-s = sample(f, color=cs[7], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data/glikman11qso.dat']
 l = r'NDWFS+DLS Glikman et al.\ (2011)'
-s = sample(f, color=cs[8], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/giallongo15_sample.dat']
 l = r'CANDELS GOODS-S Giallongo et al.\ (2015)'
-s = sample(f, color=cs[9], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/jiang16main_sample.dat']
 l = r'SDSS Main Jiang et al.\ (2016)'
-s = sample(f, color=cs[10], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/jiang16overlap_sample.dat']
 l = r'SDSS Overlap Jiang et al.\ (2016)'
-s = sample(f, color=cs[11], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/jiang16s82_sample.dat']
 l = r'SDSS Stripe 82 Jiang et al.\ (2016)'
-s = sample(f, color=cs[12], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/willott10_cfhqsdeepsample.dat']
 l = r'CFHQS Deep Willott et al.\ (2010)'
-s = sample(f, color=cs[13], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/willott10_cfhqsvwsample.dat']
 l = r'CFHQS Very Wide Willott et al.\ (2010)'
-s = sample(f, color=cs[14], label=l)
+s = sample(f, label=l)
 data.append(s)
 
 f = ['Data_new/kashikawa15_sample.dat']
 l = r'Subaru High-$z$ Quasar Survey Kashikawa et al.\ (2010)'
-s = sample(f, color=cs[15], label=l)
+s = sample(f, label=l)
 data.append(s)
 
+sum = 0
+for x in data: 
+    sum += x.z.size
+print 'Total number of AGN:', sum+3 # 3 qsos added by hand above.
+    
 plot_data(data)
 
