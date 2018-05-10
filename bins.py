@@ -32,7 +32,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'Richards 
              ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'Glikman et al.\ 2011'),
              ('Data_new/yang16_sel.dat', 0.1, 0.05, 14555.0, 17, r'Yang et al.\ 2016'),
              ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'McGreer et al.\ 2013'),
-             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 8, r'McGreer et al.\ 2013'),
+             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 9, r'McGreer et al.\ 2013'),
              ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'Jiang et al.\ 2016'),
              ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 18, r'Jiang et al.\ 2016'),
              ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'Jiang et al.\ 2016'),
@@ -43,8 +43,8 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'Richards 
 method = 'Nelder-Mead'
 
 zls = [(0.1, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0), (1.0, 1.2),
-       (1.2, 1.4), (1.4, 1.6), (1.6, 1.8), (1.8, 2.2), (2.2, 2.3),
-       (2.3, 2.4), (2.4, 2.5), (2.6, 2.7), (2.7, 2.8), (2.8, 2.9),
+       (1.2, 1.4), (1.4, 1.6), (1.6, 1.8), (1.8, 2.2), (2.2, 2.4),
+       (2.4, 2.5), (2.5, 2.6), (2.6, 2.7), (2.7, 2.8), (2.8, 2.9),
        (2.9, 3.0), (3.0, 3.1), (3.1, 3.2), (3.2, 3.3), (3.3, 3.4),
        (3.4, 3.5), (3.7, 4.1), (4.1, 4.7), (4.7, 5.5), (5.5, 6.5)]
 
