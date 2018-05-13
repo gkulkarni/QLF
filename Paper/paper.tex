@@ -588,14 +588,12 @@ magnitude-dependent spectroscopic incompleteness was factored into the
 \citet{2016ApJ...829...33Y} photometric selection function (their
 Figures~5 and 7), resulting in
 $f_\mathrm{SDSS+WISE}=0.97f_\mathrm{s,SDSS+WISE}\left(z_\mathrm{AB}\right)f_\mathrm{p,SDSS+WISE}$.
-We obtained a rough estimate of the
-\citet{2015AA...578A..83G} selection function by comparing the
-corrected and observed QLFs, i.e.\ taking
-$f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$ (see their
-Table~3).
-Finally, for the three $z>6.5$ quasars we assumed a selection function of
-unity in a range of $z$ and $M_{1450}$ estimated by the respective survey teams
-(private communication).
+We obtained a rough estimate of the \citet{2015AA...578A..83G}
+selection function by comparing the corrected and observed QLFs,
+i.e.\ taking $f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$
+(see their Table~3).  Finally, for the three $z>6.5$ quasars we
+assumed a selection function of unity in a range of $z$ and $M_{1450}$
+estimated by the respective survey teams (private communication).
 
 \section{Luminosity function}
 \label{sec:lf}
@@ -645,17 +643,30 @@ integral in Equation~(\ref{eqn:vi}) by the Euler method, i.e., by
 simply summing over the ``tiles'' of the selection function map,
 without interpolating between the redshift and luminosity values of
 neighbouring tiles. 
-%%GW: We should add that interpolation of selection functions is not straightforward (strong gradients) and not unique. Many selection functions are very coarse. V=0 means that the selection function has systematic errors (a QSO was found where the selection probability is zero). By removing them we avoid numerical issues, but underestimate the QLF. Surveys need to report selection functions that are consistent with their actual samples.
-This may result in $V_i=0$ for some quasars, in
-which case we remove them from our analysis.
-%%GW: Poisson statistics will underestimate the error since uncertainties in the selection function are not considered (all surveys assume a fixed selection function). For small surveys the Poisson error dominates, but for large surveys the error is driven by systematics in the selection function. These facts have been neglected so far, and we should make this point very clearly.
+%%GW: We should add that interpolation of selection functions is not
+%%straightforward (strong gradients) and not unique. Many selection
+%%functions are very coarse. V=0 means that the selection function has
+%%systematic errors (a QSO was found where the selection probability
+%%is zero). By removing them we avoid numerical issues, but
+%%underestimate the QLF. Surveys need to report selection functions
+%%that are consistent with their actual samples. -- done (GK) 
+This may result in $V_i=0$ for some quasars, in which case we remove
+them from our analysis.  (Interpolation of selection functions is not
+straightforward due to strong gradients.  The presence of objects with
+$V_i=0$ implies that the selection function has systematic errors.)
+%%GW: Poisson statistics will underestimate the error since
+%%uncertainties in the selection function are not considered (all
+%%surveys assume a fixed selection function). For small surveys the
+%%Poisson error dominates, but for large surveys the error is driven
+%%by systematics in the selection function. These facts have been
+%%neglected so far, and we should make this point very clearly. -- done (GK)
 In each bin, we estimate the uncertainty in the luminosity function by
 assuming Poisson statistics \citep{1986ApJ...303..336G} for the number
 of quasars, i.e.\ assuming negligible uncertainty in the selection function.
 The resultant binned luminosity function estimates are shown by the
 points in Figure~\ref{fig:mosaic}.
 
-%%GW: I've sharpened the discussion below.
+%%GW: I've sharpened the discussion below. -- done (GK)
 As seen in Figure~\ref{fig:mosaic}, the distribution of luminosity
 function values in each redshift bin are suggestive of a double power
 law form for the QLF.  We will fit such a form below. 
@@ -668,8 +679,10 @@ systematically overestimated at its magnitude limit.
 At $z\sim 4$ the SDSS faint end QLF is inconsistent with the fainter
 \citet{2011ApJ...728L..26G} QLF. We identify such discrepant bins
 by eye and discard them from our analysis.
-%%GW: We should also set the selection functions to zero in these bins.
-The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by open circles.
+%%GW: We should also set the selection functions to zero in these
+%%bins. -- done (GK)
+The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by
+open circles.
 
 \begin{figure*}
   \begin{center}
@@ -721,74 +734,13 @@ The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by open circle
   \label{fig:evoln}
 \end{figure*}
 
-%%GW: I would delete the z_bin column from the table. Otherwise the reader might be confused what you are plotting in the figure. The bin centers and the mean values are very similar anyway.
-%%GW: Again 2.5<z<2.6 is missing
-%%GW: I would add a column or a comment which redshift bins we consider reliable. I'm afraid lazy people will just take the values without thinking.
-%% \begin{table*}
-%%   % bins_tabulate.py; Nqso added by hand
-%%   \caption{Best-fit double power law luminosity function parameters in
-%%     various redshift bins.  The luminosity function parameters
-%%     $\phi_*$, $M_*$, $\alpha$, and $\beta$ are defined in
-%%     Equation~(\ref{eqn:dpl}), with $\beta$ denoting the faint-end
-%%     slope.  Quasars in each bin have redshifts $z_\mathrm{min}\leq z <
-%%     z_\mathrm{max}$.  The number of quasars in each bin is given by
-%%     $N_\mathrm{qso}$.  The bin centre and sample mean redshift are
-%%     given by $z_\mathrm{bin}$ and $\langle z\rangle$, respectively.
-%%     Errors indicate one-sigma (68.26\%) uncertainties.  These values
-%%     are shown in Figure~\ref{fig:evoln}.  The corresponding luminosity
-%%     functions are shown in Figure~\ref{fig:mosaic}.  See
-%%     Section~\ref{sec:bins} for further details.}
-%%   \label{tab:bins}
-%%   \begin{tabular}{ccccr....}
-%%     \hline
-%%     $\langle z\rangle$ &
-%%     $z_\mathrm{bin}$ &
-%%     $z_\mathrm{min}$ &
-%%     $z_\mathrm{max}$ &
-%%     $N_\mathrm{qso}$ &
-%%     \multicolumn{1}{c}{$\log_{10}(\phi_*/$} &
-%%     \multicolumn{1}{c}{$M_*$} &
-%%     \multicolumn{1}{c}{$\alpha$} &
-%%     \multicolumn{1}{c}{$\beta$} \\
-    
-%%     &
-%%     &
-%%     &
-%%     &
-%%     &
-%%     \multicolumn{1}{c}{cMpc$^{-3}$mag$^{-1}$)} &
-%%     &
-%%     & \\
-%%     \hline
-%%     0.31 & 0.25 & 0.10 & 0.40 & 3520 & -5.62^{+0.09}_{-0.10} & -21.37^{+0.21}_{-0.22} & -2.94^{+0.09}_{-0.10} & -1.22^{+0.18}_{-0.16} \\
-%%     0.50 & 0.50 & 0.40 & 0.60 & 4555 & -6.12^{+0.04}_{-0.04} & -23.00^{+0.08}_{-0.08} & -3.37^{+0.07}_{-0.08} & -1.36^{+0.04}_{-0.04} \\
-%%     0.72 & 0.70 & 0.60 & 0.80 & 3308 & -6.42^{+0.09}_{-0.08} & -24.03^{+0.15}_{-0.13} & -3.55^{+0.12}_{-0.13} & -1.75^{+0.05}_{-0.04} \\
-%%     0.91 & 0.90 & 0.80 & 1.00 & 3922 & -6.39^{+0.08}_{-0.07} & -24.51^{+0.12}_{-0.11} & -3.69^{+0.10}_{-0.11} & -1.73^{+0.06}_{-0.05} \\
-%%     1.10 & 1.10 & 1.00 & 1.20 & 6367 & -6.53^{+0.03}_{-0.03} & -25.14^{+0.04}_{-0.04} & -4.17^{+0.08}_{-0.09} & -1.73^{+0.02}_{-0.02} \\
-%%     1.30 & 1.30 & 1.20 & 1.40 & 6479 & -6.43^{+0.04}_{-0.04} & -25.29^{+0.06}_{-0.06} & -3.97^{+0.08}_{-0.08} & -1.74^{+0.03}_{-0.03} \\
-%%     1.50 & 1.50 & 1.40 & 1.60 & 7539 & -6.51^{+0.03}_{-0.03} & -25.68^{+0.04}_{-0.04} & -4.28^{+0.08}_{-0.08} & -1.75^{+0.02}_{-0.02} \\
-%%     1.71 & 1.70 & 1.60 & 1.80 & 6788 & -6.28^{+0.04}_{-0.04} & -25.55^{+0.05}_{-0.05} & -3.96^{+0.07}_{-0.07} & -1.60^{+0.03}_{-0.03} \\
-%%     1.98 & 2.00 & 1.80 & 2.20 & 10478 & -6.72^{+0.03}_{-0.03} & -26.26^{+0.04}_{-0.04} & -4.20^{+0.07}_{-0.07} & -1.87^{+0.02}_{-0.02} \\
-%%     2.25 & 2.25 & 2.20 & 2.30 & 4102 & -5.98^{+0.10}_{-0.09} & -25.26^{+0.19}_{-0.18} & -3.21^{+0.15}_{-0.16} & -1.54^{+0.07}_{-0.06} \\
-%%     2.35 & 2.35 & 2.30 & 2.40 & 4317 & -6.28^{+0.09}_{-0.09} & -25.63^{+0.17}_{-0.15} & -3.39^{+0.17}_{-0.19} & -1.64^{+0.06}_{-0.05} \\
-%%     2.45 & 2.45 & 2.40 & 2.50 & 3403 & -6.40^{+0.08}_{-0.07} & -25.86^{+0.14}_{-0.13} & -3.60^{+0.20}_{-0.21} & -1.60^{+0.05}_{-0.05} \\
-%%     2.65 & 2.65 & 2.60 & 2.70 & 1883 & -5.98^{+0.06}_{-0.06} & -25.15^{+0.14}_{-0.13} & -3.13^{+0.12}_{-0.13} & -1.05^{+0.09}_{-0.08} \\
-%%     2.75 & 2.75 & 2.70 & 2.80 & 1135 & -6.30^{+0.08}_{-0.07} & -25.96^{+0.15}_{-0.13} & -3.81^{+0.28}_{-0.31} & -1.34^{+0.07}_{-0.06} \\
-%%     2.85 & 2.85 & 2.80 & 2.90 & 1069 & -6.46^{+0.12}_{-0.10} & -26.23^{+0.23}_{-0.18} & -3.60^{+0.36}_{-0.42} & -1.46^{+0.08}_{-0.07} \\
-%%     2.95 & 2.95 & 2.90 & 3.00 & 1104 & -6.77^{+0.07}_{-0.06} & -26.53^{+0.10}_{-0.09} & -5.05^{+0.60}_{-0.64} & -1.71^{+0.05}_{-0.04} \\
-%%     3.05 & 3.05 & 3.00 & 3.10 & 1127 & -6.77^{+0.08}_{-0.07} & -26.48^{+0.12}_{-0.10} & -4.71^{+0.46}_{-0.52} & -1.70^{+0.06}_{-0.05} \\
-%%     3.15 & 3.15 & 3.10 & 3.20 & 1041 & -7.25^{+0.17}_{-0.12} & -27.09^{+0.25}_{-0.18} & -4.42^{+0.81}_{-1.23} & -1.96^{+0.08}_{-0.06} \\
-%%     3.25 & 3.25 & 3.20 & 3.30 & 815 & -7.33^{+0.13}_{-0.13} & -27.19^{+0.19}_{-0.23} & -4.36^{+0.65}_{-0.76} & -1.93^{+0.06}_{-0.06} \\
-%%     3.34 & 3.35 & 3.30 & 3.40 & 510 & -7.54^{+0.19}_{-0.21} & -27.39^{+0.25}_{-0.37} & -4.90^{+1.36}_{-1.35} & -2.08^{+0.09}_{-0.07} \\
-%%     3.44 & 3.45 & 3.40 & 3.50 & 155 & -6.77^{+0.19}_{-0.20} & -26.64^{+0.42}_{-0.35} & -3.70^{+0.62}_{-0.80} & -1.24^{+0.27}_{-0.22} \\
-%%     3.88 & 3.90 & 3.70 & 4.10 & 628 & -7.92^{+0.12}_{-0.10} & -27.26^{+0.14}_{-0.12} & -4.81^{+0.34}_{-0.39} & -2.07^{+0.10}_{-0.09} \\
-%%     4.35 & 4.40 & 4.10 & 4.70 & 442 & -8.32^{+0.29}_{-0.26} & -27.38^{+0.38}_{-0.31} & -4.19^{+0.41}_{-0.47} & -2.20^{+0.16}_{-0.13} \\
-%%     4.92 & 5.10 & 4.70 & 5.50 & 263 & -9.02^{+0.29}_{-0.22} & -27.88^{+0.36}_{-0.27} & -4.51^{+0.66}_{-0.83} & -2.31^{+0.11}_{-0.08} \\
-%%     6.00 & 6.00 & 5.50 & 6.50 & 66 & -10.60^{+0.71}_{-1.06} & -29.12^{+1.04}_{-1.78} & -4.99^{+0.72}_{-1.22} & -2.40^{+0.10}_{-0.08} \\
-%%     \hline
-%%   \end{tabular}
-%% \end{table*}
-
+%%GW: I would delete the z_bin column from the table. Otherwise the
+%%reader might be confused what you are plotting in the figure. The
+%%bin centers and the mean values are very similar anyway.--done (GK)
+%%GW: Again 2.5<z<2.6 is missing--done (GK)
+%%GW: I would add a column or a comment which redshift bins we
+%%consider reliable. I'm afraid lazy people will just take the values
+%%without thinking.
 \begin{table*}
   % bins_tabulate.py; Nqso added by hand
   \caption{Best-fit double power law luminosity function parameters in
@@ -857,9 +809,8 @@ The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by open circle
 
 %%GW: Not sure what you mean here. I've cut the next two sentences
 %As our next step, we combine magnitude bins by binning the quasars
-%only in redshifts.  This allows us to estimate the luminosity function
-%at each redshift.
-
+%only in redshifts.  This allows us to estimate the luminosity
+%function at each redshift.--done(GK)
 In each redshift bin, we model the quasar
 luminosity function as a double power law 
 \citep[e.g.][]{1988MNRAS.235..935B}
@@ -871,10 +822,10 @@ luminosity function as a double power law
 with four free parameters: (i) the amplitude $\phi_*$, (ii) the break magnitude $M_*$,
 (iii)  the bright-end slope $\alpha$, and (iv) the faint-end slope $\beta$.
 %%GW: Maybe give the range of the uniform priors.
-By assuming broad, uniform priors, we
-obtain posterior probability distributions for these parameters using
-MCMC \citep[e.g.,][]{jaynes}.  The joint posterior probability
-distribution of the model parameters is then written as
+By assuming broad, uniform priors, we obtain posterior probability
+distributions for these parameters using MCMC \citep[e.g.,][]{jaynes}.
+The joint posterior probability distribution of the model parameters
+is then written as
 \begin{multline}
   p(\phi_*, M_*, \alpha, \beta | \{M_i, z_i\}) \propto \\ p(\phi_*, M_*,
   \alpha, \beta)p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta),
@@ -882,8 +833,8 @@ distribution of the model parameters is then written as
 where the constant of proportionality is independent of the luminosity
 function parameters, and $\{M_i, z_i\}$ denotes the magnitudes and
 redshifts of quasars falling in a redshift bin $[z_\mathrm{min},
-z_\mathrm{max})$.  We use a uniform prior distribution $p(\phi_*,
-M_*, \alpha, \beta)$ and assume that the likelihood
+  z_\mathrm{max})$.  We use a uniform prior distribution $p(\phi_*,
+  M_*, \alpha, \beta)$ and assume that the likelihood
 \begin{equation}
   \mathcal{L}\equiv p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta)
 \end{equation}
@@ -944,23 +895,26 @@ redshift.
 
 The redshift evolution of the four double power law parameters is
 shown in Figure~\ref{fig:evoln} and tabulated in Table~\ref{tab:bins}.
-We find interesting evolutionary trends in each
-of the four parameters.  The break magnitude $M_*$ evolves by more
-than eight magnitudes from redshift $z=0$ to $7$.  The amplitude of
-the luminosity function $\phi_*$ evolves moderately from $z=0$ to
-$z\sim 3$ and then drops by six orders of magnitude to about
-$10^{-12}$\,cMpc$^{-3}$mag$^{-1}$ at $z\sim 7$.  The bright end slope $\alpha$ has
-significant scatter, but still shows a trend towards more negative
-values, i.e., steeper luminosity function bright ends, at high
-redshifts.  Finally, the faint end slope of the luminosity function also
-shows signs of increasing steepness towards high redshifts.
-%%GW: I would not write that beta has a break.
-Somewhat similar to the amplitude $\phi_*$, the faint-end slope $\beta$ also
-shows a break at $z\sim 3$.  It stays roughly constant up to this
-redshift, and the drops to increasingly negative values of close to
-$-2.5$ at high redshifts, indicating a steeper faint end.
+We find interesting evolutionary trends in each of the four
+parameters.  The break magnitude $M_*$ evolves by more than eight
+magnitudes from redshift $z=0$ to $7$.  The amplitude of the
+luminosity function $\phi_*$ evolves moderately from $z=0$ to $z\sim
+3$ and then drops by six orders of magnitude to about
+$10^{-12}$\,cMpc$^{-3}$mag$^{-1}$ at $z\sim 7$.  The bright end slope
+$\alpha$ has significant scatter, but still shows a trend towards more
+negative values, i.e., steeper luminosity function bright ends, at
+high redshifts.  Finally, the faint end slope of the luminosity
+function also shows signs of increasing steepness towards high
+redshifts.
+%%GW: I would not write that beta has a break.--done(GK)
+Somewhat similar to the amplitude $\phi_*$, the faint-end slope
+$\beta$ also shows rapid evolution at $z\sim 3$.  It stays roughly
+constant up to this redshift, and the drops to increasingly negative
+values of close to $-2.5$ at high redshifts, indicating a steeper
+faint end.
 
-%%GW: I've commented the following paragraph and replaced it by a sharper version
+%%GW: I've commented the following paragraph and replaced it by a
+%%sharper version
 %Figure~\ref{fig:evoln} reveals further likely systematic errors.
 %The behaviour of BOSS quasars, shown by open circles in
 %Figure~\ref{fig:evoln} at redshifts $z=2$--$4$ is striking.  In this
@@ -976,7 +930,7 @@ $-2.5$ at high redshifts, indicating a steeper faint end.
 %$z=2$--$3$ is physical.  Indeed, in this redshift range BOSS quasar
 %selection is known to be affected by a colour bias
 %\citep{2011ApJ...728...23W}, which can make estimating completeness
-%difficult \citep{2006AJ....131.2766R}.  
+%difficult \citep{2006AJ....131.2766R}. --done(GK)
 
 Discontinuities and scatter in the QLF parameters over short redshift
 intervals in Figure~\ref{fig:evoln} reveal further likely systematic
