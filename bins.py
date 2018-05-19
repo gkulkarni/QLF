@@ -32,7 +32,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'Richards 
              ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'Glikman et al.\ 2011'),
              ('Data_new/yang16_sel.dat', 0.1, 0.05, 14555.0, 17, r'Yang et al.\ 2016'),
              ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'McGreer et al.\ 2013'),
-             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 9, r'McGreer et al.\ 2013'),
+             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 8, r'McGreer et al.\ 2013'),
              ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'Jiang et al.\ 2016'),
              ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 18, r'Jiang et al.\ 2016'),
              ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'Jiang et al.\ 2016'),

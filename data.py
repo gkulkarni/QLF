@@ -146,6 +146,7 @@ f = ['Data_new/mcgreer13_s82sample.dat',
      'Data_new/mcgreer13_s82extend.dat']
 l = r'SDSS Stripe 82 McGreer et al.\ (2013)'
 s = sample(f, label=l)
+s.z = s.z[s.m>-26.73]
 data.append(s)
 
 f = ['Data/glikman11qso.dat']
