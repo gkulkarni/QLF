@@ -561,7 +561,10 @@ def parsa18(ax, only18=False, only21=False):
 
 def masters12(ax, only18=False, only21=False):
 
-    z = np.array([3.25, 3.75])
+    z = np.array([3.2, 4.0])
+    z_lerr = np.array([3.2-3.1, 4.0-3.5])
+    z_uerr = np.array([3.5-3.2, 5.0-4.0])
+    
     e18 = np.array([5.3431, 1.7853])*1.0e24
     e21 = np.array([4.3646, 1.5072])*1.0e24
 
@@ -570,17 +573,75 @@ def masters12(ax, only18=False, only21=False):
                    s=66, zorder=9, linewidths=2, label='Masters et al.\ 2012', marker='*')
         z_err = np.array([0.25, 0.25])
         ax.errorbar(z, e18, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
-                    xerr=z_err,
+                    xerr=np.vstack((z_lerr, z_uerr)),
                     zorder=9, mew=1, linewidths=1.5)
     if only21:
         ax.scatter(z, e21, c='dodgerblue', edgecolor='None',
                    s=66, zorder=9, linewidths=2, label='Masters et al.\ 2012', marker='*')
         z_err = np.array([0.25, 0.25])
         ax.errorbar(z, e21, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
-                    xerr=z_err,
+                    xerr=np.vstack((z_lerr, z_uerr)),
                     zorder=9, mew=1, linewidths=1.5)
 
+    return 
+
+def giallongo15(ax, only18=False, only21=False):
+
+    z = np.array([4.249, 4.748, 5.754])
+    zu = np.array([4.5, 5.0, 6.5])
+    zl = np.array([4.0, 4.5, 5.0])
+
+    z_lerr = z-zl
+    z_uerr = zu-z
     
+    e18 = np.array([8.6671, 7.8168, 3.2252])*1.0e24
+    e21 = np.array([6.4266, 4.7801, 2.1852])*1.0e24
+ 
+    # ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+    #             xerr=np.vstack((zg_lerr, zg_uerr)),
+    #             yerr=np.vstack((eg_lerr, eg_uerr)), 
+    #             zorder=3, mew=1)
+
+    # ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
+    #            label='Giallongo et al.\ 2015', marker='s',
+    #            s=36, zorder=4, linewidths=1.5)
+   
+
+    if only18:
+        ax.scatter(z, e18, c='dodgerblue', edgecolor='None',
+                   s=36, zorder=4, linewidths=1.5,
+                   label='Giallongo et al.\ 2015', marker='s')
+        ax.errorbar(z, e18, ecolor='dodgerblue', capsize=0,
+                    fmt='None', elinewidth=1.5,
+                    xerr=np.vstack((z_lerr, z_uerr)),
+                    zorder=3, mew=1, linewidths=1.5)
+    if only21:
+        ax.scatter(z, e21, c='dodgerblue', edgecolor='None',
+                   s=36, zorder=4, linewidths=1.5,
+                   label='Giallongo et al.\ 2015', marker='s')
+        ax.errorbar(z, e21, ecolor='dodgerblue', capsize=0,
+                    fmt='None', elinewidth=1.5,
+                    xerr=np.vstack((z_lerr, z_uerr)),
+                    zorder=3, mew=1, linewidths=1.5)
+
+    return 
+
+
+def bongiorno07(ax, only18=False, only21=False):
+
+    z, e912_21, e912_18 = np.loadtxt('Data_new/emissivity_b07.dat', usecols=(1,4,5), unpack=True)
+
+    if only18:
+        ax.plot(z, e912_18*1.0e24, lw=1.5, color='peru', zorder=1, label='Bongiorno et al.\ 2007')
+        return
+
+    if only21:
+        ax.plot(z, e912_21*1.0e24, lw=1.5, color='peru', zorder=1, label='Bongiorno et al.\ 2007')
+        return
+    
+    return
+    
+        
 def draw_emissivity(all_individuals, zlims, composite=None, select=False):
 
     """
@@ -1046,20 +1107,22 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
         ax.scatter(zs, em, c='#ffffff', edgecolor='k',
                    s=42, zorder=6, linewidths=1.5) 
 
-    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    # zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
-    eg *= 1.0e24
-    eg_lerr *= 1.0e24
-    eg_uerr *= 1.0e24
-    ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
-                xerr=np.vstack((zg_lerr, zg_uerr)),
-                yerr=np.vstack((eg_lerr, eg_uerr)), 
-                zorder=3, mew=1)
+    # eg *= 1.0e24
+    # eg_lerr *= 1.0e24
+    # eg_uerr *= 1.0e24
+    # ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+    #             xerr=np.vstack((zg_lerr, zg_uerr)),
+    #             yerr=np.vstack((eg_lerr, eg_uerr)), 
+    #             zorder=3, mew=1)
 
-    ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
-               label='Giallongo et al.\ 2015', marker='s',
-               s=36, zorder=4, linewidths=1.5)
+    # ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
+    #            label='Giallongo et al.\ 2015', marker='s',
+    #            s=36, zorder=4, linewidths=1.5)
 
+    giallongo15(ax, only18=True)
+    
     e_MH15 = emissivity_MH15(z)
     # ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015', zorder=1)
     ax.plot(z, e_MH15, lw=1, c='darkgreen', label='Madau and Haardt 2015', zorder=1, dashes=[1,1])
@@ -1113,24 +1176,24 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     parsa18(ax, only18=True)
 
     masters12(ax, only18=True)
+
+    bongiorno07(ax, only18=True)
     
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
     labels.append('Kulkarni et al.\ 2018 (this work; fit)')
 
-    #print len(handles)
-    # myorder = [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 7, 8, 7, 12]
-    # myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
-    # handles = [handles[x] for x in myorder]
-    # labels = [labels[x] for x in myorder]
+    # print len(handles)
+    # for i, x in enumerate(labels):
+    #     print i, x 
 
-    myorder = [9, 13, 8, 11, 10, 12, 6, 0, 1, 2, 3, 4, 5, 7, 14]
+    myorder = [10, 14, 9, 12, 11, 13, 7, 0, 1, 2, 3, 4, 5, 6, 8, 15]
     handles = [handles[x] for x in myorder]
     labels = [labels[x] for x in myorder]
     
     plt.legend(handles, labels, loc='center', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1, #ncol=2, columnspacing=2,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.24])
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.25])
 
     plt.text(0.94, 0.94, '$M_\mathrm{1450}<-18$', horizontalalignment='right',
              verticalalignment='center', transform=ax.transAxes, fontsize='16')
@@ -1237,20 +1300,22 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
         ax.scatter(zs, em, c='#ffffff', edgecolor='k',
                    s=42, zorder=6, linewidths=1.5) 
 
-    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    # zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
     
-    eg *= 1.0e24
-    eg_lerr *= 1.0e24
-    eg_uerr *= 1.0e24
-    ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
-                xerr=np.vstack((zg_lerr, zg_uerr)),
-                yerr=np.vstack((eg_lerr, eg_uerr)), 
-                zorder=3, mew=1)
+    # eg *= 1.0e24
+    # eg_lerr *= 1.0e24
+    # eg_uerr *= 1.0e24
+    # ax.errorbar(zg, eg, ecolor='dodgerblue', capsize=0, fmt='None', elinewidth=1.5,
+    #             xerr=np.vstack((zg_lerr, zg_uerr)),
+    #             yerr=np.vstack((eg_lerr, eg_uerr)), 
+    #             zorder=3, mew=1)
 
-    ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
-               label='Giallongo et al.\ 2015', marker='s',
-               s=42, zorder=4, linewidths=1.5)
+    # ax.scatter(zg, eg, c='dodgerblue', edgecolor='None',
+    #            label='Giallongo et al.\ 2015', marker='s',
+    #            s=42, zorder=4, linewidths=1.5)
 
+    giallongo15(ax, only21=True)
+    
     e_MH15 = emissivity_MH15(z)
     ax.plot(z, e_MH15, lw=1, c='darkgreen', label='Madau and Haardt 2015', zorder=1, dashes=[1,1])
 
@@ -1304,20 +1369,20 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
     parsa18(ax, only21=True)
 
     masters12(ax, only21=True)
+
+    bongiorno07(ax, only21=True)
     
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
     labels.append('Kulkarni et al.\ 2018 (this work; fit)')
 
-    #print len(handles)
-    # myorder = [8, 9, 10, 11, 6, 0, 1, 2, 3, 4, 5, 7, 12]
-    myorder = [9, 13, 8, 11, 10, 12, 6, 0, 1, 2, 3, 4, 5, 7, 14]
+    myorder = [10, 14, 9, 12, 11, 13, 7, 0, 1, 2, 3, 4, 5, 6, 8, 15]
     handles = [handles[x] for x in myorder]
     labels = [labels[x] for x in myorder]
     
     plt.legend(handles, labels, loc='center', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1, #ncol=2, columnspacing=2,
-               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.24])
+               handletextpad=0.1, borderpad=0.01, scatterpoints=1, borderaxespad=1, bbox_to_anchor=[0.4,0.25])
 
     plt.text(0.94, 0.94, '$M_\mathrm{1450}<-21$', horizontalalignment='right',
              verticalalignment='center', transform=ax.transAxes, fontsize='16')

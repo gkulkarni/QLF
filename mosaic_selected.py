@@ -53,10 +53,15 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     plt.text(0.03, 0.05, label, horizontalalignment='left',
              verticalalignment='center', transform=ax.transAxes, fontsize='10')
 
-    num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450_all.size)
-    plt.text(0.03, 0.12, num, horizontalalignment='left',
-             verticalalignment='center', transform=ax.transAxes, fontsize='10')
-
+    if lf.zlims[0] == 4.7:
+        num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, 263)
+        plt.text(0.03, 0.12, num, horizontalalignment='left',
+                 verticalalignment='center', transform=ax.transAxes, fontsize='10')
+    else:
+        num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450_all.size)
+        plt.text(0.03, 0.12, num, horizontalalignment='left',
+                 verticalalignment='center', transform=ax.transAxes, fontsize='10')
+    
     return ind, co1, co2, co3
     
 def draw(lfs, composite=None, c2=None, c3=None):

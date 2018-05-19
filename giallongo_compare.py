@@ -15,7 +15,7 @@ cosmo = {'omega_M_0':0.3,
          'omega_lambda_0':0.7,
          'omega_k_0':0.0,
          'h':0.7}
-from drawlf import render
+from drawlf_giallongocompare import render
 
 def volume(z, area, cosmo=cosmo):
 
@@ -117,6 +117,8 @@ def plot(ax, lf, zrange):
     plt.title(plottitle, size='medium', y=1.01)
 
     handles, labels = ax.get_legend_handles_labels()
+
+    print handles
 
     if zrange[0] < 4.2: 
         myorder = [2,4,3,5,1,0]
