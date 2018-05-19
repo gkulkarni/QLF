@@ -155,7 +155,7 @@ def plot_alpha(fig):
                 xerr=np.vstack((left, right)), 
                 yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=2)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30, label='with Giallongo et al.\ 2015 qsos')
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='tomato', zorder=2, s=30, label='with Giallongo et al.\ 2015 AGN')
 
     plt.legend(loc='upper right', fontsize=10, handlelength=2,
                frameon=False, framealpha=0.0, labelspacing=.1,
