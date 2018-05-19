@@ -56,7 +56,7 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     if lf.zlims[0] == 4.7:
         # Print quasar counts manually as code will incorrectly add
         # McGreer quasars excluded due to overlap with the Yang data.
-        # Expect lf.M1450.size = 266.
+        # Expect lf.M1450.size = 263.
         num = r'{:d} ({:d}) quasars'.format(lf.M1450.size, lf.M1450.size)
         plt.text(0.03, 0.12, num, horizontalalignment='left',
                  verticalalignment='center', transform=ax.transAxes, fontsize='10')
