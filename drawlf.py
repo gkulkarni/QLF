@@ -464,7 +464,6 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
            6 : '#17becf', # "cyan"
            7 : '#9467bd', # "purple"
            8 : '#8c564b', # "brown"
-           9 : 'teal', 
            10 : '#ff7f0e', # "orange"
            11 : '#7f7f7f', # "grey"
            13 : '#d62728', # "red"
