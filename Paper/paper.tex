@@ -762,8 +762,8 @@ open circles.
     excluded due to incompleteness for the respective data sets.  The
     number of AGN before this selection is shown in parentheses; the
     selected number of AGN is shown outside parentheses.  In each
-    redshift bin, the black curve shows the best-fit double power law
-    model, which is represented by the median of the posterior
+    redshift bin, the black curve shows our fiducial double power law
+    model fit, which is represented by the median of the posterior
     probability distribution function.  The grey shaded area shows the
     one-sigma (68.26\%) uncertainty.  See Sections~\ref{sec:binnedlf}
     and \ref{sec:bins} for further details.}
@@ -798,7 +798,7 @@ open circles.
 %%without thinking.
 \begin{table*}
   % bins_tabulate.py; Nqso added by hand
-  \caption{Best-fit double power law luminosity function parameters in
+  \caption{Derived double power law luminosity function parameters in
     various redshift bins.  The luminosity function parameters
     $\phi_*$, $M_*$, $\alpha$, and $\beta$ are defined in
     Equation~(\ref{eqn:dpl}), with $\beta$ denoting the faint-end
@@ -937,21 +937,20 @@ in Figure~\ref{fig:mosaic} for 25 redshift bins.
 %% which it is not. Finally, best fit always means maximum likelihood, and that is certainly not what you are
 %% plotting here, so don't say best-fit. You can say as our ``adopted model'' or ``fiducial model fit'' or
 %% something like that. I would just explain waht you plot. 
-The posterior median
-is shown as the best-fit model at each redshift, while the grey shaded
-region shows the one-sigma (68.26\%) uncertainty.  Consistent with
-previous studies, the double power law model provides an excellent
-description of the luminosity function model over almost the complete
-range of redshifts spanned by the data.  It is only in the highest
-redshift bin ($z=5.5$--$6.5$) that the data seem to favour a single
-power law.  In this bin, the resultant posterior distribution of the
-break magnitude $M_*$ is bimodal with favoured values at the faint
-($M_*>-18$) and bright end of the data ($M_*<-30$).  While in the
-literature the $z\sim 6$ AGN have been assumed to lie on the bright
-end of the luminosity function \citep[e.g.,][]{2016ApJ...833..222J}, a
-comparison with the luminosity function at lower redshifts ($z<5.5$)
-suggests that these AGN should instead be understood to describe the
-faint-end of a double power law.
+The posterior median is shown as our adopted model at each redshift,
+while the grey shaded region shows the one-sigma (68.26\%)
+uncertainty.  Consistent with previous studies, the double power law
+model provides an excellent description of the luminosity function
+model over almost the complete range of redshifts spanned by the data.
+It is only in the highest redshift bin ($z=5.5$--$6.5$) that the data
+seem to favour a single power law.  In this bin, the resultant
+posterior distribution of the break magnitude $M_*$ is bimodal with
+favoured values at the faint ($M_*>-18$) and bright end of the data
+($M_*<-30$).  While in the literature the $z\sim 6$ AGN have been
+assumed to lie on the bright end of the luminosity function
+\citep[e.g.,][]{2016ApJ...833..222J}, a comparison with the luminosity
+function at lower redshifts ($z<5.5$) suggests that these AGN should
+instead be understood to describe the faint-end of a double power law.
 %% JFH Okay so you need to be more clear here that what you mean is that the trend
 %% from the plot is that M_star gets progressively brighter with redshift. This is not
 %% obvious given what you write here. Indeed, it is not super obvious until one looks at FIgure 4, which
@@ -991,8 +990,6 @@ $\beta$ also shows rapid evolution at $z\sim 3$.  It stays roughly
 constant up to this redshift, and the drops to increasingly negative
 values of close to $-2.5$ at high redshifts, indicating a steeper
 faint end.
-
-%% JFH I think you need to show at least one corner plot for your fits somewhere in the paper. 
 
 %% JFH I think before imposing this prior by hand it might be useful to show the degeneracies that
 %% you get at high-z without imposing the prior on the faint-end/bright-end slope. 
@@ -1061,8 +1058,8 @@ but Poisson errors of the limited samples dominate.
   \caption{Luminosity function estimates from $z=0.6$ to $6.5$.
     Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
     binned luminosity functions.  In each redshift bin, yellow curves
-    show the best-fit double power law luminosity function in that
-    redshift bin.  Other curves show the three global evolution
+    show our fiducial double power law luminosity function model in
+    that redshift bin.  Other curves show the three global evolution
     models.  Shaded regions show the one-sigma (68.26\%)
     uncertainties.}
   \label{fig:mosaic_global}
@@ -1074,13 +1071,13 @@ but Poisson errors of the limited samples dominate.
     % summary_fromFile.py 
   \end{center}
   \caption{Luminosity function parameter evolution in the global
-    models.  The symbols show the best-fit parameters with one-sigma
-    (68.26\%) uncertainties in redshift bins from
-    Figure~\ref{fig:evoln}.  Redshift bins deemed to be affected by
-    systematics and removed from the global analysis are shown in
+    models.  The symbols show the posterior median values of
+    parameters with one-sigma (68.26\%) uncertainties in redshift bins
+    from Figure~\ref{fig:evoln}.  Redshift bins deemed to be affected
+    by systematics and removed from the global analysis are shown in
     grey.  In each panel, the solid curves and shaded regions show the
-    three best-fit global models with one-sigma uncertainties.
-    Model~1 provides a better fit, but requires a rapid change in the
+    three derived global models with one-sigma uncertainties.  Model~1
+    provides a better fit, but requires a rapid change in the
     faint-end slope at $z\sim 3.5$.}
   \label{fig:evoln_global}
 \end{figure*}
@@ -1093,12 +1090,12 @@ but Poisson errors of the limited samples dominate.
   \caption{AGN number density evolution in the global model, when the
     luminosity function is integrated (from top to bottom) down to
     $M_\mathrm{1450}=-18, -21, -24,$ and $-27$.  Filled black circles
-    show the estimates from the best-fit double power law luminosity
-    functions in various redshift bins, with vertical error bars
-    denoting one-sigma (68.26\%) uncertainties.  Open circles show the
-    same in redshifts bins affected by systematics.  Curves show the
-    estimated density from the global models, with the accompanying
-    shaded regions denoting the one-sigma uncertainty. }
+    show the estimates from the our fiducual double power law
+    luminosity function models in various redshift bins, with vertical
+    error bars denoting one-sigma (68.26\%) uncertainties.  Open
+    circles show the same in redshifts bins affected by systematics.
+    Curves show the estimated density from the global models, with the
+    accompanying shaded regions denoting the one-sigma uncertainty. }
   \label{fig:rhoqso}
 \end{figure}
 
@@ -1119,9 +1116,9 @@ but Poisson errors of the limited samples dominate.
     bin deemed to have low systematic errors.  Open circles show
     emissivities for redshift bins that we remove from analysis due to
     high systematic errors.  Solid red curves in both panels show the
-    best fit emissivity evolution model, with the shaded area showing
-    the one-sigma (68.26\%) uncertainty.  Also shown for comparison in
-    both panels are models by \citet[pentagon
+    derived posterior median emissivity evolution model, with the
+    shaded area showing the one-sigma (68.26\%) uncertainty.  Also
+    shown for comparison in both panels are models by \citet[pentagon
       symbol]{2009A&A...507..781S}, \citet[star]{2012ApJ...755..169M},
     \citet[square]{2015AA...578A..83G},
     \citet[triangle]{2018PASJ...70S..34A},
@@ -1133,7 +1130,8 @@ but Poisson errors of the limited samples dominate.
       grey]{2017MNRAS.466.1160M}, \citet[dashed
       blue]{2013A&A...551A..29P}, \citet[solid
       cyan]{2016A&A...587A..41P}, \citet[solid
-      blue]{2017A&A...608A..64C}, and \citet[brown]{2007A&A...472..443B}.}
+      blue]{2017A&A...608A..64C}, and
+    \citet[brown]{2007A&A...472..443B}.}
   \label{fig:e912_2}
 \end{figure*}
 
@@ -1301,11 +1299,12 @@ Figure~\ref{fig:evoln_global} shows the parameter evolution in the
 global models, by comparing it with the results from the fits in
 individual redshift bins shown in Figure~\ref{fig:evoln}.  All three
 models capture the steepening of the faint end of the luminosity
-function towards higher redshifts.  The best-fit form of Model~1 is
-shown by the black curves in Figure~\ref{fig:evoln_global}.  The
-accompanying grey shaded area depicts the one-sigma (68.26\%)
-uncertainty.  The model is in excellent agreement with the results of
-the fits in redshift bins discussed in the previous section.
+function towards higher redshifts.  The adopted posterior median form
+of Model~1 is shown by the black curves in
+Figure~\ref{fig:evoln_global}.  The accompanying grey shaded area
+depicts the one-sigma (68.26\%) uncertainty.  The model is in
+excellent agreement with the results of the fits in redshift bins
+discussed in the previous section.
 %% JFH Reference Figure 5 here as well.  
 The
 deviation of the BOSS quasars at $z=2$--$4$ from the smooth evolution
@@ -1323,13 +1322,13 @@ break, although it seems unlikely that such a sharp break at this
 redshift would be physical.  Model 1 thus serves to emphasize the
 necessity of better quality data at these redshifts.  Models 2 and 3
 are shown in Figure~\ref{fig:evoln_global} by the green and orange
-curves, respectively.  The corresponding best-fit parameter values are
+curves, respectively.  The corresponding parameter values are
 tabulated in Table~\ref{tab:global}.
 
 The evolution of the comoving number density of quasars is shown in
 Figure~\ref{fig:rhoqso} when the luminosity function is integrated
 down to different limits.  Similar to Figure~\ref{fig:evoln_global},
-symbols show the best-fit values with one-sigma uncertainties from the
+symbols show the posterior median values with one-sigma uncertainties from the
 double power law fits to the data in redshift bins.
 %% JFH I'm bothered by the fact that the symbols and error bars here arise from the parametric fits. In my opinion, you
 %% should be able to plot the data on here with Poisson errors in exactly the same way that you do when you compute the binned
@@ -1379,7 +1378,7 @@ the AGN number density at $z\sim 3$, they do not fit the $z\sim
 4$--$5$ data as well as Model 1.
 
 \begin{table}
-  \caption{Best-fit luminosity function evolution models.  These
+  \caption{Derived luminosity function evolution models.  These
     parameters are defined in Equations~(\ref{eqn:cbs}) and
     (\ref{eqn:beta}).  See Section~\ref{sec:global} for further
     details and the redshift range of validity of these models.
@@ -1519,11 +1518,11 @@ five-parameter functional form used by \citet{2012ApJ...746..125H}
 \end{equation}
 We fit this model to the emissivity estimates in the redshift bins,
 shown in Figure~\ref{fig:e912_2}, assuming a Gaussian likelihood for
-the emissivity in each bin.  The resultant best-fit curves and the
+the emissivity in each bin.  The resultant curves and the
 corresponding one-sigma uncertainties are shown in
 Figure~\ref{fig:e912_2} for $M_{1450}<-18$ and $M_{1450}<-21$.  The
-912\,\AA\ emissivities in various redshift bins and in these best-fit
-models are tabulated in Appendix~\ref{sec:tables}.  The best-fit
+912\,\AA\ emissivities in various redshift bins and in these 
+models are tabulated in Appendix~\ref{sec:tables}.  The adopted
 form of Equation~\ref{eqn:e912fit} is given by
 \begin{multline}
   \epsilon_{912}=(10^{24.49}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}})(1+z)^{7.57}\\\times\frac{\exp(-1.78z)}{\exp(1.01z)+29.20}
@@ -2245,15 +2244,49 @@ McGreer, Nick Ross, Chris Willott, and Jinyi Yang for sharing data and
 especially for sharing their quasar selection functions.  It is a
 pleasure to acknowledge useful discussions with James Aird, Eduardo
 Ba\~nados, Manda Banerji, Tirthankar Roy Choudhury, George Efstathiou,
-Xiaohui Fan, Andrea Ferrara, Prakash Gaikwad, Martin Haehnelt, Paul
-Hewett, David Hogg, Vikram Khaire, Sergey Koposov, Donald Lynden-Bell,
-Roberto Maiolino, Richard McMahon, Daniel Mortlock, Ewald Puchwein,
-Gordon Richards, Alberto Rorai, Bram Venemans and Stephen Warren.  GK
-acknowledges support from ERC Advanced Grant 320596 `The Emergence of
-Structure During the Epoch of Reionization'.
+Xiaohui Fan, Andrea Ferrara, Prakash Gaikwad, Francesco Haardt, Martin
+Haehnelt, Paul Hewett, David Hogg, Vikram Khaire, Sergey Koposov,
+Donald Lynden-Bell, Roberto Maiolino, Richard McMahon, Daniel
+Mortlock, Ewald Puchwein, Gordon Richards, Alberto Rorai, Bram
+Venemans and Stephen Warren.  GK acknowledges support from ERC
+Advanced Grant 320596 `The Emergence of Structure During the Epoch of
+Reionization'.
 %% Joe, do you need to add anything to acknowledgements? 
 
 \appendix
+
+\section{Posterior distributions}
+
+Figure~\ref{fig:corner} shows marginalised one-dimensional and
+two-dimensional posterior probability distribution functions (PDFs) of
+the four parameters, $\phi_*$, $M_*$, $\alpha$ and $\beta$, of the
+double-power-law luminosity function in the $3.7\leq z < 4.1$ redshift
+bin.  The procedure adopted for fitting this model is described in
+Section~\ref{sec:bins}.  Figure~\ref{fig:corner} illustrates that the
+four parameters are well-constrainted.  This figure also shows the
+degeneracies between the parameters.  There is a relatively strong
+correlation between the amplitude of the luminosity function $\phi_*$
+and the break magnitude $M_*$.  The faint-end slope $\beta$ is
+positively correlated with the other three parameters.  Similar
+behaviour of the posterior distributions is seen in all the redshift
+bins defined in Section~\ref{sec:bins}.  In our highest-redshift bin
+($5.5\leq z < 6.5$), we impose a prior $\alpha < -4$, which changes
+the posterior distributions.  However, various parameter correlations
+remain qualitatively unchanged.
+
+\begin{figure*}
+  \begin{center}
+    % corner.corner() with bins.lfs[-4]
+    \includegraphics[width=\textwidth]{corner_z3p9.pdf}
+  \end{center}
+  \caption{Posterior distributions of the four double-power-law
+    parameters in the $3.7\leq z < 4.1$ redshift bin.  The blue
+    squares indicate median values.  Similar behaviour of the
+    posterior distributions is seen in all other redshift bins defined
+    in Section~\ref{sec:bins}.
+    \label{fig:corner}}
+\end{figure*}
+
 
 \section{Comparison with other luminosity function determinations}
 
@@ -2347,7 +2380,7 @@ also cause part of the difference.
     \includegraphics[width=0.7\textwidth]{evolution_g.pdf}
   \end{center}
   \caption{Effect of the 19 AGN reported by \citet{2015AA...578A..83G}
-    on the best-fit double power law luminosity function parameters in
+    on the double power law luminosity function parameters in
     redshift bins from $z=0$ to $7$.  Black points show parameter
     values from Figure~\ref{fig:evoln}.  Red open circles show the
     parameter values obtained when the sample of G15 is added to the
@@ -2364,7 +2397,7 @@ also cause part of the difference.
     \includegraphics[width=\textwidth]{giallongo_compare.pdf}
   \end{center}
   \caption{Luminosity functions in three redshift bins at $z>4.1$.
-    Black curves in each panel show the best-fit double power law,
+    Black curves in each panel show the double power law,
     with the corresponding one-sigma (68.26\%) uncertainty shown by
     the grey shaded area.  There are 451, 270, and 69 AGN in each
     redshift bin from left to right, respectively.  These numbers are
