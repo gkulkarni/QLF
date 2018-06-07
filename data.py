@@ -63,7 +63,7 @@ def plot_data(data):
     # colorbrewer2.org.
     cs = [u'#1f77b4', u'#ff7f0e', u'#2ca02c', u'#d62728', u'#9467bd',
           u'#8c564b', u'#e377c2', u'#7f7f7f', u'#bcbd22', u'#17becf',
-          u'#77ab31', u'#d8b365', u'#cc7af4', u'#f66bad']
+          u'#77ab31']#, u'#d8b365']#, u'#cc7af4', u'#f66bad']
 
     d = [x.z for x in data]
     l = [x.label for x in data]
@@ -101,7 +101,7 @@ def plot_data(data):
     plt.ylim(7e-1, 1.0e4)
     plt.xlim(0., 8.)
 
-    plt.legend(loc='upper right', fontsize=10, handlelength=3,
+    plt.legend(loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.2,markerscale=.5)
 
@@ -113,14 +113,14 @@ data = []
 
 f = ['Data_new/dr7z2p2_sample.dat',
      'Data_new/dr7z3p7_sample.dat']
-l = r'SDSS DR7 Schneider et al.\ 2010'
+l = r'SDSS DR7 Schneider et al.\ (2010)'
 s = sample(f, label=l)
 s.z = s.z[s.z<4.7]
 data.append(s)
 
 f = ['Data_new/croom09sgp_sample.dat',
      'Data_new/croom09ngp_sample.dat']
-l = r'2SLAQ NGP+SGP Croom et al.\ (2009)'
+l = r'2SLAQ Croom et al.\ (2009)'
 s = sample(f, label=l)
 s.z = s.z[s.z<2.2]
 data.append(s)
@@ -159,30 +159,31 @@ l = r'CANDELS GOODS-S Giallongo et al.\ (2015)'
 s = sample(f, label=l)
 data.append(s)
 
-f = ['Data_new/jiang16main_sample.dat']
-l = r'SDSS Main Jiang et al.\ (2016)'
+f = ['Data_new/jiang16main_sample.dat', 'Data_new/jiang16overlap_sample.dat', 'Data_new/jiang16s82_sample.dat']
+l = r'SDSS Jiang et al.\ (2016)'
 s = sample(f, label=l)
 data.append(s)
 
-f = ['Data_new/jiang16overlap_sample.dat']
-l = r'SDSS Overlap Jiang et al.\ (2016)'
+# f = []
+# l = r'SDSS Overlap Jiang et al.\ (2016)'
+# s = sample(f, label=l)
+# data.append(s)
+
+# f = []
+# l = r'SDSS Stripe 82 Jiang et al.\ (2016)'
+# s = sample(f, label=l)
+# data.append(s)
+
+f = ['Data_new/willott10_cfhqsdeepsample.dat',
+     'Data_new/willott10_cfhqsvwsample.dat']
+l = r'CFHQS Willott et al.\ (2010)'
 s = sample(f, label=l)
 data.append(s)
 
-f = ['Data_new/jiang16s82_sample.dat']
-l = r'SDSS Stripe 82 Jiang et al.\ (2016)'
-s = sample(f, label=l)
-data.append(s)
-
-f = ['Data_new/willott10_cfhqsdeepsample.dat']
-l = r'CFHQS Deep Willott et al.\ (2010)'
-s = sample(f, label=l)
-data.append(s)
-
-f = ['Data_new/willott10_cfhqsvwsample.dat']
-l = r'CFHQS Very Wide Willott et al.\ (2010)'
-s = sample(f, label=l)
-data.append(s)
+# f = []
+# l = r'CFHQS Very Wide Willott et al.\ (2010)'
+# s = sample(f, label=l)
+# data.append(s)
 
 f = ['Data_new/kashikawa15_sample.dat']
 l = r'Subaru High-$z$ Quasar Survey Kashikawa et al.\ (2010)'
