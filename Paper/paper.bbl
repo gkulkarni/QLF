@@ -173,10 +173,16 @@
   {http://adsabs.harvard.edu/abs/2014MNRAS.445.4186C} {445, 4186}
 
 \bibitem[\protect\citeauthoryear{{Croom} et~al.,}{{Croom}
-  et~al.}{2009}]{2009MNRAS.392...19C}
-{Croom} S.~M.,  et~al., 2009, \mn@doi [\mnras]
+  et~al.}{2009a}]{2009MNRAS.392...19C}
+{Croom} S.~M.,  et~al., 2009a, \mn@doi [\mnras]
   {10.1111/j.1365-2966.2008.14052.x}, \href
   {http://adsabs.harvard.edu/abs/2009MNRAS.392...19C} {392, 19}
+
+\bibitem[\protect\citeauthoryear{{Croom} et~al.,}{{Croom}
+  et~al.}{2009b}]{2009MNRAS.399.1755C}
+{Croom} S.~M.,  et~al., 2009b, \mn@doi [\mnras]
+  {10.1111/j.1365-2966.2009.15398.x}, \href
+  {http://adsabs.harvard.edu/abs/2009MNRAS.399.1755C} {399, 1755}
 
 \bibitem[\protect\citeauthoryear{{D'Aloisio}, {McQuinn}  \& {Trac}}{{D'Aloisio}
   et~al.}{2015}]{2015ApJ...813L..38D}
@@ -313,6 +319,11 @@
   et~al.}{2016}]{2016A&A...585A..48G}
 {Grazian} A.,  et~al., 2016, \mn@doi [\aap] {10.1051/0004-6361/201526396},
   \href {http://adsabs.harvard.edu/abs/2016A%26A...585A..48G} {585, A48}
+
+\bibitem[\protect\citeauthoryear{{Grazian} et~al.,}{{Grazian}
+  et~al.}{2018}]{2018A&A...613A..44G}
+{Grazian} A.,  et~al., 2018, \mn@doi [\aap] {10.1051/0004-6361/201732385},
+  \href {http://adsabs.harvard.edu/abs/2018A%26A...613A..44G} {613, A44}
 
 \bibitem[\protect\citeauthoryear{{Gurvich}, {Burkhart}  \& {Bird}}{{Gurvich}
   et~al.}{2017}]{2017ApJ...835..175G}
@@ -834,6 +845,12 @@ Cambridge University Press
   [\apj] {10.1086/324689}, \href
   {http://adsabs.harvard.edu/abs/2002ApJ...565..773T} {565, 773}
 
+\bibitem[\protect\citeauthoryear{{Tilton}, {Stevans}, {Shull}  \&
+  {Danforth}}{{Tilton} et~al.}{2016}]{2016ApJ...817...56T}
+{Tilton} E.~M.,  {Stevans} M.~L.,  {Shull} J.~M.,   {Danforth} C.~W.,  2016,
+  \mn@doi [\apj] {10.3847/0004-637X/817/1/56}, \href
+  {http://adsabs.harvard.edu/abs/2016ApJ...817...56T} {817, 56}
+
 \bibitem[\protect\citeauthoryear{{Vanden Berk} et~al.,}{{Vanden Berk}
   et~al.}{2001}]{2001AJ....122..549V}
 {Vanden Berk} D.~E.,  et~al., 2001, \mn@doi [\aj] {10.1086/321167}, \href
@@ -855,6 +872,11 @@ Cambridge University Press
   {Nasir} F.,   {Wakker} B.~P.,  2017, \mn@doi [\mnras]
   {10.1093/mnrasl/slx004}, \href
   {http://adsabs.harvard.edu/abs/2017MNRAS.467L..86V} {467, L86}
+
+\bibitem[\protect\citeauthoryear{{Vito} et~al.,}{{Vito}
+  et~al.}{2016}]{2016MNRAS.463..348V}
+{Vito} F.,  et~al., 2016, \mn@doi [\mnras] {10.1093/mnras/stw1998}, \href
+  {http://adsabs.harvard.edu/abs/2016MNRAS.463..348V} {463, 348}
 
 \bibitem[\protect\citeauthoryear{{Warren}, {Hewett}  \& {Osmer}}{{Warren}
   et~al.}{1994}]{1994ApJ...421..412W}
