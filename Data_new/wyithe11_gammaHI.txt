@@ -1,0 +1,11 @@
+# HI photoionization rate measurements from Wyithe and Bolton 2011
+# (MNRAS 412 1926).  See their Section 7.2.1.  
+#
+# Column 1: z
+# Column 2: Gamma_HI (10^-12 s^-1)
+# Column 3: upper error in Gamma_HI (10^-12 s^-1)
+# Column 4: lower error in Gamma_HI (10^-12 s^-1) 
+
+5.0  0.47  0.30  0.20
+6.0  0.18  0.18  0.09
+

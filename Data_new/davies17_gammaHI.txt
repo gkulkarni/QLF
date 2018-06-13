@@ -1,0 +1,19 @@
+# HI photoionization rate measurements from Davies et al. 2018 (ApJ
+# 855 106).  This is their uniform background model (see their Table
+# 1).
+#
+# Column 1: z_min
+# Column 2: z_max
+# Column 3: log10(Gamma_HI/s^-1)
+# Column 4: upper error on log10(Gamma_HI/s^-1)
+# Column 5: lower error on log10(Gamma_HI/s^-1)
+#
+# Second row (which has 0.0 in columns 4 and 5) is an upper limit (95%
+# credible).
+
+6.151  6.418  -12.82  0.11  0.11 
+5.944  6.150  -12.83  0.00  0.00
+5.746  5.944  -12.70  0.09  0.10 
+5.556  5.746  -12.55  0.07  0.07 
+5.374  5.556  -12.18  0.06  0.07 
+
