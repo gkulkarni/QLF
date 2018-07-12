@@ -1758,21 +1758,6 @@ used by \citet{2015MNRAS.451L..30K} to derive an emissivity evolution
 model.
 
 \subsection{Photon underproduction at $z=0$?}
-% Kollmeier number of ~10 times higher than HM12 in figure.
-
-%% JFH I disagree with your approach here. It is not interesting to simply extrapolate your z > 0.6 to these
-%% redshifts in my opinion, when you have the ability to fit them or at least to show the binned fits if you cannot
-%% get a global model to work. Why is it interesting to write an entire section on an extrapolation?
-
-\textbf{Comments from GW:\\
-1. State again that we need to use the emissivity fit due to the redshift effects. Extrapolated emissivity agrees well with our direct estimates (open symbols in emissivity plot) and with other LFs (Schulze)\\
-2. Section needs revision to account for SED change in Fig. 10.\\
-3. We need to be clear whether we are plotting Gamma as is, or whether we are recalculating using your code but other peoples' emissivities.\\
-4. We are comparable to HM12, but HM12 considers all AGN. We are higher if we consider fainter AGN. Given that we miss a factor of 2 to get the forest measurements, we should give a number how faint we need to go.\\
-5. Gamma depends on $f(N,z)$. Shull doesn't match the measured $f(N,z)$, but Gaikwad and Kollmeier do. Gaikwad also estimates the uncertainty in Gamma from the assumed $f(N,z)$. To claim any PUC, one has to run UVB synthesis models with a realistic $f(N,z)$ accounting large uncertainty in the range for LLSs (this is hard at low z due to the low number density and need for space-based surveys). Shull et al. 2017 present results from a survey of low-z partial LLSs (their Fig. 11). If the HM12 $f(N,z)$ is inconsistent with the measurements, Gamma won't be right even if the emissivity is right. Only Gaikwad investigates this a bit.\\
-6. Discuss deficit of Gamma:  Factor ~2 deficit for -18. Explanations: 1. Changes in limiting magnitude, and spectral index (put numbers: Scott index for -23 no deficit for -18 limit, Scott index for all QSOs: no deficit for -21, fainter AGN: insignificant increase at limit -14 covered by Schulze due to shallow faint-end slope). 2. Galaxies? Cite low-z leakers (Izotov), but rare objects. 
-}
-
 
 It is instructive to closely examine if the corresponding hydrogen
 photoionization rate is consistent with the \HI\ column density
@@ -1830,36 +1815,48 @@ found by \citet{2014ApJ...789L..32K}.
 
 Figure~\ref{fig:puc} shows the evolution of the \HI\ photoionization
 rate due to AGN in our model for luminosity function integration
-limits of $M_{1450}=-21$ and $-18$ at redshifts $z<3$.  Note that this
-photoionization rate is derived by fitting the model from
+limits of $M_{1450}=-21$ and $-18$ at redshifts $z<3$.  Note that we
+use the 912\,\AA\ emissivity from Equation~(\ref{eqn:e912_18}) and
+(\ref{eqn:e912_21}), which are derived by fitting the model from
 Equation~(\ref{eqn:e912fit}) to the emissivities obtained from
 luminosity functions in various redshift bins.  While doing this, as
 discussed above, redshift bins that were interpreted as being affected
 by systematic errors were ignored.  As a result, the emissivity model
 used in calculating the photoionization rate is an extrapolation at
-$z<0.6$.  However, it is interesting to note that even if we disregard
-the $z<0.6$ data due to systematic errors, the extrapolated
+$z<0.6$.  However, it is interesting to note that the extrapolated
 emissivities at these redshifts are consistent with the emissivities
-calculated from our luminosity function fits to these data for either
-of our chosen integration limits.  This can be seen in
-Figure~\ref{fig:e912_2}.  We find that the low-redshift
-\HI\ photoionization rate in our model is higher than that in the
-\citet{2012ApJ...746..125H} UVB model by a factor of 1.2 for
-$M_{1450}<-21$ and a factor of 2 for $M_{1450}<-18$.  The
-photoionization rate obtained when the faint AGN ($M_{1450}<-18$) are
-included is consistent with a variety of recent estimates.  This rate
-is in reasonable agreement with the photoionization rate found by
-\citet{2017MNRAS.467.3172G}, who found that this photoionisation rate
-is sufficient to explain the \HI\ column density distribution measured
-by \citet{2016ApJ...817..111D}, thus alleviating the photon
-underproduction problem without requiring additional contribution of
-hydrogen-ionizing photons from galaxies.  At $z<0.5$, this
-photoionization rate evolution in our model appears consistent also
-with that derived by \citet{2015MNRAS.451L..30K} using the quasar
+calculated from our luminosity function fits to the $z<0.6$ data for
+either of our chosen integration limits.  This can be seen in
+Figure~\ref{fig:e912_2}.  At $z\sim 0$, the comoving
+912\,\AA\ emissivity in our model is lower by almost a factor of 2
+than that derived from the luminosity function inferred at this
+redshift by \citet{2009A&A...507..781S} for the $M_{1450}<-18$ case.
+For the $M_{1450}<-21$ integration, our comoving emissivity is higher
+than the emissivity in the model of \citet{2009A&A...507..781S} by
+about 50\%.  This results from the very faint $M_*$ ($\sim -19$) and
+steep faint-end slope ($\beta=-2$) obtained by
+\citet{2009A&A...507..781S}.  (See Appendix~\ref{sec:qlfliterature}.)
+We use a spectral slope of $\alpha=-1.7$ for
+$\lambda<912$\,\AA\ (Equation~\ref{eqn:sed}).
+
+We find that the low-redshift \HI\ photoionization rate in our model
+is approximately equal to that that in the \citet{2012ApJ...746..125H}
+UVB model for both of our integration limits, as shown in
+Figure~\ref{fig:puc}.  At $z\sim 0$, the photoionisation rate for our
+$M_{1450}<-21$ integration is lower than \citet{2012ApJ...746..125H}
+photoionisation rate by about 10\%.  For the $M_{1450}<-18$ case, the
+photoionisation rate is higher than that in the
+\citet{2012ApJ...746..125H} model by about 10\%.  These differences
+are small compared to the factor of 2 to 3 differences that we find
+between our model and several recent estimates.  At $z=0.1$, this rate
+is smaller by a factor of 2 than the photoionization rate derived by
+\citet{2017MNRAS.467.3172G} from the \HI\ column density distribution
+measurements of \citet{2016ApJ...817..111D}.  At $z<0.5$, this
+photoionization rate evolution in our model appears lower than also
+the rate derived by \citet{2015MNRAS.451L..30K} using the quasar
 luminosity function measurements of \citet{2009MNRAS.392...19C} and
-\citet{2013A&A...551A..29P}, although the evolution is somewhat
-shallower in our model at $z>0.5$.  The model of
-\citet{2015ApJ...813L...8M} also agrees with our $M_{1450}<-18$
+\citet{2013A&A...551A..29P}.  The model of \citet{2015ApJ...813L...8M}
+also results in a higher ionisation rate than our $M_{1450}<-18$
 inference at $z<0.7$.  \citet{2015ApJ...811....3S} compared the
 \HI\ column density distribution measurements to cosmological
 simulations with an enhanced photoionization rate relative to the
@@ -1869,17 +1866,16 @@ produces the observed \HI\ column densities.  This photoionization
 rate was achieved in the simulations of \citet{2015ApJ...811....3S} by
 a combination of quasars and galaxies (with an escape fraction of
 hydrogen-ionizing photons assumed to be $f_\mathrm{esc}=0.05$).  As
-seen in Figure~\ref{fig:puc}, this photoionization rate agrees with
-our model at $z\sim 0$ for $M_{1450}<-18$, although it evolves
-somewhat more rapidly at higher redshifts.  The photoionization rate
-estimate by \citet{2017MNRAS.467.4802F} from the H$\alpha$ surface
-brightness of a $z\sim 0$ galaxy observed by VLT/MUSE is somewhat
-higher than even our $M_{1450}<-18$ determination.  However, it is
-possible that the \citet{2017MNRAS.467.4802F} estimate is an upper
-limit, as the contribution of local sources to the photoionization
-rate is neglected in their modelling.  The requirement of an enhanced
-photoionization rate at $z\sim 0$ relative to
-\citet{2012ApJ...746..125H} UVB model is also confirmed by the
+seen in Figure~\ref{fig:puc}, this photoionization rate is in closer
+agreement with the \citet{2015ApJ...813L...8M} model.  The
+photoionization rate estimate by \citet{2017MNRAS.467.4802F} from the
+H$\alpha$ surface brightness of a $z\sim 0$ galaxy observed by
+VLT/MUSE is somewhat higher than most other models shown in
+Figure~\ref{fig:puc}.  However, it is possible that the
+\citet{2017MNRAS.467.4802F} estimate is an upper limit, as the
+contribution of local sources to the photoionization rate is neglected
+in their modelling.  The requirement of an enhanced photoionization
+rate at $z\sim 0$ relative to our inference is also confirmed by the
 simulations presented by \citet{2017MNRAS.467L..86V},
 \citet{2017ApJ...837..106O}, and \citet{2018arXiv180104931P}.  But
 note that, as discussed above in Section~\ref{sec:e912}, a direct
@@ -1888,6 +1884,33 @@ comparison of our results with the models of
 \citet{2018arXiv180104931P} is difficult because of the inhomogenous
 redshift-dependent integration limits adopted by these authors.
 
+Before considering the deficit in the photoionisation rate obtained
+from AGN at low redshifts relative to measurements from the
+\lya\ forest as a photon underproduction crisis, it is worthwhile to
+recall various assumptions entering our derivation.  With a spectral
+index of $-1.7$, our ionisation rate estimate falls short of the
+\lya\ forest measurements by a factor of $\sim 2$ with an integration
+limit of $M_{1450}=-18$ on the luminosity function.
+\citet{2015ApJ...813L...8M} implicitly assume an integration limit of
+$M_{1450}=-14$ at $z\sim 0$ (see also \citealt{2015MNRAS.451L..30K,
+  2018arXiv180104931P}) as this limit corresponds to $M_*+5$ for the
+\citet{2009A&A...507..781S} luminosity function measurement.  It is
+unclear if the assumption of unit LyC escape fraction is valid for
+such faint AGN, but we find that even with this extremely faint
+integration limit, the photoionisation rate deficit is reduced by only
+about 25\% for a spectral index of $-1.7$.  While this result does not
+change significantly if we assume a spectral index of $-1.4$ as
+suggested by \citet{2014ApJ...794...75S}, assuming a much harder
+spectrum with a spectral index of $-0.56$ \citep{2004ApJ...615..135S}
+for faint ($M_{1450}>-23$) AGN completely alleviates the deficit for
+an integration limit of $M_{1450}=-18$.  One should also note that our
+ionization rate model ignores the large uncertainties in the
+\HI\ column density distribution at the Lyman limit
+\citep{2011ApJ...736...42R, 2017ApJ...849..106S, 2017MNRAS.466..838G}.  Alternatively, it
+may be possible to balance the ionization rate deficit by the
+contribution from low-redshift LyC-leaking galaxies
+\citep{2016Natur.529..178I, 2018MNRAS.474.4514I, 2018MNRAS.478.4851I}
+
 \subsection{Helium reionization}
 
 \begin{figure}
@@ -1895,21 +1918,23 @@ redshift-dependent integration limits adopted by these authors.
     % qhe.py 
     \includegraphics[width=\columnwidth,keepaspectratio]{q.pdf}
   \end{center}
-  \caption{
-  Redshift evolution of the volume-averaged \ion{He}{iii} fraction $Q_\ion{He}{iii}$
-  considering AGN with $M_{1450}<-21$ (blue) and $M_{1450}<-18$ (red)
-  in our calculation of the emission rate of ionizing photons.
-  The shaded regions show the one-sigma (68.26\%) confidence interval
-  resulting from the uncertainty in the emissivity.
-  The other curves show previous determinations of $Q_\ion{He}{iii}\left(z\right)$
-  based on Equation~\eqref{eqn:qHedot}
-  \citep{2012ApJ...746..125H, 2015ApJ...813L...8M, 2016ApJ...828...90L, 2018arXiv180104931P}
-  and on cosmological radiative transfer simulations of quasar-driven \ion{He}{ii} reionization
-  \citep{2009ApJ...694..842M, 2014MNRAS.445.4186C}.
-  Note that Equation~\eqref{eqn:qHedot} ignores the presence of \ion{He}{ii}
-  Lyman limit systems impeding reionization at  $Q_\ion{He}{iii}\rightarrow 1$,
-  requiring further analytic modelling \citep{2017ApJ...851...50M} or
-  numerical simulation \citep{2018arXiv180104931P}.
+  \caption{ Redshift evolution of the volume-averaged \ion{He}{iii}
+    fraction $Q_\ion{He}{iii}$ considering AGN with $M_{1450}<-21$
+    (blue) and $M_{1450}<-18$ (red) in our calculation of the emission
+    rate of ionizing photons.  The shaded regions show the one-sigma
+    (68.26\%) confidence interval resulting from the uncertainty in
+    the emissivity.  The other curves show previous determinations of
+    $Q_\ion{He}{iii}\left(z\right)$ based on
+    Equation~\eqref{eqn:qHedot} \citep{2012ApJ...746..125H,
+      2015ApJ...813L...8M, 2016ApJ...828...90L, 2018arXiv180104931P}
+    and on cosmological radiative transfer simulations of
+    quasar-driven \ion{He}{ii} reionization
+    \citep{2009ApJ...694..842M, 2014MNRAS.445.4186C}.  Note that
+    Equation~\eqref{eqn:qHedot} ignores the presence of \ion{He}{ii}
+    Lyman limit systems impeding reionization at
+    $Q_\ion{He}{iii}\rightarrow 1$, requiring further analytic
+    modelling \citep{2017ApJ...851...50M} or numerical simulation
+    \citep{2018arXiv180104931P}.
   \label{fig:qhe}}  
 \end{figure}
 
@@ -1921,24 +1946,15 @@ volume-averaged \ion{He}{iii} fraction $Q_\ion{He}{iii}$ is given by
   \frac{\mathrm{d}Q_\ion{He}{iii}}{\mathrm{d}t}=\frac{\dot{n}_\mathrm{ion,4}}{\langle n_\mathrm{He}\rangle}-\frac{Q_\ion{He}{iii}}{\langle t_\mathrm{rec,He}\rangle}\quad,
   \label{eqn:qHedot}
 \end{equation}
-where $\dot n_\mathrm{ion,4}$ is the emission rate of $\ge 4$\,Ry photons per unit proper volume,
-$\langle n_\mathrm{He}\rangle$ is the average proper helium number density,
-and $\langle t_\mathrm{rec,He}\rangle$ is the average recombination time scale for \ion{He}{iii}.
-%% GW simplified the following. All of that is a simple rescaling of the 912A emissivity
-%We obtain the evolution of $\dot n_{\rm ion,4}$ for AGN with $M_\mathrm{1450}<-21$ and
-%$M_\mathrm{1450}<-18$ by integrating the contribution of double power
-%law luminosity function obtained in distinct redshifts bins and
-%fitting Equation~(\ref{eqn:e912fit}) to the resultant \HeII-ionizing emissivities.
-%We extrapolate the resultant fit to $z>7$, although the
-%contribution from this extrapolated emissivity to \HeII-reionization is small.
-With our quasar emissivity model from Section~\ref{sec:e912} the emission rate
-can be written as
-%\begin{eqnarray}\nonumber
-%\dot n_\mathrm{ion,4}\left(z\right)&=&\left(1+z\right)^3\int_{\nu_{228}}^{\infty}\mathrm{d}%\nu\frac{\epsilon_\nu\left(\nu,z\right)}{h\nu}\\
-%&=&-\frac{4^{\alpha_\nu}}{h\alpha_\nu}\left(1+z\right)^3\epsilon_{912}\left(z\right)\quad,
-%\end{eqnarray}
+where $\dot n_\mathrm{ion,4}$ is the emission rate of $\ge 4$\,Ry
+photons per unit proper volume, $\langle n_\mathrm{He}\rangle$ is the
+average proper helium number density, and $\langle
+t_\mathrm{rec,He}\rangle$ is the average recombination time scale for
+\ion{He}{iii}.  With our quasar emissivity model from
+Section~\ref{sec:e912} the emission rate can be written as
 \begin{equation}
-\dot n_\mathrm{ion,4}\left(z\right)=-\frac{4^{\alpha_\nu}}{h\alpha_\nu}\left(1+z\right)^3\epsilon_{912}\left(z\right)\quad,
+\dot
+n_\mathrm{ion,4}\left(z\right)=-\frac{4^{\alpha_\nu}}{h\alpha_\nu}\left(1+z\right)^3\epsilon_{912}\left(z\right)\quad,
 \end{equation}
 with the quasar spectral index $\alpha_\nu=-1.7$ and the comoving 912\,\AA\ emissivity
 $\epsilon_{912}\left(z\right)$ given by Equations~\eqref{eqn:e912_18} and \eqref{eqn:e912_21}
@@ -1949,198 +1965,130 @@ The recombination time scale in Equation~\eqref{eqn:qHedot} is given by
   \label{eq:trec}
 \end{equation}
 where $\langle n_\mathrm{H}\rangle=1.881\times
-10^{-7}(1+z)^3$~cm$^{-3}$ is the average proper hydrogen number density,
-$\alpha_\mathrm{B}$ is the Case~B \ion{He}{iii} recombination coefficient \citep{1997MNRAS.292...27H},
-and $\chi=0.079$ is the cosmic number fraction of helium for a cosmic
-helium mass fraction of $Y_\mathrm{He}=0.24$. 
-We assume that the clumping factor $C$ for helium is the same as for hydrogen,
-for which \citet{2012ApJ...747..100S} obtained
+10^{-7}(1+z)^3$~cm$^{-3}$ is the average proper hydrogen number
+density, $\alpha_\mathrm{B}$ is the Case~B \ion{He}{iii} recombination
+coefficient \citep{1997MNRAS.292...27H}, and $\chi=0.079$ is the
+cosmic number fraction of helium for a cosmic helium mass fraction of
+$Y_\mathrm{He}=0.24$.  We assume that the clumping factor $C$ for
+helium is the same as for hydrogen, for which
+\citet{2012ApJ...747..100S} obtained
 \begin{equation}
   C = 2.9\left(\frac{1+z}{6}\right)^{-1.1}
 \end{equation}
 over the redshift range $5<z<9$. 
 
 Equation~\eqref{eqn:qHedot} neglects \ion{He}{ii} Lyman limit systems
-that considerably delay the end of \ion{He}{ii} reionization \citep{2009MNRAS.395..736B, 2017ApJ...851...50M}.
-In the absence of these self-shielded systems, $Q_\ion{He}{iii}$ can continue
-to increase beyond unity and the mean free path of \ion{He}{ii}-ionizing photons diverges.
-We set $Q_\ion{He}{iii}=1$ when this happens.
-This can be corrected by accounting for the \ion{He}{ii} column
-density distribution and filtering the \ion{He}{ii}-ionizing radiation
-field through it. Unfortunately, the \ion{He}{ii} column density
-distribution is itself uncertain, as it depends on the
-relative contributions of quasars and galaxies to the UV background \citep[e.g.][]{2012ApJ...746..125H,2018arXiv180104931P}. 
-We consider the simplified treatment of $Q_\ion{He}{iii}$ accurate enough for the purpose
-of this work, while noting that the redshift of \ion{He}{ii} reionization is
-likely overestimated in any such model.
+that considerably delay the end of \ion{He}{ii} reionization
+\citep{2009MNRAS.395..736B, 2017ApJ...851...50M}.  In the absence of
+these self-shielded systems, $Q_\ion{He}{iii}$ can continue to
+increase beyond unity and the mean free path of \ion{He}{ii}-ionizing
+photons diverges.  We set $Q_\ion{He}{iii}=1$ when this happens.  This
+can be corrected by accounting for the \ion{He}{ii} column density
+distribution and filtering the \ion{He}{ii}-ionizing radiation field
+through it. Unfortunately, the \ion{He}{ii} column density
+distribution is itself uncertain, as it depends on the relative
+contributions of quasars and galaxies to the UV background
+\citep[e.g.][]{2012ApJ...746..125H,2018arXiv180104931P}.  We consider
+the simplified treatment of $Q_\ion{He}{iii}$ accurate enough for the
+purpose of this work, while noting that the redshift of \ion{He}{ii}
+reionization is likely overestimated in any such model.
 
-The resultant \ion{He}{ii} reionization histories are shown in Figure~\ref{fig:qhe}
-for our two considered magnitude limits, with the shaded regions showing the one-sigma
-uncertainty in $Q_\ion{He}{iii}$ resulting from the uncertainty in the quasar emissivity alone,
-i.e.\ using a fixed quasar spectral energy distribution and a fixed redshift evolution of the clumping factor.
-In our model, \ion{He}{ii} reionization starts around the earliest quasars at $z>6$ and finishes at
-$3.2\la z\la 3.5$ depending on the extent of the faint-end QLF.
-Considering the limitations of the modelling discussed above, both \ion{He}{ii} reionization histories
-are consistent with recent \ion{He}{ii} Ly$\alpha$ effective optical depth measurements supporting
-substantial progression of \ion{He}{ii} reionization by $z\simeq 3.4$ \citep{2016ApJ...825..144W},
-and an end of the process at $z\simeq 2.7$ \citep{2011ApJ...733L..24W,2016ApJ...825..144W}
-with the build-up of a quasi-homogeneous \ion{He}{ii}-ionizing background \citep{2014MNRAS.437.1141D,2017MNRAS.465.2886D}. 
+The resultant \ion{He}{ii} reionization histories are shown in
+Figure~\ref{fig:qhe} for our two considered magnitude limits, with the
+shaded regions showing the one-sigma uncertainty in $Q_\ion{He}{iii}$
+resulting from the uncertainty in the quasar emissivity alone,
+i.e.\ using a fixed quasar spectral energy distribution and a fixed
+redshift evolution of the clumping factor.  In our model, \ion{He}{ii}
+reionization starts around the earliest quasars at $z>6$ and finishes
+at $3.2\la z\la 3.5$ depending on the extent of the faint-end QLF.
+Considering the limitations of the modelling discussed above, both
+\ion{He}{ii} reionization histories are consistent with recent
+\ion{He}{ii} Ly$\alpha$ effective optical depth measurements
+supporting substantial progression of \ion{He}{ii} reionization by
+$z\simeq 3.4$ \citep{2016ApJ...825..144W}, and an end of the process
+at $z\simeq 2.7$ \citep{2011ApJ...733L..24W,2016ApJ...825..144W} with
+the build-up of a quasi-homogeneous \ion{He}{ii}-ionizing background
+\citep{2014MNRAS.437.1141D,2017MNRAS.465.2886D}.
 
-%% JFH I think these next two paragraphs here needs to be shortened considerably.
-%% You are spending way to to much time and text discussing the literature. 
-%% GW commented the previous version and provided a shorter one
+Figure~\ref{fig:qhe} also shows previous solutions of
+Equation~\eqref{eqn:qHedot} with different parameterizations of the
+quasar emissivity, spectral energy distribution and clumping factor
+\citep{2012ApJ...746..125H, 2015ApJ...813L...8M, 2016ApJ...828...90L,
+  2018arXiv180104931P}, as well as the results from cosmological
+radiative transfer simulations of \ion{He}{ii} reionization
+\citep{2009ApJ...694..842M,2014MNRAS.445.4186C}.  The differences of
+our results to the ones by \citet{2012ApJ...746..125H} and
+\citet{2015ApJ...813L...8M} mostly result from differences in the
+adopted quasar emissivity (Figure~\ref{fig:e912_2}).  The large quasar
+emissivity adopted by \citet{2015ApJ...813L...8M} results in an early
+completion of \ion{He}{ii} reionization at $z\approx 4$, which is
+inconsistent with the measured strong \ion{He}{ii} absorption at
+$2.7<z<3$ \citep{2016ApJ...825..144W, 2018MNRAS.473.1416M,
+  2018arXiv180104931P} if the \ion{He}{ii}-ionizing background is not
+fluctuating on large scales due to rare clustered and/or short-lived
+quasars that result in a spatially varying mean free path of
+\ion{He}{ii}-ionizing photons \citep{2010ApJ...714..355F,
+  2014MNRAS.440.2406M, 2014MNRAS.437.1141D, 2017MNRAS.465.2886D}.  The
+quasar emissivity considered by \citet{2012ApJ...746..125H} falls
+below our determinations at the relevant redshifts
+(Figure~\ref{fig:e912_2}), which results in a delayed completion of
+\ion{He}{ii} reionization at $z\simeq 2.8$.
 
-Figure~\ref{fig:qhe} also shows previous solutions of Equation~\eqref{eqn:qHedot}
-with different parameterizations of the quasar emissivity, spectral energy distribution and
-clumping factor \citep{2012ApJ...746..125H,2015ApJ...813L...8M,2016ApJ...828...90L,2018arXiv180104931P},
-as well as the results from cosmological radiative transfer simulations of \ion{He}{ii} reionization \citep{2009ApJ...694..842M,2014MNRAS.445.4186C}.
-The differences of our results to the ones by \citet{2012ApJ...746..125H} and \citet{2015ApJ...813L...8M}
-mostly result from differences in the adopted quasar emissivity (Figure~\ref{fig:e912_2}).
-The large quasar emissivity adopted by \citet{2015ApJ...813L...8M} results in an early completion of
-\ion{He}{ii} reionization at $z\approx 4$, which is inconsistent with the measured strong \ion{He}{ii} absorption
-at $2.7<z<3$ \citep{2016ApJ...825..144W,2018MNRAS.473.1416M,2018arXiv180104931P}
-if the \ion{He}{ii}-ionizing background is not fluctuating on large scales due to rare clustered and/or short-lived
-quasars that result in a spatially varying mean free path of \ion{He}{ii}-ionizing photons
-\citep{2010ApJ...714..355F,2014MNRAS.440.2406M,2014MNRAS.437.1141D,2017MNRAS.465.2886D}.
-The quasar emissivity considered by \citet{2012ApJ...746..125H} falls below our determinations at the relevant
-redshifts (Figure~\ref{fig:e912_2}), which results in a delayed completion of \ion{He}{ii} reionization at $z\simeq 2.8$.
+\citet{2016ApJ...828...90L} varied the parameters of
+Equation~\eqref{eqn:qHedot} to estimate the uncertainty in
+$Q_\ion{He}{iii}\left(z\right)$, in particular the
+QLF\footnote{\citet{2016ApJ...828...90L} erroneously varied the
+  $z>3.5$ QLF parameters independently, neglecting their covariance
+  and the survey data.}, shown in Figure~\ref{fig:e912_2}.
+Considering the limitations of Equation~\eqref{eqn:qHedot},
+\ion{He}{ii} reionization finishes too late ($z\sim 2.5$) in their
+fiducial model, which is probably due to their considered QLFs and
+varying magnitude limits their emissivity calculations.
 
-\citet{2016ApJ...828...90L} varied the parameters of Equation~\eqref{eqn:qHedot} to estimate the uncertainty
-in $Q_\ion{He}{iii}\left(z\right)$, in particular the QLF\footnote{\citet{2016ApJ...828...90L} erroneously varied the
-$z>3.5$ QLF parameters independently, neglecting their covariance and the survey data.},
-shown in Figure~\ref{fig:e912_2}. Considering the limitations of Equation~\eqref{eqn:qHedot},
-\ion{He}{ii} reionization finishes too late ($z\sim 2.5$) in their fiducial model, which is probably due to their
-considered QLFs and varying magnitude limits their emissivity calculations.
+\citet{2018arXiv180104931P} adopted a somewhat higher quasar
+emissivity than \citet{2012ApJ...746..125H} that is comparable to our
+fit for $M_{1450}<-21$ at the redshifts of interest.  Instead of their
+solution to Equation~\eqref{eqn:qHedot} we show their results of
+one-cell simulations with gas at cosmic mean density (see Section~3.3
+and Appendix~C of \citealt{2018arXiv180104931P} for details).  In
+these simulations the \ion{He}{ii} number density is correctly
+calculated as \ion{He}{ii} is gradually ionized by a radiation field
+resulting from one-dimensional radiative transfer calculations through
+an inhomogeneous IGM.  This accounts for \ion{He}{ii} Lyman limit
+systems in a simple way, resulting in a smooth transition of
+$Q_\ion{He}{iii}$ to unity.
 
-\citet{2018arXiv180104931P} adopted a somewhat higher quasar emissivity than \citet{2012ApJ...746..125H}
-that is comparable to our fit for $M_{1450}<-21$ at the redshifts of interest. Instead of their solution to
-Equation~\eqref{eqn:qHedot} we show their results of one-cell simulations with gas at cosmic mean density
-(see Section~3.3 and Appendix~C of \citealt{2018arXiv180104931P} for details).
-In these simulations the \ion{He}{ii} number density is correctly calculated as \ion{He}{ii} is gradually ionized
-by a radiation field resulting from one-dimensional radiative transfer calculations through an inhomogeneous IGM.
-This accounts for \ion{He}{ii} Lyman limit systems in a simple way, resulting in a smooth transition of $Q_\ion{He}{iii}$ to unity.
+In Figure~\ref{fig:qhe} we also plot $Q_\ion{He}{iii}\left(z\right)$
+from two numerical simulations of quasar-driven \ion{He}{ii}
+reionization \citep{2009ApJ...694..842M,2014MNRAS.445.4186C} that
+broadly reproduce the measured \ion{He}{ii} effective optical depths
+\citep{2016ApJ...825..144W}.  In these simulations the outputs of
+$N$-body or hydrodynamic simulations are post-processed with radiative
+transfer around quasars sourced according to a specific model, and the
+effects of \ion{He}{ii} Lyman limit systems are approximately captured
+with sub-grid filtering methods \citep{2009ApJ...694..842M} or with
+adaptive mesh refinement \citep{2014MNRAS.445.4186C}.  Their different
+timing of \ion{He}{ii} reionization is mostly due to the adopted
+quasar model (QLF, spectral energy distribution, quasar lifetime,
+anisotropic emission, halo mass range) and stochasticity in the $z\ga
+3.5$ quasar number density in the limited simulation volumes.  Thus,
+while current simulations do not reproduce the measured scatter in the
+\ion{He}{ii} effective optical depths at $2.7<z<3.5$ in detail
+\citep{2016ApJ...825..144W}, this may reflect limitations of the
+modelling other than the QLF \citep{2017MNRAS.468.4691D}.  Our
+$Q_\ion{He}{iii}\left(z\right)$ for $M_{1450}<-18$ agrees well with
+the simulation by \citet{2014MNRAS.445.4186C}, in which \ion{He}{ii}
+reionization is accomplished by the $z<5$ quasar population evolved
+assuming pure density or pure luminosity evolution to match the QLF by
+\citet{2011ApJ...728L..26G} for $M_{1450}<-19.5$ \citep[see
+  also][]{2013MNRAS.435.3169C}.  Future efforts in numerical modelling
+of \ion{He}{ii} reionization should investigate quasar models which
+follow the QLF evolution in detail, and which are consistent with the
+measured redshift evolution and scatter of the \ion{He}{ii} effective
+optical depth, as well as the measured redshift evolution of the IGM
+temperature-density relation \citep[e.g.][]{2011MNRAS.410.1096B,
+  2014MNRAS.441.1916B, 2018MNRAS.474.2871R, 2017arXiv171000700H}.
 
-In Figure~\ref{fig:qhe} we also plot $Q_\ion{He}{iii}\left(z\right)$ from two numerical simulations of quasar-driven
-\ion{He}{ii} reionization \citep{2009ApJ...694..842M,2014MNRAS.445.4186C} that broadly reproduce the measured
-\ion{He}{ii} effective optical depths \citep{2016ApJ...825..144W}. In these simulations the outputs of $N$-body or
-hydrodynamic simulations are post-processed with radiative transfer around quasars sourced according to a specific model,
-and the effects of \ion{He}{ii} Lyman limit systems are approximately captured with sub-grid filtering methods
-\citep{2009ApJ...694..842M} or with adaptive mesh refinement \citep{2014MNRAS.445.4186C}.
-Their different timing of \ion{He}{ii} reionization is mostly due to the adopted quasar model
-(QLF, spectral energy distribution, quasar lifetime, anisotropic emission, halo mass range) and stochasticity in the
-$z\ga 3.5$ quasar number density in the limited simulation volumes.
-Thus, while current simulations do not reproduce the measured scatter in the \ion{He}{ii} effective optical depths at
-$2.7<z<3.5$ in detail \citep{2016ApJ...825..144W}, this may reflect limitations of the modelling other than the QLF
-\citep{2017MNRAS.468.4691D}. Our $Q_\ion{He}{iii}\left(z\right)$ for $M_{1450}<-18$ agrees well with the simulation
-by \citet{2014MNRAS.445.4186C}, in which \ion{He}{ii} reionization is accomplished by the $z<5$ quasar population
-evolved assuming pure density or pure luminosity evolution to match the QLF by \citet{2011ApJ...728L..26G} for
-$M_{1450}<-19.5$ \citep[see also][]{2013MNRAS.435.3169C}. Future efforts in numerical modelling of \ion{He}{ii}
-reionization should investigate quasar models which follow the QLF evolution in detail, and which are consistent with
-the measured redshift evolution and scatter of the \ion{He}{ii} effective optical depth, as well as the measured redshift evolution
-of the IGM temperature-density relation \citep[e.g.][]{2011MNRAS.410.1096B,2014MNRAS.441.1916B,2018MNRAS.474.2871R,2017arXiv171000700H}.
-
-
-%% Previous version commented by GW
-%In Figure~\ref{fig:qhe}, we also show the reionization histories from
-%other models of \HeII\ reionization in the literature.  Our model
-%curve for $M_\mathrm{1450}<-21$ is closest in agreement to the
-%simulations of \citet{2009ApJ...694..842M} and the analytical model of
-%\citet{2018arXiv180104931P}.  \citet{2018arXiv180104931P} model the
-%\HeII-ionizing emissivity of AGN by fitting the functional form in
-%Equation~(\ref{eqn:e912fit}) to the emissivities reported by
-%\citet{2009A&A...507..781S}, \citet{2007A&A...472..443B}, and
-%\citet{2012ApJ...755..169M}.  The resultant emissivity in the model of
-%\citet{2018arXiv180104931P} is similar in shape but higher in
-%amplitude than the emissivity in the \citet{2012ApJ...746..125H}
-%model.  The \HeII-ionizing emissivity of \citet{2018arXiv180104931P}
-%is closer to our inference for $M_\mathrm{1450}<-21$ than the model of
-%\citet{2012ApJ...746..125H}.  (However, note that both these models
-%suffer from inhomogeneous luminosity function integration limits, as
-%the integration limit is set to a fixed fraction of the break
-%luminosity, as discussed above in Section~\ref{sec:e912}.)  A spectral
-%index of $\alpha_\mathrm{EUV}=-1.7$ is assumed.
-%\citet{2018arXiv180104931P} compute the evolution of $Q_\nHeIII$ by
-%evolving the \HeIII\ ionization fraction in a gas cloud with the mean
-%cosmic baryonic density exposed to the average \HeII-ionizing flux.
-%The ionizing flux is obtained by filtering the ionizing emissivity
-%through an inhomogeneous IGM in which the column density distribution
-%of \HeIII\ is derived from that of \HI\ in a manner similar to
-%\citet{2012ApJ...746..125H}.  As a result, this model incorporates the
-%effect of \HeII\ Lyman-limit systems, and the $Q_\nHeIII$ evolution in
-%this model deviates from our predictions towards the end of
-%reionization, as seen in Figure~\ref{fig:qhe}.  Comparing the
-%emissivity model in the cosmological radiative transfer simulations of
-%\citet{2009ApJ...694..842M} with our models is less straightforward.
-%Quasars are modelled in the simulations of \citet{2009ApJ...694..842M}
-%by relating quasar luminosities and lifetimes to halo masses following
-%the galaxy-merger-induced quasar activity model of
-%\citet{2005ApJ...630..705H}.  The resultant bolometric quasar
-%luminosity functions are somewhat shallower than those of
-%\citet{2007ApJ...654..731H}, but with a higher amplitude.  A spectral
-%index of $\alpha_\mathrm{EUV}=-1.6$ is assumed.  Figure~\ref{fig:qhe}
-%shows that the resultant reionization history in these simulations
-%agrees with our model for $M_\mathrm{1450}<-21$, except towards the
-%end of reionization, where, as before, \HeII\ Lyman-limit systems
-%become important.
-
-%Helium reionization is delayed in the model of
-%\citet{2012ApJ...746..125H} due to their reduced emissivity at $z\sim
-%3$.  In the \citet{2015ApJ...813L...8M} model, a significant
-%\HeII\ fraction is ionized already at $z=6$, and reionization is
-%complete by $z=4.1$ due to the very high emissivity assumed in this
-%model.  In the radiation-hydrodynamic simulations by
-%\citet{2016ApJ...828...90L}, the AGN population is calibrated to the
-%SDSS \citep{2013ApJ...768..105M} and COSMOS
-%\citep{2012ApJ...755..169M} data at $z>3.5$, combined with a model for
-%quasar light curves.  The fiducial \HeII\ reionization history
-%obtained by these authors is shown in Figure~\ref{fig:qhe} along with
-%an estimate of the uncertainty.  Reionization ends considerably later
-%in this model ($z\sim 2.6$).  The \HeII\ reionization history in our
-%model for $M_\mathrm{1450}<-18$ agrees closely with that in the
-%radiative transfer simulations presented by
-%\citet{2014MNRAS.445.4186C}.  The AGN population in these simulations
-%is `turned on' at $z=5$ and evolved assuming a pure luminosity
-%evolution to match the inferred luminosity function of
-%\citet{2011ApJ...728L..26G}.  The somewhat early reionization in the
-%simulations of \citet{2014MNRAS.445.4186C} relative to most other
-%models shown in Figure~\ref{fig:qhe} may be driven by the
-%significantly higher emissivity from AGN with intermediate brightness
-%($M_{1450}\sim -23$) in the model of \citet{2011ApJ...728L..26G}.
-%However, the limited numerical resolution of these simulations may
-%also play a role \citep{2014MNRAS.445.4186C}.
-
-%An important constraint on \HeII\ reionization can be derived from the
-%thermal history of the IGM.  \citet{2018MNRAS.473.1416M} constrained
-%the evolution of the 912\,\AA\ emissivity of AGN by assuming a
-%spectral index of $\alpha_\mathrm{EUV}=-1.57$ and using the
-%measurements of the effective \HeII\ \lya optical depth
-%\citep{2016ApJ...825..144W} and the IGM temperature
-%\citep{2011MNRAS.410.1096B}.  \citet{2018MNRAS.473.1416M} found that
-%although these data favour a reionization history in which \HeII\ is
-%reionized at $z>4$, the 912\,\AA\ emissivity of AGN is nevertheless
-%required to drop rapidly at $z>3$.  This emissivity evolution is much
-%more rapid than that in our model for $M_\mathrm{1450}<-21$, with the
-%caveat that the constraint derived by \citet{2018MNRAS.473.1416M} is
-%model-dependent and assumes a shallower EUV spectrum.  A steeper
-%spectrum with $\alpha_\mathrm{EUV}=-1.8$ was assumed in a recent model
-%by \citet{2018arXiv180109693K}.  The resultant emissivity evolution is
-%consistent with our model for $M_\mathrm{1450}<-21$, although somewhat
-%more rapid at $z>2$.  The AGN luminosity function is derived by
-%combining determinations from various data sets
-%\citep{2015MNRAS.451L..30K}.  An inhomogeneous integration limit of
-%$0.01L_*$ is applied to calculate the emissivity.  \HeII\ reionization
-%ends at $z=2.8$ in the model of \citet{2018arXiv180109693K}.
-%(\citealt{2017MNRAS.471..255K} argued that for their luminosity
-%function model, spectra with $\alpha_\mathrm{EUV}>-1.6$ are unlikely
-%to be consistent with the \HeII\ \lya data.)
-%\citet{2017MNRAS.468.4691D} considered the effect of an AGN-dominated
-%reionization on the \HI\ Ly$\alpha$ opacity at $z>5$,
-%\HeII\ Ly$\alpha$ opacity at $z\sim 3.1$--$3.3$, and the thermal
-%history of the IGM.  These authors found that that any scenario in
-%which reionization of \HeII\ completes at $z>3$ is inconsistent with
-%the measurements of the IGM temperature at $z=4$--$5$.  We leave the
-%analysis of the IGM thermal history implied by our AGN luminosity
-%models for future work.
 
 \section{Summary and Conclusions}
 \label{sec:conc}
@@ -2235,7 +2183,7 @@ at these redshifts \citep{2009A&A...507..781S} albeit their Lyman
 continuum escape fraction is unknown, and (b) current UV background
 synthesis models do not account for the large uncertainty in the
 low-redshift column density distribution of (partial) \ion{H}{i} Lyman
-limit systems \citep{2011ApJ...736...42R,2017ApJ...849..106S}.  Helium
+limit systems \citep{2011ApJ...736...42R, 2017ApJ...849..106S}.  Helium
 reionization is accomplished at $z\simeq 3.5$ by $M_{1450}<-18$ AGN
 (Figure~\ref{fig:qhe}), but should be delayed by \ion{He}{ii} Lyman
 limit systems \citep{2009MNRAS.395..736B, 2017ApJ...851...50M},
