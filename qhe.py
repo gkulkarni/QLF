@@ -20,24 +20,42 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     import sys
 
-
-data = np.load('e1450_18.npz')
+data = np.load('e1450_18_test.npz')
 z18 = data['z']
-medianbright18 = data['medianbright']
-medianfaint18 = data['medianfaint']
-downbright18 = data['downbright']
-upbright18 = data['upbright']
-downfaint18 = data['downfaint']
-upfaint18 = data['upfaint']
+medianbright18 = data['medianbright']*((912.0/1450.0)**0.61)
+downbright18 = data['downbright']*((912.0/1450.0)**0.61)
+upbright18 = data['upbright']*((912.0/1450.0)**0.61)
+medianfaint18 = data['medianfaint']*((912.0/1450.0)**0.61)
+downfaint18 = data['downfaint']*((912.0/1450.0)**0.61)
+upfaint18 = data['upfaint']*((912.0/1450.0)**0.61)
 
-data = np.load('e1450_21.npz')
+data = np.load('e1450_21_test.npz')
 z21 = data['z']
-medianbright21 = data['medianbright']
-medianfaint21 = data['medianfaint']
-downbright21 = data['downbright']
-upbright21 = data['upbright']
-downfaint21 = data['downfaint']
-upfaint21 = data['upfaint']
+medianbright21 = data['medianbright']*((912.0/1450.0)**0.61)
+downbright21 = data['downbright']*((912.0/1450.0)**0.61)
+upbright21 = data['upbright']*((912.0/1450.0)**0.61)
+medianfaint21 = data['medianfaint']*((912.0/1450.0)**0.61)
+downfaint21 = data['downfaint']*((912.0/1450.0)**0.61)
+upfaint21 = data['upfaint']*((912.0/1450.0)**0.61)
+
+    
+# data = np.load('e912_18_test.npz')
+# z18 = data['z']
+# medianbright18 = data['median']
+# downbright18 = data['down']
+# upbright18 = data['up']
+# medianfaint18 = 0.0*data['median']
+# downfaint18 = 0.0*data['down']
+# upfaint18 = 0.0*data['up']
+
+# data = np.load('e912_21_test.npz')
+# z21 = data['z']
+# medianbright21 = data['median']
+# downbright21 = data['down']
+# upbright21 = data['up']
+# medianfaint21 = 0.0*data['median']
+# downfaint21 = 0.0*data['down']
+# upfaint21 = 0.0*data['up']
 
 print 'data loaded'
 
@@ -60,12 +78,12 @@ if cosmo_params_MH15:
     h = 0.7
     cosmo = {'omega_M_0': omega_nr,
              'omega_lambda_0': omega_lambda,
-             'omega_k_0': omega_nr,
+             'omega_k_0': 1.0-omega_nr-omega_lambda,
              'omega_b_0': omega_b,
              'h': h,
              'X_H': 1-Y_He }
 else:
-    # Sherwood parameters
+    # Planck parameters (cf. Sherwood) 
     omega_b = 0.0482
     omega_lambda = 0.692
     omega_nr = 0.308
@@ -73,7 +91,7 @@ else:
     h = 0.678
     cosmo = {'omega_M_0': omega_nr,
              'omega_lambda_0': omega_lambda,
-             'omega_k_0': omega_nr,
+             'omega_k_0': 1.0-omega_nr-omega_lambda,
              'omega_b_0': omega_b,
              'h': h,
              'X_H': 1-Y_He }
@@ -194,7 +212,7 @@ def dqdt_HeIII(q, z, emissivity):
     # Integrate qso emissivity from 4 Ry to infinity.  We are assuming
     # the same EUV spectral slope of -1.7 (Lusso et al. 2015) for both
     # faint and bright qsos.  A slope of -0.56 (Scott et al. 2004)
-    # seems to be ruled out by HeII tau_eff data as it reionized HeII
+    # seems to be ruled out by HeII tau_eff data as it reionizes HeII
     # at z > 4.5.
     
     ebright, efaint = emissivity(z)
@@ -248,18 +266,13 @@ def laplante16(ax, minus=False):
         ax.plot(z, 1-q, c='orange', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
         return 
 
+    # We decided not to plot La Plante error bars.
     z = np.linspace(12, 2, 1000)
-    assert(np.all(np.diff(zl) > 0))
-    q_dn = np.interp(z, zl, ql)
-    assert(np.all(np.diff(zu) > 0))
-    q_up = np.interp(z, zu, qu)
-    r = ax.fill_between(z, q_dn, y2=q_up, color='peru', zorder=8, alpha=0.7, edgecolor='None')
-
     assert(np.all(np.diff(zc) > 0))
     q = np.interp(z, zc, qc)
-    bf, = ax.plot(z, q, c='peru', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
+    ax.plot(z, q, c='peru', lw=2, label=r'La Plante \& Trac 2016', zorder=8)
 
-    return r, bf 
+    return 
     
 def puchwein18(ax, minus=False):
 
@@ -341,7 +354,7 @@ def plotq():
 
     #----------
 
-    lr, lbf = laplante16(ax)
+    laplante16(ax)
 
     puchwein18(ax)
 
@@ -382,8 +395,8 @@ def plotq():
     #----------
     
     plt.ylim(0,1.2)
-    plt.xlim(2,6)
-    plt.xticks(np.arange(2,6.5,1))
+    plt.xlim(2,7)
+    plt.xticks(np.arange(2,7.5,1))
 
     handles, labels = ax.get_legend_handles_labels()
     myorder = [6,7,2,5,4,3,1,0]
@@ -392,23 +405,17 @@ def plotq():
 
     handles[0] = (q18, q18bf)
     handles[1] = (q21, q21bf)
-    handles[2] = (lr, lbf)
 
-    l1 = plt.legend(handles[:2], labels[:2], loc='upper right', fontsize=10, handlelength=3,
+    l1 = plt.legend(handles[:2], labels[:2], loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.5)
 
-    l2 = plt.legend(handles[2:], labels[2:], loc='upper right', fontsize=10, handlelength=3,
+    l2 = plt.legend(handles[2:], labels[2:], loc='upper right', fontsize=12, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
-                    handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.99, 0.94])
+                    handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.99, 0.92])
 
     ax.add_artist(l1)
 
-    # l2 = plt.legend(handles, labels, loc='upper left', fontsize=10, handlelength=3,
-    #                 frameon=False, framealpha=0.0, labelspacing=.1, ncol=2, 
-    #                 handletextpad=0.4, borderpad=0.5)
-
-    
     plt.savefig('q.pdf', bbox_inches='tight')
     return 
 
