@@ -15,14 +15,20 @@ def luminosity(M):
 
 def rhoqso(loglf, theta, mlim, mbright=-23.0):
 
+    """1450A emissivity.
+
+    """
+
     m = np.linspace(mbright, mlim, num=100)
     farr = np.array([(10.0**loglf(theta, x))*luminosity(x) for x in m])
-    #farr = np.array([10.0**loglf(theta, x)*luminosity(x)*((912.0/1450.0)**0.61) for x in m])
     
     return np.trapz(farr, m) # ergs s^-1 Hz^-1 cMpc^-3
 
 def get_rhoqso(lfi, mlim, mbright=-23):
 
+    """1450A emissivity (statistics).
+
+    """
     rindices = np.random.randint(len(lfi.samples), size=300)
     r = np.array([rhoqso(lfi.log10phi, theta, mlim, mbright=mbright)
                           for theta
@@ -36,6 +42,10 @@ def get_rhoqso(lfi, mlim, mbright=-23):
 
 def rhoqso_912(loglf, theta, mlim, mbright=-30.0):
 
+    """912A emissivity.
+
+    """
+
     m = np.linspace(mbright, mlim, num=100)
     farr = np.array([10.0**loglf(theta, x)*luminosity(x)*((912.0/1450.0)**0.61) for x in m])
     
@@ -43,6 +53,10 @@ def rhoqso_912(loglf, theta, mlim, mbright=-30.0):
 
 def get_rhoqso_912(lfi, mlim, mbright=-30):
 
+    """912A emissivity (statistics).
+
+    """
+    
     rindices = np.random.randint(len(lfi.samples), size=300)
     r = np.array([rhoqso_912(lfi.log10phi, theta, mlim, mbright=mbright)
                           for theta
@@ -104,6 +118,110 @@ def plot(redshifts, data, fit, filename):
     b = fit[1]
     efaint, = plt.plot(z, b, lw=2, c='red', zorder=5)
 
+    plt.savefig(filename, bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+
+def plot_check(redshifts, data, fit, redshifts2, data2, fit2, filename):
+
+    fig = plt.figure(figsize=(7, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+    
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+    
+    ax.set_ylabel(r'$\epsilon$ [erg s$^{-1}$ Hz$^{-1}$ cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    
+    ax.set_xlim(0.,8.)
+    ax.set_ylim(1.0e22, 1.0e26)
+    ax.set_yscale('log')
+
+    c = data[0]
+    u = data[1]
+    l = data[2]
+    
+    em = c
+    em_up = u - c
+    em_low = c - l
+
+    zs = redshifts[0]
+    uz = redshifts[1]
+    lz = redshifts[2]
+
+    uzerr = uz - zs
+    lzerr = zs - lz 
+        
+    ax.errorbar(zs, em, ecolor='k', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                ms=5)
+    
+    ax.scatter(zs, em, c='#ffffff', edgecolor='k',
+               label='($-23<M_\mathrm{1450}<-18$)',
+               s=48, zorder=6, linewidths=1.5)
+
+    c = data2[0]
+    u = data2[1]
+    l = data2[2]
+    
+    em = c
+    em_up = u - c
+    em_low = c - l
+
+    zs = redshifts[0]
+    uz = redshifts[1]
+    lz = redshifts[2]
+
+    uzerr = uz - zs
+    lzerr = zs - lz 
+        
+    ax.errorbar(zs, em, ecolor='b', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low, em_up)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                ms=5)
+    
+    ax.scatter(zs, em, c='#ffffff', edgecolor='b',
+               label='($-23<M_\mathrm{1450}<-18$)',
+               s=48, zorder=6, linewidths=1.5)
+
+
+    ax.errorbar(zs, em*(912.0/1450.0)**0.61, ecolor='g', capsize=0, fmt='None', elinewidth=1.5,
+                yerr=np.vstack((em_low*(912.0/1450.0)**0.61, em_up*(912.0/1450.0)**0.61)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                mfc='#ffffff', mec='#404040', zorder=6, mew=1,
+                ms=5)
+    
+    ax.scatter(zs, em*(912.0/1450.0)**0.61, c='#ffffff', edgecolor='g',
+               label='($-23<M_\mathrm{1450}<-18$)',
+               s=48, zorder=6, linewidths=1.5)
+    
+    z = fit[0]
+    up = fit[2]
+    down = fit[3]
+    efaintfill = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
+
+    b = fit[1]
+    efaint, = plt.plot(z, b, lw=2, c='red', zorder=5)
+
+    z = fit2[0]
+    up = fit2[2]
+    down = fit2[3]
+    efaintfill = ax.fill_between(z, down, y2=up, color='b', zorder=5, alpha=0.6, edgecolor='None')
+
+    b = fit2[1]
+    efaint, = plt.plot(z, b, lw=2, c='b', zorder=5)
+
+    efaintfill = ax.fill_between(z, down*(912.0/1450.0)**0.61, y2=up*(912.0/1450.0)**0.61, color='g', zorder=5, alpha=0.6, edgecolor='None')
+
+    b = fit2[1]
+    efaint, = plt.plot(z, b*(912.0/1450.0)**0.61, lw=2, c='g', zorder=5)
+    
     plt.savefig(filename, bbox_inches='tight')
     plt.close('all')
 
@@ -271,6 +389,10 @@ def get_fits(zs, uz, lz, c21f, u21f, l21f, c18f, u18f, l18f, cb, ub, lb, c18_912
     plot((zs, uz, lz), (cb, ub, lb), (z, b, up, down), 'e1450_bright.pdf')
     plot_composite((zs, uz, lz), (z, bf18, upf18, downf18, b, up, down), 'composite18.pdf')
     plot_composite((zs, uz, lz), (z, bf21, upf21, downf21, b, up, down), 'composite21.pdf')
+
+    bb = b
+    upb = up
+    downb = down # for use with plot_check below
     
     # Fit 4 --------------------------------------------------
     # Bright qsos -18 < M < -30 -- e912
@@ -303,6 +425,15 @@ def get_fits(zs, uz, lz, c21f, u21f, l21f, c18f, u18f, l18f, cb, ub, lb, c18_912
 
     plot((zs, uz, lz), (c18_912, u18_912, l18_912), (z, b, up, down), 'e912_18.pdf')
 
+    plot_check((zs, uz, lz),
+               (c18_912, u18_912, l18_912),
+               (z, b, up, down),
+               (zs, uz, lz),
+               (c18f+cb, u18f+ub, l18f+lb),
+               (z, bf18+bb, upf18+upb, downf18+downb),
+               'e_check.pdf')
+        
+
     # Fit 5 --------------------------------------------------
     # Bright qsos -23 < M < -30 -- e912
 
@@ -333,11 +464,19 @@ def get_fits(zs, uz, lz, c21f, u21f, l21f, c18f, u18f, l18f, cb, ub, lb, c18_912
     median912_21 = b
 
     plot((zs, uz, lz), (c21_912, u21_912, l21_912), (z, b, up, down), 'e912_21.pdf')
-    
-    write_output = False
+
+    plot_check((zs, uz, lz),
+               (c21_912, u21_912, l21_912),
+               (z, b, up, down),
+               (zs, uz, lz),
+               (c21f+cb, u21f+ub, l21f+lb),
+               (z, bf21+bb, upf21+upb, downf21+downb),
+               'e_check_21.pdf')
+
+    write_output = True
     if write_output:
         
-        np.savez('e1450_18_2', z=z,
+        np.savez('e1450_18_test', z=z,
                  medianbright=medianbright1450,
                  downbright=downbright1450,
                  upbright=upbright1450,
@@ -345,7 +484,7 @@ def get_fits(zs, uz, lz, c21f, u21f, l21f, c18f, u18f, l18f, cb, ub, lb, c18_912
                  downfaint=downfaint1450_18,
                  upfaint=upfaint1450_18)
 
-        np.savez('e1450_21_2', z=z,
+        np.savez('e1450_21_test', z=z,
                  medianbright=medianbright1450,
                  downbright=downbright1450,
                  upbright=upbright1450,
@@ -353,12 +492,12 @@ def get_fits(zs, uz, lz, c21f, u21f, l21f, c18f, u18f, l18f, cb, ub, lb, c18_912
                  downfaint=downfaint1450_21,
                  upfaint=upfaint1450_21)
 
-        np.savez('e912_18_2', z=z,
+        np.savez('e912_18_test', z=z,
                  median=median912_18,
                  down=down912_18,
                  up=up912_18)
 
-        np.savez('e912_21_2', z=z,
+        np.savez('e912_21_test', z=z,
                  median=median912_21,
                  down=down912_21,
                  up=up912_21)
@@ -396,6 +535,10 @@ def get_fit_mcmc(individuals):
     u18f = np.array([x.rhoqso[0] for x in individuals_good])
     l18f = np.array([x.rhoqso[1] for x in individuals_good])
 
+    print 'z=',z
+    print 'e1450--18=',cb+c18f
+    print 'e1450--18*factor=',(cb+c18f)*((912.0/1450.0)**0.61)
+
     # Get the 912A emissivity for M < -18 
     for x in individuals_good:
         get_rhoqso_912(x, -18.0, mbright=-30.0)
@@ -403,6 +546,8 @@ def get_fit_mcmc(individuals):
     u18_912 = np.array([x.rhoqso[0] for x in individuals_good])
     l18_912 = np.array([x.rhoqso[1] for x in individuals_good])
 
+    print 'e912--18=',c18_912
+    
     # Get the 912A emissivity for M < -21
     for x in individuals_good:
         get_rhoqso_912(x, -21.0, mbright=-30.0)
