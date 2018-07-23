@@ -70,21 +70,21 @@
   to identical cosmologies, intrinsic AGN spectra, and magnitude
   systems.  Using this sample, we derive the AGN UV luminosity
   function from redshifts $z=0$ to $7.5$.  The luminosity function has
-  a double power law form at $z<5.5$, and a single power law form at
-  higher redshifts.  The break luminosity brightens rapidly with
-  redshift and the faint end of the luminosity function steepens.  In
-  spite of this steepening, the contribution of AGN to the hydrogen
-  photoionization rate at $z\sim 6$ is subdominant, although it can be
-  non-negligible if these luminosity functions hold down to
-  $M_{1450}=-18$.  Under reasonable assumptions, AGN can reionize
-  \HeII\ by redshift $z=3.2$.  At low redshifts ($z<0.5$), AGN can
-  produce all of the hydrogen photoionization rate inferred from the
-  statistics of \HI\ absorption lines in the IGM.  Our global analysis
-  of the luminosity function also reveals important systematic errors
-  in the data, particularly at $z=2.2$--$3.5$, which need to be
-  addressed in future in order to improve our results.  We make
-  various fitting functions, luminosity function analysis codes, and
-  homogenised AGN data publicly available.
+  a double power law form at most redshifts.  The break luminosity
+  brightens rapidly with redshift and the faint end of the luminosity
+  function steepens.  In spite of this steepening, the contribution of
+  AGN to the hydrogen photoionization rate at $z\sim 6$ is
+  subdominant, although it can be non-negligible if these luminosity
+  functions hold down to $M_{1450}=-18$.  Under reasonable
+  assumptions, AGN can reionize \HeII\ by redshift $z=2.9$.  At low
+  redshifts ($z<0.5$), AGN can produce about half of the hydrogen
+  photoionization rate inferred from the statistics of \HI\ absorption
+  lines in the IGM.  Our global analysis of the luminosity function
+  also reveals important systematic errors in the data, particularly
+  at $z=2.2$--$3.5$, which need to be addressed in future in order to
+  improve our results.  We make various fitting functions, luminosity
+  function analysis codes, and homogenised AGN data publicly
+  available.
 \end{abstract}
 
 \begin{keywords}
@@ -96,7 +96,7 @@
 
 The luminosity function of active galactic nuclei (AGN) and its
 evolution over cosmological time scales has been a matter of central
-interest of a large body of work over the last four decades
+interest of a large body of work over the last five decades
 \citep{1968ApJ...151..393S, 1978A&A....68...17M, 1983ApJ...269..352S,
   1988ApJ...325...92K, 1988MNRAS.235..935B, 1993ApJ...406L..43H,
   1994ApJ...421..412W, 1995AJ....110...68S, 1995AJ....110.2553K,
@@ -135,37 +135,37 @@ can potentially produce all of the metagalactic hydrogen
 photoionization rate inferred from the \lya forest at $4<z<6$, despite
 the fact that these AGN are fainter than the brightest star-forming
 galaxies at these redshifts.  (The UV luminosity function of galaxies
-at $z=6$ has $M^*_{1450}\sim -20$.)  A significant presence of AGN at
-high redshift ($z\sim 6$) and a dominant contribution of AGN to
-reionization is appealing as the LyC escape fraction of galaxies is
-uncertain.  High-redshift galaxies down to rest-frame UV magnitude
-$M_\mathrm{UV}=-12.5$ ($L\sim 10^{-3}L^*_\mathrm{galaxies}$) at $z=6$
-\citep{2017ApJ...835..113L} and redshifts up to $z=11.1$
-\citep{2016ApJ...819..129O} have now been reported.  But the escape of
-LyC photons has been measured in only a few comparatively bright
-($L>0.5L^*_\mathrm{galaxies}$) galaxies at relatively low redshifts
-($z < 4$).  The escape fraction in these galaxies reveals a broad
-distribution from less than 2\% to more than 80\%
-\citep{2010ApJ...725.1011V, 2011ApJ...736...41B, 2015ApJ...804...17S,
-  2015ApJ...810..107M, 2016A&A...585A..48G, 2017MNRAS.468..389J,
-  2018arXiv180506071S, 2018arXiv180601741F, 2018arXiv180511621M,
-  2018arXiv180303655C}, but the average escape fraction is typically
-lower than 20\%.  Statistical constraints from \HI\ column density
-measurements in gamma-ray burst (GRB) afterglow spectra suggest an
-even lower escape fraction of 0.5\% \citep{2007ApJ...667L.125C,
-  2009ApJS..185..526F, 2018arXiv180507318T}.  This is a challenge for
-reionization models, which require an escape fraction of about 20\% in
-galaxies as faint as $M_\mathrm{UV}=-13$ \citep{2016PASA...33...37F,
-  2015ApJ...802L..19R, 2016MNRAS.457.4051K}.  An enhanced incidence of
-high-redshift AGN may also be consistent with the shallow bright-end
-slopes of the $z\sim 7$ UV luminosity function of galaxies relative to
-a Schechter function \citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B,
-  2014ApJ...792...76B, 2015MNRAS.452.1817B} and the hard spectra of
-these galaxies \citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S,
-  2017MNRAS.464..469S}.  Finally, AGN may also provide a natural
-explanation for the large scatter in the \lya opacity between
-different quasar sightlines close to redshift $z=6$
-\citep{2015MNRAS.447.3402B, 2018arXiv180208177B}.
+at $z=6$ has characteristic magnitude $M^*_{1450}\sim -20$.)  A
+significant presence of AGN at high redshift ($z\sim 6$) and a
+dominant contribution of AGN to reionization is appealing as the LyC
+escape fraction of galaxies is uncertain.  High-redshift galaxies down
+to rest-frame UV magnitude $M_\mathrm{UV}=-12.5$ ($L\sim
+10^{-3}L^*_\mathrm{galaxies}$) at $z=6$ \citep{2017ApJ...835..113L}
+and redshifts up to $z=11.1$ \citep{2016ApJ...819..129O} have now been
+reported.  But the escape of LyC photons has been measured in only a
+few comparatively bright ($L>0.5L^*_\mathrm{galaxies}$) galaxies at
+relatively low redshifts ($z < 4$).  The escape fraction in these
+galaxies reveals a broad distribution from less than 2\% to more than
+80\% \citep{2010ApJ...725.1011V, 2011ApJ...736...41B,
+  2015ApJ...804...17S, 2015ApJ...810..107M, 2016A&A...585A..48G,
+  2017MNRAS.468..389J, 2018arXiv180506071S, 2018arXiv180601741F,
+  2018arXiv180511621M, 2018arXiv180303655C}, but the average escape
+fraction is typically lower than 20\%.  Statistical constraints from
+\HI\ column density measurements in gamma-ray burst (GRB) afterglow
+spectra suggest an even lower escape fraction of 0.5\%
+\citep{2007ApJ...667L.125C, 2009ApJS..185..526F, 2018arXiv180507318T}.
+This is a challenge for reionization models, which require an escape
+fraction of about 20\% in galaxies as faint as $M_\mathrm{UV}=-13$
+\citep{2016PASA...33...37F, 2015ApJ...802L..19R, 2016MNRAS.457.4051K}.
+An enhanced incidence of high-redshift AGN may also be consistent with
+the shallow bright-end slopes of the $z\sim 7$ UV luminosity function
+of galaxies relative to a Schechter function
+\citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B, 2014ApJ...792...76B,
+  2015MNRAS.452.1817B} and the hard spectra of these galaxies
+\citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S, 2017MNRAS.464..469S}.
+Finally, AGN may also provide a natural explanation for the large
+scatter in the \lya opacity between different quasar sightlines close
+to redshift $z=6$ \citep{2015MNRAS.447.3402B, 2018arXiv180208177B}.
 These opacity fluctuations extend to substantially larger scales
 ($\gtrsim 50\, h^{-1}$cMpc) than expected in galaxies-dominated
 reionization models (\citealt{2015MNRAS.453.2943C}; although see
@@ -303,12 +303,12 @@ We included surveys based on a set of simple criteria:
 \item Statistical power (sample size, coverage in $z$ and/or absolute magnitude).
 \item A well-characterised selection function.
 \end{enumerate}
-As a prerequisite for a joint analysis of the QLF we obtained the
-survey selection functions in electronic form, either from the
-publication or by request from the authors. As a reference for future
-surveys we make them electronically available here in modified and
-homogenised form (see Section~\ref{sect:datahom} and
-Appendix~\ref{sec:code}).
+As a prerequisite for a joint analysis of the QSO luminosity function
+(QLF) we obtained the survey selection functions in electronic form,
+either from the publication or by request from the authors. As a
+reference for future surveys we make them electronically available
+here in modified and homogenised form (see Section~\ref{sect:datahom}
+and Appendix~\ref{sec:code}).
 
 Due to their selection criteria and their statistical power specific
 surveys contribute to distinct redshift ranges. At $z<2.2$ we
@@ -381,30 +381,30 @@ $R$ magnitudes $<23.5$ \citep{2011ApJ...728L..26G}.
 At $4.7\le z<5.5$ we combined several recent surveys, accounting for
 sample overlap and updated selection functions. At the bright end of
 the QLF we used the 99 quasars from the SDSS+WISE survey
-\citep{2016ApJ...829...33Y} that have $M_{1450}\le -26.73$ in our adopted
-cosmology.  For these 99 quasars selected from 14,555\,deg$^2$ we
-adopted the \citet{2016ApJ...829...33Y} selection function.  The
-\citet{2016ApJ...829...33Y} sample partially overlaps with the SDSS
-DR7 sample from \citet{2013ApJ...768..105M}, so to avoid
+\citep{2016ApJ...829...33Y} that have $M_{1450}\le -26.73$ in our
+adopted cosmology.  For these 99 quasars selected from 14,555\,deg$^2$
+we adopted the \citet{2016ApJ...829...33Y} selection function.  The
+\citet{2016ApJ...829...33Y} sample partially overlaps with the
+\citet{2013ApJ...768..105M} SDSS DR7 sample, so to avoid
 double-counting quasars we used the latter sample only at
-$M_{1450}>-26.73$, yielding 103 additional $4.7\le z<5.5$ quasars selected in
-6248\,deg$^2$. We used the $z\sim 5$ SDSS DR7 selection function from
-\citet{2013ApJ...768..105M} that supersedes the one from
-\citet{2006AJ....131.2766R} due to improved bandpass corrections and IGM
-parameterization.  To these two bright-end samples we added the
+$M_{1450}>-26.73$, yielding 103 additional $4.7\le z<5.5$ quasars
+selected in 6248\,deg$^2$. We used the $z\sim 5$ SDSS DR7 selection
+function from \citet{2013ApJ...768..105M} that supersedes the one from
+\citet{2006AJ....131.2766R} due to improved bandpass corrections and
+IGM parameterization.  To these two bright-end samples we added the
 faint-end sample from the \citet{2013ApJ...768..105M} SDSS Stripe~82
-survey (59 uniformly selected $M_{1450}>-26.73$ $4.7\le z<5.5$ quasars in 235\,deg$^2$)
-and two $4.7\le z<5.5$ quasars from \citet{2011ApJ...728L..26G},
-adopting the respective selection functions.  We did not consider the
-limit on the $z\sim 5$ QLF by \citet{2012ApJ...756..160I} due to
-systematic errors in their selection
-function\footnote{\citet{2012ApJ...756..160I} underestimated the
-  dispersion in rest-frame UV quasar colours with respect to SDSS at
-  all redshifts (their Figure~4). Contrary to their claim, photometric
-  errors have a small effect on the colour distribution of SDSS
-  quasars given the statistical errors of $<0.03$\,mag in $gri$ for 90
-  per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and a
-  relative calibration error of $\sim 1$ per cent
+survey (59 uniformly selected $M_{1450}>-26.73$ $4.7\le z<5.5$ quasars
+in 235\,deg$^2$) and two $4.7\le z<5.5$ quasars from
+\citet{2011ApJ...728L..26G}, adopting the respective selection
+functions.  We did not consider the limit on the $z\sim 5$ QLF by
+\citet{2012ApJ...756..160I} due to systematic errors in their
+selection function\footnote{\citet{2012ApJ...756..160I} underestimated
+  the dispersion in rest-frame UV quasar colours with respect to SDSS
+  at all redshifts (their Figure~4). Contrary to their claim,
+  photometric errors have a small effect on the colour distribution of
+  SDSS quasars given the statistical errors of $<0.03$\,mag in $gri$
+  for 90 per cent of the SDSS DR7 bright quasar sample ($i<19.1$) and
+  a relative calibration error of $\sim 1$ per cent
   \citep{2008ApJ...674.1217P}.}.
 
 \begin{table*}
@@ -1563,14 +1563,19 @@ magnitude range are required.
     regions show the one-sigma (68.26\%) uncertainty.  Also shown are
     the photoionization rate measurements by \citet[filled
       circles]{2013MNRAS.436.1023B}, \citet[inverted
-      triangles]{2011MNRAS.412.2543C}, and
+      triangles]{2011MNRAS.412.2543C},
+    \citet[triangles]{2011MNRAS.412.1926W}, \citet[blue
+      hexagons]{2018MNRAS.473..560D} and \citet[green
+      squares]{2018ApJ...855..106D}, and
     \citet[pentagons]{2017MNRAS.467.3172G}, and models of
     \citet[dotted brown curve]{2012ApJ...746..125H}, the QSO
     contribution in this model (dashed grey), \citet[dashed
       brown]{2015ApJ...813L...8M}, the QSO contribution from the model
     of \citet[dashed orange]{2015MNRAS.451L..30K}, \citet[dotted
       grey]{2017ApJ...837..106O}, and \citet[dashed
-      grey]{2018arXiv180104931P}.}
+      grey]{2018arXiv180104931P}.  The photoionisation rate derived
+    from the luminosity function fits of \citet{2015AA...578A..83G}
+    are shown by the red open circles.}
   \label{fig:gammapi}
 \end{figure*}
 
@@ -1585,6 +1590,7 @@ background
 \begin{equation}
   \Gamma_\ion{H}{i}\left(z\right)=\int_{\nu_{912}}^\infty\mathrm{d}\nu
   \frac{4\pi J_\nu\left(\nu,z\right)}{h\nu} \sigma_\ion{H}{i}\left(\nu\right)\quad,
+  \label{eqn:gammapi}
 \end{equation}
 where $h$ is Planck's constant, $\sigma_\ion{H}{i}(\nu)$ is the
 \ion{H}{i} photoionization cross-section \citep{1997MNRAS.292...27H,
@@ -2243,7 +2249,7 @@ remain qualitatively unchanged.
 \begin{figure*}
   \begin{center}
     % corner.corner() with bins.lfs[-4]
-    \includegraphics[width=0.6\textwidth]{corner_z3p9.pdf}
+    \includegraphics[width=0.65\textwidth]{corner_z3p9.pdf}
   \end{center}
   \caption{Posterior distributions of the four double-power-law
     parameters in the $3.7\leq z < 4.1$ redshift bin.  The blue
@@ -2395,7 +2401,6 @@ this to high redshifts.
 \begin{table*}
   % gammapi.py and tabulate_emissivities.py. 
   \caption{
-    \textbf{GW: Delete the zbin column that we do not use. Indicate the credible (fitted) redshift bins!}
     Comoving emissivities at 912\,\AA\ and 1450\,\AA\ derived from
     our double power law luminosity function models in redshift bins
     (Table~\ref{tab:bins}) for two magnitude limits. The units are
@@ -2403,10 +2408,9 @@ this to high redshifts.
     Statistical uncertainties are one-sigma (68.26\%).
     }
   \label{tab:emissivity_bins}
-  \begin{tabular}{cccc....}
+  \begin{tabular}{ccc....}
     \hline
     $\langle z\rangle$ &
-    $z_\mathrm{bin}$ &
     $z_\mathrm{min}$ &
     $z_\mathrm{max}$ &
     \multicolumn{1}{c}{$\epsilon_{912}$} &
@@ -2416,56 +2420,57 @@ this to high redshifts.
     &
     &
     &
-    &
     \multicolumn{1}{c}{$(M_{1450}<-18)$} &
     \multicolumn{1}{c}{$(M_{1450}<-18)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} \\
     \hline
-    0.31 & 0.25 & 0.10 & 0.40 & 0.53^{+0.02}_{-0.02} & 0.71^{+0.03}_{-0.03} & 0.30^{+0.01}_{-0.01} & 0.40^{+0.01}_{-0.01} \\
-    0.50 & 0.50 & 0.40 & 0.60 & 0.75^{+0.01}_{-0.01} & 1.00^{+0.02}_{-0.02} & 0.58^{+0.01}_{-0.01} & 0.78^{+0.01}_{-0.01} \\
-    0.72 & 0.70 & 0.60 & 0.80 & 1.73^{+0.06}_{-0.05} & 2.31^{+0.07}_{-0.06} & 1.19^{+0.02}_{-0.02} & 1.57^{+0.02}_{-0.02} \\
-    0.91 & 0.90 & 0.80 & 1.00 & 2.85^{+0.16}_{-0.16} & 3.77^{+0.20}_{-0.19} & 2.10^{+0.05}_{-0.05} & 2.79^{+0.06}_{-0.06} \\
-    1.10 & 1.10 & 1.00 & 1.20 & 3.71^{+0.11}_{-0.10} & 4.94^{+0.15}_{-0.13} & 2.91^{+0.05}_{-0.05} & 3.87^{+0.06}_{-0.06} \\
-    1.30 & 1.30 & 1.20 & 1.40 & 5.69^{+0.23}_{-0.24} & 7.52^{+0.32}_{-0.30} & 4.46^{+0.10}_{-0.09} & 5.91^{+0.11}_{-0.12} \\
-    1.50 & 1.50 & 1.40 & 1.60 & 7.04^{+0.22}_{-0.22} & 9.34^{+0.26}_{-0.31} & 5.59^{+0.09}_{-0.11} & 7.41^{+0.13}_{-0.13} \\
-    1.71 & 1.70 & 1.60 & 1.80 & 7.69^{+0.18}_{-0.18} & 10.23^{+0.24}_{-0.26} & 6.71^{+0.10}_{-0.11} & 8.90^{+0.13}_{-0.14} \\
-    1.98 & 2.00 & 1.80 & 2.20 & 10.59^{+0.36}_{-0.36} & 14.08^{+0.43}_{-0.42} & 7.93^{+0.13}_{-0.14} & 10.52^{+0.19}_{-0.17} \\
-    2.25 & 2.25 & 2.20 & 2.30 & 11.34^{+0.35}_{-0.37} & 14.97^{+0.48}_{-0.50} & 10.06^{+0.20}_{-0.20} & 13.37^{+0.26}_{-0.23} \\
-    2.35 & 2.35 & 2.30 & 2.40 & 9.30^{+0.30}_{-0.30} & 12.29^{+0.36}_{-0.35} & 8.02^{+0.15}_{-0.15} & 10.65^{+0.22}_{-0.20} \\
-    2.45 & 2.45 & 2.40 & 2.50 & 8.06^{+0.24}_{-0.24} & 10.67^{+0.30}_{-0.26} & 7.16^{+0.13}_{-0.15} & 9.49^{+0.17}_{-0.18} \\
-    2.65 & 2.65 & 2.60 & 2.70 & 6.55^{+0.16}_{-0.17} & 8.70^{+0.21}_{-0.20} & 6.46^{+0.15}_{-0.15} & 8.55^{+0.20}_{-0.20} \\
-    2.75 & 2.75 & 2.70 & 2.80 & 7.44^{+0.24}_{-0.22} & 9.93^{+0.30}_{-0.31} & 7.17^{+0.20}_{-0.20} & 9.51^{+0.27}_{-0.25} \\
-    2.85 & 2.85 & 2.80 & 2.90 & 7.94^{+0.28}_{-0.29} & 10.45^{+0.42}_{-0.41} & 7.48^{+0.29}_{-0.28} & 9.95^{+0.36}_{-0.35} \\
-    2.95 & 2.95 & 2.90 & 3.00 & 7.93^{+0.34}_{-0.34} & 10.51^{+0.45}_{-0.46} & 6.83^{+0.20}_{-0.21} & 9.09^{+0.28}_{-0.28} \\
-    3.05 & 3.05 & 3.00 & 3.10 & 7.18^{+0.38}_{-0.36} & 9.59^{+0.47}_{-0.50} & 6.24^{+0.20}_{-0.21} & 8.29^{+0.34}_{-0.30} \\
-    3.15 & 3.15 & 3.10 & 3.20 & 9.99^{+0.95}_{-1.03} & 13.14^{+1.38}_{-1.56} & 7.01^{+0.35}_{-0.35} & 9.34^{+0.41}_{-0.47} \\
-    3.25 & 3.25 & 3.20 & 3.30 & 8.27^{+0.94}_{-1.01} & 11.05^{+1.27}_{-1.17} & 6.06^{+0.35}_{-0.36} & 8.07^{+0.49}_{-0.50} \\
-    3.34 & 3.35 & 3.30 & 3.40 & 12.00^{+2.57}_{-2.55} & 16.10^{+3.44}_{-3.31} & 7.21^{+0.61}_{-0.74} & 9.59^{+0.91}_{-0.93} \\
-    3.44 & 3.45 & 3.40 & 3.50 & 4.47^{+0.52}_{-0.51} & 5.85^{+0.61}_{-0.64} & 4.37^{+0.45}_{-0.47} & 5.73^{+0.56}_{-0.67} \\
-    3.88 & 3.90 & 3.70 & 4.10 & 4.36^{+1.44}_{-1.39} & 5.76^{+1.98}_{-1.84} & 2.54^{+0.44}_{-0.44} & 3.45^{+0.72}_{-0.66} \\
-    4.35 & 4.40 & 4.10 & 4.70 & 4.13^{+2.15}_{-1.95} & 5.40^{+2.60}_{-2.57} & 1.81^{+0.58}_{-0.52} & 2.42^{+0.64}_{-0.68} \\
-    4.92 & 5.10 & 4.70 & 5.50 & 2.51^{+0.89}_{-0.86} & 3.45^{+1.28}_{-1.31} & 0.97^{+0.20}_{-0.18} & 1.29^{+0.25}_{-0.26} \\
-    6.00 & 6.00 & 5.50 & 6.50 & 0.65^{+0.30}_{-0.24} & 0.96^{+0.36}_{-0.37} & 0.21^{+0.04}_{-0.04} & 0.27^{+0.06}_{-0.06} \\
+    0.31$^a$ & 0.10 & 0.40 & 0.53^{+0.02}_{-0.02} & 0.70^{+0.03}_{-0.03} & 0.30^{+0.01}_{-0.01} & 0.40^{+0.01}_{-0.01} \\
+    0.50$^a$ & 0.40 & 0.60 & 0.75^{+0.01}_{-0.01} & 1.00^{+0.02}_{-0.02} & 0.58^{+0.01}_{-0.01} & 0.78^{+0.01}_{-0.01} \\
+    0.72 & 0.60 & 0.80 & 1.73^{+0.05}_{-0.05} & 2.30^{+0.07}_{-0.07} & 1.19^{+0.02}_{-0.02} & 1.57^{+0.02}_{-0.03} \\
+    0.91 & 0.80 & 1.00 & 2.85^{+0.16}_{-0.16} & 3.81^{+0.21}_{-0.21} & 2.10^{+0.05}_{-0.05} & 2.78^{+0.07}_{-0.06} \\
+    1.10 & 1.00 & 1.20 & 3.72^{+0.10}_{-0.10} & 4.94^{+0.13}_{-0.12} & 2.91^{+0.04}_{-0.04} & 3.87^{+0.05}_{-0.06} \\
+    1.30 & 1.20 & 1.40 & 5.71^{+0.22}_{-0.22} & 7.61^{+0.32}_{-0.32} & 4.47^{+0.09}_{-0.09} & 5.94^{+0.14}_{-0.12} \\
+    1.50 & 1.40 & 1.60 & 7.05^{+0.23}_{-0.24} & 9.32^{+0.29}_{-0.29} & 5.60^{+0.10}_{-0.10} & 7.43^{+0.14}_{-0.13} \\
+    1.71 & 1.60 & 1.80 & 7.72^{+0.16}_{-0.15} & 10.23^{+0.23}_{-0.24} & 6.71^{+0.10}_{-0.10} & 8.90^{+0.13}_{-0.12} \\
+    1.98 & 1.80 & 2.20 & 10.67^{+0.34}_{-0.39} & 14.14^{+0.53}_{-0.53} & 7.93^{+0.13}_{-0.15} & 10.54^{+0.18}_{-0.18} \\
+    2.30$^a$ & 2.20 & 2.40 & 10.21^{+0.23}_{-0.22} & 13.53^{+0.30}_{-0.30} & 8.88^{+0.12}_{-0.12} & 11.80^{+0.16}_{-0.15} \\
+    2.45$^a$ & 2.40 & 2.50 & 8.07^{+0.22}_{-0.22} & 10.71^{+0.33}_{-0.29} & 7.17^{+0.16}_{-0.15} & 9.48^{+0.18}_{-0.17} \\
+    2.55$^a$ & 2.50 & 2.60 & 6.64^{+0.19}_{-0.20} & 8.79^{+0.25}_{-0.24} & 6.21^{+0.13}_{-0.13} & 8.24^{+0.15}_{-0.17} \\
+    2.65$^a$ & 2.60 & 2.70 & 6.55^{+0.14}_{-0.16} & 8.71^{+0.21}_{-0.20} & 6.43^{+0.15}_{-0.15} & 8.56^{+0.21}_{-0.23} \\
+    2.75$^a$ & 2.70 & 2.80 & 7.44^{+0.22}_{-0.18} & 9.92^{+0.31}_{-0.33} & 7.16^{+0.20}_{-0.20} & 9.51^{+0.25}_{-0.29} \\
+    2.85$^a$ & 2.80 & 2.90 & 7.95^{+0.33}_{-0.33} & 10.50^{+0.38}_{-0.37} & 7.50^{+0.26}_{-0.30} & 9.91^{+0.32}_{-0.35} \\
+    2.95$^a$ & 2.90 & 3.00 & 7.95^{+0.36}_{-0.35} & 10.51^{+0.49}_{-0.51} & 6.82^{+0.21}_{-0.19} & 9.07^{+0.27}_{-0.31} \\
+    3.05$^a$ & 3.00 & 3.10 & 7.23^{+0.47}_{-0.39} & 9.59^{+0.60}_{-0.55} & 6.26^{+0.22}_{-0.21} & 8.30^{+0.25}_{-0.28} \\
+    3.15$^a$ & 3.10 & 3.20 & 9.87^{+0.94}_{-1.10} & 13.06^{+1.69}_{-1.55} & 7.00^{+0.37}_{-0.39} & 9.28^{+0.46}_{-0.51} \\
+    3.25$^a$ & 3.20 & 3.30 & 8.35^{+0.91}_{-0.90} & 11.04^{+1.27}_{-1.19} & 6.04^{+0.36}_{-0.35} & 8.01^{+0.46}_{-0.48} \\
+    3.34$^a$ & 3.30 & 3.40 & 12.23^{+2.81}_{-2.69} & 16.30^{+3.58}_{-3.28} & 7.21^{+0.64}_{-0.69} & 9.68^{+0.95}_{-0.94} \\
+    3.44$^a$ & 3.40 & 3.50 & 4.44^{+0.43}_{-0.57} & 5.98^{+0.67}_{-0.78} & 4.38^{+0.47}_{-0.49} & 5.77^{+0.52}_{-0.66} \\
+    3.88 & 3.70 & 4.10 & 4.37^{+1.47}_{-1.39} & 5.68^{+1.89}_{-1.76} & 2.53^{+0.43}_{-0.46} & 3.30^{+0.69}_{-0.69} \\
+    4.35 & 4.10 & 4.70 & 4.24^{+2.01}_{-2.12} & 5.33^{+2.42}_{-2.64} & 1.76^{+0.47}_{-0.47} & 2.39^{+0.69}_{-0.58} \\
+    4.92 & 4.70 & 5.50 & 2.60^{+0.93}_{-1.02} & 3.35^{+1.18}_{-1.29} & 0.94^{+0.18}_{-0.17} & 1.29^{+0.28}_{-0.25} \\
+    6.00 & 5.50 & 6.50 & 0.67^{+0.27}_{-0.25} & 0.91^{+0.40}_{-0.38} & 0.21^{+0.04}_{-0.04} & 0.27^{+0.06}_{-0.06} \\
     \hline
   \end{tabular}
+  \begin{minipage}{13.0cm}
+    \textsuperscript{$a$}{Redshift bin considered to be severely affected by systematic errors (open circles in Figure~\ref{fig:e912_2}).  These bins should be avoided while considering the evolution of emissivities.}
+  \end{minipage}
 \end{table*}
 
 \begin{table*}
   % rtg2.py and tabulate_emissivities_global.py.
   % Check these values once again.
-  \caption{
-    Comoving emissivities at 912\,\AA\ and 1450\,\AA\ obtained
-    by fitting Equation~\eqref{eqn:e912fit} to the emissivities in the
+  \caption{ Comoving emissivities at 912\,\AA\ and 1450\,\AA\ obtained
+    by fitting Equation~\eqref{eqn:e912fit} to the emissivities in
     selected redshift bins from Table~\ref{tab:emissivity_bins}.
-    Emissivities at $z<0.6$ and at $z>6.5$ are extrapolated assuming our best fits.
-    The derived \ion{H}{i} photoionization rates (\textbf{Cite Eq.})
-    are also given. Emissivity units are
+    Emissivities at $z<0.6$ and at $z>6.5$ are extrapolated assuming
+    our best fits.  The derived \ion{H}{i} photoionization rates
+    (Equation~\ref{eqn:gammapi}) are also given. Emissivity units are
     erg\ s$^{-1}$\ Hz$^{-1}$\ cMpc$^{-3}$, and photoionization rate
-    units are s$^{-1}$. Statistical uncertainties are one-sigma (68.26\%).
-    These values are shown in Figures~\ref{fig:e912_2} and \ref{fig:gammapi}.
-    See Sections~\ref{sec:e912} and \ref{sec:gammahi} for more details.
-    }
+    units are s$^{-1}$. Statistical uncertainties are one-sigma
+    (68.26\%) equal-tailed credibility intervals.  These values are
+    shown in Figures~\ref{fig:e912_2} and \ref{fig:gammapi}.  See
+    Sections~\ref{sec:e912} and \ref{sec:gammahi} for details.  }
   \label{tab:gamma2}
   \begin{tabular}{d......}
     \hline
