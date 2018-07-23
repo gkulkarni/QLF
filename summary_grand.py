@@ -49,7 +49,7 @@ def ross13_s82(ax, param):
 
     p = param
 
-    rs, corr = np.loadtxt('magconv_boss_kwh18.dat', usecols=(1,2), unpack=True)
+    rs, corr = np.loadtxt('Data_new/magconv_boss_kwh18.dat', usecols=(1,2), unpack=True)
 
     # Ross's alpha is our beta and vv. 
     if param == 3:

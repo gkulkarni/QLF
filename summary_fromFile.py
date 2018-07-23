@@ -165,7 +165,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
     downerr = c-l
     ax.errorbar(zmean, c, ecolor='k', capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=30)
 
@@ -176,7 +176,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
     downerr = c-l
     ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
     
@@ -211,7 +211,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,1,2,3), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
@@ -275,14 +275,14 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=30, label='included data')
 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
@@ -308,7 +308,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
     downerr = c-l
     ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27, label='excluded data')
         
@@ -397,7 +397,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=30)
 
@@ -408,7 +408,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
     downerr = c-l
     ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
 
@@ -536,7 +536,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=30)
 
@@ -583,14 +583,14 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
     downerr = c-l
     ax.errorbar(zmean, c, ecolor='grey', capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
         
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
     

@@ -12,7 +12,6 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import UnivariateSpline
 
 # These redshift bins are labelled "bad" and are plotted differently.
-# reject = [0, 1, 8, 9, 10, 11, 12, 13]
 reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown'] 
@@ -25,6 +24,8 @@ zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=50)
 cfit = False
+
+show_bad_data_differently = True
 
 def getParam(individuals, param, which='old', dtype='good'):
 
@@ -102,7 +103,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=40)
 
@@ -113,10 +114,13 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=35)
-    
+    if show_bad_data_differently: 
+        ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[0], zorder=6, s=35)
+    else:
+        ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=40)
+        
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 2)
@@ -148,7 +152,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False):
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,1,2,3), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
@@ -200,14 +204,14 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=40)
 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
 
@@ -233,10 +237,14 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
-        
+
+    if show_bad_data_differently: 
+        ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[1], zorder=6, s=35)
+    else:
+        ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=40)
+
     curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
@@ -303,7 +311,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=40)
 
@@ -314,10 +322,14 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
 
+    if show_bad_data_differently: 
+        ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[2], zorder=6, s=35)
+    else:
+        ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=40)
+    
     cfit = False
     if cfit: 
         zc = np.linspace(0, 7, 500)
@@ -396,7 +408,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=40)
 
@@ -443,14 +455,17 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False):
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((uperr, downerr)),
+                yerr=np.vstack((downerr, uperr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
-        
+    if show_bad_data_differently: 
+        ax.scatter(zmean, c, color='#ffffff', edgecolor=colors[3], zorder=6, s=35)
+    else:
+        ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=40)
+
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((uperr, downerr)),
+    #             yerr=np.vstack((downerr, uperr)),
     #             fmt='None', zorder=4)
     # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
     
@@ -493,5 +508,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-# summary_plot()
+summary_plot()
 
