@@ -6,9 +6,6 @@
 \usepackage{amssymb}
 \usepackage{pdflscape}
 \usepackage{siunitx}
-\usepackage{color}
-\definecolor{notecolor}{rgb}{0.8,0,0}
-\newcommand{\gk}[1]{{\bf \color{notecolor} [#1]}}
 \def\lya{Ly$\alpha$~}
 \def\HI{\hbox{H~$\scriptstyle\rm I$}}
 \def\HII{\hbox{H~$\scriptstyle\rm II$}}
@@ -35,19 +32,21 @@
 
 \author[Kulkarni et al.]
        {{Girish Kulkarni$^{1,2}$\thanks{Email: kulkarni@ast.cam.ac.uk},
-           G\'abor Worseck$^{3}$
-           and Joseph F.~Hennawi$^{4}$} \\
+           G\'abor Worseck$^{3,5}$
+           and Joseph F.~Hennawi$^{4,5}$} \\
          $^1$Institute of Astronomy,
          University of Cambridge, Madingley Road, Cambridge CB3 0HA,
          UK \\
          $^2$Kavli Institute of Cosmology,
          University of Cambridge, Madingley Road, Cambridge CB3 0HA,
          UK \\
-         $^2$Institute f\"ur Physik und Astronomie, Universit\"at
-         Potsdam, Karl-Liebknecht-Stra\ss e\ 24/25, 14476 Potsdam,
+         $^2$Institut f\"ur Physik und Astronomie, Universit\"at
+         Potsdam, Karl-Liebknecht-Stra\ss e\ 24/25, D-14476 Potsdam,
          Germany \\
-         $^3$Department of Physics, Broida Hall, UC Santa Barbara,
-         Santa Barbara, CA 93106-9530, USA}
+         $^4$Department of Physics, Broida Hall, UC Santa Barbara,
+         Santa Barbara, CA 93106-9530, USA\\
+         $^5$Max Planck Institute for Astronomy, K\"onigstuhl 17,
+         D-69117 Heidelberg, Germany}
        \date{Accepted ---. Received ---; in original form ---}
 
 \pubyear{2018}
@@ -70,7 +69,7 @@
   to identical cosmologies, intrinsic AGN spectra, and magnitude
   systems.  Using this sample, we derive the AGN UV luminosity
   function from redshifts $z=0$ to $7.5$.  The luminosity function has
-  a double power law form at most redshifts.  The break luminosity
+  a double power law form at all redshifts.  The break magnitude
   brightens rapidly with redshift and the faint end of the luminosity
   function steepens.  In spite of this steepening, the contribution of
   AGN to the hydrogen photoionization rate at $z\sim 6$ is
@@ -116,12 +115,12 @@ observed to exist between the mass of these black holes and properties
 of their host galaxies, and the increasing consensus that AGN activity
 feeds back on the host galaxy evolution, the AGN luminosity function
 also constrains models of galaxy formation \citep{2006ApJ...650...42L,
-  2008MNRAS.385.1846M}.  Finally, thanks to their relative brightness
-and high Lyman-continuum (LyC) escape fractions, the luminosity
-function of AGN determines their contribution to the radiation
-background that influences the temperature and ionization state of the
-intergalactic medium (IGM), possibly even primarily driving hydrogen
-and helium reionization in the last twelve billion years
+  2008MNRAS.385.1846M}.  Finally, thanks to their brightness and high
+Lyman-continuum (LyC) escape fractions, the luminosity function of AGN
+determines their contribution to the ultraviolet background that
+governs the temperature and ionization state of the intergalactic
+medium (IGM), possibly even primarily driving hydrogen and helium
+reionization 
 \citep{2012ApJ...746..125H, 2015AA...578A..83G, 2017ApJ...847L..15O,
   2018MNRAS.474.2904P, 2018arXiv180104931P}.
 
@@ -129,46 +128,47 @@ There is a renewed interest in understanding the evolution of the UV
 luminosity function of AGN, triggered by the discovery of 19
 low-luminosity ($-18.9>M_{1450}>-22.6$) AGN candidates between
 redshifts $z=4.1$ and $6.3$ by \citet{2015AA...578A..83G} using a
-novel X-ray/NIR selection criterion.  This finding suggested that if
-100\% LyC escape fraction is assumed AGN brighter than $M_{1450}=-18$
-can potentially produce all of the metagalactic hydrogen
-photoionization rate inferred from the \lya forest at $4<z<6$, despite
-the fact that these AGN are fainter than the brightest star-forming
-galaxies at these redshifts.  (The UV luminosity function of galaxies
-at $z=6$ has characteristic magnitude $M^*_{1450}\sim -20$.)  A
-significant presence of AGN at high redshift ($z\sim 6$) and a
-dominant contribution of AGN to reionization is appealing as the LyC
-escape fraction of galaxies is uncertain.  High-redshift galaxies down
-to rest-frame UV magnitude $M_\mathrm{UV}=-12.5$ ($L\sim
-10^{-3}L^*_\mathrm{galaxies}$) at $z=6$ \citep{2017ApJ...835..113L}
-and redshifts up to $z=11.1$ \citep{2016ApJ...819..129O} have now been
-reported.  But the escape of LyC photons has been measured in only a
-few comparatively bright ($L>0.5L^*_\mathrm{galaxies}$) galaxies at
-relatively low redshifts ($z < 4$).  The escape fraction in these
-galaxies reveals a broad distribution from less than 2\% to more than
-80\% \citep{2010ApJ...725.1011V, 2011ApJ...736...41B,
-  2015ApJ...804...17S, 2015ApJ...810..107M, 2016A&A...585A..48G,
-  2017MNRAS.468..389J, 2018arXiv180506071S, 2018arXiv180601741F,
-  2018arXiv180511621M, 2018arXiv180303655C}, but the average escape
-fraction is typically lower than 20\%.  Statistical constraints from
-\HI\ column density measurements in gamma-ray burst (GRB) afterglow
-spectra suggest an even lower escape fraction of 0.5\%
-\citep{2007ApJ...667L.125C, 2009ApJS..185..526F, 2018arXiv180507318T}.
-This is a challenge for reionization models, which require an escape
-fraction of about 20\% in galaxies as faint as $M_\mathrm{UV}=-13$
-\citep{2016PASA...33...37F, 2015ApJ...802L..19R, 2016MNRAS.457.4051K}.
-An enhanced incidence of high-redshift AGN may also be consistent with
-the shallow bright-end slopes of the $z\sim 7$ UV luminosity function
-of galaxies relative to a Schechter function
-\citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B, 2014ApJ...792...76B,
-  2015MNRAS.452.1817B} and the hard spectra of these galaxies
-\citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S, 2017MNRAS.464..469S}.
-Finally, AGN may also provide a natural explanation for the large
-scatter in the \lya opacity between different quasar sightlines close
-to redshift $z=6$ \citep{2015MNRAS.447.3402B, 2018arXiv180208177B}.
-These opacity fluctuations extend to substantially larger scales
-($\gtrsim 50\, h^{-1}$cMpc) than expected in galaxies-dominated
-reionization models (\citealt{2015MNRAS.453.2943C}; although see
+novel X-ray/NIR selection criterion.  This finding suggested that AGN
+brighter than $M_{1450}\sim -18$ can account for all of the
+metagalactic hydrogen photoionization rate inferred from the \lya
+forest at $4<z<6$, despite the fact that these AGN are fainter than
+the brightest star-forming galaxies at these redshifts.  (The UV
+luminosity function of galaxies at $z=6$ has characteristic magnitude
+$M^*_{1450}\sim -20$.)  A significant presence of AGN at high redshift
+($z\sim 6$) and a dominant contribution of AGN to reionization is
+appealing as the LyC escape fraction of galaxies is uncertain, whereas
+for AGN it is close to 100\% \citep{2014ApJ...794...75S,
+  2015MNRAS.449.4204L, 2016A&A...585A..48G}.  High-redshift galaxies
+down to rest-frame UV magnitude $M_\mathrm{UV}=-12.5$ at $z=6$
+\citep{2017ApJ...835..113L} and redshifts up to $z=11.1$
+\citep{2016ApJ...819..129O} have now been reported.  But the escape of
+LyC photons has been measured in only a few comparatively bright
+($L>0.5L^*_\mathrm{galaxies}$) galaxies at relatively low redshifts
+($z < 4$).  The escape fraction in these galaxies reveals a broad
+distribution from less than 2\% to more than 80\%
+\citep{2010ApJ...725.1011V, 2011ApJ...736...41B, 2015ApJ...804...17S,
+  2015ApJ...810..107M, 2016A&A...585A..48G, 2017MNRAS.468..389J,
+  2018arXiv180506071S, 2018arXiv180601741F, 2018arXiv180511621M,
+  2018arXiv180303655C}, but the average escape fraction is typically
+lower than 20\%.  Statistical constraints from \HI\ column density
+measurements in gamma-ray burst (GRB) afterglow spectra suggest an
+even lower escape fraction of 0.5\% \citep{2007ApJ...667L.125C,
+  2009ApJS..185..526F, 2018arXiv180507318T}.  This is a challenge for
+reionization models, which require an escape fraction of about 20\% in
+galaxies as faint as $M_\mathrm{UV}=-13$ \citep{2016PASA...33...37F,
+  2015ApJ...802L..19R, 2016MNRAS.457.4051K}.  An enhanced incidence of
+high-redshift AGN may also be consistent with the shallow bright-end
+slopes of the $z\sim 7$ UV luminosity function of galaxies relative to
+a Schechter function \citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B,
+  2014ApJ...792...76B, 2015MNRAS.452.1817B} and the hard spectra of
+these galaxies \citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S,
+  2017MNRAS.464..469S}.  Finally, AGN may also provide a natural
+explanation for the large scatter in the \lya opacity between
+different quasar sightlines close to redshift $z=6$
+\citep{2015MNRAS.447.3402B, 2018arXiv180208177B}.  These opacity
+fluctuations extend to substantially larger scales ($\gtrsim 50\,
+h^{-1}$cMpc) than expected in galaxy-dominated reionization models
+(\citealt{2015MNRAS.453.2943C}; although see
 \citealt{2016MNRAS.460.1328D, 2015ApJ...813L..38D,
   2018arXiv180308932B}).  AGN clustering can result in these
 fluctuations naturally if there is a significant contribution
@@ -182,74 +182,66 @@ density of AGN at $z\sim 6$ can lead to a much earlier
 \HeII\ reionization (see also \citealt{2017MNRAS.471..255K}).  For
 instance, He~\textsc{ii} reionization is complete at $z=4.5$ in the
 model of \citet{2015ApJ...813L...8M}, compared to $z=3$ in the
-standard scenario \citep{2012ApJ...746..125H}.  Such early
-\HeII\ reionization will also result in higher IGM temperatures due to
-the associated photoheating.  \citet{2017MNRAS.468.4691D} found that
-the temperature of the IGM at mean density is twice as much in
-AGN-dominated reionization models as the standard models at
-$z=3.5$--$5$, in conflict with constraints from the \lya forest.  This
-inconsistency could be avoided by postulating a reduced escape
-fraction of \HeII-ionizing photons in AGN, but it is difficult to
-reconcile this with a unit escape fraction of hydrogen-ionizing
-photons that is required to explain the Ly$\alpha$ opacity
-fluctuations.  Further arguments against AGN-dominated reionization
-have been presented by \citet{2016MNRAS.459.2299F}, who analysed the
-simulations of metal-line absorbers at $z\sim 6$.
+conventional scenario with sharply dropping AGN emissivity at $z>2$
+\citep{2012ApJ...746..125H}.  Such early \HeII\ reionization will also
+result in higher IGM temperatures due to the associated photoheating.
+\citet{2017MNRAS.468.4691D} found that the temperature of the IGM at
+mean density is twice as much in AGN-dominated reionization models as
+the standard models at $z=3.5$--$5$, in conflict with constraints from
+the \lya forest.  This inconsistency could be avoided by postulating a
+reduced escape fraction of \HeII-ionizing photons in AGN, but it is
+difficult to reconcile this with a unit escape fraction of
+hydrogen-ionizing photons that is required to explain the Ly$\alpha$
+opacity fluctuations.  Further arguments against AGN-dominated
+reionization have been presented by \citet{2016MNRAS.459.2299F}, who
+analysed the simulations of metal-line absorbers at $z\sim 6$.
 \citet{2016MNRAS.459.2299F} find that in their cosmological radiation
 hydrodynamical simulations AGN-dominated UV background results in too
 many C~\textsc{iv} absorption systems relative to Si~\textsc{iv} and
-C~\textsc{ii} at $z\sim 6$.  (However, note that these simulations
-assume a $L_\nu\propto\nu^{-1.57}$ AGN SED at extreme UV
-\citep{2002ApJ...565..773T}, which is somewhat harder than recent
-measurements ($L_\nu\propto\nu^{-1.7}$) by
-\citet{2015MNRAS.449.4204L}.  \citet{2016MNRAS.459.2299F} found that,
-relative to the the standard model \citep{2012ApJ...746..125H}, the
-observed N(Si~\textsc{iv})/N(C~\textsc{iv}) column density ratio
-measurements seem to require a harder and more intense $>4$~Ry
-background.)  Finally, comparing the \citet{2015AA...578A..83G} sample
-to X-ray-selected quasar data at $z=0$--$6$,
-\citet{2017MNRAS.465.1915R} argued that the faint end of the AGN UV
-luminosity function at $z\sim 6$ is probably shallower that that
-reported by \citet{2015AA...578A..83G}.  \citet{2017MNRAS.465.1915R}
-argue that the apparent contradiction with the results of
-\citet{2015AA...578A..83G} could be explained by contamination from
-the host galaxies for faint AGN \citep[see
+C~\textsc{ii} at $z\sim 6$.  Finally, comparing the
+\citet{2015AA...578A..83G} sample to X-ray-selected quasar data at
+$z=0$--$6$, \citet{2017MNRAS.465.1915R} argued that the faint end of
+the AGN UV luminosity function at $z\sim 6$ is probably shallower that
+that reported by \citet{2015AA...578A..83G}.
+\citet{2017MNRAS.465.1915R} argue that the apparent contradiction with
+the results of \citet{2015AA...578A..83G} could be explained by
+contamination from the host galaxies for faint AGN \citep[see
   also][]{2015MNRAS.453.1946G,2015MNRAS.448.3167W,2016MNRAS.463..348V}.
 
-A straightforward way towards a more robust understanding of AGN
-contribution to UV background is to determine the evolution of the AGN
-UV luminosity function.  To this end, several estimates of the
-luminosity function at various redshifts have been published in the
-last decade \citep{2009A&A...507..781S, 2011ApJ...728L..26G,
-  2012ApJ...755..169M, 2013ApJ...773...14R, 2013ApJ...768..105M,
-  2015AA...578A..83G, 2016ApJ...833..222J, 2016ApJ...829...33Y,
-  2017ApJ...847L..15O, 2018PASJ...70S..34A}.  However, many of these
-inferences of the luminosity function suffer from inconsistencies
-arising from inhomogeneous selection and mixing of AGN data.  Some of
-the data sets analysed in these studies consist of photometric
-samples, which is likely to increase sample contamination.  In some
-studies, distinct data sets binned differently in redshift and
-magnitudes were inhomogeneously combined.  Some authors imposed
-restricted priors on parameters while fitting luminosity function
-models, e.g., by fixing luminosity function slopes to certain values,
-which may bias the result.  Finally, some studies arbitrarily excluded
-certain data sets.  This has resulted in a large scatter in the
-inferred high-redshift hydrogen-ionizing AGN emissivity between
-various recent studies.  For instance, there is an order of magnitude
-scatter between various estimates of the hydrogen-ionizing AGN
-emissivity at $z=5$--$6$ \citep{2011ApJ...728L..26G,
-  2012ApJ...755..169M, 2015AA...578A..83G, 2018PASJ...70S..34A,
-  2018AJ....155..131M, 2018MNRAS.474.2904P, 2017ApJ...847L..15O}.  Our
-aim in this paper is to address this issue, by constructing an AGN
-sample with robust redshift and completeness estimates and homogeneous
-assumptions of the cosmology and intrinsic AGN spectrum.  After
-constructing such a sample, we derive the UV luminosity function of
-AGN from redshift $z=0$--$7$ and estimate the AGN contribution to the
-UV background.  We discuss our sample construction in
-Section~\ref{sec:sample}.  Our derived luminosity functions are
-presented in Section~\ref{sec:lf}.  Section~\ref{sec:reion} presents
-our inference of the AGN contribution to hydrogen and helium
-reionization.  We summarise our findings in Section~\ref{sec:conc}.
+The premier way towards a more robust understanding of the AGN
+contribution to the UV background is to determine the evolution of the
+AGN UV luminosity function across cosmic time.  To this end, numerous
+measurements of the luminosity function at various redshifts have been
+published in the last decade \citep{2009A&A...507..781S,
+  2011ApJ...728L..26G, 2012ApJ...755..169M, 2013ApJ...773...14R,
+  2013ApJ...768..105M, 2015AA...578A..83G, 2016ApJ...833..222J,
+  2016ApJ...829...33Y, 2017ApJ...847L..15O, 2018PASJ...70S..34A}.
+However, many of these inferences suffer from inconsistencies arising
+from inhomogeneous selection and mixing of AGN data.  Some of the data
+sets analysed in these studies consist of photometric samples, which
+is likely to increase sample contamination.  In some studies, distinct
+data sets binned differently in redshift and magnitudes were
+inhomogeneously combined.  Some authors imposed restricted priors on
+parameters while fitting luminosity function models, e.g., by fixing
+luminosity function slopes to certain values, which may bias the
+result.  Finally, some studies arbitrarily excluded certain data sets.
+This has resulted in a large scatter in the inferred high-redshift
+hydrogen-ionizing AGN emissivity between various recent studies.  For
+instance, there is an order of magnitude scatter between various
+estimates of the hydrogen-ionizing AGN emissivity at $z=5$--$6$
+\citep{2011ApJ...728L..26G, 2012ApJ...755..169M, 2015AA...578A..83G,
+  2018PASJ...70S..34A, 2018AJ....155..131M, 2018MNRAS.474.2904P,
+  2017ApJ...847L..15O}.  Our aim in this paper is to address this
+issue, by constructing an AGN sample with robust redshift and
+completeness estimates and homogeneous assumptions of the cosmology
+and intrinsic AGN spectrum.  After constructing such a sample, we
+derive the UV luminosity function of AGN from redshift $z=0$--$7.5$
+and estimate the AGN contribution to the UV background.  We discuss
+our sample construction in Section~\ref{sec:sample}.  Our derived
+luminosity functions are presented in Section~\ref{sec:lf}.
+Section~\ref{sec:reion} presents our inference of the AGN contribution
+to the \nHI-ionizing UV background and \HeII\ reionization history.
+We summarise our findings in Section~\ref{sec:conc}.
 
 We assume a flat cosmology with density parameters
 $\left(\Omega_\mathrm{m},\Omega_\Lambda\right)=\left(0.3,0.7\right)$
@@ -261,7 +253,6 @@ observed magnitudes are point spread function (PSF) magnitudes
 \citep{1998ApJ...500..525S} unless otherwise noted.
 Our homogenised sample (Section~\ref{sec:sample}) uses absolute
 monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
-
 
 \begin{figure*}
   \begin{center}
@@ -276,7 +267,7 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
   \label{fig:qsos}
 \end{figure*}
 
-\section{Homogenised Quasar Sample}
+\section{Homogenised AGN Sample}
 \label{sec:sample}
 
 We started by compiling the samples of recent photometric rest-frame
@@ -643,9 +634,9 @@ estimated by the respective survey teams (private communication).
 After homogenising the samples and selection functions we are in a
 position to compute the UV luminosity function of AGN. We begin our
 analysis by computing binned estimates of the luminosity function as a
-function of magnitude in several redshift intervals.  We then perform
-parametric maximum-likelihood fits of the luminosity function in the
-individual redshift bins, examine the resulting parameters as a
+function of magnitude in several narrow redshift intervals.  We then
+perform parametric maximum-likelihood fits of the luminosity function
+in the individual redshift bins, examine the resulting parameters as a
 function of redshift, and attempt a joint fit in magnitude and
 redshift.  For simplicity we will use the notation $M\equiv M_{1450}$
 in the following.
@@ -703,21 +694,20 @@ errors due to implicit assumptions in their selection functions.
 The resultant binned luminosity function estimates
 are shown by the circles in Figure~\ref{fig:mosaic}.
 
-From Figure~\ref{fig:mosaic} we see that the distribution of luminosity
-function values in each redshift bin are suggestive of a double power
-law form for the QLF.  We will fit such a form below. 
+From Figure~\ref{fig:mosaic} we see that the distribution of
+luminosity function values in each redshift bin are suggestive of a
+double power law form for the QLF.  We will fit such a form below.
 However, in several redshift bins we note a suspicious decline of the
-luminosity function at the faint limit of several surveys, for example in
-the 2SLAQ sample at $z<2.2$, and in the SDSS sample at $z<1.8$ and $z\sim 4$.
-The inconsistency between the SDSS faint end and the deeper
-2SLAQ QLF indicates that the SDSS selection function is
-systematically overestimated at its magnitude limit.
-At $z\sim 4$ the SDSS faint end QLF is inconsistent with the fainter
-\citet{2011ApJ...728L..26G} QLF. We identify such discrepant bins
-`by eye', discard the contributing quasars from our analysis, and set their
-selection function values to zero.
-The discarded magnitude bins are shown in Figure~\ref{fig:mosaic} by
-open circles.
+luminosity function at the faint limit of several surveys, for example
+in the 2SLAQ sample at $z<2.2$, and in the SDSS sample at $z<1.8$ and
+$z\sim 4$.  The inconsistency between the SDSS faint end and the
+deeper 2SLAQ QLF indicates that the SDSS selection function is
+systematically overestimated at its magnitude limit.  At $z\sim 4$ the
+SDSS faint end QLF is inconsistent with the fainter
+\citet{2011ApJ...728L..26G} QLF. We identify such discrepant bins by
+eye, discard the contributing quasars from our analysis, and set their
+selection function values to zero.  The discarded magnitude bins are
+shown in Figure~\ref{fig:mosaic} by open circles.
 
 \begin{figure*}
   \begin{center}
@@ -754,15 +744,15 @@ open circles.
   \end{center}
   \caption{Redshift evolution of the four double power law parameters
     from the redshift bins shown in Figure~\ref{fig:mosaic}.  Vertical
-    error bars show one-sigma (68.26\%) statistical uncertainties,
-    whereas horizontal error bars show widths of the redshift bins.
-    We identify the general evolutionary trends of each of these
-    parameters from the bins shown by the filled symbols.  The open
-    symbols show bins that appear to be offset from these trends,
-    likely due to unknown systematic errors.  The open circles at
-    $2.2<z<3.5$ show the BOSS sample, while the bins at $z < 0.6$
-    contain AGN from the SDSS and 2SLAQ data sets.  See
-    Section~\ref{sec:bins} for further details.}
+    error bars show one-sigma (68.26\%) statistical uncertainties
+    derived from the posterior distribution, whereas horizontal error
+    bars show widths of the redshift bins.  We identify the general
+    evolutionary trends of each of these parameters from the bins
+    shown by the filled symbols.  The open symbols show bins that
+    appear to be offset from these trends, likely due to 
+    systematic errors.  The open circles at $2.2<z<3.5$ show the BOSS
+    sample, while the bins at $z < 0.6$ contain AGN from the SDSS and
+    2SLAQ data sets.}
   \label{fig:evoln}
 \end{figure*}
 
@@ -836,8 +826,7 @@ open circles.
 \subsection{Double power law fits}
 \label{sec:bins}
 
-In each redshift bin, we model the quasar
-luminosity function as a double power law 
+In each redshift bin, we model the QLF as a double power law
 \citep[e.g.][]{1988MNRAS.235..935B}
 \begin{equation}
   \phi(M) =
@@ -900,28 +889,29 @@ can be simplified to obtain Equation~(\ref{eqn:S}).
 Our estimates for the double power law luminosity function are shown
 in Figure~\ref{fig:mosaic} for 25 redshift bins.  We adopt the
 posterior median as our fiducial model fit, and the 68.26\%
-equal-tailed credible interval as the uncertainty on $\phi$.  The
-resultant parameter values are listed in Table~\ref{tab:bins}.
-Consistent with previous studies, the double power law model provides
-an excellent description of the luminosity function model over almost
-the complete range of redshifts spanned by the data.  It is only in
-the highest redshift bin ($z=5.5$--$6.5$) that the data seem to favour
-a single power law.  In this bin, the resultant posterior distribution
-of the break magnitude $M_*$ is bimodal with favoured values at the
-faint ($M_*>-18$) and bright end of the data ($M_*<-30$).  While in
-the literature $z\sim 6$ quasars have been assumed to lie on the
-bright end of the luminosity function
-\citep[e.g.,][]{2016ApJ...833..222J}, a comparison with the luminosity
-function at lower redshifts ($z<5.5$) suggests that these AGN should
-instead be understood to describe the faint-end of a double power law.
-As we discuss below, $M_*$ gets progressively brighter with redshift.
-Therefore, after inspecting the data at lower redshifts, we use
-restricted priors in the $z=5.5$--$6.5$ redshift bin in order to avoid
-bimodal distributions.  In this bin, we restrict the bright-end slope
-$\alpha$ to values less than $-4$, which is equivalent to forcing
-$M_*$ to be at the bright end of the data.  Other parameters continue
-to have wide uniform priors.  This also illustrates the importance of
-analysing the evolution of the QLF with redshift.
+equal-tailed credible interval as the uncertainty on $\phi$.  (We
+adopt similar definitions for the derived quantities.)  The resultant
+parameter values are listed in Table~\ref{tab:bins}.  Consistent with
+previous studies, the double power law model provides an excellent
+description of the luminosity function model over almost the complete
+range of redshifts spanned by the data.  It is only in the highest
+redshift bin ($z=5.5$--$6.5$) that the data seem to favour a single
+power law.  In this bin, the resultant posterior distribution of the
+break magnitude $M_*$ is bimodal with favoured values at the faint
+($M_*>-18$) and bright end of the data ($M_*<-30$).  While in the
+literature $z\sim 6$ quasars have been assumed to lie on the bright
+end of the luminosity function \citep[e.g.,][]{2016ApJ...833..222J}, a
+comparison with the luminosity function at lower redshifts ($z<5.5$)
+suggests that these AGN should instead be understood to describe the
+faint-end of a double power law.  As we discuss below, $M_*$ gets
+progressively brighter with redshift.  Therefore, after inspecting the
+data at lower redshifts, we use restricted priors in the
+$z=5.5$--$6.5$ redshift bin in order to avoid bimodal distributions.
+In this bin, we restrict the bright-end slope $\alpha$ to values less
+than $-4$, which is equivalent to forcing $M_*$ to be at the bright
+end of the data.  Other parameters continue to have wide uniform
+priors.  This also illustrates the importance of analysing the
+evolution of the QLF with redshift.
 
 The redshift evolution of the four double power law parameters is
 shown in Figure~\ref{fig:evoln} and tabulated in Table~\ref{tab:bins}.
@@ -929,7 +919,7 @@ We find interesting evolutionary trends in each of the four
 parameters.  The break magnitude $M_*$ evolves by more than eight
 magnitudes from redshift $z=0$ to $7$.  The amplitude of the
 luminosity function $\phi_*$ evolves moderately from $z=0$ to $z\sim
-3$ and then drops by six orders of magnitude to about
+3$ and then drops by more than five orders of magnitude to about
 $10^{-12}$\,cMpc$^{-3}$mag$^{-1}$ at $z\sim 7$.  The bright end slope
 $\alpha$ has significant scatter but still shows a trend towards more
 negative values, i.e., steeper luminosity function bright ends, at
@@ -992,7 +982,7 @@ by parametric models \citep{1976A&A....53...15M, 1983ApJ...269..352S,
 also been developed in the literature for the X-ray
 \citep[e.g.,][]{2015MNRAS.451.1892A} and so-called bolometric
 luminosity functions \citep[e.g.,][]{2007ApJ...654..731H}.  Such
-``global'' models of the luminosity function evolution are useful as
+``global'' models of the QLF evolution are useful as
 they give a continuous description of the luminosity function.  This
 allows one to reduce the bias introduced by binning the data in
 arbitrary redshift bins.  By potentially allowing for extrapolations
@@ -1113,11 +1103,11 @@ defined as follows.
     models.  The symbols show the posterior median values of
     parameters with one-sigma (68.26\%) uncertainties in redshift bins
     from Figure~\ref{fig:evoln}.  Redshift bins deemed to be affected
-    by systematics and removed from the global analysis are shown in
-    grey.  In each panel, the solid curves and shaded regions show the
-    three derived global models with one-sigma uncertainties.  Model~1
-    provides a better fit, but requires a rapid change in the
-    faint-end slope at $z\sim 3.5$.}
+    by systematics and removed from the global analysis are shown by
+    the grey open circles.  In each panel, the solid curves and shaded
+    regions show the three derived global models with one-sigma
+    uncertainties.  Model~1 provides a better fit, but requires a
+    rapid change in the faint-end slope at $z\sim 3.5$.}
   \label{fig:evoln_global}
 \end{figure*}
 
@@ -1206,7 +1196,7 @@ which the number density of faint AGN peaks at lower redshifts than
 that of the bright AGN.  While the number density of AGN with
 $M_*<-27$ peaks at $z\sim 2.5$, the number density of AGN with
 $M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
-spectroscopic data exist, $M_*<-21$, the number density of qsos peaks
+spectroscopic data exist, $M_*<-21$, the number density of AGN peaks
 at a slightly lower redshift.  However, the difference between our
 three models is dramatically evident in Figure~\ref{fig:rhoqso}.
 Model~1 prefers a decrease in the number density of faint quasars at
@@ -1222,7 +1212,7 @@ number density diverges in all three models at high redshifts.
 %% brightest bin.  Furthermore, if you would make this plot with the
 %% data instead of of integrating fits, you would be able to plot
 %% those objects on here as well.
-This is result of the steep faint-end slope at high
+This results from the steep faint-end slope at high
 redshifts combined with the rapid brightening of the break luminosity.
 While no data exist at redshift $z>7.5$, this divergent behaviour is
 shared by previous models in the literature
@@ -1276,18 +1266,18 @@ the AGN number density at $z\sim 3$, they do not fit the $z\sim
       % gammapi.py -- draw_emissivity_21()
     \end{tabular}
   \end{center}
-  \caption{The 912~\AA\ emissivity of AGN assuming 100\% escape
-    fraction down to a limiting magnitude for a luminosity function
-    integration limit of $M_{1450}=-18$ (left panel) and
-    $M_{1450}=-21$ (right panel).  Black filled circles with error
-    bars in both panels show the emissivity determinations in redshift
-    bin deemed to have low systematic errors.  Open circles show
-    emissivities for redshift bins that we remove from analysis due to
-    high systematic errors.  Solid red curves in both panels show the
-    derived posterior median emissivity evolution model, with the
-    shaded area showing the one-sigma (68.26\%) uncertainty.  Also
-    shown for comparison in both panels are models by \citet[pentagon
-      symbol]{2009A&A...507..781S}, \citet[star]{2012ApJ...755..169M},
+  \caption{The 912~\AA\ emissivity of AGN down to a limiting magnitude
+    for a luminosity function integration limit of $M_{1450}=-18$
+    (left panel) and $M_{1450}=-21$ (right panel).  Black filled
+    circles with error bars in both panels show the emissivity
+    determinations in redshift bin deemed to have low systematic
+    errors.  Open circles show emissivities for redshift bins that we
+    remove from analysis due to high systematic errors.  Solid red
+    curves in both panels show the derived posterior median emissivity
+    evolution model, with the shaded area showing the one-sigma
+    (68.26\%) uncertainty.  Also shown for comparison in both panels
+    are models by \citet[pentagon symbol]{2009A&A...507..781S},
+    \citet[star]{2012ApJ...755..169M},
     \citet[square]{2015AA...578A..83G},
     \citet[triangle]{2018PASJ...70S..34A},
     \citet[circle]{2018AJ....155..131M},
@@ -1322,7 +1312,7 @@ with a break at 912\,\AA,
 \begin{equation}
   f_\nu\propto\begin{cases}
   \nu^{-0.61} & \text{if}~\lambda\ge 912~\text{\AA},\\
-  \nu^{-1.70} & \text{if}~600~\text{\AA}<\lambda<912~\text{\AA}                
+  \nu^{-1.70} & \text{if}~\lambda<912~\text{\AA}                
   \end{cases}
   \label{eqn:sed}
 \end{equation}
@@ -1460,9 +1450,9 @@ $M_{1450}^\mathrm{lim}\left(z\right)=M_*\left(z\right)+5$ that vary
 with break magnitude and redshift
 \citep{2015AA...578A..83G,2015ApJ...813L...8M,2015MNRAS.451L..30K,2018arXiv180104931P}.
 We deem the latter convention to be physically unfounded, because (i)
-the customary QLF double power-law parameterization lacks a deeper
-physical meaning, (ii) $M_*$ decreases by more than five magnitudes
-with redshift (Figure~\ref{fig:evoln}, see also
+the customary QLF double power-law parameterization thus far lacks a
+deeper physical meaning, (ii) $M_*$ decreases by more than five
+magnitudes with redshift (Figure~\ref{fig:evoln}, see also
 \citealt{2013ApJ...768..105M} and \citealt{2016ApJ...829...33Y}), and
 (iii) the various QLF fits at the same redshift are highly discordant
 (Appendix~\ref{sec:qlfliterature}).  Inhomogeneous magnitude limits
@@ -1543,7 +1533,7 @@ $\alpha=-4$ in \citet{2018AJ....155..131M} that is larger than our
 measurements at $z>3.5$ (Figure~\ref{fig:evoln}).  Similarly,
 \citet{2017ApJ...847L..15O} fixed the bright-end slope to
 $\alpha=-2.8$ which had been determined by \citet{2016ApJ...833..222J}
-from a single power-law fit to the bright end of the QLF.  Our
+from a single power-law fit to the QLF.  Our
 bright-end slopes are inconsistent with such high values at all
 redshifts, indicating that single power-law fits to a limited range in
 magnitude yield only approximate estimates of $\alpha$, biasing the
@@ -1556,13 +1546,12 @@ magnitude range are required.
     % rtg2.draw_g_paper() 
     \includegraphics[scale=0.65]{g.pdf}
   \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate,
-    assuming unit escape fraction, when the AGN luminosity function is
-    integrated down to $M_{1450}=-21$ (blue curve and shaded region)
-    and $M_{1450}=-18$ (red curve and shaded region).  The shaded
-    regions show the one-sigma (68.26\%) uncertainty.  Also shown are
-    the photoionization rate measurements by \citet[filled
-      circles]{2013MNRAS.436.1023B}, \citet[inverted
+  \caption{AGN contribution to the hydrogen photoionisation rate, when
+    the AGN luminosity function is integrated down to $M_{1450}=-21$
+    (blue curve and shaded region) and $M_{1450}=-18$ (red curve and
+    shaded region).  The shaded regions show the one-sigma (68.26\%)
+    uncertainty.  Also shown are the photoionization rate measurements
+    by \citet[filled circles]{2013MNRAS.436.1023B}, \citet[inverted
       triangles]{2011MNRAS.412.2543C},
     \citet[triangles]{2011MNRAS.412.1926W}, \citet[blue
       hexagons]{2018MNRAS.473..560D} and \citet[green
@@ -1778,7 +1767,7 @@ found by \citet{2014ApJ...789L..32K}.
       box]{2017MNRAS.467L..86V}, \citet[inverted
       triangle]{2013MNRAS.436.1023B},
     \citet[pentagon]{2014ApJ...789L..32K}, and
-    \citet[circle]{2017MNRAS.467.3172G}. Note that we use the the
+    \citet[circle]{2017MNRAS.467.3172G}. Note that we use the 
     \HI\ column density distribution model from
     \citet{2012ApJ...746..125H} to derive the photoionization rate.
     \label{fig:puc}}
