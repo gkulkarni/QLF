@@ -2,9 +2,6 @@ import numpy as np
 import scipy.optimize as op
 import emcee
 import corner
-# import matplotlib as mpl
-# mpl.use('Agg')
-# import matplotlib.pyplot as plt
 
 def fit(x, y, sigma):
 
@@ -43,6 +40,7 @@ def fit(x, y, sigma):
 
     ndim, nwalkers = 5, 100
     mcmc_start = result.x
+    #np.random.seed(5)
     pos = [mcmc_start + 1e-4*np.random.randn(ndim) for i
            in range(nwalkers)]
 

@@ -22,12 +22,12 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
 
     render(ax, lf, composite=composite)
 
-    ax.set_xlim(-18.0, -30.0)
+    ax.set_xlim(-19.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
 
     print ax.get_ylim()
 
-    ax.set_xticks(np.arange(-30, -16, 4))
+    ax.set_xticks(np.arange(-31, -16, 4))
     ax.set_yticks(np.arange(-12, -3, 2))
 
     plt.minorticks_on()

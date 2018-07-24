@@ -1439,6 +1439,7 @@ def draw_g_puc():
 
     return 
 
+
 def draw_g_puc_talk():
 
     fig = plt.figure(figsize=(7, 7), dpi=100)
@@ -1473,6 +1474,22 @@ def draw_g_puc_talk():
     n = (zmax-zmin)/dz+1
     zc = np.linspace(zmax, zmin, num=n)
 
+    z, g = j(emissivity_18, zmax=15.0)
+    z, g_down = j(emissivity_18_down, zmax=15.0)
+    z, g_up = j(emissivity_18_up, zmax=15.0)
+    g18f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12,
+                           color='red', zorder=5,
+                           alpha=0.6, edgecolor='None')
+    g18, = plt.plot(1+z, g/1.0e-12, lw=2, c='red', zorder=5)
+
+    z, g = j(emissivity_21, zmax=15.0)
+    z, g_down = j(emissivity_21_down, zmax=15.0)
+    z, g_up = j(emissivity_21_up, zmax=15.0)
+    g21f = ax.fill_between(1+z, g_up/1.0e-12, y2=g_down/1.0e-12,
+                           color='blue', zorder=5,
+                           alpha=0.6, edgecolor='None')
+    g21, = plt.plot(1+z, g/1.0e-12, lw=2, c='blue', zorder=5)
+    
     zs_hm12, gs_hm12 = j(em_qso_hm12)
     ax.plot(1+zs_hm12, gs_hm12/1.0e-12, c='grey', lw=2, zorder=2,
             label='Haardt \& Madau 2012 QSOs', dashes=[7,2])
@@ -1480,20 +1497,170 @@ def draw_g_puc_talk():
     g_hm12_total(ax, puc=True)
 
     zs_mh15, gs_mh15 = j(em_qso_mh15)
-    ax.plot(1+zs_mh15, gs_mh15/1.0e-12, c='forestgreen',
-            lw=1, zorder=2, dashes=[1,1],
+    ax.plot(1+zs_mh15, gs_mh15/1.0e-12, c='forestgreen', lw=1, zorder=2, dashes=[1,1],
             label=r'Madau \& Haardt 2015')
     
-    l1 = plt.legend(loc='upper right',
+    bb13(ax, puc=True)
+
+    shull(ax, puc=True)
+
+    khaire(ax, puc=True)
+
+    onorbe(ax, puc=True)
+
+    puchwein(ax, puc=True)
+
+    fumagalli(ax, puc=True)
+
+    kollmeier(ax, puc=True)
+
+    viel(ax, puc=True)
+
+    gaikwad_b(ax, puc=True)
+
+    #bolton17(ax)
+
+    handles, labels = ax.get_legend_handles_labels()
+
+    l1 = plt.legend(handles, labels, loc='upper right',
+               fontsize=11, handlelength=3, frameon=False,
+               framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=2)
+
+    handles, labels = [], [] 
+    handles.append((g18f,g18))
+    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-18$)')
+    handles.append((g21f,g21))
+    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-21$)')
+
+    l2 = plt.legend(handles, labels, loc='lower right',
                     fontsize=11, handlelength=3, frameon=False,
                     framealpha=0.0, labelspacing=.1,
-                    handletextpad=0.1, borderpad=0.3,
-                    scatterpoints=1, ncol=2)
+                    handletextpad=0.1, borderpad=0.3, scatterpoints=1, ncol=1)
 
-    plt.savefig('g_puc.pdf',bbox_inches='tight')
+    ax.add_artist(l1)
+    
+    plt.savefig('g_puc_talk.pdf',bbox_inches='tight')
     plt.close('all')
 
     return 
 
-draw_g_paper()
-draw_g_puc()
+draw_g_puc_talk()
+
+def draw_g_talk():
+
+    fig = plt.figure(figsize=(11.33, 7), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    plt.minorticks_on()
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\Gamma_\mathrm{HI}~[10^{-12} \mathrm{s}^{-1}]$')
+    ax.set_xlabel('$z$')
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-2, 2)
+    ax.set_xlim(0.,7)
+
+    locs = (0.01, 0.1, 1)
+    labels = ('0.01', '0.1', '1')
+    plt.yticks(locs, labels)
+
+    zmax = 9.7
+    zmin = 0.0
+    dz = 0.1 
+    n = (zmax-zmin)/dz+1
+    zc = np.linspace(zmax, zmin, num=n)
+
+    z, g = j(emissivity_18, zmax=15.0)
+    z, g_down = j(emissivity_18_down, zmax=15.0)
+    z, g_up = j(emissivity_18_up, zmax=15.0)
+    g18f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12,
+                           color='red', zorder=5,
+                           alpha=0.6, edgecolor='None')
+    g18, = plt.plot(z, g/1.0e-12, lw=2, c='red', zorder=5)
+
+    gamma18 = g
+    gamma18_up = g_up
+    gamma18_low = g_down 
+
+    z, g = j(emissivity_21, zmax=15.0)
+    z, g_down = j(emissivity_21_down, zmax=15.0)
+    z, g_up = j(emissivity_21_up, zmax=15.0)
+    g21f = ax.fill_between(z, g_up/1.0e-12, y2=g_down/1.0e-12,
+                           color='blue', zorder=5,
+                           alpha=0.6, edgecolor='None')
+    g21, = plt.plot(z, g/1.0e-12, lw=2, c='blue', zorder=5)
+    
+    gamma21 = g
+    gamma21_up = g_up
+    gamma21_low = g_down 
+
+    zs_hm12, gs_hm12 = j(em_qso_hm12)
+    ax.plot(zs_hm12, gs_hm12/1.0e-12, c='maroon', lw=2, zorder=4,
+            label='Haardt \& Madau 2012 QSOs', dashes=[7,2])
+
+    g_hm12_total(ax)
+
+    zs_mh15, gs_mh15 = j(em_qso_mh15)
+    ax.plot(zs_mh15, gs_mh15/1.0e-12, c='darkgreen', lw=1,
+            label=r'Madau \& Haardt 2015', zorder=2, dashes=[1,1])
+    
+    bb13(ax)
+    calverley(ax)
+    wyithe11(ax)
+    daloisio18(ax)
+    davies17(ax)
+
+    zg, eg, zg_lerr, zg_uerr, eg_lerr, eg_uerr = np.loadtxt('Data_new/giallongo15_emissivity.txt', unpack=True)
+    
+    eg *= 1.0e24
+    eg_lerr *= 1.0e24
+    eg_uerr *= 1.0e24
+
+    gg = Gamma_HI(eg, zg)
+    gg_lerr = gg - Gamma_HI(eg-eg_lerr, zg)
+    gg_uerr = gg - Gamma_HI(eg-eg_uerr, zg)
+
+    gg *= 1.0e12
+    gg_lerr *= 1.0e12
+    gg_uerr *= 1.0e12
+
+    ax.errorbar(zg, gg, ecolor='tomato', capsize=0, fmt='None', elinewidth=1.5, 
+                xerr=np.vstack((zg_lerr, zg_uerr)),
+                #yerr=np.vstack((gg_lerr, gg_uerr)), 
+                zorder=11, mew=1)
+
+    ax.scatter(zg, gg, c='#ffffff', edgecolor='tomato',
+               label='Giallongo et al.\ 2015 ($M_\mathrm{1450}<-18$)',
+               s=55, zorder=11, linewidths=1.5)
+    
+    khaire(ax)
+
+    onorbe(ax)
+
+    puchwein(ax)
+
+    gaikwad_b(ax)
+
+    handles, labels = ax.get_legend_handles_labels()
+    handles.append((g18f,g18))
+    labels.append('Kulkarni et al.\ 2018 ($M_\mathrm{1450}<-18$)')
+    handles.append((g21f,g21))
+    labels.append('Kulkarni et al.\ 2018 ($M_\mathrm{1450}<-21$)')
+
+    plt.legend(handles, labels, loc='center',
+               fontsize=12, handlelength=3, frameon=False,
+               framealpha=0.0, labelspacing=.1,
+               handletextpad=0.1, borderpad=0.3,
+               scatterpoints=1, bbox_to_anchor=[0.33,0.27])
+
+    plt.savefig('g_talk.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+
+
+

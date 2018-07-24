@@ -6,7 +6,7 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '14'
 import matplotlib.pyplot as plt
-from drawlf import render 
+from drawlf_selected import render 
 
 def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
          nofirstylabel=True, nolastxlabel=True, nofirstxlabel=False, legend=False, c2=None, c3=None):
@@ -22,12 +22,12 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
 
     ind, co1, co2, co3 = render(ax, lf, composite=composite, c2=c2, c3=c3)
 
-    ax.set_xlim(-18.0, -30.0)
+    ax.set_xlim(-19.0, -31.0)
     ax.set_ylim(-12.0, -4.0)
 
     print ax.get_ylim()
 
-    ax.set_xticks(np.arange(-30, -16, 4))
+    ax.set_xticks(np.arange(-31, -16, 4))
     ax.set_yticks(np.arange(-12, -3, 2))
 
     plt.minorticks_on()
@@ -65,6 +65,8 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     return ind, co1, co2, co3
     
 def draw(lfs, composite=None, c2=None, c3=None):
+
+    # lfs_selected = bins.lfs[2:9] + bins.lfs[21:]
 
     nplots_x = 5
     nplots_y = 3
@@ -159,7 +161,7 @@ def draw(lfs, composite=None, c2=None, c3=None):
                handletextpad=0.3, borderpad=0.01,
                scatterpoints=1, ncol=1, bbox_to_anchor=[1.0,0.4])
     
-    plt.savefig('mosaic_small.pdf')
+    plt.savefig('mosaic_small_global.pdf')
 
     plt.close('all')
 
