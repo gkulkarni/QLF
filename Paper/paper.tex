@@ -61,26 +61,29 @@
   redshifts are important for constraining the AGN contribution to
   reionization and understanding the growth of supermassive black
   holes.  Recent inferences of the luminosity function suffer from
-  inconsistencies arising from inhomogeneous selection and mixing of
+  inconsistencies arising from inhomogeneous selection and analysis of
   AGN data.  We address this problem by constructing a sample of more
   than 80,000 colour-selected AGN from redshift $z=0$ to $7.5$.  While
   this sample is composed of multiple data sets with spectroscopic
   redshifts and completeness estimates, we homogenise these data sets
   to identical cosmologies, intrinsic AGN spectra, and magnitude
   systems.  Using this sample, we derive the AGN UV luminosity
-  function from redshifts $z=0$ to $7.5$.  The luminosity function has
-  a double power law form at all redshifts.  The break magnitude
-  brightens rapidly with redshift and the faint end of the luminosity
-  function steepens.  In spite of this steepening, the contribution of
-  AGN to the hydrogen photoionization rate at $z\sim 6$ is
-  subdominant, although it can be non-negligible if these luminosity
-  functions hold down to $M_{1450}=-18$.  Under reasonable
-  assumptions, AGN can reionize \HeII\ by redshift $z=2.9$.  At low
-  redshifts ($z<0.5$), AGN can produce about half of the hydrogen
-  photoionization rate inferred from the statistics of \HI\ absorption
-  lines in the IGM.  Our global analysis of the luminosity function
-  also reveals important systematic errors in the data, particularly
-  at $z=2.2$--$3.5$, which need to be addressed in future in order to
+  function from redshift $z=0$ to $7.5$.  The luminosity function has
+  a double power law form at all redshifts.  The break magnitude $M_*$
+  of the AGN luminosity function shows a steep brightening from
+  $M_*\sim -24$ at $z=0.7$ to $M_*\sim -29$ at $z=6$.  The faint-end
+  slope $\beta$ significantly steepens from $-1.7$ at $z<2.2$ to
+  $-2.4$ at $z\simeq 6$.  In spite of this steepening, the
+  contribution of AGN to the hydrogen photoionization rate at $z\sim
+  6$ is subdominant ($<3$\%), although it can be non-negligible ($\sim
+  10$\%) if these luminosity functions hold down to $M_{1450}=-18$.
+  Under reasonable assumptions, AGN can reionize \HeII\ by redshift
+  $z=2.9$.  At low redshifts ($z<0.5$), AGN can produce about half of
+  the hydrogen photoionization rate inferred from the statistics of
+  \HI\ absorption lines in the IGM.  Our global analysis of the
+  luminosity function also reveals important systematic errors in the
+  data, particularly at $z=2.2$--$3.5$, which need to be addressed and
+  incorporated in the AGN selection function in future in order to
   improve our results.  We make various fitting functions, luminosity
   function analysis codes, and homogenised AGN data publicly
   available.
@@ -134,41 +137,43 @@ metagalactic hydrogen photoionization rate inferred from the \lya
 forest at $4<z<6$, despite the fact that these AGN are fainter than
 the brightest star-forming galaxies at these redshifts.  (The UV
 luminosity function of galaxies at $z=6$ has characteristic magnitude
-$M^*_{1450}\sim -20$.)  A significant presence of AGN at high redshift
-($z\sim 6$) and a dominant contribution of AGN to reionization is
-appealing as the LyC escape fraction of galaxies is uncertain, whereas
-for AGN it is close to 100\% \citep{2014ApJ...794...75S,
-  2015MNRAS.449.4204L, 2016A&A...585A..48G}.  High-redshift galaxies
-down to rest-frame UV magnitude $M_\mathrm{UV}=-12.5$ at $z=6$
-\citep{2017ApJ...835..113L} and redshifts up to $z=11.1$
-\citep{2016ApJ...819..129O} have now been reported.  But the escape of
-LyC photons has been measured in only a few comparatively bright
-($L>0.5L^*_\mathrm{galaxies}$) galaxies at relatively low redshifts
-($z < 4$).  The escape fraction in these galaxies reveals a broad
-distribution from less than 2\% to more than 80\%
-\citep{2010ApJ...725.1011V, 2011ApJ...736...41B, 2015ApJ...804...17S,
-  2015ApJ...810..107M, 2016A&A...585A..48G, 2017MNRAS.468..389J,
-  2018arXiv180506071S, 2018arXiv180601741F, 2018arXiv180511621M,
-  2018arXiv180303655C}, but the average escape fraction is typically
-lower than 20\%.  Statistical constraints from \HI\ column density
-measurements in gamma-ray burst (GRB) afterglow spectra suggest an
-even lower escape fraction of 0.5\% \citep{2007ApJ...667L.125C,
-  2009ApJS..185..526F, 2018arXiv180507318T}.  This is a challenge for
-reionization models, which require an escape fraction of about 20\% in
-galaxies as faint as $M_\mathrm{UV}=-13$ \citep{2016PASA...33...37F,
-  2015ApJ...802L..19R, 2016MNRAS.457.4051K}.  An enhanced incidence of
-high-redshift AGN may also be consistent with the shallow bright-end
-slopes of the $z\sim 7$ UV luminosity function of galaxies relative to
-a Schechter function \citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B,
-  2014ApJ...792...76B, 2015MNRAS.452.1817B} and the hard spectra of
-these galaxies \citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S,
-  2017MNRAS.464..469S}.  Finally, AGN may also provide a natural
+$M^*_{1450}\sim -20$ \citep{2015ApJ...803...34B}.)  A significant
+presence of AGN at high redshift ($z\sim 6$) and a dominant
+contribution of AGN to reionization is appealing as the LyC escape
+fraction of galaxies is uncertain, whereas for AGN it is close to
+100\% \citep{2014ApJ...794...75S, 2015MNRAS.449.4204L,
+  2016A&A...585A..48G}.  High-redshift galaxies down to rest-frame UV
+magnitude $M_\mathrm{UV}=-12.5$ at $z=6$ \citep{2017ApJ...835..113L}
+and redshifts up to $z=11.1$ \citep{2016ApJ...819..129O} have now been
+reported.  But the escape of LyC photons has been measured in only a
+few comparatively bright ($L>0.5L^*_\mathrm{galaxies}$) galaxies at
+relatively low redshifts ($z < 4$).  The escape fraction in these
+galaxies reveals a broad distribution from less than 2\% to more than
+80\% \citep{2010ApJ...725.1011V, 2014Sci...346..216B,
+  2015ApJ...810..107M, 2016A&A...585A..48G, 2016Natur.529..178I,
+  2016ApJ...826L..24S, 2017MNRAS.468..389J, 2018arXiv180506071S,
+  2018arXiv180601741F, 2018arXiv180511621M, 2018arXiv180303655C,
+  2018MNRAS.478.4851I, 2018MNRAS.474.4514I}, but the average escape
+fraction is typically lower than 20\%.  Statistical constraints from
+\HI\ column density measurements in gamma-ray burst (GRB) afterglow
+spectra suggest an even lower escape fraction of 0.5\%
+\citep{2007ApJ...667L.125C, 2009ApJS..185..526F, 2018arXiv180507318T}.
+This is a challenge for reionization models, which require an escape
+fraction of about 20\% in galaxies as faint as $M_\mathrm{UV}=-13$
+\citep{2016PASA...33...37F, 2015ApJ...802L..19R, 2016MNRAS.457.4051K}.
+An enhanced incidence of high-redshift AGN may also be consistent with
+the shallow bright-end slopes of the $z\sim 7$ UV luminosity function
+of galaxies relative to a Schechter function
+\citep{2012MNRAS.426.2772B, 2014MNRAS.440.2810B, 2014ApJ...792...76B,
+  2015MNRAS.452.1817B} and the hard spectra of these galaxies
+\citep{2015MNRAS.450.1846S, 2015MNRAS.454.1393S, 2017MNRAS.464..469S,
+  2017ApJ...851...40L}.  Finally, AGN may also provide a natural
 explanation for the large scatter in the \lya opacity between
 different quasar sightlines close to redshift $z=6$
-\citep{2015MNRAS.447.3402B, 2018arXiv180208177B}.  These opacity
-fluctuations extend to substantially larger scales ($\gtrsim 50\,
-h^{-1}$cMpc) than expected in galaxy-dominated reionization models
-(\citealt{2015MNRAS.453.2943C}; although see
+\citep{2015MNRAS.447.3402B, 2018arXiv180208177B, 2018arXiv180704229E}.
+These opacity fluctuations extend to substantially larger scales
+($\gtrsim 50\, h^{-1}$cMpc) than expected in galaxy-dominated
+reionization models (\citealt{2015MNRAS.453.2943C}; although see
 \citealt{2016MNRAS.460.1328D, 2015ApJ...813L..38D,
   2018arXiv180308932B}).  AGN clustering can result in these
 fluctuations naturally if there is a significant contribution
@@ -178,8 +183,11 @@ fluctuations naturally if there is a significant contribution
 Several counter-arguments against a higher incidence of AGN at high
 redshift have also been made. \citet{2017MNRAS.468.4691D} and
 \citet{2018MNRAS.473.1416M} pointed out that an enhanced number
-density of AGN at $z\sim 6$ can lead to a much earlier
-\HeII\ reionization (see also \citealt{2017MNRAS.471..255K}).  For
+density of AGN at $z\sim 6$ can lead to a \HeII\ reionization that
+occurs much earlier than indicated by the observed evolution of
+\HeII\ IGM opacity \citep{2011ApJ...733L..24W, 2016ApJ...825..144W}
+and the evolution of the IGM temperature \citep{2011MNRAS.410.1096B,
+  2014MNRAS.441.1916B} (see also \citealt{2017MNRAS.471..255K}).  For
 instance, He~\textsc{ii} reionization is complete at $z=4.5$ in the
 model of \citet{2015ApJ...813L...8M}, compared to $z=3$ in the
 conventional scenario with sharply dropping AGN emissivity at $z>2$
@@ -202,57 +210,11 @@ C~\textsc{ii} at $z\sim 6$.  Finally, comparing the
 \citet{2015AA...578A..83G} sample to X-ray-selected quasar data at
 $z=0$--$6$, \citet{2017MNRAS.465.1915R} argued that the faint end of
 the AGN UV luminosity function at $z\sim 6$ is probably shallower that
-that reported by \citet{2015AA...578A..83G}.
-\citet{2017MNRAS.465.1915R} argue that the apparent contradiction with
-the results of \citet{2015AA...578A..83G} could be explained by
-contamination from the host galaxies for faint AGN \citep[see
+reported by \citet{2015AA...578A..83G}.  \citet{2017MNRAS.465.1915R}
+argue that the apparent contradiction with the results of
+\citet{2015AA...578A..83G} could be explained by contamination from
+the host galaxies for faint AGN \citep[see
   also][]{2015MNRAS.453.1946G,2015MNRAS.448.3167W,2016MNRAS.463..348V}.
-
-The premier way towards a more robust understanding of the AGN
-contribution to the UV background is to determine the evolution of the
-AGN UV luminosity function across cosmic time.  To this end, numerous
-measurements of the luminosity function at various redshifts have been
-published in the last decade \citep{2009A&A...507..781S,
-  2011ApJ...728L..26G, 2012ApJ...755..169M, 2013ApJ...773...14R,
-  2013ApJ...768..105M, 2015AA...578A..83G, 2016ApJ...833..222J,
-  2016ApJ...829...33Y, 2017ApJ...847L..15O, 2018PASJ...70S..34A}.
-However, many of these inferences suffer from inconsistencies arising
-from inhomogeneous selection and mixing of AGN data.  Some of the data
-sets analysed in these studies consist of photometric samples, which
-is likely to increase sample contamination.  In some studies, distinct
-data sets binned differently in redshift and magnitudes were
-inhomogeneously combined.  Some authors imposed restricted priors on
-parameters while fitting luminosity function models, e.g., by fixing
-luminosity function slopes to certain values, which may bias the
-result.  Finally, some studies arbitrarily excluded certain data sets.
-This has resulted in a large scatter in the inferred high-redshift
-hydrogen-ionizing AGN emissivity between various recent studies.  For
-instance, there is an order of magnitude scatter between various
-estimates of the hydrogen-ionizing AGN emissivity at $z=5$--$6$
-\citep{2011ApJ...728L..26G, 2012ApJ...755..169M, 2015AA...578A..83G,
-  2018PASJ...70S..34A, 2018AJ....155..131M, 2018MNRAS.474.2904P,
-  2017ApJ...847L..15O}.  Our aim in this paper is to address this
-issue, by constructing an AGN sample with robust redshift and
-completeness estimates and homogeneous assumptions of the cosmology
-and intrinsic AGN spectrum.  After constructing such a sample, we
-derive the UV luminosity function of AGN from redshift $z=0$--$7.5$
-and estimate the AGN contribution to the UV background.  We discuss
-our sample construction in Section~\ref{sec:sample}.  Our derived
-luminosity functions are presented in Section~\ref{sec:lf}.
-Section~\ref{sec:reion} presents our inference of the AGN contribution
-to the \nHI-ionizing UV background and \HeII\ reionization history.
-We summarise our findings in Section~\ref{sec:conc}.
-
-We assume a flat cosmology with density parameters
-$\left(\Omega_\mathrm{m},\Omega_\Lambda\right)=\left(0.3,0.7\right)$
-and a Hubble constant $H_0=70$\,km\,s$^{-1}$\,Mpc$^{-1}$. Comoving
-distances are given explicitly in comoving Mpc (cMpc). Magnitudes
-are reported in the AB system \citep{1983ApJ...266..713O}, and
-observed magnitudes are point spread function (PSF) magnitudes
-\citep{2002AJ....123..485S} corrected for Galactic extinction
-\citep{1998ApJ...500..525S} unless otherwise noted.
-Our homogenised sample (Section~\ref{sec:sample}) uses absolute
-monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
 
 \begin{figure*}
   \begin{center}
@@ -266,6 +228,54 @@ monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
     Section~\ref{sec:sample}.}
   \label{fig:qsos}
 \end{figure*}
+
+The premier way towards a more robust understanding of the AGN
+contribution to the UV background is to determine the evolution of the
+AGN UV luminosity function across cosmic time.  To this end, numerous
+measurements of the luminosity function at various redshifts have been
+published in the last decade \citep{2009A&A...507..781S,
+  2009MNRAS.392...19C, 2010AJ....139..906W, 2011ApJ...728L..26G,
+  2012ApJ...755..169M, 2013ApJ...773...14R, 2013ApJ...768..105M,
+  2015AA...578A..83G, 2016ApJ...833..222J, 2016ApJ...829...33Y,
+  2016A&A...587A..41P, 2017ApJ...847L..15O, 2018PASJ...70S..34A,
+  2018AJ....155..131M}.  However, many of these inferences suffer from
+inconsistencies arising from inhomogeneous selection and analysis of AGN
+data.  Some of the data sets analysed in these studies consist of
+photometric samples, which is likely to increase sample contamination.
+In some studies, distinct data sets binned differently in redshift and
+magnitudes were inhomogeneously combined.  Some authors imposed
+restricted priors on parameters while fitting luminosity function
+models, e.g., by fixing luminosity function slopes to certain values,
+which may bias the result.  Finally, some studies arbitrarily excluded
+certain data sets.  This has resulted in a large scatter in the
+inferred high-redshift hydrogen-ionizing AGN emissivity between
+various recent studies.  For instance, there is an order of magnitude
+scatter between various estimates of the hydrogen-ionizing AGN
+emissivity at $z=5$--$6$ \citep{2011ApJ...728L..26G,
+  2012ApJ...755..169M, 2015AA...578A..83G, 2018PASJ...70S..34A,
+  2018AJ....155..131M, 2018MNRAS.474.2904P, 2017ApJ...847L..15O}.  Our
+aim in this paper is to address this issue, by constructing an AGN
+sample with robust redshift and completeness estimates and homogeneous
+assumptions of the cosmology and intrinsic AGN spectrum.  After
+constructing such a sample, we derive the UV luminosity function of
+AGN from redshift $z=0$--$7.5$ and estimate the AGN contribution to
+the UV background.  We discuss our sample construction in
+Section~\ref{sec:sample}.  Our derived luminosity functions are
+presented in Section~\ref{sec:lf}.  Section~\ref{sec:reion} presents
+our inference of the AGN contribution to the \nHI-ionizing UV
+background and \HeII\ reionization history.  We summarise our findings
+in Section~\ref{sec:conc}.
+
+We assume a flat cosmology with density parameters
+$\left(\Omega_\mathrm{m},\Omega_\Lambda\right)=\left(0.3,0.7\right)$
+and a Hubble constant $H_0=70$\,km\,s$^{-1}$\,Mpc$^{-1}$. Comoving
+distances are given explicitly in comoving Mpc (cMpc). Magnitudes
+are reported in the AB system \citep{1983ApJ...266..713O}, and
+observed magnitudes are point spread function (PSF) magnitudes
+\citep{2002AJ....123..485S} corrected for Galactic extinction
+\citep{1998ApJ...500..525S} unless otherwise noted.
+Our homogenised sample (Section~\ref{sec:sample}) uses absolute
+monochromatic AB magnitudes at a rest frame wavelength of 1450\,\AA.
 
 \section{Homogenised AGN Sample}
 \label{sec:sample}
@@ -299,7 +309,11 @@ As a prerequisite for a joint analysis of the QSO luminosity function
 either from the publication or by request from the authors. As a
 reference for future surveys we make them electronically available
 here in modified and homogenised form (see Section~\ref{sect:datahom}
-and Appendix~\ref{sec:code}).
+and Appendix~\ref{sec:code})\footnote{These data and the code for
+  deriving the luminosity functions are available on
+  \url{https://github.com/gkulkarni/QLF}.  The data will also be made
+  available on CDS upon acceptance of this manuscript for
+  publication.}.
 
 Due to their selection criteria and their statistical power specific
 surveys contribute to distinct redshift ranges. At $z<2.2$ we
@@ -601,9 +615,11 @@ $f_\mathrm{SGP}\left(M_{1450},z\right)=f_\mathrm{p,2SLAQ}f_\mathrm{c,SGP}f_\math
 that are relevant for the QLF.  The $z<4.7$ SDSS photometric selection
 function was modified to include known imaging incompleteness to
 $f_{\mathrm{SDSS},z<4.7}=0.95f_{\mathrm{p,SDSS},z<4.7}$
-\citep{2006AJ....131.2766R}. The BOSS colour-selected sample \citep{2013ApJ...773...14R} contains
-quasars with $f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}\ge 0.85$, and we adopted
-$f_\mathrm{BOSS}=\overline{f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}}f_\mathrm{p,BOSS}=0.962f_\mathrm{p,BOSS}$. \citet{2010ApJ...710.1498G}
+\citep{2006AJ....131.2766R}. The BOSS colour-selected sample
+\citep{2013ApJ...773...14R} contains quasars with
+$f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}\ge 0.85$, and we adopted
+$f_\mathrm{BOSS}=\overline{f_\mathrm{c,BOSS}f_\mathrm{s,BOSS}}
+f_\mathrm{p,BOSS}=0.962f_\mathrm{p,BOSS}$. \citet{2010ApJ...710.1498G}
 presented two area-specific photometric selection functions due to
 different filters employed, and more follow-up spectroscopy was
 reported in \citet{2011ApJ...728L..26G}. We accounted for remaining
@@ -620,13 +636,14 @@ incompleteness is larger and magnitude-dependent \citep[Figure~14
 magnitude-dependent spectroscopic incompleteness was factored into the
 \citet{2016ApJ...829...33Y} photometric selection function (their
 Figures~5 and 7), resulting in
-$f_\mathrm{SDSS+WISE}=0.97f_\mathrm{s,SDSS+WISE}\left(z_\mathrm{AB}\right)f_\mathrm{p,SDSS+WISE}$.
-We obtained a rough estimate of the \citet{2015AA...578A..83G}
-selection function by comparing the corrected and observed QLFs,
-i.e.\ taking $f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$
-(see their Table~3).  Finally, for the three $z>6.5$ quasars we
-assumed a selection function of unity in a range of $z$ and $M_{1450}$
-estimated by the respective survey teams (private communication).
+$f_\mathrm{SDSS+WISE}=0.97f_\mathrm{s,SDSS+WISE}
+\left(z_\mathrm{AB}\right)f_\mathrm{p,SDSS+WISE}$.  We obtained a
+rough estimate of the \citet{2015AA...578A..83G} selection function by
+comparing the corrected and observed QLFs, i.e.\ taking
+$f_\mathrm{GOODS-S}=\phi_\mathrm{obs}/\phi_\mathrm{corr}$ (see their
+Table~3).  Finally, for the three $z>6.5$ quasars we assumed a
+selection function of unity in a range of $z$ and $M_{1450}$ estimated
+by the respective survey teams (private communication).
 
 \section{Luminosity function}
 \label{sec:lf}
@@ -646,7 +663,6 @@ in the following.
 
 In a magnitude bin $[M_\mathrm{min}, M_\mathrm{max})$, and redshift
   bin $[z_\mathrm{min}, z_\mathrm{max})$, we define the binned luminosity
-    %% JFH Notation error here. 
 function as \citep{2000MNRAS.311..433P}
 \begin{equation}
   \phi \equiv \frac{N_\mathrm{QSO}}{V_\mathrm{bin}},
@@ -833,15 +849,13 @@ In each redshift bin, we model the QLF as a double power law
   \frac{\phi_*}{10^{0.4(\alpha+1)(M-M_*)}+10^{0.4(\beta+1)(M-M_*)}}
   \label{eqn:dpl}
 \end{equation}
-with four free parameters: (i) the amplitude $\phi_*$, (ii) the break magnitude $M_*$,
-(iii)  the bright-end slope $\alpha$, and (iv) the faint-end slope $\beta$.
-%%GW: Maybe give the range of the uniform priors.
-%% JFH SOmewhere indicate taht this procedure of ubninned LF estimates is standard practice. 
-%% GW: Agreed. Maybe add references to Marshall et al. and other seminal papers further up in the text?
-By assuming broad, uniform priors, we obtain posterior probability
-distributions for these parameters using the Markov Chain Monte Carlo technique \citep[MCMC, e.g.,][]{jaynes}.
-The joint posterior probability distribution of the model parameters
-is then written as
+with four free parameters: (i) the amplitude $\phi_*$, (ii) the break
+magnitude $M_*$, (iii) the bright-end slope $\alpha$, and (iv) the
+faint-end slope $\beta$.  By assuming broad, uniform priors, we obtain
+posterior probability distributions for these parameters using the
+Markov Chain Monte Carlo technique \citep[MCMC, e.g.,][]{jaynes}.  The
+joint posterior probability distribution of the model parameters is
+then written as
 \begin{multline}
   p(\phi_*, M_*, \alpha, \beta | \{M_i, z_i\}) \propto \\ p(\phi_*, M_*,
   \alpha, \beta)p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta),
@@ -850,15 +864,15 @@ where the constant of proportionality is independent of the luminosity
 function parameters, and $\{M_i, z_i\}$ denotes the magnitudes and
 redshifts of quasars falling in a redshift bin $[z_\mathrm{min},
   z_\mathrm{max})$.  We use a uniform prior distribution $p(\phi_*,
-  M_*, \alpha, \beta)$ and assume that the likelihood
+  M_*, \alpha, \beta)$ and, following the standard practice of
+  unbinned luminosity function estimates
+  \citep[e.g.,][]{2001AJ....121...54F}, assume that the likelihood
 \begin{equation}
   \mathcal{L}\equiv p(\{M_i, z_i\} | \phi_*, M_*, \alpha, \beta)
 \end{equation}
-is given by $\phi(M)$
-%% JFH  ``is given by $\phi(M)$ itself''
-with suitable normalisation.  The negative
-logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ can then be
-written as
+is given by $\phi(M)$ itself with suitable normalisation.  The
+negative logarithm of the likelihood $S\equiv -2\ln\mathcal{L}$ can
+then be written as
 \begin{multline}
   S = -2\sum_{i=1}^{N_\mathrm{QSO}}\ln\phi(M_i, z_i)\\+2\int_{M_\mathrm{min}}^{M_\mathrm{max}}\mathrm{d}M
   \int_{z_\mathrm{min}}^{z_\mathrm{max}}\mathrm{d}z\, \phi(M,z) f(M, z)\,\frac{\mathrm{d}V}{\mathrm{d}z},
@@ -866,6 +880,7 @@ written as
 \end{multline}
 where the integral over magnitude is on the surveyed range of $M$.  We
 use the \texttt{emcee} code \citep{2013PASP..125..306F} for MCMC.
+
 
 The above likelihood can also be understood as the limit of the
 Poisson likelihood in luminosity and redshift bins
@@ -891,7 +906,11 @@ in Figure~\ref{fig:mosaic} for 25 redshift bins.  We adopt the
 posterior median as our fiducial model fit, and the 68.26\%
 equal-tailed credible interval as the uncertainty on $\phi$.  (We
 adopt similar definitions for the derived quantities.)  The resultant
-parameter values are listed in Table~\ref{tab:bins}.  Consistent with
+parameter values are listed in Table~\ref{tab:bins}.\footnote{Full
+  posterior distributions for the luminosity functions themselves
+  should be obtained by running our publicly available code.  This is
+  also true for other models and derived quantities such as
+  emissivities that we discuss in this paper.} Consistent with
 previous studies, the double power law model provides an excellent
 description of the luminosity function model over almost the complete
 range of redshifts spanned by the data.  It is only in the highest
@@ -926,8 +945,6 @@ negative values, i.e., steeper luminosity function bright ends, at
 high redshifts. Finally, the faint end slope also shows signs of
 increasing steepness towards high redshifts, but with a marked
 discontinuity at $2.2\le z<3.5$.
-%% JFH I think before imposing this prior by hand it might be useful to show the degeneracies that
-%% you get at high-z without imposing the prior on the faint-end/bright-end slope. 
 
 Discontinuities and scatter in the QLF parameters over short redshift
 intervals in Figure~\ref{fig:evoln} reveal further likely systematic
@@ -960,11 +977,6 @@ extended sources. We exclude $z<0.6$ quasars from further
 consideration. Due to different selection function parameters
 inter-survey systematics are definitely present at $z>3.5$ as well,
 but Poisson errors of the limited samples dominate.
-
-%% Bins considered
-%% to be dominated by systematics are marked in Table~\ref{tab:bins}.
-%% These bins should be avoided while evaluating the evolution of the
-%% luminosity function.  The remaining redshift can 
 
 \subsection{Evolution of the luminosity function}
 \label{sec:global}
@@ -1090,10 +1102,6 @@ defined as follows.
   thus has just 11 parameters.
 \end{itemize}
 
-%% JFH I'm lost. According to this discussion Model 1 and 2 treat the faint end slope with a broke power law, but your figures
-%% suggests that only the gray band Model 1 is using this double power law? What you are calling Model 2 appears to not be a double
-%% power law? Am I getting fooled by the shape of that green curve?
-
 \begin{figure*}
   \begin{center}
     \includegraphics[width=0.7\textwidth]{evolution_global.pdf}
@@ -1181,19 +1189,19 @@ The evolution of the comoving number density of quasars is shown in
 Figure~\ref{fig:rhoqso} when the luminosity function is integrated
 down to different limits.  Similar to Figure~\ref{fig:evoln_global},
 symbols show the posterior median values with one-sigma uncertainties
-from the double power law fits to the data in redshift bins.
-%% JFH I'm bothered by the fact that the symbols and error bars here arise from the parametric fits. In my opinion, you
-%% should be able to plot the data on here with Poisson errors in exactly the same way that you do when you compute the binned
-%% luminosity function data points? These symbols with errors should be the data to me, and not the result of your fitting procedure. 
-Solid curves and shaded regions show the global models.  This number
-density evolution again highlights the systematic error in data at
-$z\sim 3$.  The number density of AGN down to the limit of the deepest
+from the double power law fits to the data in redshift bins.  Solid
+curves and shaded regions show the global models.  This number density
+evolution again highlights the systematic error in data at $z\sim 3$.
+The number density of AGN down to the limit of the deepest
 spectroscopic surveys ($M_{1450}<-21$) is about $10^{-5}$ cMpc$^{-3}$
 at its peak.  This density rapidly increases with redshift at low
 redshifts and then drops with redshift gradually at high redshifts.
 Figure~\ref{fig:rhoqso} also shows the familiar downsizing feature in
 which the number density of faint AGN peaks at lower redshifts than
-that of the bright AGN.  While the number density of AGN with
+that of the bright AGN \citep{2004ApJ...605..625H,
+  2005MNRAS.360L..39N, 2006AJ....131.2766R, 2006A&A...451..443M,
+  2009A&A...493...55E, 2013A&A...558A..89K, 2010MNRAS.401.2531A,
+  2015MNRAS.451.1892A}.  While the number density of AGN with
 $M_*<-27$ peaks at $z\sim 2.5$, the number density of AGN with
 $M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
 spectroscopic data exist, $M_*<-21$, the number density of AGN peaks
@@ -1204,22 +1212,15 @@ $z\sim 3$ followed by an increase at higher redshift.  This is caused
 by the rapid steepening of the faint-end slope in this model at this
 redshift (Figure~\ref{fig:evoln_global}).  Figure~\ref{fig:rhoqso}
 reveals another property of these models: when extrapolated, the AGN
-number density diverges in all three models at high redshifts.
-%% JFH I think this is just an artifiact of your fitting procedure,
-%% i.e. that these polynomial coefficients are unconstrained at really
-%% high-z. Do these fits include the banados and MOrtlock quasars? In
-%% that case the divergence should not occur, at least for the
-%% brightest bin.  Furthermore, if you would make this plot with the
-%% data instead of of integrating fits, you would be able to plot
-%% those objects on here as well.
-This results from the steep faint-end slope at high
-redshifts combined with the rapid brightening of the break luminosity.
-While no data exist at redshift $z>7.5$, this divergent behaviour is
-shared by previous models in the literature
-\citep{2007ApJ...654..731H}.  Figure~\ref{fig:rhoqso} also shows that
-although Models 2 and 3 exhibit regular behaviour in the evolution of
-the AGN number density at $z\sim 3$, they do not fit the $z\sim
-4$--$5$ data as well as Model 1.
+number density diverges in all three models at high redshifts.  This
+results from the steep faint-end slope at high redshifts combined with
+the rapid brightening of the break luminosity.  While no data exist at
+redshift $z>7.5$, this divergent behaviour is shared by previous
+models in the literature \citep{2007ApJ...654..731H}.
+Figure~\ref{fig:rhoqso} also shows that although Models 2 and 3
+exhibit regular behaviour in the evolution of the AGN number density
+at $z\sim 3$, they do not fit the $z\sim 4$--$5$ data as well as Model
+1.
 
 \begin{table}
   \caption{Derived luminosity function evolution models.  These
@@ -1269,15 +1270,15 @@ the AGN number density at $z\sim 3$, they do not fit the $z\sim
   \caption{The 912~\AA\ emissivity of AGN down to a limiting magnitude
     for a luminosity function integration limit of $M_{1450}=-18$
     (left panel) and $M_{1450}=-21$ (right panel).  Black filled
-    circles with error bars in both panels show the emissivity
-    determinations in redshift bin deemed to have low systematic
-    errors.  Open circles show emissivities for redshift bins that we
-    remove from analysis due to high systematic errors.  Solid red
-    curves in both panels show the derived posterior median emissivity
-    evolution model, with the shaded area showing the one-sigma
-    (68.26\%) uncertainty.  Also shown for comparison in both panels
-    are models by \citet[pentagon symbol]{2009A&A...507..781S},
-    \citet[star]{2012ApJ...755..169M},
+    circles with one-sigma (68.26\%) error bars in both panels show
+    the emissivity determinations in redshift bin deemed to have low
+    systematic errors.  Open circles show emissivities for redshift
+    bins that we remove from analysis due to high systematic errors.
+    Solid red curves in both panels show the derived posterior median
+    emissivity evolution model, with the shaded area showing the
+    one-sigma (68.26\%) uncertainty.  Also shown for comparison in
+    both panels are models by \citet[pentagon
+      symbol]{2009A&A...507..781S}, \citet[star]{2012ApJ...755..169M},
     \citet[square]{2015AA...578A..83G},
     \citet[triangle]{2018PASJ...70S..34A},
     \citet[circle]{2018AJ....155..131M},
@@ -1339,15 +1340,19 @@ faint $z\sim 4$ AGN).  We therefore adopt an escape fraction of unity
 for Lyman continuum photons.
 
 With our adopted SED the specific comoving volume emissivity of
-quasars at 912\,\AA\ can be written as
-\begin{eqnarray}\nonumber
-\epsilon_{912}\left(z\right)&=&\int\limits_{-\infty}^{M_{1450}^\mathrm{lim}}\phi\left(M_{1450},z\right)10^{-0.4\left(M_{1450}-51.60\right)}\,\mathrm{d}M_{1450}\\
-& &\times\left(\frac{912}{1450}\right)^{0.61}\quad,
+quasars at 1450\,\AA\ can be written as
+\begin{equation}
+\epsilon_{1450}\left(z\right)=\int\limits_{-\infty}^{M_{1450}^\mathrm{lim}}\mathrm{d}M_{1450}\,\phi\left(M_{1450},z\right)10^{-0.4\left(M_{1450}-51.60\right)},
 \label{eqn:epsilon}
-\end{eqnarray}
+\end{equation}
 which depends on the adopted magnitude limit $M_{1450}^\mathrm{lim}$
 and on the faint-end slope of the QLF if $M_{1450}^\mathrm{lim}\gg
-M_*$.  The black circles in Figure~\ref{fig:e912_2} show the comoving
+M_*$.  The 912\,\AA\ emissivity is then given by
+\begin{equation}
+  \epsilon_{912}=\epsilon_{1450}\times\left(\frac{912}{1450}\right)^{0.61}.
+  \label{eqn:epsilon_912}
+\end{equation}
+The black circles in Figure~\ref{fig:e912_2} show the comoving
 912\,\AA\ emissivity obtained from the individual QLF fits
 (Table~\ref{tab:bins}) for $M_{1450}<-18$ (left panel) and
 $M_{1450}<-21$ (right panel), respectively. Redshift bins that were
@@ -1362,32 +1367,36 @@ decreases rapidly towards lower and higher redshifts.  Systematic
 errors in the faint-end slope derived from BOSS data are more
 pronounced for $M_{1450}<-18$ due to extrapolation of the QLF.
 
-To account for redshift effects in the calculation of the \ion{H}{i} photoionization rate,
-a continuous function $\epsilon_{912}\left(z\right)$ is required. As our parametric QLF models
-from the previous section suffer from non-monotonic or divergent AGN number densities,
-we do not use them to derive the corresponding $\epsilon_{912}\left(z\right)$, but
-instead fit the individual emissivity values derived from credible data
-(filled black circles in Figure~\ref{fig:e912_2}) with a 
+To account for redshift effects in the calculation of the \ion{H}{i}
+photoionization rate, a continuous function
+$\epsilon_{912}\left(z\right)$ is required. As our parametric QLF
+models from the previous section suffer from non-monotonic or
+divergent AGN number densities, we do not use them to derive the
+corresponding $\epsilon_{912}\left(z\right)$, but instead fit the
+individual emissivity values derived from credible data with a
 five-parameter functional form used by \citet{2012ApJ...746..125H}
 \begin{equation}
   \epsilon_{912}\left(z\right)=\epsilon_0(1+z)^a\frac{\exp(-bz)}{\exp(cz)+d}\quad,
   \label{eqn:e912fit}
 \end{equation}
-assuming a Gaussian likelihood for the emissivity values.  The
-resultant curves and the corresponding one-sigma uncertainties are
-shown in Figure~\ref{fig:e912_2}. For $M_{1450}<-18$ we obtain
+assuming a Gaussian likelihood for the emissivity values.  For
+$M_{1450}<-18$ we obtain
 \begin{multline}
-  \epsilon_{912}\left(z\right)=\left(10^{24.49}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}}\right)\left(1+z\right)^{7.57}\\\times\frac{\exp(-1.78z)}{\exp(1.01z)+29.20}\quad,
+  \epsilon_{1450}\left(z\right)=\left(10^{24.62}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}}\right)\left(1+z\right)^{6.79}\\\times\frac{\exp(-1.23z)}{\exp(1.30z)+25.54}\quad,
   \label{eqn:e912_18}
 \end{multline}
  and for $M_{1450}<-21$ we get
 \begin{multline}
-  \epsilon_{912}\left(z\right)=\left(10^{24.11}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}}\right)\left(1+z\right)^{6.64}\\\times\frac{\exp(-0.65z)}{\exp(1.82z)+20.45}\quad.
+  \epsilon_{1450}\left(z\right)=\left(10^{24.37}\mathrm{erg\, s^{-1}\, Hz^{-1}\, cMpc^{-3}}\right)\left(1+z\right)^{6.11}\\\times\frac{\exp(-0.4z)}{\exp(1.98z)+25.42}\quad,
   \label{eqn:e912_21}
 \end{multline}
-Table~\ref{tab:gamma2} provides the derived emissivities at
-912\,\AA\ and 1450\,\AA\ together with their derived errors at
-$0<z<15$, extrapolating at $z<0.6$ and at $z>6.5$.
+where the parameter values are median values of marginalised posterior
+distributions.  The 912\,\AA\ emissivity is then given by
+Equation~(\ref{eqn:epsilon_912}).  The resultant curves and the
+corresponding one-sigma uncertainties are shown in
+Figure~\ref{fig:e912_2}.  Table~\ref{tab:gamma2} provides the derived
+emissivities at 912\,\AA\ and 1450\,\AA\ together with their derived
+errors at $0<z<15$, extrapolating at $z<0.6$ and at $z>6.5$.
 
 \subsection{Comparison to the literature}
 
@@ -1424,9 +1433,9 @@ account for the covariance in the QLF parameters.  In contrast,
 \citet{2015MNRAS.451L..30K} derived the majority of their values by
 refitting binned QLFs with fixed QLF slopes, and they calculated
 errors by propagating the errors in the QLF slopes, some of which they
-had assumed or inflated from the cited literature.  Due to these
-incorrect procedures the emissivity values derived by
-\citet{2015MNRAS.451L..30K} are not reliable.
+had assumed or inflated from the cited literature.  These incorrect
+procedures affect the emissivity values derived by
+\citet{2015MNRAS.451L..30K}.
 
 The brown dashed curve in Figure~\ref{fig:e912_2} shows the AGN
 912\,\AA\ emissivity model adopted by \citet{2012ApJ...746..125H},
@@ -1546,7 +1555,7 @@ magnitude range are required.
     % rtg2.draw_g_paper() 
     \includegraphics[scale=0.65]{g.pdf}
   \end{center}
-  \caption{AGN contribution to the hydrogen photoionisation rate, when
+  \caption{AGN contribution to the hydrogen photoionization rate, when
     the AGN luminosity function is integrated down to $M_{1450}=-21$
     (blue curve and shaded region) and $M_{1450}=-18$ (red curve and
     shaded region).  The shaded regions show the one-sigma (68.26\%)
@@ -1562,7 +1571,7 @@ magnitude range are required.
       brown]{2015ApJ...813L...8M}, the QSO contribution from the model
     of \citet[dashed orange]{2015MNRAS.451L..30K}, \citet[dotted
       grey]{2017ApJ...837..106O}, and \citet[dashed
-      grey]{2018arXiv180104931P}.  The photoionisation rate derived
+      grey]{2018arXiv180104931P}.  The photoionization rate derived
     from the luminosity function fits of \citet{2015AA...578A..83G}
     are shown by the red open circles.}
   \label{fig:gammapi}
@@ -1604,10 +1613,9 @@ only ionizing sources and considering Equation~\eqref{eqn:sed} we have
   \epsilon_\nu\left(\nu_\mathrm{em},z^\prime\right) = \epsilon_{912}\left(z^\prime\right)\left(\frac{\nu_\mathrm{em}}{\nu_{912}}\right)^{-1.70}\quad,
   \label{eqn:epsilon_freq}
 \end{equation}
-with $\epsilon_{912}\left(z^\prime\right)$ being represented by
-Equations~\eqref{eqn:e912_18} and \eqref{eqn:e912_21} for our two
-magnitude limits, respectively.  For Poisson-distributed absorbers
-with an \ion{H}{i} column density distribution
+with $\epsilon_{912}\left(z^\prime\right)$ obtained as described in
+Section~\ref{sec:e912}.  For Poisson-distributed absorbers with an
+\ion{H}{i} column density distribution
 $f\left(N_\ion{H}{i},z^{\prime\prime}\right)=\partial^2n/\left(\partial
 N_\ion{H}{i}\partial z^{\prime\prime}\right)$, the effective optical
 depth to \ion{H}{i} Lyman continuum photons travelling between
@@ -1677,17 +1685,17 @@ limit of $M_{1450}=-21$ the AGN contribution to the hydrogen
 photoionization rate falls short of 100\% across the redshift range.
 It is marginally consistent with the measured photoionization rate at
 $z=2.4$.  The photoionization rate in our model for $M_{1450}=-21$ has
-the same evolution but a higher amplitude by a factor of $\sim 2$ as
-the QSO contribution to the \HI\ photoionization rate in the model of
+the same evolution but a higher amplitude as the QSO contribution to
+the \HI\ photoionization rate in the model of
 \citet{2012ApJ...746..125H}.  For both of our integration limits, the
-photoionisation rate peaks at $z\sim 2$.  For the integration limit of
+photoionization rate peaks at $z\sim 2$.  For the integration limit of
 $M_{1450}=-18$, AGN can provide all the flux necessary to explain the
 observed \lya forest between $z=2.4$ and $3.2$, with a contribution
-from other sources necessary only at higher redshifts.  The
-photoionization rate in the $M_{1450}<-18$ case also agrees with the
-inference of \citet{2017MNRAS.467.3172G} from the low-redshift
-($z<0.6$) \lya\ data.  We discuss this low-redshift evolution in
-greater detail in the next section.
+from other sources necessary only at higher redshifts.  However, the
+photoionization rate contributed by AGN falls short of the inference
+of \citet{2017MNRAS.467.3172G} from the low-redshift ($z<0.6$)
+\lya\ data.  We discuss this low-redshift evolution in greater detail
+in the next section.
 
 An important conclusion from Figure~\ref{fig:gammapi} is that the AGN
 contribution to hydrogen reionization is likely subdominant, although
@@ -1711,11 +1719,9 @@ understandably lower than those in the models of
 authors include contribution to the photoionization rate from galaxies
 in their models.  The differences in our model from that of
 \citet{2015MNRAS.451L..30K} are a result of the inhomogeneous
-redshift-dependent integration limits used by these authors and our
-differences from the reported emissivities of
-\citet{2009MNRAS.392...19C} and \citet{2013A&A...551A..29P}, which are
-used by \citet{2015MNRAS.451L..30K} to derive an emissivity evolution
-model.
+redshift-dependent integration limits used by these authors and their
+refitting of the results of \citet{2009MNRAS.392...19C} and
+\citet{2013A&A...551A..29P}.
 
 \subsection{Photon underproduction at $z=0$?}
 
@@ -1751,7 +1757,7 @@ found by \citet{2014ApJ...789L..32K}.
     % rtg2.draw_g_puc()
     \includegraphics[width=\columnwidth,keepaspectratio]{g_puc.pdf}
   \end{center}
-  \caption{Evolution of the hydrogen photoionisation rate at low
+  \caption{Evolution of the hydrogen photoionization rate at low
     redshifts, when the AGN luminosity function is integrated down to
     $M_{1450}=-21$ (blue curve and shaded region) and $M_{1450}=-18$
     (red curve and shaded region).  Shaded regions show the one-sigma
@@ -1776,75 +1782,62 @@ found by \citet{2014ApJ...789L..32K}.
 Figure~\ref{fig:puc} shows the evolution of the \HI\ photoionization
 rate due to AGN in our model for luminosity function integration
 limits of $M_{1450}=-21$ and $-18$ at redshifts $z<3$.  Note that we
-use the 912\,\AA\ emissivity from Equation~(\ref{eqn:e912_18}) and
-(\ref{eqn:e912_21}), which are derived by fitting the model from
-Equation~(\ref{eqn:e912fit}) to the emissivities obtained from
-luminosity functions in various redshift bins.  While doing this, as
-discussed above, redshift bins that were interpreted as being affected
-by systematic errors were ignored.  As a result, the emissivity model
-used in calculating the photoionization rate is an extrapolation at
-$z<0.6$.  However, it is interesting to note that the extrapolated
-emissivities at these redshifts are consistent with the emissivities
-calculated from our luminosity function fits to the $z<0.6$ data for
-either of our chosen integration limits.  This can be seen in
-Figure~\ref{fig:e912_2}.  At $z\sim 0$, the comoving
-912\,\AA\ emissivity in our model is lower by almost a factor of 2
-than that derived from the luminosity function inferred at this
-redshift by \citet{2009A&A...507..781S} for the $M_{1450}<-18$ case.
-For the $M_{1450}<-21$ integration, our comoving emissivity is higher
-than the emissivity in the model of \citet{2009A&A...507..781S} by
-about 50\%.  This results from the very faint $M_*$ ($\sim -19$) and
-steep faint-end slope ($\beta=-2$) obtained by
+use the 912\,\AA\ emissivity from Figure~\ref{fig:e912_2}, derived by
+fitting the model from Equation~(\ref{eqn:e912fit}) to the
+emissivities obtained from luminosity functions in various redshift
+bins.  While doing this, as discussed above, redshift bins that were
+interpreted as being affected by systematic errors were ignored.  As a
+result, the emissivity model used in calculating the photoionization
+rate is an extrapolation at $z<0.6$.  However, it is interesting to
+note that the extrapolated emissivities at these redshifts are
+consistent with the emissivities calculated from our luminosity
+function fits to the $z<0.6$ data for either of our chosen integration
+limits.  This can be seen in Figure~\ref{fig:e912_2}.  At $z\sim 0$,
+the comoving 912\,\AA\ emissivity in our model is lower by almost a
+factor of 2 than that derived from the luminosity function inferred at
+this redshift by \citet{2009A&A...507..781S} for the $M_{1450}<-18$
+case.  For the $M_{1450}<-21$ integration, our comoving emissivity is
+higher than the emissivity in the model of \citet{2009A&A...507..781S}
+by about 50\%.  This results from the very faint $M_*$ ($\sim -19$)
+and steep faint-end slope ($\beta=-2$) obtained by
 \citet{2009A&A...507..781S}.  (See Appendix~\ref{sec:qlfliterature}.)
-We use a spectral slope of $\alpha=-1.7$ for
-$\lambda<912$\,\AA\ (Equation~\ref{eqn:sed}).
 
 We find that the low-redshift \HI\ photoionization rate in our model
-is approximately equal to that that in the \citet{2012ApJ...746..125H}
-UVB model for both of our integration limits, as shown in
-Figure~\ref{fig:puc}.  At $z\sim 0$, the photoionisation rate for our
-$M_{1450}<-21$ integration is lower than \citet{2012ApJ...746..125H}
-photoionisation rate by about 10\%.  For the $M_{1450}<-18$ case, the
-photoionisation rate is higher than that in the
-\citet{2012ApJ...746..125H} model by about 10\%.  These differences
-are small compared to the factor of 2 to 3 differences that we find
-between our model and several recent estimates.  At $z=0.1$, this rate
-is smaller by a factor of 2 than the photoionization rate derived by
+is approximately equal to that in the \citet{2012ApJ...746..125H} UVB
+model for both of our integration limits.  At $z=0.1$, this rate is
+smaller by a factor of 2 than the photoionization rate derived by
 \citet{2017MNRAS.467.3172G} from the \HI\ column density distribution
-measurements of \citet{2016ApJ...817..111D}.  At $z<0.5$, this
-photoionization rate evolution in our model appears lower than also
-the rate derived by \citet{2015MNRAS.451L..30K} using the quasar
-luminosity function measurements of \citet{2009MNRAS.392...19C} and
-\citet{2013A&A...551A..29P}.  The model of \citet{2015ApJ...813L...8M}
-also results in a higher ionisation rate than our $M_{1450}<-18$
-inference at $z<0.7$.  \citet{2015ApJ...811....3S} compared the
-\HI\ column density distribution measurements to cosmological
-simulations with an enhanced photoionization rate relative to the
-\citet{2012ApJ...746..125H} model to find that
-$\Gamma_\mathrm{HI}=4.6\times 10^{-14}(1+z)^{4.4}\,\mathrm{s}^{-1}$
-produces the observed \HI\ column densities.  This photoionization
-rate was achieved in the simulations of \citet{2015ApJ...811....3S} by
-a combination of quasars and galaxies (with an escape fraction of
-hydrogen-ionizing photons assumed to be $f_\mathrm{esc}=0.05$).  As
-seen in Figure~\ref{fig:puc}, this photoionization rate is in closer
-agreement with the \citet{2015ApJ...813L...8M} model.  The
-photoionization rate estimate by \citet{2017MNRAS.467.4802F} from the
-H$\alpha$ surface brightness of a $z\sim 0$ galaxy observed by
-VLT/MUSE is somewhat higher than most other models shown in
-Figure~\ref{fig:puc}.  However, it is possible that the
-\citet{2017MNRAS.467.4802F} estimate is an upper limit, as the
-contribution of local sources to the photoionization rate is neglected
-in their modelling.  The requirement of an enhanced photoionization
-rate at $z\sim 0$ relative to our inference is also confirmed by the
-simulations presented by \citet{2017MNRAS.467L..86V},
-\citet{2017ApJ...837..106O}, and \citet{2018arXiv180104931P}.  But
-note that, as discussed above in Section~\ref{sec:e912}, a direct
-comparison of our results with the models of
-\citet{2015ApJ...813L...8M}, \citet{2015MNRAS.451L..30K}, and
-\citet{2018arXiv180104931P} is difficult because of the inhomogenous
-redshift-dependent integration limits adopted by these authors.
+measurements of \citet{2016ApJ...817..111D}.  The model of
+\citet{2015ApJ...813L...8M} also results in a higher ionisation rate
+than our $M_{1450}<-18$ inference at $z<0.7$.
+\citet{2015ApJ...811....3S} compared the \HI\ column density
+distribution measurements to cosmological simulations with an enhanced
+photoionization rate relative to the \citet{2012ApJ...746..125H} model
+to find that $\Gamma_\mathrm{HI}=4.6\times
+10^{-14}(1+z)^{4.4}\,\mathrm{s}^{-1}$ produces the observed
+\HI\ column densities.  This photoionization rate was achieved in the
+simulations of \citet{2015ApJ...811....3S} by a combination of quasars
+and galaxies (with an escape fraction of hydrogen-ionizing photons
+assumed to be $f_\mathrm{esc}=0.05$).  As seen in
+Figure~\ref{fig:puc}, this photoionization rate is in closer agreement
+with the \citet{2015ApJ...813L...8M} model.  The photoionization rate
+estimate by \citet{2017MNRAS.467.4802F} from the H$\alpha$ surface
+brightness of a $z\sim 0$ galaxy observed by VLT/MUSE is somewhat
+higher than most other models shown in Figure~\ref{fig:puc}.  However,
+it is possible that the \citet{2017MNRAS.467.4802F} estimate is an
+upper limit, as the contribution of local sources to the
+photoionization rate is neglected in their modelling.  The requirement
+of an enhanced photoionization rate at $z\sim 0$ relative to our
+inference is also confirmed by the simulations presented by
+\citet{2017MNRAS.467L..86V}, \citet{2017ApJ...837..106O}, and
+\citet{2018arXiv180104931P}.  But note that, as discussed above in
+Section~\ref{sec:e912}, a direct comparison of our results with the
+models of \citet{2015ApJ...813L...8M}, \citet{2015MNRAS.451L..30K},
+and \citet{2018arXiv180104931P} is difficult because of the
+inhomogenous redshift-dependent integration limits adopted by these
+authors.
 
-Before considering the deficit in the photoionisation rate obtained
+Before considering the deficit in the photoionization rate obtained
 from AGN at low redshifts relative to measurements from the
 \lya\ forest as a photon underproduction crisis, it is worthwhile to
 recall various assumptions entering our derivation.  With a spectral
@@ -1857,7 +1850,7 @@ $M_{1450}=-14$ at $z\sim 0$ (see also \citealt{2015MNRAS.451L..30K,
 \citet{2009A&A...507..781S} luminosity function measurement.  It is
 unclear if the assumption of unit LyC escape fraction is valid for
 such faint AGN, but we find that even with this extremely faint
-integration limit, the photoionisation rate deficit is reduced by only
+integration limit, the photoionization rate deficit is reduced by only
 about 25\% for a spectral index of $-1.7$.  While this result does not
 change significantly if we assume a spectral index of $-1.4$ as
 suggested by \citet{2014ApJ...794...75S}, assuming a much harder
@@ -1866,9 +1859,9 @@ for faint ($M_{1450}>-23$) AGN completely alleviates the deficit for
 an integration limit of $M_{1450}=-18$.  One should also note that our
 ionization rate model ignores the large uncertainties in the
 \HI\ column density distribution at the Lyman limit
-\citep{2011ApJ...736...42R, 2017ApJ...849..106S, 2017MNRAS.466..838G}.  Alternatively, it
-may be possible to balance the ionization rate deficit by the
-contribution from low-redshift LyC-leaking galaxies
+\citep{2011ApJ...736...42R, 2017ApJ...849..106S, 2017MNRAS.466..838G}.
+Alternatively, it may be possible to balance the ionization rate
+deficit by the contribution from low-redshift LyC-leaking galaxies
 \citep{2016Natur.529..178I, 2018MNRAS.474.4514I, 2018MNRAS.478.4851I}
 
 \subsection{Helium reionization}
@@ -1916,10 +1909,10 @@ Section~\ref{sec:e912} the emission rate can be written as
 \dot
 n_\mathrm{ion,4}\left(z\right)=-\frac{4^{\alpha_\nu}}{h\alpha_\nu}\left(1+z\right)^3\epsilon_{912}\left(z\right)\quad,
 \end{equation}
-with the quasar spectral index $\alpha_\nu=-1.7$ and the comoving 912\,\AA\ emissivity
-$\epsilon_{912}\left(z\right)$ given by Equations~\eqref{eqn:e912_18} and \eqref{eqn:e912_21}
-for $M_{1450}<-18$ and $M_{1450}<-21$, respectively.
-The recombination time scale in Equation~\eqref{eqn:qHedot} is given by
+with the quasar spectral index $\alpha_\nu=-1.7$ and the comoving
+912\,\AA\ emissivity $\epsilon_{912}\left(z\right)$ is obtained from
+the fits shown in Figure~\ref{fig:e912_2}.  The recombination time
+scale in Equation~\eqref{eqn:qHedot} is given by
 \begin{equation}
   \langle t_{\rm rec}\rangle=[(1+2\chi) \langle n_\mathrm{H}\rangle \alpha_\mathrm{B}\,C]^{-1}\quad,
   \label{eq:trec}
@@ -1960,7 +1953,7 @@ resulting from the uncertainty in the quasar emissivity alone,
 i.e.\ using a fixed quasar spectral energy distribution and a fixed
 redshift evolution of the clumping factor.  In our model, \ion{He}{ii}
 reionization starts around the earliest quasars at $z>6$ and finishes
-at $2.9\la z\la 3.4$ depending on the extent of the faint-end QLF.
+at $2.9\la z\la 3.7$ depending on the extent of the faint-end QLF.
 Considering the limitations of the modelling discussed above, both
 \ion{He}{ii} reionization histories are consistent with recent
 \ion{He}{ii} Ly$\alpha$ effective optical depth measurements
@@ -1999,7 +1992,7 @@ Equation~\eqref{eqn:qHedot} to estimate the uncertainty in
 $Q_\ion{He}{iii}\left(z\right)$, in particular the
 QLF\footnote{\citet{2016ApJ...828...90L} erroneously varied the
   $z>3.5$ QLF parameters independently, neglecting their covariance
-  and the survey data.}, shown in Figure~\ref{fig:e912_2}.
+  and the survey data.}.
 Considering the limitations of Equation~\eqref{eqn:qHedot},
 \ion{He}{ii} reionization finishes too late ($z\sim 2.5$) in their
 fiducial model, which is probably due to their considered QLFs and
@@ -2035,46 +2028,62 @@ while current simulations do not reproduce the measured scatter in the
 \ion{He}{ii} effective optical depths at $2.7<z<3.5$ in detail
 \citep{2016ApJ...825..144W}, this may reflect limitations of the
 modelling other than the QLF \citep{2017MNRAS.468.4691D}.  Our
-$Q_\ion{He}{iii}\left(z\right)$ for $M_{1450}<-18$ agrees well with
-the simulation by \citet{2014MNRAS.445.4186C}, in which \ion{He}{ii}
-reionization is accomplished by the $z<5$ quasar population evolved
-assuming pure density or pure luminosity evolution to match the QLF by
-\citet{2011ApJ...728L..26G} for $M_{1450}<-19.5$ \citep[see
-  also][]{2013MNRAS.435.3169C}.  Future efforts in numerical modelling
-of \ion{He}{ii} reionization should investigate quasar models which
-follow the QLF evolution in detail, and which are consistent with the
-measured redshift evolution and scatter of the \ion{He}{ii} effective
-optical depth, as well as the measured redshift evolution of the IGM
-temperature-density relation \citep[e.g.][]{2011MNRAS.410.1096B,
-  2014MNRAS.441.1916B, 2018MNRAS.474.2871R, 2017arXiv171000700H}.
+$Q_\ion{He}{iii}\left(z\right)$ for $M_{1450}<-18$ agrees reasonably
+well with the simulation by \citet{2014MNRAS.445.4186C}, in which
+\ion{He}{ii} reionization is accomplished by the $z<5$ quasar
+population evolved assuming pure density or pure luminosity evolution
+to match the QLF by \citet{2011ApJ...728L..26G} for $M_{1450}<-19.5$
+\citep[see also][]{2013MNRAS.435.3169C}.  Future efforts in numerical
+modelling of \ion{He}{ii} reionization should investigate quasar
+models which follow the QLF evolution in detail, and which are
+consistent with the measured redshift evolution and scatter of the
+\ion{He}{ii} effective optical depth, as well as the measured redshift
+evolution of the IGM temperature-density relation
+\citep[e.g.][]{2011MNRAS.410.1096B, 2014MNRAS.441.1916B,
+  2018MNRAS.474.2871R, 2017arXiv171000700H}.
 
 
 \section{Summary and Conclusions}
 \label{sec:conc}
 
-We have analysed the evolution of the AGN UV luminosity function from redshift $z=0$ to $7.5$
-using a combined sample of 83,488 mostly UV-optical colour-selected AGN from 12 data sets,
-homogenised with respect to the assumed cosmology, magnitude system and bandpass correction (if possible).
-The vast majority of them (83,469 AGN from 11/12 samples) have spectroscopic redshifts,
-and for all but 22 AGN the selection functions have been characterised.
-After restricting the sample due to persisting incompleteness at the faint end we arrive at 77,659 spectroscopically
-confirmed $0<z<7.5$ AGN extending to absolute AB magnitudes $M_{1450}\simeq -19$ at $z\simeq 0.5$
-and to $M_{1450}\sim -22$ at $z>3.5$, respectively. 
-To facilitate comparisons to future data sets we make the homogenised AGN sample and
+We have analysed the evolution of the AGN UV luminosity function from
+redshift $z=0$ to $7.5$ using a combined sample of 83,488 mostly
+UV-optical colour-selected AGN from 12 data sets, homogenised with
+respect to the assumed cosmology, magnitude system and bandpass
+correction (if possible).  The vast majority of them (83,469 AGN from
+11/12 samples) have spectroscopic redshifts, and for all but 22 AGN
+the selection functions have been characterised.  After restricting
+the sample due to persisting incompleteness at the faint end we arrive
+at 77,659 spectroscopically confirmed $0<z<7.5$ AGN extending to
+absolute AB magnitudes $M_{1450}\simeq -19$ at $z\simeq 0.5$ and to
+$M_{1450}\sim -22$ at $z>3.5$, respectively.  To facilitate
+comparisons to future data sets we make the homogenised AGN sample and
 the homogenised selection functions publicly available.
 
-Binning the $1450$\,\AA\ AGN luminosity function in narrow redshift ranges we find that it is
-excellently described by the customary double power law in magnitude at all redshifts (Figure~\ref{fig:mosaic}).
-Its four parameters significantly evolve with redshift (Figure~\ref{fig:evoln}):
-(i) The break magnitude $M_*$ of the AGN luminosity function shows a steep brightening from $M_*\simeq -24$ at $z\simeq 0.7$ to $M_*\sim -29$ at $z\simeq 6$.
-(ii) The corresponding amplitude $\phi_*$ drops by a factor $\sim 20,000$ from $\phi_*\simeq 4\times 10^{-7}$~mag$^{-1}$cMpc$^{-3}$ at $z<2.2$ to $\phi_*\sim 2\times 10^{-11}$~mag$^{-1}$cMpc$^{-3}$ at $z\simeq 6$.
-(iii) The faint-end slope $\beta$ significantly decreases from $\simeq -1.7$ at $z<2.2$ to $\simeq -2.4$ at $z\simeq 6$, resulting in a steepening of the luminosity function.
-(iv) The bright-end slope $\alpha$ also shows a moderate decrease with redshift, but is less constrained at the highest redshifts because of the bright break magnitude.
-In contrast to several previous studies, our fits are based on unbinned homogenised AGN data
-and their selection functions, and the confidence intervals fully account for covariance in the luminosity function parameters. 
-From the continuity of the luminosity function at lower redshifts we argue that its apparent
-single power law description at $z\simeq 6$ can be interpreted as the faint end of the double power law
-whose break magnitude $M_*$ is at the bright end of the $z\simeq 6$ quasar population.
+Binning the $1450$\,\AA\ AGN luminosity function in narrow redshift
+ranges we find that it is excellently described by the customary
+double power law in magnitude at all redshifts
+(Figure~\ref{fig:mosaic}).  Its four parameters significantly evolve
+with redshift (Figure~\ref{fig:evoln}): (i) The break magnitude $M_*$
+of the AGN luminosity function shows a steep brightening from
+$M_*\simeq -24$ at $z\simeq 0.7$ to $M_*\sim -29$ at $z\simeq 6$.
+(ii) The corresponding amplitude $\phi_*$ drops by a factor $\sim
+20,000$ from $\phi_*\simeq 4\times 10^{-7}$~mag$^{-1}$cMpc$^{-3}$ at
+$z<2.2$ to $\phi_*\sim 2\times 10^{-11}$~mag$^{-1}$cMpc$^{-3}$ at
+$z\simeq 6$.  (iii) The faint-end slope $\beta$ significantly
+decreases from $\simeq -1.7$ at $z<2.2$ to $\simeq -2.4$ at $z\simeq
+6$, resulting in a steepening of the luminosity function.  (iv) The
+bright-end slope $\alpha$ also shows a moderate decrease with
+redshift, but is less constrained at the highest redshifts because of
+the bright break magnitude.  In contrast to several previous studies,
+our fits are based on unbinned homogenised AGN data and their
+selection functions, and the confidence intervals fully account for
+covariance in the luminosity function parameters.  From the continuity
+of the luminosity function at lower redshifts we argue that its
+apparent single power law description at $z\simeq 6$ can be
+interpreted as the faint end of the double power law whose break
+magnitude $M_*$ is at the bright end of the $z\simeq 6$ quasar
+population.
 
 Similar continuity arguments let us scrutinize the value of several
 photometrically-selected AGN samples in determinations of the
@@ -2119,8 +2128,7 @@ recently claimed by \citet{2015AA...578A..83G}. At the same time, the
 912\,\AA\ emissivity of $M_{1450}<-18$ AGN exceeds the model
 considered by \citet{2012ApJ...746..125H} by a factor $>2$ at $z>3$,
 suggesting a somewhat higher contribution of AGN to the high-$z$ UV
-background if faint AGN have unit escape fractions of ionizing
-photons.
+background.
 
 Having derived the AGN \ion{H}{i} photoionization rate by filtering
 the \ion{H}{i}-ionizing AGN emissivity through the IGM \ion{H}{i}
@@ -2142,10 +2150,10 @@ at these redshifts \citep{2009A&A...507..781S} albeit their Lyman
 continuum escape fraction is unknown, and (b) current UV background
 synthesis models do not account for the large uncertainty in the
 low-redshift column density distribution of (partial) \ion{H}{i} Lyman
-limit systems \citep{2011ApJ...736...42R, 2017ApJ...849..106S}.  Helium
-reionization is accomplished at $z\simeq 3.5$ by $M_{1450}<-18$ AGN
-(Figure~\ref{fig:qhe}), but should be delayed by \ion{He}{ii} Lyman
-limit systems \citep{2009MNRAS.395..736B, 2017ApJ...851...50M},
+limit systems \citep{2011ApJ...736...42R, 2017ApJ...849..106S}.
+Helium reionization is accomplished at $z\simeq 3.5$ by $M_{1450}<-18$
+AGN (Figure~\ref{fig:qhe}), but should be delayed by \ion{He}{ii}
+Lyman limit systems \citep{2009MNRAS.395..736B, 2017ApJ...851...50M},
 requiring further modelling and detailed numerical simulations of the
 \ion{He}{ii} reionization process.
 
@@ -2180,23 +2188,12 @@ systems to inform UV background synthesis models at $z<2$ and $z>4$.
 Using the homogenised data and code that we make publicly available
 (Appendix \ref{sec:code}), the luminosity functions presented in this
 paper can be easily compared with theoretical models or future data
-sets.  These luminosity function determinations supercede previous
-determinations by \citet{2007ApJ...654..731H} by including new data
-and extending the analysis to higher redshifts.  Our public code can
-be used either to reproduce all of our analysis starting from the QSO
-catalogues, or to quickly evaluate our luminosity function fits at
-desired redshifts and luminosities.  While doing this, the evolution
-of the luminosity function can be derived using any of the three
-global models that we presented in Section~\ref{sec:global}.  However,
-as we discussed in Section~\ref{sec:global}, none of these models
-should be extrapolated to higher redshifts.  Alternatively, our binned
-luminosity function estimates from Section~\ref{sec:bins} can be used.
-For applications that require extrapolation to higher redshifts, such
-as calculations of photoionization fluxes and emissivities, the fits
-presented in Equations~(\ref{eqn:e912_21}) and (\ref{eqn:e912_18}) can
-be used, or a similar approach of fitting functional forms to
-quantities suitably derived from the binned luminosity functions
-should be adopted.
+sets.  These luminosity function determinations supersede previous
+determinations by \citet{2007ApJ...654..731H} by including new data,
+by analysing unbinned data, and extending the analysis to higher
+redshifts.  Our public code can be used either to reproduce all of our
+analysis starting from the QSO catalogues, or to quickly evaluate our
+luminosity function fits at desired redshifts and luminosities.  
 
 \section*{Acknowledgements}
 
@@ -2212,7 +2209,6 @@ Mortlock, Ewald Puchwein, Gordon Richards, Alberto Rorai, Bram
 Venemans and Stephen Warren.  GK acknowledges support from ERC
 Advanced Grant 320596 `The Emergence of Structure During the Epoch of
 Reionization'.
-%% Joe, do you need to add anything to acknowledgements? 
 
 \appendix
 
@@ -2297,21 +2293,20 @@ determinations, our parameter values are closest to those reported by
 
 \section{Comparison with G15}
 \label{sec:conv}
-%% Define 'G15' somewhere above.
 In the double power law luminosity function models presented in
 distinct redshift bins in Section~\ref{sec:bins}, we did not include
 the 19 low-luminosity ($M_{1450}>-22.6$) AGN between redshifts $z=4.1$
-and $6.3$ reported by G15.  While this was done in order to restrict
-our sample to quasars with spectroscopic redshift determinations, it
-is instructive to consider how our results are affected if the G15 AGN
-are added to the analysis.  In their work, G15 found a shallower
-faint-end slope ($\beta\sim -1.5$ to $-1.8$) for the luminosity
-function at $4.1 < z < 6.3$, relative to our result from other AGN
-samples at these redshifts ($\beta\sim -2.0$ to $-2.5$).  Still, G15
-derived a higher 912\,\AA\ emissivity than our estimates
-(cf.\ Figure~\ref{fig:e912_2}), so that in their analysis AGN can
-produce all ionizing photons necessary to keep hydrogen ionized and
-explain the \lya data.  The black points in
+and $6.3$ reported by \citep[][hereafter G15]{2015AA...578A..83G}.
+While this was done in order to restrict our sample to quasars with
+spectroscopic redshift determinations, it is instructive to consider
+how our results are affected if the G15 AGN are added to the analysis.
+In their work, G15 found a shallower faint-end slope ($\beta\sim -1.5$
+to $-1.8$) for the luminosity function at $4.1 < z < 6.3$, relative to
+our result from other AGN samples at these redshifts ($\beta\sim -2.0$
+to $-2.5$).  Still, G15 derived a higher 912\,\AA\ emissivity than our
+estimates (cf.\ Figure~\ref{fig:e912_2}), so that in their analysis
+AGN can produce all ionizing photons necessary to keep hydrogen
+ionized and explain the \lya data.  The black points in
 Figure~\ref{fig:params_giallongo} show the parameters of the double
 power law luminosity function from our analysis of
 Section~\ref{sec:bins}.  The red open circles show the parameter
@@ -2369,7 +2364,7 @@ also cause part of the difference.
     and $5.75$. \label{fig:lf_giallongo}}
 \end{figure*}
 
-\section{Tables of emissivities and photoionisation rates}
+\section{Tables of emissivities and photoionization rates}
 \label{sec:tables}
 
 Table~\ref{tab:emissivity_bins} shows the 912\,\AA\ and
@@ -2383,7 +2378,7 @@ computed in Section~\ref{sec:gammahi}.  In both tables, we show
 results for our two integration limits of $M_{1450}<-18$ and
 $M_{1450}<-21$.  These tables describe the curves shown in
 Figures~\ref{fig:e912_2} and \ref{fig:gammapi}.  Note that the
-photoionisation rate calculation assumes an \HI\ column density
+photoionization rate calculation assumes an \HI\ column density
 distribution given by \citet{2012ApJ...746..125H} and extrapolates
 this to high redshifts.
 
@@ -2414,41 +2409,43 @@ this to high redshifts.
     \multicolumn{1}{c}{$(M_{1450}<-21)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} \\
     \hline
-    0.31$^a$ & 0.10 & 0.40 & 0.53^{+0.02}_{-0.02} & 0.70^{+0.03}_{-0.03} & 0.30^{+0.01}_{-0.01} & 0.40^{+0.01}_{-0.01} \\
-    0.50$^a$ & 0.40 & 0.60 & 0.75^{+0.01}_{-0.01} & 1.00^{+0.02}_{-0.02} & 0.58^{+0.01}_{-0.01} & 0.78^{+0.01}_{-0.01} \\
+    0.31$^a$ & 0.10 & 0.40 & 0.53^{+0.02}_{-0.02} & 0.70^{+0.03}_{-0.02} & 0.30^{+0.01}_{-0.01} & 0.40^{+0.01}_{-0.01} \\
+    0.50$^a$ & 0.40 & 0.60 & 0.75^{+0.01}_{-0.01} & 1.00^{+0.01}_{-0.01} & 0.59^{+0.01}_{-0.01} & 0.78^{+0.01}_{-0.01} \\
     0.72 & 0.60 & 0.80 & 1.73^{+0.05}_{-0.05} & 2.30^{+0.07}_{-0.07} & 1.19^{+0.02}_{-0.02} & 1.57^{+0.02}_{-0.03} \\
-    0.91 & 0.80 & 1.00 & 2.85^{+0.16}_{-0.16} & 3.81^{+0.21}_{-0.21} & 2.10^{+0.05}_{-0.05} & 2.78^{+0.07}_{-0.06} \\
-    1.10 & 1.00 & 1.20 & 3.72^{+0.10}_{-0.10} & 4.94^{+0.13}_{-0.12} & 2.91^{+0.04}_{-0.04} & 3.87^{+0.05}_{-0.06} \\
-    1.30 & 1.20 & 1.40 & 5.71^{+0.22}_{-0.22} & 7.61^{+0.32}_{-0.32} & 4.47^{+0.09}_{-0.09} & 5.94^{+0.14}_{-0.12} \\
-    1.50 & 1.40 & 1.60 & 7.05^{+0.23}_{-0.24} & 9.32^{+0.29}_{-0.29} & 5.60^{+0.10}_{-0.10} & 7.43^{+0.14}_{-0.13} \\
-    1.71 & 1.60 & 1.80 & 7.72^{+0.16}_{-0.15} & 10.23^{+0.23}_{-0.24} & 6.71^{+0.10}_{-0.10} & 8.90^{+0.13}_{-0.12} \\
-    1.98 & 1.80 & 2.20 & 10.67^{+0.34}_{-0.39} & 14.14^{+0.53}_{-0.53} & 7.93^{+0.13}_{-0.15} & 10.54^{+0.18}_{-0.18} \\
-    2.30$^a$ & 2.20 & 2.40 & 10.21^{+0.23}_{-0.22} & 13.53^{+0.30}_{-0.30} & 8.88^{+0.12}_{-0.12} & 11.80^{+0.16}_{-0.15} \\
-    2.45$^a$ & 2.40 & 2.50 & 8.07^{+0.22}_{-0.22} & 10.71^{+0.33}_{-0.29} & 7.17^{+0.16}_{-0.15} & 9.48^{+0.18}_{-0.17} \\
-    2.55$^a$ & 2.50 & 2.60 & 6.64^{+0.19}_{-0.20} & 8.79^{+0.25}_{-0.24} & 6.21^{+0.13}_{-0.13} & 8.24^{+0.15}_{-0.17} \\
-    2.65$^a$ & 2.60 & 2.70 & 6.55^{+0.14}_{-0.16} & 8.71^{+0.21}_{-0.20} & 6.43^{+0.15}_{-0.15} & 8.56^{+0.21}_{-0.23} \\
-    2.75$^a$ & 2.70 & 2.80 & 7.44^{+0.22}_{-0.18} & 9.92^{+0.31}_{-0.33} & 7.16^{+0.20}_{-0.20} & 9.51^{+0.25}_{-0.29} \\
-    2.85$^a$ & 2.80 & 2.90 & 7.95^{+0.33}_{-0.33} & 10.50^{+0.38}_{-0.37} & 7.50^{+0.26}_{-0.30} & 9.91^{+0.32}_{-0.35} \\
-    2.95$^a$ & 2.90 & 3.00 & 7.95^{+0.36}_{-0.35} & 10.51^{+0.49}_{-0.51} & 6.82^{+0.21}_{-0.19} & 9.07^{+0.27}_{-0.31} \\
-    3.05$^a$ & 3.00 & 3.10 & 7.23^{+0.47}_{-0.39} & 9.59^{+0.60}_{-0.55} & 6.26^{+0.22}_{-0.21} & 8.30^{+0.25}_{-0.28} \\
-    3.15$^a$ & 3.10 & 3.20 & 9.87^{+0.94}_{-1.10} & 13.06^{+1.69}_{-1.55} & 7.00^{+0.37}_{-0.39} & 9.28^{+0.46}_{-0.51} \\
-    3.25$^a$ & 3.20 & 3.30 & 8.35^{+0.91}_{-0.90} & 11.04^{+1.27}_{-1.19} & 6.04^{+0.36}_{-0.35} & 8.01^{+0.46}_{-0.48} \\
-    3.34$^a$ & 3.30 & 3.40 & 12.23^{+2.81}_{-2.69} & 16.30^{+3.58}_{-3.28} & 7.21^{+0.64}_{-0.69} & 9.68^{+0.95}_{-0.94} \\
-    3.44$^a$ & 3.40 & 3.50 & 4.44^{+0.43}_{-0.57} & 5.98^{+0.67}_{-0.78} & 4.38^{+0.47}_{-0.49} & 5.77^{+0.52}_{-0.66} \\
-    3.88 & 3.70 & 4.10 & 4.37^{+1.47}_{-1.39} & 5.68^{+1.89}_{-1.76} & 2.53^{+0.43}_{-0.46} & 3.30^{+0.69}_{-0.69} \\
-    4.35 & 4.10 & 4.70 & 4.24^{+2.01}_{-2.12} & 5.33^{+2.42}_{-2.64} & 1.76^{+0.47}_{-0.47} & 2.39^{+0.69}_{-0.58} \\
-    4.92 & 4.70 & 5.50 & 2.60^{+0.93}_{-1.02} & 3.35^{+1.18}_{-1.29} & 0.94^{+0.18}_{-0.17} & 1.29^{+0.28}_{-0.25} \\
-    6.00 & 5.50 & 6.50 & 0.67^{+0.27}_{-0.25} & 0.91^{+0.40}_{-0.38} & 0.21^{+0.04}_{-0.04} & 0.27^{+0.06}_{-0.06} \\
+    0.91 & 0.80 & 1.00 & 2.84^{+0.15}_{-0.15} & 3.77^{+0.20}_{-0.20} & 2.10^{+0.05}_{-0.05} & 2.78^{+0.06}_{-0.06} \\
+    1.10 & 1.00 & 1.20 & 3.73^{+0.11}_{-0.10} & 4.94^{+0.15}_{-0.14} & 2.91^{+0.05}_{-0.04} & 3.86^{+0.06}_{-0.05} \\
+    1.30 & 1.20 & 1.40 & 5.72^{+0.25}_{-0.23} & 7.59^{+0.33}_{-0.31} & 4.46^{+0.10}_{-0.09} & 5.92^{+0.13}_{-0.12} \\
+    1.50 & 1.40 & 1.60 & 7.05^{+0.22}_{-0.22} & 9.35^{+0.29}_{-0.29} & 5.60^{+0.09}_{-0.10} & 7.43^{+0.12}_{-0.13} \\
+    1.71 & 1.60 & 1.80 & 7.71^{+0.19}_{-0.18} & 10.23^{+0.25}_{-0.24} & 6.70^{+0.10}_{-0.11} & 8.89^{+0.13}_{-0.15} \\
+    1.98 & 1.80 & 2.20 & 10.64^{+0.35}_{-0.33} & 14.11^{+0.47}_{-0.44} & 7.93^{+0.14}_{-0.16} & 10.52^{+0.19}_{-0.21} \\
+    2.30$^a$ & 2.20 & 2.40 & 10.20^{+0.24}_{-0.24} & 13.54^{+0.32}_{-0.32} & 8.91^{+0.13}_{-0.12} & 11.82^{+0.17}_{-0.16} \\
+    2.45$^a$ & 2.40 & 2.50 & 8.04^{+0.26}_{-0.22} & 10.66^{+0.34}_{-0.29} & 7.17^{+0.14}_{-0.15} & 9.51^{+0.18}_{-0.20} \\
+    2.55$^a$ & 2.50 & 2.60 & 6.63^{+0.19}_{-0.19} & 8.80^{+0.25}_{-0.25} & 6.21^{+0.12}_{-0.12} & 8.24^{+0.16}_{-0.16} \\
+    2.65$^a$ & 2.60 & 2.70 & 6.59^{+0.16}_{-0.16} & 8.74^{+0.21}_{-0.21} & 6.47^{+0.17}_{-0.15} & 8.59^{+0.22}_{-0.20} \\
+    2.75$^a$ & 2.70 & 2.80 & 7.46^{+0.20}_{-0.21} & 9.90^{+0.27}_{-0.28} & 7.20^{+0.19}_{-0.20} & 9.55^{+0.26}_{-0.27} \\
+    2.85$^a$ & 2.80 & 2.90 & 7.96^{+0.32}_{-0.33} & 10.56^{+0.43}_{-0.43} & 7.53^{+0.31}_{-0.32} & 9.99^{+0.41}_{-0.42} \\
+    2.95$^a$ & 2.90 & 3.00 & 7.93^{+0.41}_{-0.40} & 10.52^{+0.55}_{-0.53} & 6.84^{+0.20}_{-0.22} & 9.08^{+0.26}_{-0.29} \\
+    3.05$^a$ & 3.00 & 3.10 & 7.22^{+0.41}_{-0.38} & 9.58^{+0.55}_{-0.51} & 6.27^{+0.23}_{-0.22} & 8.32^{+0.31}_{-0.29} \\
+    3.15$^a$ & 3.10 & 3.20 & 9.93^{+1.12}_{-1.09} & 13.18^{+1.48}_{-1.45} & 7.03^{+0.35}_{-0.36} & 9.33^{+0.46}_{-0.48} \\
+    3.25$^a$ & 3.20 & 3.30 & 8.35^{+0.84}_{-0.96} & 11.08^{+1.12}_{-1.28} & 6.17^{+0.38}_{-0.43} & 8.19^{+0.50}_{-0.57} \\
+    3.34$^a$ & 3.30 & 3.40 & 12.23^{+2.63}_{-2.80} & 16.22^{+3.49}_{-3.71} & 7.32^{+0.67}_{-0.82} & 9.71^{+0.89}_{-1.09} \\
+    3.44$^a$ & 3.40 & 3.50 & 4.47^{+0.50}_{-0.59} & 5.93^{+0.66}_{-0.79} & 4.43^{+0.40}_{-0.53} & 5.87^{+0.53}_{-0.70} \\
+    3.88 & 3.70 & 4.10 & 4.23^{+1.33}_{-1.37} & 5.61^{+1.77}_{-1.81} & 2.52^{+0.47}_{-0.46} & 3.34^{+0.63}_{-0.61} \\
+    4.35 & 4.10 & 4.70 & 4.27^{+1.90}_{-2.17} & 5.67^{+2.52}_{-2.88} & 1.78^{+0.48}_{-0.51} & 2.36^{+0.64}_{-0.68} \\
+    4.92 & 4.70 & 5.50 & 2.58^{+0.88}_{-1.00} & 3.42^{+1.17}_{-1.33} & 0.97^{+0.19}_{-0.18} & 1.29^{+0.26}_{-0.24} \\
+    6.00 & 5.50 & 6.50 & 0.66^{+0.24}_{-0.27} & 0.87^{+0.32}_{-0.35} & 0.21^{+0.05}_{-0.04} & 0.27^{+0.06}_{-0.06} \\
     \hline
   \end{tabular}
   \begin{minipage}{13.0cm}
-    \textsuperscript{$a$}{Redshift bin considered to be severely affected by systematic errors (open circles in Figure~\ref{fig:e912_2}).  These bins should be avoided while considering the evolution of emissivities.}
+    \textsuperscript{$a$}{Redshift bin considered to be severely
+      affected by systematic errors (open circles in
+      Figure~\ref{fig:e912_2}).  These bins should be avoided while
+      considering the evolution of emissivities.}
   \end{minipage}
 \end{table*}
 
 \begin{table*}
   % rtg2.py and tabulate_emissivities_global.py.
-  % Check these values once again.
   \caption{ Comoving emissivities at 912\,\AA\ and 1450\,\AA\ obtained
     by fitting Equation~\eqref{eqn:e912fit} to the emissivities in
     selected redshift bins from Table~\ref{tab:emissivity_bins}.
@@ -2478,57 +2475,57 @@ this to high redshifts.
     \multicolumn{1}{c}{$(M_{1450}<-18)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} \\
     \hline
-    0.0 & 23.36^{+0.38}_{-0.20} & 23.18^{+0.25}_{-0.22} & 23.01^{+0.23}_{-0.16} & 22.83^{+0.12}_{-0.15} & -13.38^{+0.10}_{-0.06} & -13.57^{+0.06}_{-0.05} \\
-    0.1 & 23.54^{+0.29}_{-0.16} & 23.35^{+0.18}_{-0.17} & 23.24^{+0.18}_{-0.13} & 23.06^{+0.09}_{-0.11} & -13.22^{+0.08}_{-0.06} & -13.41^{+0.05}_{-0.04} \\
-    0.2 & 23.71^{+0.21}_{-0.14} & 23.51^{+0.13}_{-0.12} & 23.45^{+0.14}_{-0.10} & 23.27^{+0.07}_{-0.09} & -13.07^{+0.06}_{-0.05} & -13.26^{+0.04}_{-0.03} \\
-    0.3 & 23.85^{+0.16}_{-0.10} & 23.66^{+0.10}_{-0.08} & 23.64^{+0.10}_{-0.07} & 23.46^{+0.05}_{-0.06} & -12.94^{+0.05}_{-0.04} & -13.12^{+0.03}_{-0.03} \\
-    0.4 & 23.99^{+0.11}_{-0.08} & 23.80^{+0.07}_{-0.06} & 23.81^{+0.07}_{-0.06} & 23.63^{+0.04}_{-0.04} & -12.82^{+0.04}_{-0.04} & -12.99^{+0.03}_{-0.02} \\
-    0.5 & 24.11^{+0.08}_{-0.06} & 23.93^{+0.05}_{-0.04} & 23.95^{+0.05}_{-0.04} & 23.78^{+0.03}_{-0.03} & -12.71^{+0.03}_{-0.03} & -12.87^{+0.02}_{-0.02} \\
-    0.6 & 24.23^{+0.05}_{-0.04} & 24.06^{+0.03}_{-0.02} & 24.09^{+0.04}_{-0.03} & 23.93^{+0.02}_{-0.02} & -12.60^{+0.03}_{-0.03} & -12.76^{+0.02}_{-0.02} \\
-    0.7 & 24.34^{+0.03}_{-0.03} & 24.18^{+0.02}_{-0.02} & 24.21^{+0.02}_{-0.03} & 24.06^{+0.01}_{-0.01} & -12.51^{+0.03}_{-0.03} & -12.66^{+0.02}_{-0.02} \\
-    0.8 & 24.44^{+0.03}_{-0.02} & 24.30^{+0.01}_{-0.01} & 24.32^{+0.02}_{-0.02} & 24.18^{+0.01}_{-0.01} & -12.42^{+0.03}_{-0.03} & -12.57^{+0.02}_{-0.02} \\
-    0.9 & 24.54^{+0.02}_{-0.02} & 24.41^{+0.01}_{-0.01} & 24.42^{+0.02}_{-0.01} & 24.29^{+0.01}_{-0.01} & -12.35^{+0.02}_{-0.03} & -12.48^{+0.02}_{-0.02} \\
-    1.0 & 24.63^{+0.02}_{-0.02} & 24.51^{+0.01}_{-0.01} & 24.51^{+0.02}_{-0.01} & 24.38^{+0.01}_{-0.01} & -12.28^{+0.02}_{-0.03} & -12.40^{+0.02}_{-0.02} \\
-    1.1 & 24.71^{+0.02}_{-0.02} & 24.60^{+0.01}_{-0.01} & 24.59^{+0.01}_{-0.01} & 24.47^{+0.01}_{-0.01} & -12.21^{+0.02}_{-0.03} & -12.33^{+0.02}_{-0.02} \\
-    1.2 & 24.78^{+0.02}_{-0.02} & 24.68^{+0.01}_{-0.01} & 24.66^{+0.01}_{-0.01} & 24.55^{+0.01}_{-0.01} & -12.16^{+0.03}_{-0.03} & -12.27^{+0.02}_{-0.02} \\
-    1.3 & 24.85^{+0.01}_{-0.02} & 24.75^{+0.01}_{-0.01} & 24.72^{+0.01}_{-0.01} & 24.63^{+0.01}_{-0.01} & -12.11^{+0.03}_{-0.03} & -12.22^{+0.02}_{-0.02} \\
-    1.4 & 24.91^{+0.01}_{-0.02} & 24.82^{+0.01}_{-0.01} & 24.78^{+0.01}_{-0.01} & 24.69^{+0.01}_{-0.01} & -12.07^{+0.03}_{-0.03} & -12.18^{+0.02}_{-0.02} \\
-    1.5 & 24.95^{+0.01}_{-0.01} & 24.87^{+0.01}_{-0.01} & 24.83^{+0.01}_{-0.01} & 24.74^{+0.01}_{-0.01} & -12.04^{+0.03}_{-0.03} & -12.15^{+0.02}_{-0.02} \\
-    1.6 & 24.99^{+0.02}_{-0.01} & 24.91^{+0.01}_{-0.01} & 24.87^{+0.01}_{-0.01} & 24.79^{+0.01}_{-0.01} & -12.02^{+0.03}_{-0.03} & -12.12^{+0.02}_{-0.02} \\
-    1.7 & 25.03^{+0.02}_{-0.02} & 24.95^{+0.01}_{-0.01} & 24.91^{+0.01}_{-0.01} & 24.83^{+0.01}_{-0.01} & -12.00^{+0.03}_{-0.03} & -12.11^{+0.02}_{-0.02} \\
-    1.8 & 25.05^{+0.02}_{-0.02} & 24.98^{+0.01}_{-0.01} & 24.94^{+0.02}_{-0.01} & 24.86^{+0.01}_{-0.01} & -11.99^{+0.04}_{-0.04} & -12.10^{+0.02}_{-0.02} \\
-    1.9 & 25.07^{+0.02}_{-0.02} & 24.99^{+0.01}_{-0.01} & 24.96^{+0.02}_{-0.02} & 24.88^{+0.01}_{-0.01} & -11.99^{+0.04}_{-0.04} & -12.09^{+0.03}_{-0.03} \\
-    2.0 & 25.08^{+0.02}_{-0.02} & 25.01^{+0.01}_{-0.01} & 24.98^{+0.02}_{-0.02} & 24.90^{+0.01}_{-0.01} & -11.99^{+0.04}_{-0.05} & -12.09^{+0.03}_{-0.03} \\
-    2.1 & 25.09^{+0.03}_{-0.02} & 25.01^{+0.02}_{-0.02} & 25.00^{+0.03}_{-0.02} & 24.91^{+0.02}_{-0.02} & -11.99^{+0.05}_{-0.05} & -12.10^{+0.03}_{-0.03} \\
-    2.2 & 25.09^{+0.03}_{-0.03} & 25.01^{+0.02}_{-0.02} & 25.01^{+0.03}_{-0.03} & 24.91^{+0.02}_{-0.02} & -12.00^{+0.05}_{-0.06} & -12.11^{+0.04}_{-0.03} \\
-    2.3 & 25.09^{+0.04}_{-0.04} & 25.01^{+0.02}_{-0.02} & 25.01^{+0.03}_{-0.03} & 24.91^{+0.02}_{-0.03} & -12.01^{+0.05}_{-0.07} & -12.12^{+0.04}_{-0.04} \\
-    2.4 & 25.08^{+0.04}_{-0.04} & 25.00^{+0.03}_{-0.03} & 25.02^{+0.04}_{-0.04} & 24.91^{+0.03}_{-0.03} & -12.03^{+0.06}_{-0.08} & -12.14^{+0.04}_{-0.04} \\
-    2.5 & 25.07^{+0.04}_{-0.05} & 24.99^{+0.03}_{-0.03} & 25.01^{+0.04}_{-0.04} & 24.89^{+0.03}_{-0.04} & -12.04^{+0.06}_{-0.08} & -12.16^{+0.05}_{-0.05} \\
-    2.6 & 25.06^{+0.05}_{-0.06} & 24.97^{+0.04}_{-0.04} & 25.01^{+0.05}_{-0.05} & 24.88^{+0.04}_{-0.04} & -12.06^{+0.07}_{-0.09} & -12.18^{+0.05}_{-0.05} \\
-    2.7 & 25.04^{+0.05}_{-0.07} & 24.96^{+0.04}_{-0.04} & 25.00^{+0.05}_{-0.05} & 24.86^{+0.04}_{-0.04} & -12.09^{+0.07}_{-0.10} & -12.21^{+0.05}_{-0.05} \\
-    2.8 & 25.02^{+0.06}_{-0.07} & 24.93^{+0.05}_{-0.04} & 24.99^{+0.06}_{-0.06} & 24.84^{+0.05}_{-0.04} & -12.11^{+0.07}_{-0.11} & -12.24^{+0.06}_{-0.06} \\
-    2.9 & 25.01^{+0.06}_{-0.08} & 24.91^{+0.05}_{-0.05} & 24.98^{+0.06}_{-0.07} & 24.81^{+0.05}_{-0.05} & -12.14^{+0.08}_{-0.12} & -12.27^{+0.06}_{-0.06} \\
-    3.0 & 24.98^{+0.06}_{-0.09} & 24.88^{+0.05}_{-0.05} & 24.96^{+0.06}_{-0.07} & 24.78^{+0.05}_{-0.05} & -12.17^{+0.08}_{-0.12} & -12.31^{+0.06}_{-0.07} \\
-    3.1 & 24.96^{+0.07}_{-0.10} & 24.85^{+0.05}_{-0.06} & 24.94^{+0.07}_{-0.08} & 24.75^{+0.06}_{-0.05} & -12.20^{+0.09}_{-0.13} & -12.35^{+0.07}_{-0.07} \\
-    3.2 & 24.93^{+0.07}_{-0.10} & 24.82^{+0.06}_{-0.06} & 24.91^{+0.07}_{-0.09} & 24.71^{+0.06}_{-0.05} & -12.23^{+0.09}_{-0.14} & -12.39^{+0.07}_{-0.08} \\
-    3.3 & 24.91^{+0.08}_{-0.11} & 24.79^{+0.06}_{-0.06} & 24.89^{+0.08}_{-0.09} & 24.68^{+0.06}_{-0.06} & -12.26^{+0.10}_{-0.15} & -12.43^{+0.07}_{-0.08} \\
-    3.4 & 24.88^{+0.08}_{-0.12} & 24.75^{+0.06}_{-0.07} & 24.86^{+0.08}_{-0.09} & 24.64^{+0.07}_{-0.06} & -12.30^{+0.10}_{-0.17} & -12.47^{+0.07}_{-0.09} \\
-    3.5 & 24.85^{+0.09}_{-0.14} & 24.72^{+0.07}_{-0.07} & 24.83^{+0.08}_{-0.10} & 24.59^{+0.07}_{-0.06} & -12.34^{+0.11}_{-0.18} & -12.52^{+0.08}_{-0.09} \\
-    3.6 & 24.82^{+0.10}_{-0.15} & 24.68^{+0.07}_{-0.08} & 24.80^{+0.09}_{-0.11} & 24.55^{+0.07}_{-0.06} & -12.38^{+0.11}_{-0.19} & -12.56^{+0.08}_{-0.10} \\
-    3.7 & 24.79^{+0.10}_{-0.16} & 24.64^{+0.07}_{-0.08} & 24.77^{+0.09}_{-0.11} & 24.51^{+0.07}_{-0.06} & -12.42^{+0.12}_{-0.20} & -12.61^{+0.08}_{-0.10} \\
-    3.8 & 24.75^{+0.10}_{-0.16} & 24.59^{+0.07}_{-0.09} & 24.73^{+0.10}_{-0.12} & 24.47^{+0.07}_{-0.07} & -12.46^{+0.12}_{-0.21} & -12.66^{+0.08}_{-0.11} \\
-    3.9 & 24.72^{+0.11}_{-0.17} & 24.55^{+0.07}_{-0.09} & 24.70^{+0.10}_{-0.13} & 24.42^{+0.07}_{-0.07} & -12.50^{+0.13}_{-0.22} & -12.72^{+0.08}_{-0.11} \\
-    4.0 & 24.68^{+0.11}_{-0.18} & 24.51^{+0.07}_{-0.09} & 24.66^{+0.10}_{-0.14} & 24.37^{+0.07}_{-0.08} & -12.54^{+0.13}_{-0.24} & -12.77^{+0.08}_{-0.12} \\
-    4.1 & 24.65^{+0.11}_{-0.20} & 24.46^{+0.07}_{-0.10} & 24.63^{+0.11}_{-0.16} & 24.33^{+0.06}_{-0.09} & -12.58^{+0.13}_{-0.25} & -12.82^{+0.08}_{-0.12} \\
-    4.2 & 24.61^{+0.12}_{-0.21} & 24.42^{+0.07}_{-0.10} & 24.58^{+0.12}_{-0.16} & 24.28^{+0.06}_{-0.10} & -12.63^{+0.14}_{-0.27} & -12.88^{+0.08}_{-0.12} \\
-    4.3 & 24.58^{+0.13}_{-0.23} & 24.37^{+0.07}_{-0.11} & 24.54^{+0.12}_{-0.17} & 24.23^{+0.07}_{-0.10} & -12.67^{+0.14}_{-0.29} & -12.94^{+0.09}_{-0.13} \\
-    4.4 & 24.54^{+0.12}_{-0.24} & 24.32^{+0.08}_{-0.11} & 24.50^{+0.13}_{-0.18} & 24.17^{+0.07}_{-0.11} & -12.72^{+0.14}_{-0.30} & -13.00^{+0.09}_{-0.13} \\
-    4.5 & 24.50^{+0.13}_{-0.26} & 24.27^{+0.08}_{-0.11} & 24.45^{+0.14}_{-0.19} & 24.12^{+0.07}_{-0.12} & -12.76^{+0.15}_{-0.32} & -13.06^{+0.09}_{-0.14} \\
-    4.6 & 24.46^{+0.13}_{-0.28} & 24.22^{+0.08}_{-0.12} & 24.40^{+0.15}_{-0.19} & 24.07^{+0.08}_{-0.12} & -12.81^{+0.15}_{-0.34} & -13.12^{+0.10}_{-0.14} \\
-    4.7 & 24.42^{+0.14}_{-0.30} & 24.16^{+0.09}_{-0.12} & 24.36^{+0.16}_{-0.21} & 24.01^{+0.08}_{-0.13} & -12.86^{+0.16}_{-0.36} & -13.18^{+0.11}_{-0.14} \\
-    4.8 & 24.38^{+0.15}_{-0.31} & 24.11^{+0.09}_{-0.13} & 24.31^{+0.17}_{-0.22} & 23.96^{+0.09}_{-0.14} & -12.91^{+0.17}_{-0.38} & -13.25^{+0.11}_{-0.15} \\
-    4.9 & 24.34^{+0.15}_{-0.33} & 24.05^{+0.10}_{-0.13} & 24.26^{+0.17}_{-0.24} & 23.90^{+0.09}_{-0.15} & -12.96^{+0.18}_{-0.39} & -13.32^{+0.12}_{-0.15} \\
-    5.0 & 24.30^{+0.16}_{-0.35} & 23.99^{+0.11}_{-0.13} & 24.21^{+0.17}_{-0.25} & 23.84^{+0.10}_{-0.17} & -13.01^{+0.19}_{-0.41} & -13.38^{+0.13}_{-0.16} \\
+    0.0 & 23.20^{+0.20}_{-0.18} & 22.96^{+0.11}_{-0.14} & 23.08^{+0.20}_{-0.18} & 22.84^{+0.11}_{-0.14} & -13.71^{+0.05}_{-0.05} & -13.86^{+0.03}_{-0.03} \\
+    0.1 & 23.43^{+0.15}_{-0.14} & 23.19^{+0.09}_{-0.11} & 23.30^{+0.15}_{-0.14} & 23.07^{+0.09}_{-0.11} & -13.51^{+0.04}_{-0.04} & -13.66^{+0.02}_{-0.03} \\
+    0.2 & 23.62^{+0.11}_{-0.11} & 23.39^{+0.07}_{-0.08} & 23.50^{+0.11}_{-0.11} & 23.27^{+0.07}_{-0.08} & -13.33^{+0.04}_{-0.04} & -13.48^{+0.02}_{-0.02} \\
+    0.3 & 23.80^{+0.07}_{-0.09} & 23.58^{+0.05}_{-0.06} & 23.68^{+0.07}_{-0.09} & 23.46^{+0.05}_{-0.06} & -13.17^{+0.03}_{-0.03} & -13.31^{+0.02}_{-0.02} \\
+    0.4 & 23.96^{+0.06}_{-0.07} & 23.75^{+0.04}_{-0.04} & 23.83^{+0.06}_{-0.07} & 23.63^{+0.04}_{-0.04} & -13.02^{+0.03}_{-0.03} & -13.16^{+0.02}_{-0.02} \\
+    0.5 & 24.10^{+0.04}_{-0.06} & 23.91^{+0.03}_{-0.03} & 23.97^{+0.04}_{-0.06} & 23.78^{+0.03}_{-0.03} & -12.89^{+0.02}_{-0.02} & -13.02^{+0.01}_{-0.01} \\
+    0.6 & 24.23^{+0.03}_{-0.04} & 24.05^{+0.02}_{-0.02} & 24.10^{+0.03}_{-0.04} & 23.93^{+0.02}_{-0.02} & -12.77^{+0.02}_{-0.02} & -12.89^{+0.01}_{-0.01} \\
+    0.7 & 24.34^{+0.02}_{-0.03} & 24.18^{+0.01}_{-0.01} & 24.22^{+0.02}_{-0.03} & 24.06^{+0.01}_{-0.01} & -12.66^{+0.02}_{-0.02} & -12.78^{+0.01}_{-0.01} \\
+    0.8 & 24.45^{+0.02}_{-0.02} & 24.30^{+0.01}_{-0.01} & 24.33^{+0.02}_{-0.02} & 24.18^{+0.01}_{-0.01} & -12.56^{+0.02}_{-0.02} & -12.67^{+0.01}_{-0.01} \\
+    0.9 & 24.55^{+0.01}_{-0.02} & 24.41^{+0.01}_{-0.01} & 24.42^{+0.01}_{-0.02} & 24.29^{+0.01}_{-0.01} & -12.47^{+0.02}_{-0.02} & -12.58^{+0.01}_{-0.01} \\
+    1.0 & 24.63^{+0.01}_{-0.02} & 24.51^{+0.01}_{-0.01} & 24.51^{+0.01}_{-0.02} & 24.39^{+0.01}_{-0.01} & -12.39^{+0.02}_{-0.02} & -12.49^{+0.01}_{-0.01} \\
+    1.1 & 24.71^{+0.01}_{-0.01} & 24.60^{+0.01}_{-0.01} & 24.59^{+0.01}_{-0.01} & 24.48^{+0.01}_{-0.01} & -12.32^{+0.02}_{-0.02} & -12.42^{+0.01}_{-0.01} \\
+    1.2 & 24.78^{+0.01}_{-0.01} & 24.68^{+0.01}_{-0.01} & 24.66^{+0.01}_{-0.01} & 24.56^{+0.01}_{-0.01} & -12.26^{+0.02}_{-0.02} & -12.35^{+0.01}_{-0.01} \\
+    1.3 & 24.84^{+0.01}_{-0.01} & 24.75^{+0.01}_{-0.01} & 24.72^{+0.01}_{-0.01} & 24.63^{+0.01}_{-0.01} & -12.21^{+0.02}_{-0.02} & -12.30^{+0.01}_{-0.01} \\
+    1.4 & 24.90^{+0.01}_{-0.01} & 24.81^{+0.01}_{-0.01} & 24.78^{+0.01}_{-0.01} & 24.69^{+0.01}_{-0.01} & -12.16^{+0.02}_{-0.02} & -12.25^{+0.01}_{-0.01} \\
+    1.5 & 24.95^{+0.01}_{-0.01} & 24.87^{+0.01}_{-0.01} & 24.83^{+0.01}_{-0.01} & 24.75^{+0.01}_{-0.01} & -12.12^{+0.02}_{-0.02} & -12.21^{+0.01}_{-0.01} \\
+    1.6 & 24.99^{+0.01}_{-0.01} & 24.91^{+0.01}_{-0.01} & 24.87^{+0.01}_{-0.01} & 24.79^{+0.01}_{-0.01} & -12.09^{+0.02}_{-0.02} & -12.18^{+0.01}_{-0.01} \\
+    1.7 & 25.03^{+0.01}_{-0.01} & 24.95^{+0.01}_{-0.01} & 24.91^{+0.01}_{-0.01} & 24.83^{+0.01}_{-0.01} & -12.07^{+0.03}_{-0.03} & -12.16^{+0.02}_{-0.02} \\
+    1.8 & 25.06^{+0.01}_{-0.01} & 24.98^{+0.01}_{-0.01} & 24.94^{+0.01}_{-0.01} & 24.86^{+0.01}_{-0.01} & -12.05^{+0.03}_{-0.03} & -12.15^{+0.02}_{-0.02} \\
+    1.9 & 25.09^{+0.02}_{-0.02} & 25.01^{+0.01}_{-0.01} & 24.97^{+0.02}_{-0.02} & 24.88^{+0.01}_{-0.01} & -12.04^{+0.03}_{-0.04} & -12.14^{+0.02}_{-0.02} \\
+    2.0 & 25.11^{+0.02}_{-0.02} & 25.02^{+0.01}_{-0.01} & 24.99^{+0.02}_{-0.02} & 24.90^{+0.01}_{-0.01} & -12.03^{+0.04}_{-0.04} & -12.14^{+0.02}_{-0.02} \\
+    2.1 & 25.12^{+0.03}_{-0.03} & 25.03^{+0.02}_{-0.02} & 25.00^{+0.03}_{-0.03} & 24.91^{+0.02}_{-0.02} & -12.02^{+0.04}_{-0.05} & -12.14^{+0.03}_{-0.03} \\
+    2.2 & 25.14^{+0.03}_{-0.03} & 25.04^{+0.02}_{-0.02} & 25.01^{+0.03}_{-0.03} & 24.91^{+0.02}_{-0.02} & -12.03^{+0.05}_{-0.05} & -12.15^{+0.03}_{-0.03} \\
+    2.3 & 25.14^{+0.03}_{-0.04} & 25.04^{+0.02}_{-0.02} & 25.02^{+0.03}_{-0.04} & 24.91^{+0.02}_{-0.02} & -12.03^{+0.05}_{-0.06} & -12.16^{+0.03}_{-0.03} \\
+    2.4 & 25.14^{+0.04}_{-0.05} & 25.03^{+0.03}_{-0.03} & 25.02^{+0.04}_{-0.05} & 24.91^{+0.03}_{-0.03} & -12.04^{+0.05}_{-0.07} & -12.18^{+0.04}_{-0.04} \\
+    2.5 & 25.14^{+0.04}_{-0.06} & 25.02^{+0.03}_{-0.03} & 25.02^{+0.04}_{-0.06} & 24.89^{+0.03}_{-0.03} & -12.05^{+0.06}_{-0.07} & -12.20^{+0.04}_{-0.04} \\
+    2.6 & 25.14^{+0.05}_{-0.06} & 25.00^{+0.04}_{-0.04} & 25.01^{+0.05}_{-0.06} & 24.88^{+0.04}_{-0.04} & -12.07^{+0.07}_{-0.08} & -12.23^{+0.04}_{-0.04} \\
+    2.7 & 25.13^{+0.06}_{-0.07} & 24.98^{+0.04}_{-0.04} & 25.00^{+0.06}_{-0.07} & 24.86^{+0.04}_{-0.04} & -12.09^{+0.07}_{-0.09} & -12.25^{+0.05}_{-0.05} \\
+    2.8 & 25.11^{+0.07}_{-0.07} & 24.96^{+0.04}_{-0.05} & 24.99^{+0.07}_{-0.07} & 24.84^{+0.04}_{-0.05} & -12.11^{+0.08}_{-0.09} & -12.29^{+0.05}_{-0.05} \\
+    2.9 & 25.10^{+0.07}_{-0.08} & 24.93^{+0.05}_{-0.05} & 24.98^{+0.07}_{-0.08} & 24.81^{+0.05}_{-0.05} & -12.14^{+0.08}_{-0.10} & -12.32^{+0.05}_{-0.05} \\
+    3.0 & 25.08^{+0.08}_{-0.09} & 24.91^{+0.05}_{-0.05} & 24.96^{+0.08}_{-0.09} & 24.78^{+0.05}_{-0.05} & -12.16^{+0.09}_{-0.11} & -12.36^{+0.05}_{-0.06} \\
+    3.1 & 25.06^{+0.08}_{-0.10} & 24.87^{+0.05}_{-0.05} & 24.94^{+0.08}_{-0.10} & 24.75^{+0.05}_{-0.05} & -12.20^{+0.09}_{-0.12} & -12.40^{+0.06}_{-0.06} \\
+    3.2 & 25.04^{+0.09}_{-0.11} & 24.84^{+0.06}_{-0.05} & 24.92^{+0.09}_{-0.11} & 24.72^{+0.06}_{-0.05} & -12.23^{+0.10}_{-0.13} & -12.44^{+0.06}_{-0.06} \\
+    3.3 & 25.01^{+0.09}_{-0.12} & 24.81^{+0.06}_{-0.06} & 24.89^{+0.09}_{-0.12} & 24.68^{+0.06}_{-0.06} & -12.27^{+0.10}_{-0.13} & -12.49^{+0.06}_{-0.06} \\
+    3.4 & 24.99^{+0.10}_{-0.13} & 24.77^{+0.06}_{-0.06} & 24.86^{+0.10}_{-0.13} & 24.64^{+0.06}_{-0.06} & -12.30^{+0.11}_{-0.14} & -12.54^{+0.06}_{-0.07} \\
+    3.5 & 24.96^{+0.10}_{-0.14} & 24.73^{+0.06}_{-0.06} & 24.83^{+0.10}_{-0.14} & 24.60^{+0.06}_{-0.06} & -12.34^{+0.11}_{-0.15} & -12.59^{+0.06}_{-0.07} \\
+    3.6 & 24.93^{+0.11}_{-0.15} & 24.69^{+0.06}_{-0.07} & 24.80^{+0.11}_{-0.15} & 24.56^{+0.06}_{-0.07} & -12.39^{+0.11}_{-0.16} & -12.64^{+0.06}_{-0.07} \\
+    3.7 & 24.89^{+0.11}_{-0.15} & 24.64^{+0.06}_{-0.07} & 24.77^{+0.11}_{-0.15} & 24.52^{+0.06}_{-0.07} & -12.43^{+0.12}_{-0.16} & -12.69^{+0.06}_{-0.07} \\
+    3.8 & 24.85^{+0.12}_{-0.16} & 24.60^{+0.06}_{-0.07} & 24.73^{+0.12}_{-0.16} & 24.47^{+0.06}_{-0.07} & -12.48^{+0.12}_{-0.17} & -12.74^{+0.07}_{-0.08} \\
+    3.9 & 24.81^{+0.12}_{-0.17} & 24.55^{+0.07}_{-0.07} & 24.69^{+0.12}_{-0.17} & 24.43^{+0.07}_{-0.07} & -12.53^{+0.13}_{-0.18} & -12.80^{+0.07}_{-0.08} \\
+    4.0 & 24.78^{+0.13}_{-0.18} & 24.51^{+0.07}_{-0.08} & 24.65^{+0.13}_{-0.18} & 24.38^{+0.07}_{-0.08} & -12.57^{+0.13}_{-0.19} & -12.85^{+0.07}_{-0.09} \\
+    4.1 & 24.74^{+0.13}_{-0.19} & 24.46^{+0.07}_{-0.09} & 24.61^{+0.13}_{-0.19} & 24.34^{+0.07}_{-0.09} & -12.63^{+0.14}_{-0.20} & -12.91^{+0.07}_{-0.10} \\
+    4.2 & 24.69^{+0.13}_{-0.19} & 24.41^{+0.07}_{-0.09} & 24.57^{+0.13}_{-0.19} & 24.29^{+0.07}_{-0.09} & -12.68^{+0.14}_{-0.21} & -12.97^{+0.07}_{-0.10} \\
+    4.3 & 24.65^{+0.14}_{-0.20} & 24.36^{+0.07}_{-0.10} & 24.53^{+0.14}_{-0.20} & 24.24^{+0.07}_{-0.10} & -12.73^{+0.15}_{-0.22} & -13.03^{+0.07}_{-0.11} \\
+    4.4 & 24.61^{+0.14}_{-0.21} & 24.31^{+0.07}_{-0.11} & 24.49^{+0.14}_{-0.21} & 24.19^{+0.07}_{-0.11} & -12.78^{+0.15}_{-0.23} & -13.09^{+0.08}_{-0.12} \\
+    4.5 & 24.57^{+0.15}_{-0.23} & 24.26^{+0.08}_{-0.11} & 24.44^{+0.15}_{-0.23} & 24.14^{+0.08}_{-0.11} & -12.84^{+0.16}_{-0.24} & -13.15^{+0.08}_{-0.12} \\
+    4.6 & 24.52^{+0.16}_{-0.24} & 24.21^{+0.08}_{-0.12} & 24.39^{+0.16}_{-0.24} & 24.08^{+0.08}_{-0.12} & -12.90^{+0.17}_{-0.25} & -13.22^{+0.08}_{-0.13} \\
+    4.7 & 24.47^{+0.17}_{-0.25} & 24.15^{+0.08}_{-0.13} & 24.34^{+0.17}_{-0.25} & 24.03^{+0.08}_{-0.13} & -12.96^{+0.18}_{-0.27} & -13.28^{+0.08}_{-0.14} \\
+    4.8 & 24.42^{+0.17}_{-0.27} & 24.10^{+0.08}_{-0.13} & 24.30^{+0.17}_{-0.27} & 23.98^{+0.08}_{-0.13} & -13.02^{+0.18}_{-0.28} & -13.35^{+0.08}_{-0.14} \\
+    4.9 & 24.37^{+0.18}_{-0.28} & 24.04^{+0.08}_{-0.14} & 24.25^{+0.18}_{-0.28} & 23.92^{+0.08}_{-0.14} & -13.08^{+0.19}_{-0.29} & -13.41^{+0.09}_{-0.15} \\
+    5.0 & 24.31^{+0.20}_{-0.29} & 23.99^{+0.08}_{-0.15} & 24.19^{+0.20}_{-0.29} & 23.87^{+0.08}_{-0.15} & -13.15^{+0.20}_{-0.30} & -13.48^{+0.09}_{-0.16} \\
     \hline
   \end{tabular}
 \end{table*}
@@ -2552,56 +2549,56 @@ this to high redshifts.
     \multicolumn{1}{c}{$(M_{1450}<-18)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} \\
     \hline
-    5.1 & 24.26^{+0.17}_{-0.36} & 23.93^{+0.11}_{-0.14} & 24.16^{+0.18}_{-0.26} & 23.78^{+0.10}_{-0.19} & -13.06^{+0.20}_{-0.42} & -13.45^{+0.13}_{-0.16} \\
-    5.2 & 24.21^{+0.19}_{-0.37} & 23.88^{+0.12}_{-0.14} & 24.10^{+0.19}_{-0.27} & 23.72^{+0.11}_{-0.20} & -13.12^{+0.21}_{-0.44} & -13.52^{+0.14}_{-0.17} \\
-    5.3 & 24.17^{+0.20}_{-0.39} & 23.82^{+0.13}_{-0.15} & 24.05^{+0.19}_{-0.29} & 23.66^{+0.12}_{-0.22} & -13.17^{+0.22}_{-0.46} & -13.59^{+0.15}_{-0.18} \\
-    5.4 & 24.13^{+0.21}_{-0.41} & 23.76^{+0.13}_{-0.16} & 24.00^{+0.20}_{-0.30} & 23.60^{+0.12}_{-0.23} & -13.22^{+0.23}_{-0.47} & -13.67^{+0.16}_{-0.19} \\
-    5.5 & 24.09^{+0.22}_{-0.43} & 23.70^{+0.14}_{-0.17} & 23.94^{+0.21}_{-0.31} & 23.54^{+0.12}_{-0.24} & -13.29^{+0.24}_{-0.49} & -13.75^{+0.17}_{-0.20} \\
-    5.6 & 24.04^{+0.23}_{-0.45} & 23.63^{+0.16}_{-0.17} & 23.89^{+0.22}_{-0.33} & 23.48^{+0.12}_{-0.25} & -13.37^{+0.25}_{-0.51} & -13.85^{+0.18}_{-0.21} \\
-    5.7 & 24.00^{+0.24}_{-0.46} & 23.57^{+0.16}_{-0.18} & 23.84^{+0.23}_{-0.34} & 23.42^{+0.13}_{-0.26} & -13.45^{+0.26}_{-0.53} & -13.94^{+0.18}_{-0.22} \\
-    5.8 & 23.95^{+0.25}_{-0.48} & 23.51^{+0.16}_{-0.20} & 23.78^{+0.24}_{-0.35} & 23.35^{+0.14}_{-0.28} & -13.53^{+0.27}_{-0.55} & -14.04^{+0.19}_{-0.23} \\
-    5.9 & 23.91^{+0.26}_{-0.50} & 23.45^{+0.17}_{-0.20} & 23.73^{+0.24}_{-0.38} & 23.29^{+0.15}_{-0.30} & -13.62^{+0.28}_{-0.57} & -14.15^{+0.20}_{-0.24} \\
-    6.0 & 23.87^{+0.27}_{-0.52} & 23.38^{+0.18}_{-0.20} & 23.67^{+0.25}_{-0.40} & 23.23^{+0.15}_{-0.32} & -13.70^{+0.29}_{-0.58} & -14.26^{+0.21}_{-0.24} \\
-    6.1 & 23.82^{+0.29}_{-0.54} & 23.32^{+0.19}_{-0.21} & 23.61^{+0.27}_{-0.42} & 23.16^{+0.16}_{-0.34} & -13.80^{+0.31}_{-0.60} & -14.37^{+0.22}_{-0.25} \\
-    6.2 & 23.76^{+0.30}_{-0.56} & 23.25^{+0.20}_{-0.22} & 23.55^{+0.28}_{-0.42} & 23.10^{+0.16}_{-0.36} & -13.90^{+0.32}_{-0.62} & -14.48^{+0.23}_{-0.26} \\
-    6.3 & 23.71^{+0.32}_{-0.57} & 23.19^{+0.21}_{-0.23} & 23.49^{+0.29}_{-0.43} & 23.03^{+0.17}_{-0.38} & -14.00^{+0.34}_{-0.64} & -14.59^{+0.24}_{-0.28} \\
-    6.4 & 23.66^{+0.33}_{-0.59} & 23.13^{+0.22}_{-0.24} & 23.42^{+0.30}_{-0.44} & 22.96^{+0.18}_{-0.39} & -14.10^{+0.35}_{-0.66} & -14.71^{+0.25}_{-0.29} \\
-    6.5 & 23.62^{+0.34}_{-0.61} & 23.06^{+0.23}_{-0.25} & 23.36^{+0.31}_{-0.46} & 22.90^{+0.19}_{-0.40} & -14.20^{+0.36}_{-0.68} & -14.83^{+0.26}_{-0.31} \\
-    6.6 & 23.56^{+0.36}_{-0.62} & 23.00^{+0.24}_{-0.26} & 23.30^{+0.33}_{-0.48} & 22.83^{+0.19}_{-0.42} & -14.31^{+0.38}_{-0.69} & -14.96^{+0.27}_{-0.32} \\
-    6.7 & 23.52^{+0.37}_{-0.64} & 22.93^{+0.25}_{-0.28} & 23.23^{+0.34}_{-0.50} & 22.76^{+0.20}_{-0.44} & -14.42^{+0.39}_{-0.72} & -15.08^{+0.28}_{-0.34} \\
-    6.8 & 23.47^{+0.38}_{-0.67} & 22.87^{+0.26}_{-0.29} & 23.15^{+0.36}_{-0.51} & 22.70^{+0.20}_{-0.45} & -14.52^{+0.40}_{-0.74} & -15.22^{+0.29}_{-0.36} \\
-    6.9 & 23.42^{+0.40}_{-0.68} & 22.80^{+0.27}_{-0.30} & 23.08^{+0.39}_{-0.53} & 22.63^{+0.21}_{-0.47} & -14.64^{+0.41}_{-0.77} & -15.35^{+0.30}_{-0.37} \\
-    7.0 & 23.37^{+0.41}_{-0.71} & 22.73^{+0.28}_{-0.31} & 23.01^{+0.41}_{-0.54} & 22.56^{+0.22}_{-0.49} & -14.74^{+0.42}_{-0.79} & -15.48^{+0.32}_{-0.40} \\
-    7.1 & 23.33^{+0.41}_{-0.73} & 22.66^{+0.29}_{-0.33} & 22.94^{+0.42}_{-0.56} & 22.49^{+0.23}_{-0.52} & -14.86^{+0.43}_{-0.82} & -15.62^{+0.33}_{-0.42} \\
-    7.2 & 23.28^{+0.43}_{-0.76} & 22.60^{+0.29}_{-0.35} & 22.87^{+0.44}_{-0.57} & 22.42^{+0.23}_{-0.54} & -14.97^{+0.45}_{-0.85} & -15.75^{+0.34}_{-0.45} \\
-    7.3 & 23.22^{+0.45}_{-0.77} & 22.53^{+0.31}_{-0.36} & 22.80^{+0.47}_{-0.59} & 22.35^{+0.24}_{-0.57} & -15.09^{+0.47}_{-0.87} & -15.88^{+0.36}_{-0.47} \\
-    7.4 & 23.17^{+0.46}_{-0.80} & 22.46^{+0.32}_{-0.38} & 22.73^{+0.49}_{-0.60} & 22.29^{+0.25}_{-0.59} & -15.20^{+0.48}_{-0.90} & -16.02^{+0.37}_{-0.50} \\
-    7.5 & 23.13^{+0.47}_{-0.83} & 22.39^{+0.34}_{-0.39} & 22.67^{+0.51}_{-0.61} & 22.21^{+0.25}_{-0.62} & -15.30^{+0.49}_{-0.93} & -16.15^{+0.39}_{-0.52} \\
-    7.6 & 23.09^{+0.47}_{-0.87} & 22.32^{+0.35}_{-0.41} & 22.60^{+0.52}_{-0.63} & 22.14^{+0.26}_{-0.64} & -15.41^{+0.49}_{-0.97} & -16.29^{+0.41}_{-0.55} \\
-    7.7 & 23.04^{+0.48}_{-0.90} & 22.26^{+0.37}_{-0.42} & 22.53^{+0.54}_{-0.64} & 22.07^{+0.27}_{-0.66} & -15.52^{+0.50}_{-1.00} & -16.42^{+0.43}_{-0.57} \\
-    7.8 & 22.99^{+0.50}_{-0.92} & 22.19^{+0.38}_{-0.44} & 22.46^{+0.57}_{-0.65} & 22.00^{+0.28}_{-0.68} & -15.63^{+0.52}_{-1.02} & -16.55^{+0.45}_{-0.60} \\
-    7.9 & 22.94^{+0.51}_{-0.94} & 22.12^{+0.41}_{-0.46} & 22.38^{+0.58}_{-0.65} & 21.92^{+0.29}_{-0.70} & -15.74^{+0.53}_{-1.05} & -16.68^{+0.47}_{-0.63} \\
-    8.0 & 22.88^{+0.53}_{-0.97} & 22.05^{+0.43}_{-0.48} & 22.31^{+0.60}_{-0.66} & 21.85^{+0.30}_{-0.73} & -15.84^{+0.54}_{-1.07} & -16.80^{+0.50}_{-0.66} \\
-    8.1 & 22.83^{+0.54}_{-0.99} & 21.97^{+0.44}_{-0.49} & 22.24^{+0.61}_{-0.68} & 21.78^{+0.31}_{-0.76} & -15.95^{+0.56}_{-1.10} & -16.93^{+0.52}_{-0.68} \\
-    8.2 & 22.78^{+0.56}_{-1.02} & 21.90^{+0.46}_{-0.51} & 22.17^{+0.63}_{-0.70} & 21.71^{+0.32}_{-0.78} & -16.05^{+0.57}_{-1.12} & -17.06^{+0.54}_{-0.71} \\
-    8.3 & 22.73^{+0.57}_{-1.04} & 21.82^{+0.48}_{-0.52} & 22.10^{+0.65}_{-0.71} & 21.63^{+0.33}_{-0.81} & -16.15^{+0.58}_{-1.15} & -17.20^{+0.56}_{-0.72} \\
-    8.4 & 22.68^{+0.58}_{-1.07} & 21.74^{+0.50}_{-0.53} & 22.02^{+0.68}_{-0.72} & 21.56^{+0.33}_{-0.84} & -16.25^{+0.59}_{-1.18} & -17.33^{+0.58}_{-0.74} \\
-    8.5 & 22.63^{+0.59}_{-1.10} & 21.66^{+0.52}_{-0.54} & 21.94^{+0.71}_{-0.73} & 21.49^{+0.34}_{-0.86} & -16.35^{+0.61}_{-1.21} & -17.45^{+0.60}_{-0.76} \\
-    8.6 & 22.59^{+0.60}_{-1.13} & 21.59^{+0.53}_{-0.55} & 21.86^{+0.75}_{-0.73} & 21.41^{+0.35}_{-0.89} & -16.45^{+0.61}_{-1.24} & -17.57^{+0.61}_{-0.78} \\
-    8.7 & 22.54^{+0.61}_{-1.16} & 21.52^{+0.54}_{-0.57} & 21.78^{+0.78}_{-0.73} & 21.34^{+0.36}_{-0.92} & -16.55^{+0.63}_{-1.26} & -17.69^{+0.63}_{-0.80} \\
-    8.8 & 22.48^{+0.63}_{-1.18} & 21.45^{+0.56}_{-0.58} & 21.69^{+0.81}_{-0.73} & 21.26^{+0.37}_{-0.94} & -16.65^{+0.64}_{-1.28} & -17.82^{+0.64}_{-0.82} \\
-    8.9 & 22.42^{+0.65}_{-1.20} & 21.37^{+0.58}_{-0.59} & 21.61^{+0.84}_{-0.74} & 21.19^{+0.38}_{-0.97} & -16.75^{+0.66}_{-1.31} & -17.94^{+0.67}_{-0.84} \\
-    9.0 & 22.37^{+0.66}_{-1.23} & 21.30^{+0.60}_{-0.61} & 21.53^{+0.87}_{-0.75} & 21.11^{+0.39}_{-0.99} & -16.85^{+0.67}_{-1.33} & -18.06^{+0.69}_{-0.86} \\
-    9.1 & 22.33^{+0.67}_{-1.26} & 21.22^{+0.62}_{-0.62} & 21.45^{+0.90}_{-0.76} & 21.04^{+0.40}_{-1.02} & -16.94^{+0.68}_{-1.36} & -18.18^{+0.72}_{-0.89} \\
-    9.2 & 22.27^{+0.68}_{-1.28} & 21.15^{+0.65}_{-0.64} & 21.36^{+0.93}_{-0.77} & 20.96^{+0.41}_{-1.05} & -17.04^{+0.69}_{-1.38} & -18.30^{+0.74}_{-0.91} \\
-    9.3 & 22.22^{+0.69}_{-1.31} & 21.07^{+0.67}_{-0.66} & 21.29^{+0.95}_{-0.80} & 20.89^{+0.43}_{-1.08} & -17.14^{+0.71}_{-1.41} & -18.41^{+0.77}_{-0.93} \\
-    9.4 & 22.16^{+0.70}_{-1.33} & 21.00^{+0.69}_{-0.67} & 21.21^{+0.97}_{-0.82} & 20.81^{+0.44}_{-1.10} & -17.23^{+0.72}_{-1.43} & -18.53^{+0.79}_{-0.95} \\
-    9.5 & 22.11^{+0.72}_{-1.36} & 20.92^{+0.71}_{-0.68} & 21.13^{+1.00}_{-0.83} & 20.73^{+0.45}_{-1.13} & -17.33^{+0.74}_{-1.45} & -18.65^{+0.81}_{-0.96} \\
-    9.6 & 22.06^{+0.73}_{-1.38} & 20.84^{+0.73}_{-0.70} & 21.05^{+1.03}_{-0.85} & 20.65^{+0.46}_{-1.16} & -17.42^{+0.75}_{-1.47} & -18.77^{+0.83}_{-0.98} \\
-    9.7 & 22.00^{+0.74}_{-1.40} & 20.76^{+0.75}_{-0.72} & 20.97^{+1.06}_{-0.86} & 20.57^{+0.48}_{-1.18} & -17.52^{+0.76}_{-1.49} & -18.89^{+0.85}_{-1.01} \\
-    9.8 & 21.95^{+0.76}_{-1.42} & 20.69^{+0.77}_{-0.73} & 20.88^{+1.10}_{-0.88} & 20.49^{+0.49}_{-1.21} & -17.61^{+0.78}_{-1.51} & -19.01^{+0.87}_{-1.03} \\
-    9.9 & 21.90^{+0.76}_{-1.45} & 20.61^{+0.79}_{-0.75} & 20.80^{+1.13}_{-0.89} & 20.42^{+0.50}_{-1.24} & -17.70^{+0.79}_{-1.54} & -19.12^{+0.89}_{-1.06} \\
-    10.0 & 21.85^{+0.77}_{-1.48} & 20.53^{+0.81}_{-0.77} & 20.72^{+1.16}_{-0.90} & 20.34^{+0.51}_{-1.26} & -17.79^{+0.80}_{-1.57} & -19.23^{+0.91}_{-1.09} \\
+    5.1 & 24.27^{+0.20}_{-0.30} & 23.93^{+0.09}_{-0.15} & 24.14^{+0.20}_{-0.30} & 23.81^{+0.09}_{-0.15} & -13.21^{+0.21}_{-0.32} & -13.55^{+0.09}_{-0.16} \\
+    5.2 & 24.22^{+0.21}_{-0.32} & 23.88^{+0.09}_{-0.17} & 24.09^{+0.21}_{-0.32} & 23.75^{+0.09}_{-0.17} & -13.27^{+0.22}_{-0.33} & -13.62^{+0.10}_{-0.17} \\
+    5.3 & 24.16^{+0.22}_{-0.33} & 23.82^{+0.10}_{-0.18} & 24.03^{+0.22}_{-0.33} & 23.69^{+0.10}_{-0.18} & -13.34^{+0.23}_{-0.34} & -13.69^{+0.11}_{-0.18} \\
+    5.4 & 24.10^{+0.24}_{-0.34} & 23.75^{+0.11}_{-0.19} & 23.98^{+0.24}_{-0.34} & 23.63^{+0.11}_{-0.19} & -13.42^{+0.24}_{-0.36} & -13.77^{+0.11}_{-0.19} \\
+    5.5 & 24.05^{+0.24}_{-0.36} & 23.69^{+0.12}_{-0.19} & 23.93^{+0.24}_{-0.36} & 23.57^{+0.12}_{-0.19} & -13.49^{+0.25}_{-0.37} & -13.85^{+0.12}_{-0.20} \\
+    5.6 & 23.99^{+0.26}_{-0.38} & 23.63^{+0.12}_{-0.20} & 23.87^{+0.26}_{-0.38} & 23.50^{+0.12}_{-0.20} & -13.59^{+0.27}_{-0.38} & -13.95^{+0.12}_{-0.21} \\
+    5.7 & 23.93^{+0.27}_{-0.38} & 23.57^{+0.12}_{-0.22} & 23.81^{+0.27}_{-0.38} & 23.45^{+0.12}_{-0.22} & -13.69^{+0.28}_{-0.39} & -14.05^{+0.13}_{-0.22} \\
+    5.8 & 23.87^{+0.28}_{-0.40} & 23.51^{+0.13}_{-0.23} & 23.75^{+0.28}_{-0.40} & 23.39^{+0.13}_{-0.23} & -13.79^{+0.29}_{-0.40} & -14.15^{+0.13}_{-0.24} \\
+    5.9 & 23.81^{+0.29}_{-0.41} & 23.45^{+0.13}_{-0.25} & 23.69^{+0.29}_{-0.41} & 23.33^{+0.13}_{-0.25} & -13.90^{+0.30}_{-0.42} & -14.26^{+0.14}_{-0.25} \\
+    6.0 & 23.74^{+0.30}_{-0.42} & 23.38^{+0.14}_{-0.25} & 23.62^{+0.30}_{-0.42} & 23.26^{+0.14}_{-0.25} & -14.01^{+0.31}_{-0.43} & -14.38^{+0.15}_{-0.26} \\
+    6.1 & 23.68^{+0.32}_{-0.44} & 23.32^{+0.15}_{-0.26} & 23.56^{+0.32}_{-0.44} & 23.20^{+0.15}_{-0.26} & -14.13^{+0.32}_{-0.44} & -14.49^{+0.15}_{-0.27} \\
+    6.2 & 23.62^{+0.33}_{-0.46} & 23.25^{+0.16}_{-0.27} & 23.50^{+0.33}_{-0.45} & 23.13^{+0.16}_{-0.27} & -14.24^{+0.34}_{-0.46} & -14.61^{+0.16}_{-0.27} \\
+    6.3 & 23.56^{+0.35}_{-0.47} & 23.19^{+0.17}_{-0.27} & 23.44^{+0.35}_{-0.47} & 23.07^{+0.17}_{-0.27} & -14.36^{+0.35}_{-0.48} & -14.74^{+0.17}_{-0.28} \\
+    6.4 & 23.50^{+0.36}_{-0.49} & 23.12^{+0.18}_{-0.28} & 23.38^{+0.36}_{-0.49} & 23.00^{+0.18}_{-0.28} & -14.48^{+0.36}_{-0.50} & -14.87^{+0.18}_{-0.28} \\
+    6.5 & 23.45^{+0.36}_{-0.52} & 23.05^{+0.18}_{-0.29} & 23.33^{+0.36}_{-0.52} & 22.93^{+0.18}_{-0.29} & -14.60^{+0.37}_{-0.52} & -15.00^{+0.19}_{-0.29} \\
+    6.6 & 23.38^{+0.37}_{-0.53} & 22.99^{+0.19}_{-0.30} & 23.26^{+0.37}_{-0.53} & 22.86^{+0.19}_{-0.30} & -14.74^{+0.38}_{-0.54} & -15.13^{+0.20}_{-0.30} \\
+    6.7 & 23.31^{+0.39}_{-0.54} & 22.92^{+0.20}_{-0.31} & 23.19^{+0.39}_{-0.54} & 22.80^{+0.20}_{-0.31} & -14.88^{+0.40}_{-0.55} & -15.28^{+0.21}_{-0.31} \\
+    6.8 & 23.24^{+0.41}_{-0.56} & 22.85^{+0.22}_{-0.32} & 23.12^{+0.41}_{-0.56} & 22.72^{+0.22}_{-0.32} & -15.03^{+0.41}_{-0.56} & -15.42^{+0.22}_{-0.32} \\
+    6.9 & 23.17^{+0.42}_{-0.57} & 22.77^{+0.23}_{-0.33} & 23.05^{+0.42}_{-0.57} & 22.65^{+0.23}_{-0.33} & -15.18^{+0.43}_{-0.58} & -15.57^{+0.23}_{-0.33} \\
+    7.0 & 23.11^{+0.44}_{-0.59} & 22.70^{+0.24}_{-0.34} & 22.98^{+0.44}_{-0.59} & 22.58^{+0.24}_{-0.34} & -15.33^{+0.44}_{-0.59} & -15.73^{+0.24}_{-0.34} \\
+    7.1 & 23.04^{+0.45}_{-0.61} & 22.64^{+0.25}_{-0.35} & 22.91^{+0.45}_{-0.61} & 22.51^{+0.25}_{-0.35} & -15.48^{+0.46}_{-0.61} & -15.88^{+0.25}_{-0.36} \\
+    7.2 & 22.96^{+0.47}_{-0.62} & 22.57^{+0.26}_{-0.37} & 22.84^{+0.47}_{-0.62} & 22.44^{+0.26}_{-0.37} & -15.64^{+0.48}_{-0.62} & -16.03^{+0.26}_{-0.37} \\
+    7.3 & 22.89^{+0.49}_{-0.63} & 22.50^{+0.27}_{-0.38} & 22.77^{+0.49}_{-0.63} & 22.38^{+0.27}_{-0.38} & -15.79^{+0.50}_{-0.63} & -16.19^{+0.27}_{-0.38} \\
+    7.4 & 22.84^{+0.51}_{-0.65} & 22.43^{+0.28}_{-0.39} & 22.71^{+0.51}_{-0.65} & 22.31^{+0.28}_{-0.39} & -15.94^{+0.51}_{-0.65} & -16.35^{+0.28}_{-0.40} \\
+    7.5 & 22.77^{+0.51}_{-0.67} & 22.36^{+0.28}_{-0.41} & 22.65^{+0.51}_{-0.67} & 22.24^{+0.28}_{-0.41} & -16.09^{+0.52}_{-0.68} & -16.50^{+0.29}_{-0.41} \\
+    7.6 & 22.70^{+0.53}_{-0.69} & 22.29^{+0.29}_{-0.42} & 22.58^{+0.53}_{-0.69} & 22.17^{+0.29}_{-0.42} & -16.24^{+0.53}_{-0.69} & -16.66^{+0.30}_{-0.42} \\
+    7.7 & 22.63^{+0.54}_{-0.70} & 22.22^{+0.31}_{-0.43} & 22.51^{+0.54}_{-0.70} & 22.10^{+0.31}_{-0.43} & -16.40^{+0.55}_{-0.71} & -16.81^{+0.31}_{-0.44} \\
+    7.8 & 22.56^{+0.56}_{-0.72} & 22.15^{+0.31}_{-0.45} & 22.44^{+0.56}_{-0.73} & 22.03^{+0.31}_{-0.45} & -16.55^{+0.57}_{-0.73} & -16.96^{+0.31}_{-0.45} \\
+    7.9 & 22.49^{+0.58}_{-0.74} & 22.08^{+0.32}_{-0.46} & 22.36^{+0.58}_{-0.74} & 21.96^{+0.32}_{-0.46} & -16.71^{+0.59}_{-0.75} & -17.12^{+0.32}_{-0.47} \\
+    8.0 & 22.42^{+0.60}_{-0.76} & 22.01^{+0.32}_{-0.48} & 22.30^{+0.60}_{-0.76} & 21.89^{+0.32}_{-0.48} & -16.85^{+0.61}_{-0.77} & -17.27^{+0.32}_{-0.48} \\
+    8.1 & 22.35^{+0.62}_{-0.78} & 21.94^{+0.33}_{-0.49} & 22.23^{+0.62}_{-0.78} & 21.81^{+0.33}_{-0.49} & -17.00^{+0.63}_{-0.78} & -17.42^{+0.34}_{-0.50} \\
+    8.2 & 22.28^{+0.64}_{-0.80} & 21.86^{+0.34}_{-0.51} & 22.16^{+0.64}_{-0.80} & 21.74^{+0.34}_{-0.50} & -17.14^{+0.65}_{-0.81} & -17.57^{+0.35}_{-0.51} \\
+    8.3 & 22.21^{+0.67}_{-0.82} & 21.79^{+0.36}_{-0.52} & 22.09^{+0.67}_{-0.82} & 21.66^{+0.36}_{-0.52} & -17.29^{+0.67}_{-0.82} & -17.71^{+0.36}_{-0.52} \\
+    8.4 & 22.13^{+0.69}_{-0.83} & 21.72^{+0.37}_{-0.53} & 22.01^{+0.69}_{-0.83} & 21.59^{+0.37}_{-0.53} & -17.44^{+0.70}_{-0.84} & -17.86^{+0.37}_{-0.53} \\
+    8.5 & 22.06^{+0.71}_{-0.86} & 21.64^{+0.38}_{-0.54} & 21.94^{+0.71}_{-0.86} & 21.52^{+0.38}_{-0.54} & -17.58^{+0.72}_{-0.86} & -18.01^{+0.38}_{-0.54} \\
+    8.6 & 21.98^{+0.74}_{-0.87} & 21.56^{+0.39}_{-0.55} & 21.86^{+0.74}_{-0.87} & 21.44^{+0.39}_{-0.55} & -17.73^{+0.75}_{-0.88} & -18.15^{+0.39}_{-0.55} \\
+    8.7 & 21.91^{+0.76}_{-0.89} & 21.49^{+0.40}_{-0.56} & 21.79^{+0.76}_{-0.89} & 21.36^{+0.40}_{-0.56} & -17.87^{+0.77}_{-0.90} & -18.30^{+0.41}_{-0.56} \\
+    8.8 & 21.84^{+0.78}_{-0.92} & 21.41^{+0.42}_{-0.57} & 21.72^{+0.78}_{-0.92} & 21.28^{+0.42}_{-0.57} & -18.01^{+0.79}_{-0.92} & -18.44^{+0.42}_{-0.57} \\
+    8.9 & 21.76^{+0.80}_{-0.94} & 21.33^{+0.43}_{-0.58} & 21.64^{+0.80}_{-0.94} & 21.20^{+0.43}_{-0.58} & -18.15^{+0.81}_{-0.95} & -18.59^{+0.44}_{-0.58} \\
+    9.0 & 21.68^{+0.82}_{-0.96} & 21.25^{+0.45}_{-0.58} & 21.56^{+0.82}_{-0.96} & 21.12^{+0.45}_{-0.58} & -18.29^{+0.83}_{-0.96} & -18.73^{+0.46}_{-0.59} \\
+    9.1 & 21.60^{+0.85}_{-0.97} & 21.17^{+0.46}_{-0.60} & 21.48^{+0.85}_{-0.97} & 21.05^{+0.46}_{-0.60} & -18.44^{+0.86}_{-0.98} & -18.87^{+0.47}_{-0.60} \\
+    9.2 & 21.52^{+0.87}_{-0.99} & 21.09^{+0.48}_{-0.61} & 21.40^{+0.87}_{-0.99} & 20.97^{+0.48}_{-0.61} & -18.58^{+0.88}_{-1.00} & -19.01^{+0.48}_{-0.62} \\
+    9.3 & 21.45^{+0.89}_{-1.01} & 21.02^{+0.49}_{-0.63} & 21.33^{+0.89}_{-1.01} & 20.89^{+0.49}_{-0.63} & -18.71^{+0.90}_{-1.01} & -19.15^{+0.49}_{-0.63} \\
+    9.4 & 21.37^{+0.90}_{-1.02} & 20.94^{+0.50}_{-0.64} & 21.25^{+0.90}_{-1.02} & 20.82^{+0.50}_{-0.64} & -18.85^{+0.91}_{-1.03} & -19.29^{+0.50}_{-0.64} \\
+    9.5 & 21.30^{+0.92}_{-1.05} & 20.86^{+0.51}_{-0.64} & 21.18^{+0.92}_{-1.05} & 20.74^{+0.51}_{-0.64} & -18.98^{+0.93}_{-1.05} & -19.42^{+0.52}_{-0.65} \\
+    9.6 & 21.23^{+0.94}_{-1.07} & 20.78^{+0.52}_{-0.65} & 21.10^{+0.94}_{-1.07} & 20.66^{+0.52}_{-0.65} & -19.12^{+0.95}_{-1.08} & -19.56^{+0.53}_{-0.66} \\
+    9.7 & 21.15^{+0.96}_{-1.09} & 20.70^{+0.54}_{-0.67} & 21.02^{+0.96}_{-1.09} & 20.58^{+0.54}_{-0.67} & -19.25^{+0.97}_{-1.10} & -19.70^{+0.54}_{-0.67} \\
+    9.8 & 21.07^{+0.98}_{-1.11} & 20.62^{+0.55}_{-0.68} & 20.95^{+0.98}_{-1.11} & 20.50^{+0.55}_{-0.68} & -19.38^{+1.00}_{-1.12} & -19.84^{+0.55}_{-0.68} \\
+    9.9 & 20.99^{+1.01}_{-1.14} & 20.54^{+0.56}_{-0.69} & 20.87^{+1.01}_{-1.14} & 20.42^{+0.56}_{-0.69} & -19.52^{+1.02}_{-1.14} & -19.97^{+0.57}_{-0.69} \\
+    10.0 & 20.91^{+1.03}_{-1.16} & 20.46^{+0.57}_{-0.70} & 20.79^{+1.03}_{-1.16} & 20.34^{+0.57}_{-0.70} & -19.65^{+1.05}_{-1.17} & -20.10^{+0.57}_{-0.71} \\
     \hline
   \end{tabular}
 \end{table*}
@@ -2625,57 +2622,56 @@ this to high redshifts.
     \multicolumn{1}{c}{$(M_{1450}<-18)$} &
     \multicolumn{1}{c}{$(M_{1450}<-21)$} \\
     \hline
-    10.0 & 21.85^{+0.77}_{-1.48} & 20.53^{+0.81}_{-0.77} & 20.72^{+1.16}_{-0.90} & 20.34^{+0.51}_{-1.26} & -17.79^{+0.80}_{-1.57} & -19.23^{+0.91}_{-1.09} \\
-    10.1 & 21.80^{+0.80}_{-1.50} & 20.46^{+0.83}_{-0.79} & 20.63^{+1.19}_{-0.91} & 20.26^{+0.52}_{-1.29} & -17.88^{+0.83}_{-1.58} & -19.35^{+0.93}_{-1.11} \\
-    10.2 & 21.74^{+0.83}_{-1.52} & 20.38^{+0.85}_{-0.81} & 20.55^{+1.23}_{-0.93} & 20.18^{+0.53}_{-1.31} & -17.97^{+0.85}_{-1.60} & -19.46^{+0.96}_{-1.13} \\
-    10.3 & 21.69^{+0.85}_{-1.54} & 20.31^{+0.88}_{-0.83} & 20.47^{+1.26}_{-0.94} & 20.10^{+0.54}_{-1.34} & -18.07^{+0.87}_{-1.62} & -19.57^{+0.98}_{-1.16} \\
-    10.4 & 21.63^{+0.87}_{-1.56} & 20.23^{+0.90}_{-0.85} & 20.39^{+1.29}_{-0.95} & 20.03^{+0.55}_{-1.36} & -18.16^{+0.89}_{-1.64} & -19.69^{+1.01}_{-1.18} \\
-    10.5 & 21.58^{+0.89}_{-1.59} & 20.15^{+0.93}_{-0.87} & 20.31^{+1.31}_{-0.96} & 19.95^{+0.56}_{-1.39} & -18.25^{+0.90}_{-1.67} & -19.80^{+1.03}_{-1.21} \\
-    10.6 & 21.52^{+0.90}_{-1.62} & 20.07^{+0.95}_{-0.89} & 20.22^{+1.35}_{-0.97} & 19.87^{+0.58}_{-1.42} & -18.34^{+0.91}_{-1.69} & -19.91^{+1.05}_{-1.23} \\
-    10.7 & 21.47^{+0.90}_{-1.65} & 19.99^{+0.97}_{-0.90} & 20.13^{+1.38}_{-0.98} & 19.79^{+0.59}_{-1.44} & -18.43^{+0.92}_{-1.72} & -20.03^{+1.08}_{-1.25} \\
-    10.8 & 21.42^{+0.91}_{-1.67} & 19.91^{+0.99}_{-0.92} & 20.04^{+1.42}_{-0.99} & 19.71^{+0.60}_{-1.47} & -18.52^{+0.93}_{-1.74} & -20.15^{+1.10}_{-1.27} \\
-    10.9 & 21.36^{+0.93}_{-1.70} & 19.83^{+1.01}_{-0.94} & 19.95^{+1.46}_{-1.00} & 19.63^{+0.61}_{-1.50} & -18.62^{+0.95}_{-1.76} & -20.26^{+1.13}_{-1.29} \\
-    11.0 & 21.30^{+0.94}_{-1.72} & 19.75^{+1.04}_{-0.96} & 19.86^{+1.50}_{-1.01} & 19.55^{+0.62}_{-1.53} & -18.71^{+0.96}_{-1.78} & -20.38^{+1.16}_{-1.32} \\
-    11.1 & 21.24^{+0.96}_{-1.74} & 19.67^{+1.08}_{-0.98} & 19.78^{+1.53}_{-1.03} & 19.47^{+0.63}_{-1.56} & -18.81^{+0.98}_{-1.81} & -20.49^{+1.20}_{-1.34} \\
-    11.2 & 21.18^{+0.97}_{-1.76} & 19.59^{+1.12}_{-1.00} & 19.69^{+1.56}_{-1.04} & 19.39^{+0.64}_{-1.59} & -18.90^{+0.99}_{-1.82} & -20.60^{+1.24}_{-1.36} \\
-    11.3 & 21.12^{+0.99}_{-1.78} & 19.51^{+1.15}_{-1.01} & 19.60^{+1.60}_{-1.05} & 19.31^{+0.66}_{-1.62} & -18.99^{+1.01}_{-1.84} & -20.72^{+1.28}_{-1.39} \\
-    11.4 & 21.06^{+1.00}_{-1.79} & 19.43^{+1.20}_{-1.03} & 19.51^{+1.63}_{-1.06} & 19.23^{+0.67}_{-1.65} & -19.09^{+1.02}_{-1.85} & -20.83^{+1.32}_{-1.40} \\
-    11.5 & 21.00^{+1.02}_{-1.82} & 19.35^{+1.23}_{-1.05} & 19.42^{+1.67}_{-1.07} & 19.15^{+0.68}_{-1.68} & -19.18^{+1.04}_{-1.88} & -20.95^{+1.35}_{-1.42} \\
-    11.6 & 20.94^{+1.03}_{-1.84} & 19.27^{+1.27}_{-1.06} & 19.32^{+1.71}_{-1.08} & 19.07^{+0.69}_{-1.71} & -19.27^{+1.05}_{-1.90} & -21.07^{+1.39}_{-1.44} \\
-    11.7 & 20.88^{+1.05}_{-1.86} & 19.18^{+1.31}_{-1.08} & 19.23^{+1.75}_{-1.09} & 18.99^{+0.70}_{-1.74} & -19.37^{+1.07}_{-1.92} & -21.18^{+1.43}_{-1.45} \\
-    11.8 & 20.82^{+1.06}_{-1.88} & 19.10^{+1.35}_{-1.09} & 19.14^{+1.79}_{-1.10} & 18.91^{+0.71}_{-1.77} & -19.46^{+1.09}_{-1.94} & -21.30^{+1.46}_{-1.47} \\
-    11.9 & 20.76^{+1.08}_{-1.90} & 19.01^{+1.38}_{-1.10} & 19.04^{+1.83}_{-1.11} & 18.83^{+0.72}_{-1.80} & -19.56^{+1.10}_{-1.96} & -21.41^{+1.49}_{-1.48} \\
-    12.0 & 20.70^{+1.10}_{-1.93} & 18.93^{+1.41}_{-1.11} & 18.95^{+1.86}_{-1.13} & 18.75^{+0.73}_{-1.82} & -19.65^{+1.12}_{-1.98} & -21.52^{+1.52}_{-1.50} \\
-    12.1 & 20.64^{+1.12}_{-1.95} & 18.86^{+1.43}_{-1.14} & 18.87^{+1.90}_{-1.14} & 18.67^{+0.74}_{-1.85} & -19.74^{+1.14}_{-2.00} & -21.63^{+1.55}_{-1.52} \\
-    12.2 & 20.58^{+1.14}_{-1.97} & 18.78^{+1.46}_{-1.16} & 18.78^{+1.93}_{-1.16} & 18.59^{+0.76}_{-1.88} & -19.83^{+1.16}_{-2.03} & -21.74^{+1.57}_{-1.54} \\
-    12.3 & 20.52^{+1.16}_{-1.99} & 18.70^{+1.50}_{-1.18} & 18.69^{+1.96}_{-1.18} & 18.51^{+0.77}_{-1.91} & -19.92^{+1.18}_{-2.05} & -21.85^{+1.61}_{-1.56} \\
-    12.4 & 20.46^{+1.16}_{-2.02} & 18.62^{+1.53}_{-1.20} & 18.60^{+1.99}_{-1.20} & 18.42^{+0.78}_{-1.93} & -20.01^{+1.19}_{-2.08} & -21.96^{+1.64}_{-1.58} \\
-    12.5 & 20.41^{+1.17}_{-2.05} & 18.54^{+1.56}_{-1.22} & 18.52^{+2.02}_{-1.22} & 18.34^{+0.80}_{-1.96} & -20.10^{+1.20}_{-2.10} & -22.07^{+1.67}_{-1.60} \\
-    12.6 & 20.35^{+1.19}_{-2.07} & 18.46^{+1.59}_{-1.24} & 18.43^{+2.05}_{-1.24} & 18.25^{+0.81}_{-1.98} & -20.19^{+1.22}_{-2.12} & -22.18^{+1.70}_{-1.63} \\
-    12.7 & 20.29^{+1.21}_{-2.09} & 18.38^{+1.62}_{-1.26} & 18.35^{+2.07}_{-1.27} & 18.17^{+0.82}_{-2.01} & -20.28^{+1.24}_{-2.14} & -22.29^{+1.72}_{-1.65} \\
-    12.8 & 20.23^{+1.23}_{-2.12} & 18.29^{+1.65}_{-1.28} & 18.27^{+2.10}_{-1.29} & 18.09^{+0.83}_{-2.04} & -20.37^{+1.26}_{-2.16} & -22.41^{+1.76}_{-1.66} \\
-    12.9 & 20.17^{+1.25}_{-2.14} & 18.21^{+1.68}_{-1.29} & 18.19^{+2.12}_{-1.32} & 18.01^{+0.84}_{-2.07} & -20.46^{+1.28}_{-2.19} & -22.52^{+1.79}_{-1.68} \\
-    13.0 & 20.11^{+1.28}_{-2.16} & 18.12^{+1.71}_{-1.31} & 18.11^{+2.15}_{-1.35} & 17.92^{+0.85}_{-2.09} & -20.55^{+1.30}_{-2.21} & -22.64^{+1.82}_{-1.69} \\
-    13.1 & 20.05^{+1.30}_{-2.18} & 18.04^{+1.75}_{-1.32} & 18.02^{+2.18}_{-1.37} & 17.84^{+0.86}_{-2.12} & -20.64^{+1.31}_{-2.23} & -22.75^{+1.86}_{-1.71} \\
-    13.2 & 19.99^{+1.31}_{-2.21} & 17.95^{+1.79}_{-1.34} & 17.93^{+2.21}_{-1.39} & 17.76^{+0.88}_{-2.15} & -20.73^{+1.33}_{-2.26} & -22.86^{+1.89}_{-1.72} \\
-    13.3 & 19.93^{+1.32}_{-2.24} & 17.87^{+1.83}_{-1.36} & 17.84^{+2.24}_{-1.41} & 17.67^{+0.89}_{-2.17} & -20.81^{+1.34}_{-2.29} & -22.98^{+1.93}_{-1.74} \\
-    13.4 & 19.88^{+1.33}_{-2.27} & 17.79^{+1.86}_{-1.37} & 17.76^{+2.27}_{-1.43} & 17.59^{+0.91}_{-2.20} & -20.90^{+1.34}_{-2.32} & -23.09^{+1.96}_{-1.75} \\
-    13.5 & 19.83^{+1.34}_{-2.30} & 17.70^{+1.90}_{-1.39} & 17.66^{+2.30}_{-1.45} & 17.51^{+0.92}_{-2.23} & -20.98^{+1.35}_{-2.35} & -23.21^{+2.00}_{-1.77} \\
-    13.6 & 19.78^{+1.34}_{-2.33} & 17.62^{+1.93}_{-1.41} & 17.57^{+2.33}_{-1.46} & 17.42^{+0.93}_{-2.26} & -21.06^{+1.36}_{-2.38} & -23.32^{+2.03}_{-1.78} \\
-    13.7 & 19.72^{+1.35}_{-2.36} & 17.53^{+1.97}_{-1.42} & 17.48^{+2.36}_{-1.48} & 17.34^{+0.95}_{-2.29} & -21.15^{+1.37}_{-2.40} & -23.43^{+2.06}_{-1.79} \\
-    13.8 & 19.67^{+1.37}_{-2.38} & 17.45^{+2.00}_{-1.44} & 17.39^{+2.39}_{-1.50} & 17.25^{+0.96}_{-2.32} & -21.24^{+1.38}_{-2.43} & -23.54^{+2.09}_{-1.81} \\
-    13.9 & 19.61^{+1.38}_{-2.41} & 17.37^{+2.03}_{-1.46} & 17.30^{+2.42}_{-1.52} & 17.17^{+0.97}_{-2.35} & -21.32^{+1.39}_{-2.46} & -23.65^{+2.12}_{-1.83} \\
-    14.0 & 19.55^{+1.39}_{-2.44} & 17.29^{+2.06}_{-1.48} & 17.21^{+2.45}_{-1.54} & 17.09^{+0.99}_{-2.38} & -21.41^{+1.40}_{-2.48} & -23.76^{+2.15}_{-1.84} \\
-    14.1 & 19.50^{+1.40}_{-2.46} & 17.20^{+2.10}_{-1.50} & 17.12^{+2.48}_{-1.55} & 17.00^{+1.00}_{-2.41} & -21.49^{+1.41}_{-2.51} & -23.87^{+2.18}_{-1.86} \\
-    14.2 & 19.44^{+1.41}_{-2.50} & 17.12^{+2.13}_{-1.52} & 17.03^{+2.51}_{-1.56} & 16.92^{+1.01}_{-2.44} & -21.58^{+1.42}_{-2.54} & -23.98^{+2.21}_{-1.87} \\
-    14.3 & 19.39^{+1.42}_{-2.53} & 17.04^{+2.16}_{-1.54} & 16.94^{+2.54}_{-1.57} & 16.83^{+1.02}_{-2.47} & -21.66^{+1.43}_{-2.57} & -24.09^{+2.24}_{-1.89} \\
-    14.4 & 19.34^{+1.43}_{-2.56} & 16.96^{+2.19}_{-1.56} & 16.85^{+2.57}_{-1.58} & 16.75^{+1.04}_{-2.50} & -21.75^{+1.44}_{-2.60} & -24.20^{+2.26}_{-1.91} \\
-    14.5 & 19.29^{+1.44}_{-2.60} & 16.88^{+2.22}_{-1.58} & 16.76^{+2.60}_{-1.59} & 16.66^{+1.05}_{-2.53} & -21.84^{+1.45}_{-2.63} & -24.32^{+2.29}_{-1.93} \\
-    14.6 & 19.24^{+1.46}_{-2.63} & 16.80^{+2.25}_{-1.60} & 16.67^{+2.63}_{-1.60} & 16.58^{+1.06}_{-2.56} & -21.93^{+1.47}_{-2.66} & -24.43^{+2.32}_{-1.94} \\
-    14.7 & 19.18^{+1.47}_{-2.65} & 16.72^{+2.28}_{-1.62} & 16.57^{+2.66}_{-1.61} & 16.50^{+1.07}_{-2.59} & -22.03^{+1.48}_{-2.68} & -24.56^{+2.34}_{-1.96} \\
-    14.8 & 19.13^{+1.48}_{-2.69} & 16.64^{+2.31}_{-1.64} & 16.48^{+2.69}_{-1.63} & 16.41^{+1.09}_{-2.61} & -22.15^{+1.48}_{-2.71} & -24.69^{+2.37}_{-1.97} \\
-    14.9 & 19.08^{+1.48}_{-2.72} & 16.56^{+2.34}_{-1.66} & 16.39^{+2.72}_{-1.64} & 16.33^{+1.10}_{-2.64} & -22.28^{+1.48}_{-2.74} & -24.85^{+2.39}_{-1.99} \\
-    15.0 & 19.02^{+1.49}_{-2.75} & 16.48^{+2.37}_{-1.68} & 16.30^{+2.75}_{-1.66} & 16.24^{+1.11}_{-2.67} & -22.50^{+1.49}_{-2.76} & -25.08^{+2.41}_{-2.00} \\
+    10.1 & 20.84^{+1.06}_{-1.18} & 20.39^{+0.58}_{-0.72} & 20.72^{+1.06}_{-1.18} & 20.26^{+0.58}_{-0.72} & -19.78^{+1.07}_{-1.19} & -20.23^{+0.58}_{-0.73} \\
+    10.2 & 20.76^{+1.08}_{-1.20} & 20.31^{+0.59}_{-0.74} & 20.63^{+1.08}_{-1.20} & 20.18^{+0.59}_{-0.74} & -19.92^{+1.10}_{-1.20} & -20.37^{+0.60}_{-0.74} \\
+    10.3 & 20.67^{+1.11}_{-1.21} & 20.23^{+0.60}_{-0.75} & 20.55^{+1.11}_{-1.21} & 20.11^{+0.60}_{-0.75} & -20.05^{+1.12}_{-1.22} & -20.50^{+0.61}_{-0.75} \\
+    10.4 & 20.59^{+1.14}_{-1.23} & 20.15^{+0.61}_{-0.76} & 20.47^{+1.14}_{-1.23} & 20.03^{+0.61}_{-0.76} & -20.19^{+1.15}_{-1.24} & -20.63^{+0.62}_{-0.77} \\
+    10.5 & 20.51^{+1.16}_{-1.25} & 20.07^{+0.62}_{-0.77} & 20.39^{+1.16}_{-1.25} & 19.95^{+0.62}_{-0.77} & -20.32^{+1.18}_{-1.26} & -20.76^{+0.63}_{-0.78} \\
+    10.6 & 20.43^{+1.18}_{-1.28} & 19.99^{+0.64}_{-0.79} & 20.31^{+1.18}_{-1.28} & 19.87^{+0.64}_{-0.79} & -20.45^{+1.20}_{-1.29} & -20.89^{+0.64}_{-0.79} \\
+    10.7 & 20.35^{+1.21}_{-1.30} & 19.91^{+0.65}_{-0.80} & 20.23^{+1.21}_{-1.30} & 19.79^{+0.65}_{-0.80} & -20.58^{+1.23}_{-1.30} & -21.02^{+0.66}_{-0.81} \\
+    10.8 & 20.26^{+1.24}_{-1.31} & 19.83^{+0.66}_{-0.82} & 20.14^{+1.24}_{-1.31} & 19.71^{+0.66}_{-0.82} & -20.72^{+1.25}_{-1.32} & -21.15^{+0.67}_{-0.82} \\
+    10.9 & 20.18^{+1.26}_{-1.33} & 19.75^{+0.68}_{-0.83} & 20.06^{+1.26}_{-1.33} & 19.63^{+0.68}_{-0.83} & -20.85^{+1.28}_{-1.34} & -21.28^{+0.68}_{-0.84} \\
+    11.0 & 20.10^{+1.29}_{-1.35} & 19.67^{+0.69}_{-0.85} & 19.98^{+1.29}_{-1.35} & 19.55^{+0.69}_{-0.85} & -20.98^{+1.30}_{-1.35} & -21.41^{+0.69}_{-0.86} \\
+    11.1 & 20.02^{+1.32}_{-1.36} & 19.60^{+0.70}_{-0.87} & 19.89^{+1.32}_{-1.36} & 19.47^{+0.70}_{-0.87} & -21.11^{+1.33}_{-1.37} & -21.53^{+0.70}_{-0.88} \\
+    11.2 & 19.93^{+1.35}_{-1.38} & 19.52^{+0.71}_{-0.88} & 19.81^{+1.35}_{-1.38} & 19.40^{+0.71}_{-0.88} & -21.25^{+1.36}_{-1.39} & -21.66^{+0.72}_{-0.89} \\
+    11.3 & 19.85^{+1.37}_{-1.40} & 19.44^{+0.72}_{-0.90} & 19.73^{+1.37}_{-1.40} & 19.32^{+0.72}_{-0.90} & -21.38^{+1.39}_{-1.42} & -21.78^{+0.73}_{-0.91} \\
+    11.4 & 19.77^{+1.40}_{-1.43} & 19.36^{+0.73}_{-0.92} & 19.64^{+1.40}_{-1.43} & 19.24^{+0.73}_{-0.92} & -21.51^{+1.41}_{-1.44} & -21.91^{+0.73}_{-0.93} \\
+    11.5 & 19.69^{+1.42}_{-1.46} & 19.29^{+0.74}_{-0.94} & 19.57^{+1.42}_{-1.46} & 19.16^{+0.74}_{-0.94} & -21.63^{+1.43}_{-1.47} & -22.03^{+0.74}_{-0.95} \\
+    11.6 & 19.60^{+1.45}_{-1.47} & 19.21^{+0.75}_{-0.96} & 19.48^{+1.45}_{-1.47} & 19.08^{+0.75}_{-0.96} & -21.76^{+1.46}_{-1.48} & -22.16^{+0.75}_{-0.97} \\
+    11.7 & 19.52^{+1.47}_{-1.49} & 19.13^{+0.76}_{-0.98} & 19.40^{+1.47}_{-1.49} & 19.00^{+0.76}_{-0.98} & -21.89^{+1.49}_{-1.50} & -22.29^{+0.76}_{-0.99} \\
+    11.8 & 19.44^{+1.50}_{-1.51} & 19.05^{+0.77}_{-1.00} & 19.32^{+1.50}_{-1.51} & 18.92^{+0.77}_{-1.00} & -22.02^{+1.51}_{-1.52} & -22.41^{+0.78}_{-1.00} \\
+    11.9 & 19.35^{+1.52}_{-1.53} & 18.96^{+0.78}_{-1.01} & 19.23^{+1.52}_{-1.53} & 18.84^{+0.78}_{-1.01} & -22.15^{+1.54}_{-1.54} & -22.54^{+0.79}_{-1.02} \\
+    12.0 & 19.27^{+1.55}_{-1.55} & 18.88^{+0.80}_{-1.03} & 19.14^{+1.55}_{-1.55} & 18.76^{+0.80}_{-1.03} & -22.28^{+1.57}_{-1.56} & -22.67^{+0.80}_{-1.04} \\
+    12.1 & 19.18^{+1.58}_{-1.57} & 18.80^{+0.81}_{-1.05} & 19.06^{+1.58}_{-1.57} & 18.68^{+0.81}_{-1.05} & -22.41^{+1.59}_{-1.58} & -22.79^{+0.81}_{-1.06} \\
+    12.2 & 19.10^{+1.60}_{-1.60} & 18.72^{+0.82}_{-1.07} & 18.98^{+1.60}_{-1.60} & 18.60^{+0.82}_{-1.07} & -22.54^{+1.62}_{-1.61} & -22.92^{+0.83}_{-1.07} \\
+    12.3 & 19.01^{+1.63}_{-1.62} & 18.64^{+0.83}_{-1.08} & 18.89^{+1.63}_{-1.62} & 18.51^{+0.83}_{-1.08} & -22.67^{+1.65}_{-1.63} & -23.04^{+0.84}_{-1.09} \\
+    12.4 & 18.92^{+1.66}_{-1.64} & 18.56^{+0.84}_{-1.09} & 18.80^{+1.66}_{-1.64} & 18.43^{+0.84}_{-1.09} & -22.80^{+1.68}_{-1.65} & -23.17^{+0.85}_{-1.10} \\
+    12.5 & 18.84^{+1.69}_{-1.66} & 18.48^{+0.85}_{-1.11} & 18.72^{+1.69}_{-1.66} & 18.35^{+0.85}_{-1.11} & -22.93^{+1.70}_{-1.68} & -23.29^{+0.86}_{-1.12} \\
+    12.6 & 18.76^{+1.71}_{-1.69} & 18.39^{+0.86}_{-1.13} & 18.64^{+1.71}_{-1.69} & 18.27^{+0.86}_{-1.12} & -23.05^{+1.73}_{-1.70} & -23.42^{+0.87}_{-1.13} \\
+    12.7 & 18.68^{+1.74}_{-1.72} & 18.31^{+0.88}_{-1.14} & 18.56^{+1.74}_{-1.72} & 18.19^{+0.88}_{-1.14} & -23.18^{+1.75}_{-1.73} & -23.54^{+0.88}_{-1.15} \\
+    12.8 & 18.59^{+1.76}_{-1.74} & 18.23^{+0.89}_{-1.16} & 18.47^{+1.76}_{-1.74} & 18.11^{+0.89}_{-1.16} & -23.30^{+1.78}_{-1.75} & -23.67^{+0.90}_{-1.16} \\
+    12.9 & 18.51^{+1.78}_{-1.76} & 18.15^{+0.90}_{-1.17} & 18.39^{+1.78}_{-1.76} & 18.02^{+0.90}_{-1.17} & -23.43^{+1.80}_{-1.78} & -23.79^{+0.91}_{-1.18} \\
+    13.0 & 18.43^{+1.81}_{-1.79} & 18.06^{+0.91}_{-1.19} & 18.31^{+1.81}_{-1.79} & 17.94^{+0.91}_{-1.19} & -23.55^{+1.82}_{-1.81} & -23.92^{+0.92}_{-1.19} \\
+    13.1 & 18.34^{+1.83}_{-1.82} & 17.98^{+0.93}_{-1.20} & 18.22^{+1.83}_{-1.82} & 17.86^{+0.93}_{-1.20} & -23.68^{+1.85}_{-1.83} & -24.04^{+0.93}_{-1.21} \\
+    13.2 & 18.25^{+1.86}_{-1.84} & 17.90^{+0.94}_{-1.22} & 18.13^{+1.86}_{-1.84} & 17.77^{+0.94}_{-1.22} & -23.81^{+1.88}_{-1.85} & -24.16^{+0.95}_{-1.23} \\
+    13.3 & 18.17^{+1.89}_{-1.86} & 17.82^{+0.95}_{-1.23} & 18.05^{+1.89}_{-1.86} & 17.69^{+0.95}_{-1.23} & -23.94^{+1.91}_{-1.88} & -24.29^{+0.96}_{-1.24} \\
+    13.4 & 18.08^{+1.91}_{-1.89} & 17.73^{+0.96}_{-1.25} & 17.96^{+1.91}_{-1.89} & 17.61^{+0.96}_{-1.25} & -24.06^{+1.93}_{-1.90} & -24.41^{+0.97}_{-1.26} \\
+    13.5 & 17.99^{+1.94}_{-1.91} & 17.65^{+0.97}_{-1.27} & 17.87^{+1.94}_{-1.91} & 17.53^{+0.97}_{-1.27} & -24.19^{+1.96}_{-1.92} & -24.53^{+0.98}_{-1.28} \\
+    13.6 & 17.91^{+1.97}_{-1.93} & 17.57^{+0.99}_{-1.28} & 17.78^{+1.97}_{-1.93} & 17.45^{+0.99}_{-1.28} & -24.32^{+1.99}_{-1.95} & -24.66^{+1.00}_{-1.29} \\
+    13.7 & 17.82^{+2.00}_{-1.96} & 17.48^{+1.00}_{-1.30} & 17.70^{+2.00}_{-1.96} & 17.36^{+1.00}_{-1.30} & -24.45^{+2.01}_{-1.97} & -24.78^{+1.01}_{-1.31} \\
+    13.8 & 17.73^{+2.02}_{-1.98} & 17.40^{+1.02}_{-1.31} & 17.61^{+2.02}_{-1.98} & 17.28^{+1.02}_{-1.31} & -24.57^{+2.04}_{-2.00} & -24.91^{+1.03}_{-1.32} \\
+    13.9 & 17.65^{+2.05}_{-2.01} & 17.31^{+1.03}_{-1.32} & 17.53^{+2.05}_{-2.01} & 17.19^{+1.03}_{-1.32} & -24.69^{+2.06}_{-2.02} & -25.03^{+1.04}_{-1.33} \\
+    14.0 & 17.57^{+2.07}_{-2.04} & 17.23^{+1.05}_{-1.34} & 17.44^{+2.07}_{-2.04} & 17.11^{+1.05}_{-1.34} & -24.82^{+2.09}_{-2.05} & -25.16^{+1.05}_{-1.35} \\
+    14.1 & 17.48^{+2.09}_{-2.06} & 17.14^{+1.06}_{-1.35} & 17.36^{+2.09}_{-2.06} & 17.02^{+1.06}_{-1.35} & -24.94^{+2.11}_{-2.08} & -25.28^{+1.07}_{-1.36} \\
+    14.2 & 17.40^{+2.12}_{-2.09} & 17.06^{+1.07}_{-1.37} & 17.27^{+2.12}_{-2.09} & 16.94^{+1.07}_{-1.37} & -25.07^{+2.14}_{-2.10} & -25.41^{+1.08}_{-1.38} \\
+    14.3 & 17.31^{+2.14}_{-2.11} & 16.97^{+1.09}_{-1.38} & 17.19^{+2.14}_{-2.11} & 16.85^{+1.09}_{-1.38} & -25.19^{+2.16}_{-2.12} & -25.53^{+1.09}_{-1.39} \\
+    14.4 & 17.23^{+2.17}_{-2.14} & 16.89^{+1.10}_{-1.40} & 17.11^{+2.17}_{-2.14} & 16.76^{+1.10}_{-1.40} & -25.32^{+2.18}_{-2.15} & -25.66^{+1.11}_{-1.40} \\
+    14.5 & 17.14^{+2.19}_{-2.16} & 16.80^{+1.11}_{-1.41} & 17.02^{+2.19}_{-2.16} & 16.68^{+1.11}_{-1.41} & -25.44^{+2.21}_{-2.17} & -25.78^{+1.12}_{-1.42} \\
+    14.6 & 17.05^{+2.22}_{-2.18} & 16.72^{+1.13}_{-1.43} & 16.93^{+2.22}_{-2.18} & 16.59^{+1.13}_{-1.43} & -25.58^{+2.24}_{-2.19} & -25.91^{+1.14}_{-1.43} \\
+    14.7 & 16.97^{+2.25}_{-2.20} & 16.63^{+1.14}_{-1.44} & 16.84^{+2.25}_{-2.20} & 16.51^{+1.14}_{-1.44} & -25.71^{+2.26}_{-2.21} & -26.05^{+1.15}_{-1.45} \\
+    14.8 & 16.88^{+2.28}_{-2.23} & 16.54^{+1.16}_{-1.46} & 16.75^{+2.28}_{-2.23} & 16.42^{+1.16}_{-1.46} & -25.85^{+2.29}_{-2.24} & -26.19^{+1.16}_{-1.46} \\
+    14.9 & 16.79^{+2.31}_{-2.25} & 16.46^{+1.17}_{-1.47} & 16.67^{+2.31}_{-2.25} & 16.33^{+1.17}_{-1.47} & -26.01^{+2.31}_{-2.26} & -26.35^{+1.18}_{-1.47} \\
+    15.0 & 16.70^{+2.33}_{-2.28} & 16.37^{+1.19}_{-1.48} & 16.58^{+2.33}_{-2.28} & 16.25^{+1.19}_{-1.48} & -26.24^{+2.33}_{-2.28} & -26.57^{+1.19}_{-1.48} \\
     \hline
   \end{tabular}
 \end{table*}
@@ -2686,9 +2682,18 @@ this to high redshifts.
 We make the code and data used in this work publicly available at
 \url{https://github.com/gkulkarni/QLF}.  This includes homogenised AGN
 catalogues and selection functions and the code used for developing
-and analysing luminosity function models.
-%% Make URL public. Set appropriate license.  Take permission from
-%% other authors.  Set up a DOI.
+and analysing luminosity function models.  The evolution of the
+luminosity function can be derived using any of the three global
+models that we presented in Section~\ref{sec:global}.  However, as we
+discussed in Section~\ref{sec:global}, none of these models should be
+extrapolated to higher redshifts.  Alternatively, our binned
+luminosity function estimates from Section~\ref{sec:bins} can be used.
+For applications that require extrapolation to higher redshifts, such
+as calculations of photoionization fluxes and emissivities, the fits
+presented in Equations~(\ref{eqn:e912_21}) and (\ref{eqn:e912_18}) can
+be used, or a similar approach of fitting functional forms to
+quantities suitably derived from the binned luminosity functions
+should be adopted.
 
 \bibliographystyle{mnras}
 \bibliography{refs}
