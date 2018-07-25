@@ -1110,26 +1110,16 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
                label='Kulkarni et al.\ 2018 (this work)',
                s=36, zorder=6, linewidths=1.5) 
 
-    # Plot best-fit model for Mlim=-18
-    def func(z, a, b, c, d, e):
-        e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
-        return e # erg s^-1 Hz^-1 Mpc^-3
 
-    sigma = u-l 
-    z = np.linspace(0.0, 7, num=1000)
-    samples = fit_emissivity.fit(zs, em, sigma)
-    nsample = 300
-    rsample = samples[np.random.randint(len(samples), size=nsample)]
-    nzs = len(z) 
-    e = np.zeros((nsample, nzs))
-    for i, theta in enumerate(rsample):
-        e[i] = np.array(func(z, *theta))
-
-    up = np.percentile(e, 15.87, axis=0)
-    down = np.percentile(e, 84.13, axis=0)
+    # npz produced using rhoqso_fit2.py 
+    data = np.load('e1450_18.npz')
+    z = data['z']
+    b = data['median']*((912.0/1450.0)**0.61)
+    up = data['up']*((912.0/1450.0)**0.61)
+    down = data['down']*((912.0/1450.0)**0.61)
     tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
-    b = np.median(e, axis=0)
     tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
+    
 
     show_bad = True
     if show_bad:
@@ -1467,27 +1457,15 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
                label='Kulkarni et al.\ 2018 (this work)',
                s=42, zorder=6, linewidths=1.5) 
 
-    # Plot best-fit model for Mlim=-18
-    def func(z, a, b, c, d, e):
-        e = 10.0**a * (1.0+z)**b * np.exp(-c*z) / (np.exp(d*z)+e)
-        return e # erg s^-1 Hz^-1 Mpc^-3
-
-    sigma = u-l 
-    z = np.linspace(0.0, 7, num=1000)
-    samples = fit_emissivity.fit(zs, em, sigma)
-    nsample = 300
-    rsample = samples[np.random.randint(len(samples), size=nsample)]
-    nzs = len(z) 
-    e = np.zeros((nsample, nzs))
-    for i, theta in enumerate(rsample):
-        e[i] = np.array(func(z, *theta))
-
-    up = np.percentile(e, 15.87, axis=0)
-    down = np.percentile(e, 84.13, axis=0)
+    # npz produced using rhoqso_fit2.py 
+    data = np.load('e1450_21.npz')
+    z = data['z']
+    b = data['median']*((912.0/1450.0)**0.61)
+    up = data['up']*((912.0/1450.0)**0.61)
+    down = data['down']*((912.0/1450.0)**0.61)
     tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
-    b = np.median(e, axis=0)
     tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
-
+    
     show_bad = True
     if show_bad:
         for x in individuals_bad:

@@ -20,23 +20,35 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     import sys
 
-data = np.load('e1450_18_test.npz')
+data = np.load('e1450_18.npz')
 z18 = data['z']
-medianbright18 = data['medianbright']*((912.0/1450.0)**0.61)
-downbright18 = data['downbright']*((912.0/1450.0)**0.61)
-upbright18 = data['upbright']*((912.0/1450.0)**0.61)
-medianfaint18 = data['medianfaint']*((912.0/1450.0)**0.61)
-downfaint18 = data['downfaint']*((912.0/1450.0)**0.61)
-upfaint18 = data['upfaint']*((912.0/1450.0)**0.61)
+median18 = data['median']*((912.0/1450.0)**0.61)
+up18 = data['up']*((912.0/1450.0)**0.61)
+down18 = data['down']*((912.0/1450.0)**0.61)
+    
+# data = np.load('e1450_18_test.npz')
+# z18 = data['z']
+# medianbright18 = data['medianbright']*((912.0/1450.0)**0.61)
+# downbright18 = data['downbright']*((912.0/1450.0)**0.61)
+# upbright18 = data['upbright']*((912.0/1450.0)**0.61)
+# medianfaint18 = data['medianfaint']*((912.0/1450.0)**0.61)
+# downfaint18 = data['downfaint']*((912.0/1450.0)**0.61)
+# upfaint18 = data['upfaint']*((912.0/1450.0)**0.61)
 
-data = np.load('e1450_21_test.npz')
+data = np.load('e1450_21.npz')
 z21 = data['z']
-medianbright21 = data['medianbright']*((912.0/1450.0)**0.61)
-downbright21 = data['downbright']*((912.0/1450.0)**0.61)
-upbright21 = data['upbright']*((912.0/1450.0)**0.61)
-medianfaint21 = data['medianfaint']*((912.0/1450.0)**0.61)
-downfaint21 = data['downfaint']*((912.0/1450.0)**0.61)
-upfaint21 = data['upfaint']*((912.0/1450.0)**0.61)
+median21 = data['median']*((912.0/1450.0)**0.61)
+up21 = data['up']*((912.0/1450.0)**0.61)
+down21 = data['down']*((912.0/1450.0)**0.61)
+
+# data = np.load('e1450_21_test.npz')
+# z21 = data['z']
+# medianbright21 = data['medianbright']*((912.0/1450.0)**0.61)
+# downbright21 = data['downbright']*((912.0/1450.0)**0.61)
+# upbright21 = data['upbright']*((912.0/1450.0)**0.61)
+# medianfaint21 = data['medianfaint']*((912.0/1450.0)**0.61)
+# downfaint21 = data['downfaint']*((912.0/1450.0)**0.61)
+# upfaint21 = data['upfaint']*((912.0/1450.0)**0.61)
 
     
 # data = np.load('e912_18_test.npz')
@@ -103,56 +115,48 @@ nHe = rho_critical * 1.0e10 * msolkg * omega_b * Y_He / mHe # Mpc^-3
 
 def qso_emissivity_m18(z):
 
-    # Fit obtained using gammapi.py
-    e1 = np.interp(z, z18, medianfaint18)
-    e2 = np.interp(z, z18, medianbright18)
+    e1 = np.interp(z, z18, median18)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def qso_emissivity_m18_down(z):
 
-    # Fit obtained using gammapi.py
-    e1 = np.interp(z, z18, downfaint18)
-    e2 = np.interp(z, z18, downbright18)
+    e1 = np.interp(z, z18, down18)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def qso_emissivity_m18_up(z):
 
     # Fit obtained using gammapi.py
-    e1 = np.interp(z, z18, upfaint18)
-    e2 = np.interp(z, z18, upbright18)
+    e1 = np.interp(z, z18, up18)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def qso_emissivity_m21(z):
 
     # Fit obtained using gammapi.py
-    e1 = np.interp(z, z21, medianfaint21)
-    e2 = np.interp(z, z21, medianbright21)
+    e1 = np.interp(z, z21, median21)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def qso_emissivity_m21_down(z):
 
     # Fit obtained using gammapi.py
-    e1 = np.interp(z, z21, downfaint21)
-    e2 = np.interp(z, z21, downbright21)
+    e1 = np.interp(z, z21, down21)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def qso_emissivity_m21_up(z):
 
     # Fit obtained using gammapi.py
-    e1 = np.interp(z, z21, upfaint21)
-    e2 = np.interp(z, z21, upbright21)
+    e1 = np.interp(z, z21, up21)
 
-    return e1, e2 
+    return e1, 0.0
 
 
 def clumping_factor(z):

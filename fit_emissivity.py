@@ -50,18 +50,18 @@ def fit(x, y, sigma):
     sampler.run_mcmc(pos, 1000)
     samples = sampler.chain[:, 500:, :].reshape((-1, ndim))
     
-    # bf = np.median(samples, axis=0)
-    # print 'bf=', bf
-    # down = np.percentile(samples, 15.87, axis=0)
-    # print 'down=', down
-    # up = np.percentile(samples, 84.13, axis=0)
-    # print 'up=', up 
+    bf = np.median(samples, axis=0)
+    print 'bf=', bf
+    down = np.percentile(samples, 15.87, axis=0)
+    print 'down=', down
+    up = np.percentile(samples, 84.13, axis=0)
+    print 'up=', up 
 
     # plt.figure()
     # f = corner.corner(samples, labels=['a', 'b', 'c', 'd', 'e'], truths=bf)
     # f.savefig('corner.pdf')
 
-    return samples #bf, up, down
+    return samples, bf#, up, down
 
    
 
