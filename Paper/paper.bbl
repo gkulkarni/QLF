@@ -112,6 +112,12 @@
 {Bongiorno} A.,  et~al., 2007, \mn@doi [\aap] {10.1051/0004-6361:20077611},
   \href {http://ukads.nottingham.ac.uk/abs/2007A%26A...472..443B} {472, 443}
 
+\bibitem[\protect\citeauthoryear{{Borthakur}, {Heckman}, {Leitherer}  \&
+  {Overzier}}{{Borthakur} et~al.}{2014}]{2014Sci...346..216B}
+{Borthakur} S.,  {Heckman} T.~M.,  {Leitherer} C.,   {Overzier} R.~A.,  2014,
+  \mn@doi [Science] {10.1126/science.1254214}, \href
+  {http://ukads.nottingham.ac.uk/abs/2014Sci...346..216B} {346, 216}
+
 \bibitem[\protect\citeauthoryear{{Bosman}, {Fan}, {Jiang}, {Reed}, {Matsuoka},
   {Becker}  \& {Haehnelt}}{{Bosman} et~al.}{2018}]{2018arXiv180208177B}
 {Bosman} S.~E.~I.,  {Fan} X.,  {Jiang} L.,  {Reed} S.~L.,  {Matsuoka} Y.,
@@ -119,10 +125,10 @@
   {http://adsabs.harvard.edu/abs/2018arXiv180208177B} {} (\mn@eprint {arXiv}
   {1802.08177})
 
-\bibitem[\protect\citeauthoryear{{Boutsia} et~al.,}{{Boutsia}
-  et~al.}{2011}]{2011ApJ...736...41B}
-{Boutsia} K.,  et~al., 2011, \mn@doi [\apj] {10.1088/0004-637X/736/1/41}, \href
-  {http://adsabs.harvard.edu/abs/2011ApJ...736...41B} {736, 41}
+\bibitem[\protect\citeauthoryear{{Bouwens} et~al.,}{{Bouwens}
+  et~al.}{2015}]{2015ApJ...803...34B}
+{Bouwens} R.~J.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/803/1/34},
+  \href {http://ukads.nottingham.ac.uk/abs/2015ApJ...803...34B} {803, 34}
 
 \bibitem[\protect\citeauthoryear{{Bouwens}, {Oesch}, {Illingworth}, {Ellis}  \&
   {Stefanon}}{{Bouwens} et~al.}{2017}]{2017ApJ...843..129B}
@@ -288,6 +294,12 @@
   et~al.}{2009}]{2009A&A...493...55E}
 {Ebrero} J.,  et~al., 2009, \mn@doi [\aap] {10.1051/0004-6361:200810919}, \href
   {http://adsabs.harvard.edu/abs/2009A%26A...493...55E} {493, 55}
+
+\bibitem[\protect\citeauthoryear{{Eilers}, {Davies}  \& {Hennawi}}{{Eilers}
+  et~al.}{2018}]{2018arXiv180704229E}
+{Eilers} A.-C.,  {Davies} F.~B.,   {Hennawi} J.~F.,  2018, preprint, \href
+  {http://ukads.nottingham.ac.uk/abs/2018arXiv180704229E} {} (\mn@eprint
+  {arXiv} {1807.04229})
 
 \bibitem[\protect\citeauthoryear{{Fan} et~al.,}{{Fan}
   et~al.}{2001}]{2001AJ....121...54F}
@@ -463,6 +475,12 @@
   {10.1086/107297}, \href {http://adsabs.harvard.edu/abs/1956AJ.....61...97H}
   {61, 97}
 
+\bibitem[\protect\citeauthoryear{{Hunt}, {Steidel}, {Adelberger}  \&
+  {Shapley}}{{Hunt} et~al.}{2004}]{2004ApJ...605..625H}
+{Hunt} M.~P.,  {Steidel} C.~C.,  {Adelberger} K.~L.,   {Shapley} A.~E.,  2004,
+  \mn@doi [\apj] {10.1086/381727}, \href
+  {http://ukads.nottingham.ac.uk/abs/2004ApJ...605..625H} {605, 625}
+
 \bibitem[\protect\citeauthoryear{{Ikeda} et~al.,}{{Ikeda}
   et~al.}{2011}]{2011ApJ...728L..25I}
 {Ikeda} H.,  et~al., 2011, \mn@doi [\apjl] {10.1088/2041-8205/728/2/L25}, \href
@@ -583,6 +601,14 @@ Cambridge University Press
   G.,   {Danese} L.,  2006, \mn@doi [\apj] {10.1086/507122}, \href
   {http://adsabs.harvard.edu/abs/2006ApJ...650...42L} {650, 42}
 
+\bibitem[\protect\citeauthoryear{{Laporte}, {Nakajima}, {Ellis}, {Zitrin},
+  {Stark}, {Mainali}  \& {Roberts-Borsani}}{{Laporte}
+  et~al.}{2017}]{2017ApJ...851...40L}
+{Laporte} N.,  {Nakajima} K.,  {Ellis} R.~S.,  {Zitrin} A.,  {Stark} D.~P.,
+  {Mainali} R.,   {Roberts-Borsani} G.~W.,  2017, \mn@doi [\apj]
+  {10.3847/1538-4357/aa96a8}, \href
+  {http://ukads.nottingham.ac.uk/abs/2017ApJ...851...40L} {851, 40}
+
 \bibitem[\protect\citeauthoryear{{Laureijs} et~al.,}{{Laureijs}
   et~al.}{2011}]{2011arXiv1110.3193L}
 {Laureijs} R.,  et~al., 2011, preprint, \href
@@ -676,6 +702,12 @@ Cambridge University Press
   {http://adsabs.harvard.edu/abs/2018arXiv180511621M} {} (\mn@eprint {arXiv}
   {1805.11621})
 
+\bibitem[\protect\citeauthoryear{{Matute}, {La Franca}, {Pozzi}, {Gruppioni},
+  {Lari}  \& {Zamorani}}{{Matute} et~al.}{2006}]{2006A&A...451..443M}
+{Matute} I.,  {La Franca} F.,  {Pozzi} F.,  {Gruppioni} C.,  {Lari} C.,
+  {Zamorani} G.,  2006, \mn@doi [\aap] {10.1051/0004-6361:20053710}, \href
+  {http://ukads.nottingham.ac.uk/abs/2006A%26A...451..443M} {451, 443}
+
 \bibitem[\protect\citeauthoryear{{McGreer} et~al.,}{{McGreer}
   et~al.}{2013}]{2013ApJ...768..105M}
 {McGreer} I.~D.,  et~al., 2013, \mn@doi [\apj] {10.1088/0004-637X/768/2/105},
@@ -723,6 +755,12 @@ Cambridge University Press
   {Reddy} N.~A.,   {Siana} B.,  2015, \mn@doi [\apj]
   {10.1088/0004-637X/810/2/107}, \href
   {http://adsabs.harvard.edu/abs/2015ApJ...810..107M} {810, 107}
+
+\bibitem[\protect\citeauthoryear{{Nandra}, {Laird}  \& {Steidel}}{{Nandra}
+  et~al.}{2005}]{2005MNRAS.360L..39N}
+{Nandra} K.,  {Laird} E.~S.,   {Steidel} C.~C.,  2005, \mn@doi [\mnras]
+  {10.1111/j.1745-3933.2005.00042.x}, \href
+  {http://ukads.nottingham.ac.uk/abs/2005MNRAS.360L..39N} {360, L39}
 
 \bibitem[\protect\citeauthoryear{{Nasir}, {Bolton}, {Viel}, {Kim}, {Haehnelt},
   {Puchwein}  \& {Sijacki}}{{Nasir} et~al.}{2017}]{2017MNRAS.471.1056N}
@@ -916,6 +954,14 @@ Cambridge University Press
   J.,  {Shull} J.~M.,   {Zheng} W.,  2004, \mn@doi [\apj] {10.1086/422336},
   \href {http://adsabs.harvard.edu/abs/2004ApJ...615..135S} {615, 135}
 
+\bibitem[\protect\citeauthoryear{{Shapley}, {Steidel}, {Strom},
+  {Bogosavljevi{\'c}}, {Reddy}, {Siana}, {Mostardi}  \& {Rudie}}{{Shapley}
+  et~al.}{2016}]{2016ApJ...826L..24S}
+{Shapley} A.~E.,  {Steidel} C.~C.,  {Strom} A.~L.,  {Bogosavljevi{\'c}} M.,
+  {Reddy} N.~A.,  {Siana} B.,  {Mostardi} R.~E.,   {Rudie} G.~C.,  2016,
+  \mn@doi [\apjl] {10.3847/2041-8205/826/2/L24}, \href
+  {http://ukads.nottingham.ac.uk/abs/2016ApJ...826L..24S} {826, L24}
+
 \bibitem[\protect\citeauthoryear{{Shen} \& {Kelly}}{{Shen} \&
   {Kelly}}{2012}]{2012ApJ...746..169S}
 {Shen} Y.,  {Kelly} B.~C.,  2012, \mn@doi [\apj] {10.1088/0004-637X/746/2/169},
@@ -944,11 +990,6 @@ Cambridge University Press
 {Shull} J.~M.,  {Danforth} C.~W.,  {Tilton} E.~M.,  {Moloney} J.,   {Stevans}
   M.~L.,  2017, \mn@doi [\apj] {10.3847/1538-4357/aa9229}, \href
   {http://adsabs.harvard.edu/abs/2017ApJ...849..106S} {849, 106}
-
-\bibitem[\protect\citeauthoryear{{Siana} et~al.,}{{Siana}
-  et~al.}{2015}]{2015ApJ...804...17S}
-{Siana} B.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/804/1/17}, \href
-  {http://adsabs.harvard.edu/abs/2015ApJ...804...17S} {804, 17}
 
 \bibitem[\protect\citeauthoryear{{Sijacki}, {Vogelsberger}, {Genel},
   {Springel}, {Torrey}, {Snyder}, {Nelson}  \& {Hernquist}}{{Sijacki}
