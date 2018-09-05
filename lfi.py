@@ -59,7 +59,7 @@ selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
               r'SDSS DR7 McGreer et al.\ 2013'),
              
              ('Data_new/mcgreer13_s82selfunc.dat',
-              0.1, 0.05, 235.0, 9,
+              0.1, 0.05, 235.0, 8,
               r'S82 McGreer et al.\ 2013'),
              
              ('Data_new/jiang16main_selfunc.dat',
