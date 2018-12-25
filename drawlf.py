@@ -5,7 +5,7 @@ mpl.use('Agg')
 mpl.rcParams['text.usetex'] = True 
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '22'
+mpl.rcParams['font.size'] = '16'
 import matplotlib.pyplot as plt
 from astropy.stats import knuth_bin_width  as kbw
 from astropy.stats import poisson_conf_interval as pci
@@ -166,7 +166,7 @@ def totBinVol_all(lf, m, mbins, selmaps):
     return total_vol
 
 
-def get_lf(lf, sid, z_plot):
+def get_lf(lf, sid, z_plot, special='None'):
     
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
@@ -181,6 +181,13 @@ def get_lf(lf, sid, z_plot):
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     elif sid == 10 or sid == 18:
         bins = np.arange(-30.9, -17.3, 1.8)
+    elif special == 'croom_comparison':
+        # These M1450 bins result in the Mgz2 bins of Croom09.  The
+        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
+        bins = np.arange(-30,-19.5,0.5)+1.23
+    elif special == 'croom_comparison_Mgz2':
+        # These Mgz2 bins of Croom09.  
+        bins = np.arange(-30,-19.5,0.5)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
