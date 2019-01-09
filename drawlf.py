@@ -101,7 +101,7 @@ def binVol(self, selmap, mrange, zrange):
                 if selmap.sid == 7: # Giallongo 
                     v += selmap.volarr[i]*selmap.p[i]*selmap.dm[i]
                 else:
-                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm
+                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm_array[i]
 
     return v
 
@@ -121,7 +121,7 @@ def binVol_all(self, selmap, mrange, zrange):
                 if selmap.sid == 7: # Giallongo 
                     v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm[i]
                 else:
-                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm
+                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm_all_array[i]
 
     return v
 
@@ -191,7 +191,7 @@ def get_lf(lf, sid, z_plot, special='None'):
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
-    v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
+    v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
     v1_nonzero = v1[np.where(v1>0.0)]
     m = m[np.where(v1>0.0)]
@@ -228,7 +228,7 @@ def get_lf(lf, sid, z_plot, special='None'):
     return mags, left, right, logphi, uperr, downerr
 
 
-def get_lf_all(lf, sid, z_plot):
+def get_lf_all(lf, sid, z_plot, special='None'):
 
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
@@ -244,6 +244,13 @@ def get_lf_all(lf, sid, z_plot):
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     elif sid == 10 or sid == 18:
         bins = np.arange(-30.9, -17.3, 1.8)
+    elif special == 'croom_comparison':
+        # These M1450 bins result in the Mgz2 bins of Croom09.  The
+        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
+        bins = np.arange(-30,-19.5,0.5)+1.23
+    elif special == 'croom_comparison_Mgz2':
+        # These Mgz2 bins of Croom09.  
+        bins = np.arange(-30,-19.5,0.5)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
