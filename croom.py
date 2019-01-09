@@ -1,3 +1,7 @@
+"""
+Compare 2SLAQ binned LF to Croom et al. 2009.
+
+"""
 import numpy as np
 import matplotlib as mpl
 mpl.use('Agg') 
@@ -19,11 +23,11 @@ from individual import lf
 import drawlf
 mpl.rcParams['font.size'] = '16'
 
-# case = 'M1450_worseck'
+case = 'M1450_worseck'
 # case = 'Mgz2_unprocessed'
 # case = 'Mgz2_zsuccess'
 # case = 'Mgz2_zsuccess_coverage'
-case = 'Mgz2_coverage'
+# case = 'Mgz2_coverage'
 
 if case == 'Mgz2_coverage':
 
@@ -98,19 +102,14 @@ elif case == 'Mgz2_unprocessed':
                   r'2SLAQ Croom et al.\ 2009')]
     
 else:
-    qlumfiles = ['Data_new/dr7z2p2_sample.dat',
-                 'Data_new/croom09sgp_sample_test.dat',
+    qlumfiles = ['Data_new/croom09sgp_sample_test.dat',
                  'Data_new/croom09ngp_sample_test.dat']
 
-    selnfiles = [('Data_new/dr7z2p2_selfunc.dat',
-                  0.1, 0.05, 6248.0, 13,
-                  r'SDSS DR7 Richards et al.\ 2006'),
-                 
-                 ('Data_new/croom09sgp_selfunc_test.dat',
+    selnfiles = [('croom09sgp_selfunc_withdmdz.dat',
                   0.3, 0.05, 64.2, 15,
                   r'2SLAQ Croom et al.\ 2009'),
 
-                 ('Data_new/croom09ngp_selfunc_test.dat',
+                 ('croom09ngp_selfunc_withdmdz.dat',
                   0.3, 0.05, 127.7, 15,
                   r'2SLAQ Croom et al.\ 2009')]
     
@@ -147,12 +146,17 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
     phi_uerr = phi_err_up[sel]
     dm = 0.15*np.ones(m.size)
     ax.scatter(m, phi, c='#ffffff', s=30, label='Croom et al.\ 2009',
-               edgecolor='r', zorder=304)
+               edgecolor='r', zorder=2)
     ax.errorbar(m, phi, ecolor='r', capsize=0, 
-                yerr=np.vstack((phi_lerr, phi_uerr)), fmt='None', zorder=303)
+                yerr=np.vstack((phi_lerr, phi_uerr)), fmt='None', zorder=1)
 
     if plotmybins:
         lfi = our_lf(zrange)
+
+        print np.unique(lfi.sid)
+        print 'nqso =', lfi.sid[lfi.sid==15].size
+        print 'nqso all =', lfi.sid_all[lfi.sid_all==15].size
+        print 'faintest qso: ', np.max(lfi.M1450_all[lfi.sid_all==15])
 
         # Plot 2SLAQ LF 
         sid_croom = 15
@@ -167,23 +171,23 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
             # et al. 2013.
             mags = mags - 1.23
         ax.scatter(mags, logphi, c='g', edgecolor='None',
-                   zorder=1, label='Our binning (2SLAQ)', s=35)
+                   zorder=3, label='Our binning (2SLAQ)', s=35)
         ax.errorbar(mags, logphi, ecolor='g', capsize=0,
                     yerr=np.vstack((uperr, downerr)),
-                    fmt='None',zorder=1)
+                    fmt='None',zorder=2)
 
-        # Plot SDSS DR7 LF
-        sid_sdss = 13
-        lfbins = drawlf.get_lf(lfi, sid_sdss, z_plot, special='croom_comparison')
-        mags, left, right, logphi, uperr, downerr = lfbins
-        # Convert from M1450 to Mg(z=2) by using Equation B8 of Ross
-        # et al. 2013.
-        mags = mags - 1.23
-        ax.scatter(mags, logphi, c='b', edgecolor='None',
-                   zorder=1, label='Our binning (SDSS)', s=35)
-        ax.errorbar(mags, logphi, ecolor='b', capsize=0,
-                    yerr=np.vstack((uperr, downerr)),
-                    fmt='None',zorder=1)
+        # # Plot SDSS DR7 LF
+        # sid_sdss = 13
+        # lfbins = drawlf.get_lf(lfi, sid_sdss, z_plot, special='croom_comparison')
+        # mags, left, right, logphi, uperr, downerr = lfbins
+        # # Convert from M1450 to Mg(z=2) by using Equation B8 of Ross
+        # # et al. 2013.
+        # mags = mags - 1.23
+        # ax.scatter(mags, logphi, c='b', edgecolor='None',
+        #            zorder=1, label='Our binning (SDSS)', s=35)
+        # ax.errorbar(mags, logphi, ecolor='b', capsize=0,
+        #             yerr=np.vstack((uperr, downerr)),
+        #             fmt='None',zorder=1)
 
     ax.set_xlim(-19, -31)
     ax.set_ylim(-11, -4)
@@ -262,10 +266,10 @@ fig.text(0.03, 0.5,
          verticalalignment='center', rotation='vertical')
 
 fig.text(0.5, 0.97,
-         r"Croom (photometric + coverage completeness)",
+         r"Croom (accounting for non-uniform tile sizes)",
          transform=fig.transFigure, horizontalalignment='center')
 
-plt.savefig('croom_Mgz2_coverage.pdf')
+plt.savefig('croom.pdf')
 
 
 
