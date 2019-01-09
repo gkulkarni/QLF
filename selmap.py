@@ -33,8 +33,8 @@ def plot_selmap(z, m, p, title='', filename='selmap.pdf',
     plt.ylabel('$M_{1450}$')
     plt.title(title, y='1.01')
 
-    plt.xlim(2.0, 4.0) 
-    plt.ylim(-30, -20)
+    plt.xlim(0.0, 2.5) 
+    plt.ylim(-28, -14)
 
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", "5%", pad="3%")
@@ -45,14 +45,14 @@ def plot_selmap(z, m, p, title='', filename='selmap.pdf',
     plt.savefig(filename, bbox_inches='tight')
 
 
-map_file = 'Data_new/ross13_selfunc2.dat' # 'Data_new/croom09sgp_selfunc.dat'
-qso_file = 'Data_new/bossdr9color.dat' # 'Data_new/croom09sgp_sample.dat'
+map_file = 'Data_new/croom09ngp_selfunc.dat'
+qso_file = 'Data_new/croom09ngp_sample.dat'
 METHOD = 'linear'
 
 with open(map_file, 'r') as f:
     z, m, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
                          
-plot_selmap(z, m, p, title='BOSS colour-selected', filename='selmap_sgp.pdf',
+plot_selmap(z, m, p, title='2SLAQ NGP', filename='selmap_ngp.pdf',
             show_qsos=False, qso_file=qso_file)
 
 if METHOD == 'spline': 
@@ -72,16 +72,20 @@ if METHOD == 'linear':
     points_new = np.vstack((zp.flatten(), mp.flatten())).T
     pnew = f(points_new)
 
-plot_selmap(zp, mp, pnew, title='2SLAQ SGP (interpolated)',
-            filename='selmap_sgp_interpolated.pdf',
+plot_selmap(zp, mp, pnew, title='2SLAQ NGP (interpolated)',
+            filename='selmap_ngp_interpolated.pdf',
             show_qsos=False, qso_file=qso_file)
 
 WRITE_SELMAP = False
 if WRITE_SELMAP:
-    with open('croom09sgp_selfunc_interpolated_linear.dat', 'w') as f:
+    with open('croom09ngp_selfunc_interpolated_linear.dat', 'w') as fl:
         for i, x in enumerate(zip(zp.flatten(), mp.flatten(), pnew.flatten())):
-            f.write('{:d}  {:.2f}  {:.2f}  {:.6f}\n'.format(i, x[0],
-                                                            x[1], x[2]))
+            if x[2]==x[2]: 
+                fl.write('{:d}  {:.2f}  {:.2f}  {:.6f}\n'.format(i, x[0],
+                                                                 x[1], x[2]))
+            else:
+                fl.write('{:d}  {:.2f}  {:.2f}  {:.6f}\n'.format(i, x[0],
+                                                                 x[1], 0.0))                                                                 
 
 if METHOD == 'linear': 
     zq, mq, pq = np.loadtxt(qso_file, usecols=(1,2,3), unpack=True)
