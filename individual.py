@@ -6,7 +6,7 @@ mpl.use('Agg')
 mpl.rcParams['text.usetex'] = True 
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '22'
+mpl.rcParams['font.size'] = '16'
 import matplotlib.pyplot as plt
 import triangle 
 from astropy.stats import poisson_conf_interval as pci
@@ -80,12 +80,16 @@ def getqlums(lumfile, zlims=None):
     return (z, mag, p, area, sample_id, z_all, mag_all, p_all,
             area_all, sample_id_all)
         
-def getselfn(selfile, zlims=None):
+def getselfn(selfile, zlims=None, special=None):
 
     """Read selection map."""
 
-    with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+    if special == 'croom_test':
+        with open(selfile,'r') as f: 
+            z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
+    else:
+        with open(selfile,'r') as f: 
+            z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
 
     if zlims is None:
         select = None
@@ -93,7 +97,11 @@ def getselfn(selfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    return z[select], mag[select], p[select]
+    if special == 'croom_test':
+        return z[select], mag[select], p[select], dz[select], dm[select]
+    else:
+        return z[select], mag[select], p[select]
+        
 
 def volume(z, area, cosmo=cosmo):
 
@@ -134,11 +142,13 @@ class selmap:
             select = ((z>=z_min) & (z<z_max))
             self.dm = self.dm[select]
             
-        self.z_all, self.m_all, self.p_all = getselfn(selection_map_file, zlims=zlims)
+        self.z_all, self.m_all, self.p_all, self.dz_all_array, self.dm_all_array = getselfn(selection_map_file, zlims=zlims, special='croom_test')
 
         self.z = self.z_all
         self.m = self.m_all
-        self.p = self.p_all 
+        self.p = self.p_all
+        self.dz_array = self.dz_all_array
+        self.dm_array = self.dm_all_array
     
         select = None
 
@@ -186,13 +196,15 @@ class selmap:
         self.z = self.z_all[select]
         self.m = self.m_all[select]
         self.p = self.p_all[select]
+        self.dz_array = self.dz_all_array[select]
+        self.dm_array = self.dm_all_array[select]
 
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
         self.area = area
-        self.volarr = volume(self.z, self.area)*self.dz
-        self.volarr_all = volume(self.z_all, self.area)*self.dz
+        self.volarr = volume(self.z, self.area)*self.dz_array
+        self.volarr_all = volume(self.z_all, self.area)*self.dz_all_array
 
         return
 
