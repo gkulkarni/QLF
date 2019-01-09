@@ -189,7 +189,7 @@ zrange = (4.7, 5.1)
 bins = np.arange(-29.3, -24.0, 0.5)
 mags, left, right, logphi, uperr, downerr = get_lf(zrange, bins)
 
-ax.scatter(mags, logphi, c='g', edgecolor='None', zorder=306, label='my binning (SDSS DR7)', s=35)
+ax.scatter(mags, logphi, c='g', edgecolor='None', zorder=306, label='Our binning (SDSS DR7)', s=35)
 ax.errorbar(mags, logphi, ecolor='g', capsize=0,
             xerr=np.vstack((left, right)),
             yerr=np.vstack((uperr, downerr)),
@@ -199,7 +199,7 @@ zrange = (4.7, 5.1)
 bins = np.arange(-27.275, -23., 0.55)
 mags, left, right, logphi, uperr, downerr = get_lf_s82(zrange, bins)
 
-ax.scatter(mags, logphi, c='maroon', edgecolor='None', zorder=306, label='my binning (SDSS Stripe 82)', s=35)
+ax.scatter(mags, logphi, c='maroon', edgecolor='None', zorder=306, label='Our binning (SDSS Stripe 82)', s=35)
 ax.errorbar(mags, logphi, ecolor='maroon', capsize=0,
             xerr=np.vstack((left, right)),
             yerr=np.vstack((uperr, downerr)),

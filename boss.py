@@ -129,7 +129,7 @@ def ross(ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=True, n
     if plotmybins:
         mags, left, right, logphi, uperr, downerr = get_lf(zrange, bins)
         
-        ax.scatter(mags, logphi, c='g', edgecolor='None', zorder=1, label='my binning', s=35)
+        ax.scatter(mags, logphi, c='g', edgecolor='None', zorder=1, label='Our binning', s=35)
         ax.errorbar(mags, logphi, ecolor='g', capsize=0,
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None',zorder=1)
