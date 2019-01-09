@@ -5,10 +5,15 @@ You only need to set data, z_tolerance, and mag_tolerance.
 """
 
 import numpy as np
+import sys
 
-data = np.loadtxt('Data_new/croom09sgp_selfunc_test.dat')
+filename = sys.argv[1]
+#data = np.loadtxt('Data_new/croom09sgp_selfunc.dat')
+data = np.loadtxt(filename)
 z_tolerance = 0.01
 mag_tolerance = 0.001 
+
+print 'Using z_tolerance = {:.4f} and mag_tolerance = {:.4f}'.format(z_tolerance, mag_tolerance)
 
 def is_same_z(z1, z2):
 
@@ -89,6 +94,8 @@ def prev_z(i, data):
 
     return prev_z
 
+dzs = []
+dmags = [] 
 
 for i, tile in enumerate(data):
 
@@ -116,6 +123,14 @@ for i, tile in enumerate(data):
 
     dz = (dz_prev + dz_next)/2.0
     dmag = (dmag_prev + dmag_next)/2.0
+
+    dzs.append(dz)
+    dmags.append(dmag)
     
     print '{:>5d}  {:.3f}  {:.2f}  {:.5f}  {:.4f}  {:.3f}'.format(i+1, z, mag, p, dz, dmag)
 
+dzs = np.array(dzs)
+dmags = np.array(dmags)
+    
+print '# dzs =', np.unique(dzs.round(decimals=4))
+print '# dmags =', np.unique(dmags.round(decimals=4))

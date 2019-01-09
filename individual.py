@@ -80,16 +80,12 @@ def getqlums(lumfile, zlims=None):
     return (z, mag, p, area, sample_id, z_all, mag_all, p_all,
             area_all, sample_id_all)
         
-def getselfn(selfile, zlims=None, special=None):
+def getselfn(selfile, zlims=None):
 
     """Read selection map."""
 
-    if special == 'croom_test':
-        with open(selfile,'r') as f: 
-            z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
-    else:
-        with open(selfile,'r') as f: 
-            z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+    with open(selfile,'r') as f: 
+        z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
 
     if zlims is None:
         select = None
@@ -97,11 +93,8 @@ def getselfn(selfile, zlims=None, special=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    if special == 'croom_test':
-        return z[select], mag[select], p[select], dz[select], dm[select]
-    else:
-        return z[select], mag[select], p[select]
-        
+    return z[select], mag[select], p[select], dz[select], dm[select]
+
 
 def volume(z, area, cosmo=cosmo):
 
@@ -122,12 +115,10 @@ class selmap:
 
     def __init__(self, x, zlims=None):
 
-        selection_map_file, dm, dz, area, sample_id, label = x
+        selection_map_file, area, sample_id, label = x
 
         self.label = label
         self.sid = sample_id
-        self.dz = dz
-        self.dm = dm
         
         if sample_id == 7:
             # Set dz and dm for Giallongo's sample.  This sample needs
@@ -142,7 +133,7 @@ class selmap:
             select = ((z>=z_min) & (z<z_max))
             self.dm = self.dm[select]
             
-        self.z_all, self.m_all, self.p_all, self.dz_all_array, self.dm_all_array = getselfn(selection_map_file, zlims=zlims, special='croom_test')
+        self.z_all, self.m_all, self.p_all, self.dz_all_array, self.dm_all_array = getselfn(selection_map_file, zlims=zlims)
 
         self.z = self.z_all
         self.m = self.m_all
@@ -199,6 +190,10 @@ class selmap:
         self.dz_array = self.dz_all_array[select]
         self.dm_array = self.dm_all_array[select]
 
+        # Just two aliases for older parts of the code 
+        self.dz = self.dz_array
+        self.dm = self.dm_array
+
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
@@ -214,7 +209,7 @@ class selmap:
             psi = 10.0**lumfn.log10phi(theta, self.m)
             # Except for Giallongo's sample, self.dm is assumed to be
             # constant here; may not be true.
-            tot = psi*self.p*self.volarr*self.dm
+            tot = psi*self.p*self.volarr*self.dm_array
             return np.sum(tot)
         except(AttributeError):
             return 0 
