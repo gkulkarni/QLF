@@ -194,6 +194,31 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None',zorder=2)
 
+    print 'i=', i
+    if i == 2:
+        mags = np.linspace(-19, -31)
+        p = [-5.341, -23.341, -2.773, -0.890]
+        print log10phi(p, mags)
+        plt.plot(mags, log10phi(p, mags), c='k')
+        p = [-5.557, -24.203, -3.059, -1.234]
+        plt.plot(mags, log10phi(p, mags), c='k')
+        p = [-5.667, -24.479, -3.004, -1.280]
+        plt.plot(mags, log10phi(p, mags), c='k')
+        p = [-5.553, -24.561, -3.056, -1.075]
+        plt.plot(mags, log10phi(p, mags), c='k')
+
+        p = [-6.683, -24.385, -3.722, -1.939]
+        plt.plot(mags-1.23, log10phi(p, mags), c='c', lw=2)
+        p = [-6.567, -24.737, -3.805, -1.936]
+        plt.plot(mags-1.23, log10phi(p, mags), c='c', lw=2)
+
+        p = [-6.503, -24.162, -3.680, -1.789]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+        p = [-6.465, -24.619, -3.799, -1.785]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+
+
     ax.set_xlim(-19, -31)
     ax.set_ylim(-11, -4)
     ax.set_xticks(np.arange(-31,-17, 4))
