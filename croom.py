@@ -102,15 +102,20 @@ elif case == 'Mgz2_unprocessed':
                   r'2SLAQ Croom et al.\ 2009')]
     
 else:
-    qlumfiles = ['Data_new/croom09sgp_sample_test.dat',
-                 'Data_new/croom09ngp_sample_test.dat']
+    qlumfiles = ['Data_new/dr7z2p2_sample.dat',
+                 'Data_new/croom09sgp_sample.dat',
+                 'Data_new/croom09ngp_sample.dat']
 
-    selnfiles = [('croom09sgp_selfunc_withdmdz.dat',
-                  0.3, 0.05, 64.2, 15,
+    selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat',
+                  6248.0, 13,
+                  r'SDSS DR7 Richards et al.\ 2006'),
+                 
+                 ('Selmaps_with_tiles/croom09sgp_selfunc.dat',
+                  64.2, 15,
                   r'2SLAQ Croom et al.\ 2009'),
 
-                 ('croom09ngp_selfunc_withdmdz.dat',
-                  0.3, 0.05, 127.7, 15,
+                 ('Selmaps_with_tiles/croom09ngp_selfunc.dat',
+                  127.7, 15,
                   r'2SLAQ Croom et al.\ 2009')]
     
 
@@ -176,18 +181,18 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
                     yerr=np.vstack((uperr, downerr)),
                     fmt='None',zorder=2)
 
-        # # Plot SDSS DR7 LF
-        # sid_sdss = 13
-        # lfbins = drawlf.get_lf(lfi, sid_sdss, z_plot, special='croom_comparison')
-        # mags, left, right, logphi, uperr, downerr = lfbins
-        # # Convert from M1450 to Mg(z=2) by using Equation B8 of Ross
-        # # et al. 2013.
-        # mags = mags - 1.23
-        # ax.scatter(mags, logphi, c='b', edgecolor='None',
-        #            zorder=1, label='Our binning (SDSS)', s=35)
-        # ax.errorbar(mags, logphi, ecolor='b', capsize=0,
-        #             yerr=np.vstack((uperr, downerr)),
-        #             fmt='None',zorder=1)
+        # Plot SDSS DR7 LF
+        sid_sdss = 13
+        lfbins = drawlf.get_lf(lfi, sid_sdss, z_plot, special='croom_comparison')
+        mags, left, right, logphi, uperr, downerr = lfbins
+        # Convert from M1450 to Mg(z=2) by using Equation B8 of Ross
+        # et al. 2013.
+        mags = mags - 1.23
+        ax.scatter(mags, logphi, c='b', edgecolor='None',
+                   zorder=2, label='Our binning (SDSS)', s=35)
+        ax.errorbar(mags, logphi, ecolor='b', capsize=0,
+                    yerr=np.vstack((uperr, downerr)),
+                    fmt='None',zorder=2)
 
     ax.set_xlim(-19, -31)
     ax.set_ylim(-11, -4)
