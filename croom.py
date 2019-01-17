@@ -195,25 +195,97 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
                     fmt='None',zorder=2)
 
     print 'i=', i
-    if i == 2:
-        mags = np.linspace(-19, -31)
-        p = [-5.341, -23.341, -2.773, -0.890]
-        print log10phi(p, mags)
-        plt.plot(mags, log10phi(p, mags), c='k')
-        p = [-5.557, -24.203, -3.059, -1.234]
-        plt.plot(mags, log10phi(p, mags), c='k')
-        p = [-5.667, -24.479, -3.004, -1.280]
-        plt.plot(mags, log10phi(p, mags), c='k')
-        p = [-5.553, -24.561, -3.056, -1.075]
-        plt.plot(mags, log10phi(p, mags), c='k')
 
-        p = [-6.683, -24.385, -3.722, -1.939]
-        plt.plot(mags-1.23, log10phi(p, mags), c='c', lw=2)
+    if i == 1:
+        mags = np.linspace(-16, -31)
+        p = [-6.426, -23.499, -3.382, -1.577]
+        plt.plot(mags-1.23, log10phi(p, mags), c='peru', lw=2, dashes=[7,2])
+
+        p = [-6.341, -23.398, -3.429, -1.430]
+        plt.plot(mags-1.23, log10phi(p, mags), c='k', lw=2)
+
+        p = [-6.467, -23.569, -3.427, -1.610]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+        p = [-5.944, -24.059, -3.028, -1.490]
+        plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+        
+    if i == 2:
+        mags = np.linspace(-16, -31)
+        p = [-6.360, -24.354, -3.481, -1.637]
+        c21, = plt.plot(mags-1.23, log10phi(p, mags), c='peru', lw=2, dashes=[7,2])
+
+        p = [-6.671, -24.846, -3.967, -1.746]
+        c22, = plt.plot(mags-1.23, log10phi(p, mags), c='k', lw=2)
+
+        p = [-6.637, -24.778, -3.801, -1.851]
+        c23, = plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+        p = [-5.557, -24.203, -3.059, -1.234]
+        c24, = plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+        
+    if i == 3:
+        mags = np.linspace(-16, -31)
+        p = [-6.176, -24.886, -3.635, -1.570]
+        plt.plot(mags-1.23, log10phi(p, mags), c='peru', lw=2, dashes=[7,2])
+
+        p = [-6.312, -25.094, -3.804, -1.644]
+        plt.plot(mags-1.23, log10phi(p, mags), c='k', lw=2)
+
+        p = [-6.428, -25.257, -3.935, -1.828]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+        p = [-5.525, -24.953, -3.115, -1.071]
+        plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+        
+    if i == 4:
+        mags = np.linspace(-16, -31)
+        p = [-6.347, -25.546, -3.961, -1.668]
+        plt.plot(mags-1.23, log10phi(p, mags), c='peru', lw=2, dashes=[7,2])
+
+        p = [-6.459, -25.699, -4.120, -1.726]
+        plt.plot(mags-1.23, log10phi(p, mags), c='k', lw=2)
+
+        p = [-6.500, -25.753, -4.170, -1.833]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+        p = [-6.136, -26.411, -3.653, -1.620]
+        plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+        
+    if i == 5:
+        mags = np.linspace(-16, -31)
+        p = [-6.348, -25.793, -3.709, -1.704]
+        plt.plot(mags-1.23, log10phi(p, mags), c='peru', lw=2, dashes=[7,2])
+
+        p = [-6.348, -25.794, -3.707, -1.704]
+        plt.plot(mags-1.23, log10phi(p, mags), c='k', lw=2)
+
+        p = [-6.592, -26.137, -4.003, -1.904]
+        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+
+        p = [-5.795, -26.321, -3.612, -1.264]
+        plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+        
+        
+    if i == 7:
+        mags = np.linspace(-19, -31)
+       # p = [-5.341, -23.341, -2.773, -0.890]
+       # print log10phi(p, mags)
+        #plt.plot(mags, log10phi(p, mags), c='k')
+        p = [-5.557, -24.203, -3.059, -1.234]
+        plt.plot(mags, log10phi(p, mags), c='k', lw=2)
+        #p = [-5.667, -24.479, -3.004, -1.280]
+        #plt.plot(mags, log10phi(p, mags), c='k')
+        #p = [-5.553, -24.561, -3.056, -1.075]
+        #plt.plot(mags, log10phi(p, mags), c='k')
+
+        #p = [-6.683, -24.385, -3.722, -1.939]
+        #plt.plot(mags-1.23, log10phi(p, mags), c='c', lw=2)
         p = [-6.567, -24.737, -3.805, -1.936]
         plt.plot(mags-1.23, log10phi(p, mags), c='c', lw=2)
 
-        p = [-6.503, -24.162, -3.680, -1.789]
-        plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
+        #p = [-6.503, -24.162, -3.680, -1.789]
+        #plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
         p = [-6.465, -24.619, -3.799, -1.785]
         plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
 
@@ -236,6 +308,15 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
         plt.legend(loc='upper right', fontsize=10, handlelength=3,
                    frameon=False, framealpha=0.0, labelspacing=.1,
                    handletextpad=0., borderpad=0.2, scatterpoints=1)
+
+    if i == 2:
+        handles = [c21, c22, c23, c23]
+        labels = ['all 2SLAQ, selected SDSS', 'all QSOs', 'selected QSOs', 'Croom fits']
+        l1 = plt.legend(handles, labels, loc='center', fontsize=10, handlelength=3,
+                        frameon=False, framealpha=0.0, labelspacing=.1, ncol=1,
+                        handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.3, 0.15])
+
+
 
     return 
 
