@@ -509,7 +509,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
 
     for i in sids[::-1]:
 
-        mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
+        mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot, special='croom_comparison')
 
         print mags[logphi>-100.0]
         print logphi[logphi>-100.0]
@@ -525,7 +525,7 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
             # incompleteness.
             continue 
         
-        mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot)
+        mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot, special='croom_comparison')
         print mags_all[logphi_all!=logphi]
         print logphi_all[logphi_all!=logphi]
 
