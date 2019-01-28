@@ -209,6 +209,12 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
 
         p = [-5.944, -24.059, -3.028, -1.490]
         plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+
+        p = [-6.048, -22.797, -2.984, -1.425]
+        plt.plot(mags-1.23, log10phi(p, mags), c='brown', lw=2)
+
+        p = [-6.244, -23.215, -3.254, -1.470]
+        plt.plot(mags-1.23, log10phi(p, mags), c='dodgerblue', lw=2)
         
     if i == 2:
         mags = np.linspace(-16, -31)
@@ -223,6 +229,12 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
 
         p = [-5.557, -24.203, -3.059, -1.234]
         c24, = plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+
+        p = [-6.398, -24.412, -3.474, -1.761]
+        c25, = plt.plot(mags-1.23, log10phi(p, mags), c='brown', lw=2)
+
+        p = [-6.270, -24.162, -3.239, -1.599]
+        c26, = plt.plot(mags-1.23, log10phi(p, mags), c='dodgerblue', lw=2)
         
     if i == 3:
         mags = np.linspace(-16, -31)
@@ -237,6 +249,12 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
 
         p = [-5.525, -24.953, -3.115, -1.071]
         plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+
+        p = [-6.315 , -25.078, -3.806, -1.787]
+        plt.plot(mags-1.23, log10phi(p, mags), c='brown', lw=2)
+
+        p = [-5.803, -24.205, -3.188, -1.313]
+        plt.plot(mags-1.23, log10phi(p, mags), c='dodgerblue', lw=2)
         
     if i == 4:
         mags = np.linspace(-16, -31)
@@ -251,6 +269,12 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
 
         p = [-6.136, -26.411, -3.653, -1.620]
         plt.plot(mags, log10phi(p, mags), c='r', lw=2)
+
+        p = [-6.433, -25.667, -3.937, -1.807]
+        plt.plot(mags-1.23, log10phi(p, mags), c='brown', lw=2)
+
+        p = [-6.115, -25.161, -3.464, -1.541]
+        plt.plot(mags-1.23, log10phi(p, mags), c='dodgerblue', lw=2)
         
     if i == 5:
         mags = np.linspace(-16, -31)
@@ -263,9 +287,12 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
         p = [-6.592, -26.137, -4.003, -1.904]
         plt.plot(mags-1.23, log10phi(p, mags), c='m', lw=2)
 
-        p = [-5.795, -26.321, -3.612, -1.264]
-        plt.plot(mags, log10phi(p, mags), c='r', lw=2)
-        
+        p = [-6.098, -25.429, -3.473, -1.614]
+        plt.plot(mags-1.23, log10phi(p, mags), c='brown', lw=2)
+
+        p = [-5.658, -24.649, -3.100, -1.094]
+        plt.plot(mags-1.23, log10phi(p, mags), c='dodgerblue', lw=2)
+
         
     if i == 7:
         mags = np.linspace(-19, -31)
@@ -310,11 +337,11 @@ def croom(i, ax, zrange, yticklabels=False, xticklabels=False, nofirstylabel=Tru
                    handletextpad=0., borderpad=0.2, scatterpoints=1)
 
     if i == 2:
-        handles = [c21, c22, c23, c23]
-        labels = ['all 2SLAQ, selected SDSS', 'all QSOs', 'selected QSOs', 'Croom fits']
+        handles = [c21, c22, c23, c24, c25, c26]
+        labels = ['all 2SLAQ, selected SDSS', 'all QSOs', 'selected QSOs', 'Croom fits', 'DR3 fits', 'DR3 fits all qsos']
         l1 = plt.legend(handles, labels, loc='center', fontsize=10, handlelength=3,
                         frameon=False, framealpha=0.0, labelspacing=.1, ncol=1,
-                        handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.3, 0.15])
+                        handletextpad=0.4, borderpad=0.5, bbox_to_anchor=[0.3, 0.25])
 
 
 
