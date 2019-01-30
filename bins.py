@@ -6,7 +6,8 @@ from individual import lf
 import mosaic
 import drawlf
 
-qlumfiles = ['Data_new/dr7z2p2_sample.dat',
+qlumfiles = [#'Data_new/dr7z2p2_sample.dat',
+             'Data_new/dr3z2p6_sample.dat', # This is DR3 not DR7 
              'Data_new/croom09sgp_sample.dat',
              'Data_new/croom09ngp_sample.dat',
              'Data_new/bossdr9color.dat',
@@ -24,7 +25,8 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
              'Data_new/kashikawa15_sample.dat']
 
-selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
+selnfiles = [#('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
+             ('Selmaps_with_tiles/dr3z2p6_selfunc.dat', 1622.0, 13, r'Richards et al.\ 2006'), # This is DR3 not DR7! 
              ('Selmaps_with_tiles/croom09sgp_selfunc.dat', 64.2, 15, r'Croom et al.\ 2009'),
              ('Selmaps_with_tiles/croom09ngp_selfunc.dat', 127.7, 15, r'Croom et al.\ 2009'),
              ('Selmaps_with_tiles/ross13_selfunc2.dat', 2236.0, 1, r'Ross et al.\ 2013'),
