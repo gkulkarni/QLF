@@ -49,26 +49,25 @@ def getqlums(lumfile, zlims=None):
     select = None
 
     if sid == 13: 
-        # select = ((((z_all>=0.0) & (z_all<0.2) & (mag_all<=-20.7)) |
-        #            ((z_all>=0.2) & (z_all<0.4) & (mag_all<=-20.3)) |
-        #            ((z_all>=0.4) & (z_all<0.6) & (mag_all<=-21.3)) |
-        #            ((z_all>=0.6) & (z_all<0.8) & (mag_all<=-23.1)) | 
-        #            ((z_all>=0.8) & (z_all<1.0) & (mag_all<=-23.7)) |
-        #            ((z_all>=1.0) & (z_all<1.2)) |
-        #            ((z_all>=1.2) & (z_all<1.4) & (mag_all<=-24.3)) |
-        #            ((z_all>=1.4) & (z_all<1.6)) |
-        #            ((z_all>=1.6) & (z_all<1.8) & (mag_all<=-24.9)) |
-        #            ((z_all>=1.8) & (z_all<2.2))) |
-        #           ((z_all>=3.5) & (z_all<4.7) & (mag_all<=-26.1)))
-        select = np.arange(len(z_all))
+        select = ((((z_all>=0.0) & (z_all<0.2) & (mag_all<=-20.7)) |
+                   ((z_all>=0.2) & (z_all<0.4) & (mag_all<=-20.3)) |
+                   ((z_all>=0.4) & (z_all<0.6) & (mag_all<=-21.3)) |
+                   ((z_all>=0.6) & (z_all<0.8) & (mag_all<=-23.1)) | 
+                   ((z_all>=0.8) & (z_all<1.0) & (mag_all<=-23.7)) |
+                   ((z_all>=1.0) & (z_all<1.2)) |
+                   ((z_all>=1.2) & (z_all<1.4) & (mag_all<=-24.3)) |
+                   ((z_all>=1.4) & (z_all<1.6)) |
+                   ((z_all>=1.6) & (z_all<1.8) & (mag_all<=-24.9)) |
+                   ((z_all>=1.8) & (z_all<2.2))) |
+                  ((z_all>=3.5) & (z_all<4.7) & (mag_all<=-26.1)))
         
     if sid == 15: 
-        # select = (((z_all>=0.4) & (z_all<0.6)) |
-        #           ((z_all>=0.6) & (z_all<0.8) & (mag_all<=-20.7)) | 
-        #           ((z_all>=0.8) & (z_all<1.2) & (mag_all<=-21.9)) |
-        #           ((z_all>=1.2) & (z_all<1.8) & (mag_all<=-22.5)) |
-        #           ((z_all>=1.8) & (z_all<2.2) & (mag_all<=-23.1)))
-        select = np.arange(len(z_all))
+        select = (((z_all>=0.4) & (z_all<0.6)) |
+                  ((z_all>=0.6) & (z_all<0.8) & (mag_all<=-20.7)) | 
+                  ((z_all>=0.8) & (z_all<1.2) & (mag_all<=-21.9)) |
+                  ((z_all>=1.2) & (z_all<1.8) & (mag_all<=-22.5)) |
+                  ((z_all>=1.8) & (z_all<2.2) & (mag_all<=-23.1)))
+
     if sid == 8:
         select = (mag_all > -26.73)
 
@@ -158,26 +157,24 @@ class selmap:
             select = ((self.z_all>=z_min) & (self.z_all<z_max))
 
         if sample_id == 13: 
-            # select = ((((self.z_all>=0.0) & (self.z_all<0.2) & (self.m_all<=-20.7)) | 
-            #            ((self.z_all>=0.2) & (self.z_all<0.4) & (self.m_all<=-20.4)) | 
-            #            ((self.z_all>=0.4) & (self.z_all<0.6) & (self.m_all<=-21.3)) | 
-            #            ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-23.1)) | 
-            #            ((self.z_all>=0.8) & (self.z_all<1.0) & (self.m_all<=-23.7)) |
-            #            ((self.z_all>=1.0) & (self.z_all<1.2)) |
-            #            ((self.z_all>=1.2) & (self.z_all<1.4) & (self.m_all<=-24.3)) |
-            #            ((self.z_all>=1.4) & (self.z_all<1.6)) |
-            #            ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
-            #            ((self.z_all>=1.8) & (self.z_all<2.2))) |
-            #           ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.1)))
-            select = np.arange(len(self.z_all))
+            select = ((((self.z_all>=0.0) & (self.z_all<0.2) & (self.m_all<=-20.7)) | 
+                       ((self.z_all>=0.2) & (self.z_all<0.4) & (self.m_all<=-20.4)) | 
+                       ((self.z_all>=0.4) & (self.z_all<0.6) & (self.m_all<=-21.3)) | 
+                       ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-23.1)) | 
+                       ((self.z_all>=0.8) & (self.z_all<1.0) & (self.m_all<=-23.7)) |
+                       ((self.z_all>=1.0) & (self.z_all<1.2)) |
+                       ((self.z_all>=1.2) & (self.z_all<1.4) & (self.m_all<=-24.3)) |
+                       ((self.z_all>=1.4) & (self.z_all<1.6)) |
+                       ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
+                       ((self.z_all>=1.8) & (self.z_all<2.2))) |
+                      ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.1)))
 
         if sample_id == 15: 
-            # select = (((self.z_all>=0.4) & (self.z_all<0.6)) | 
-            #           ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-20.7)) | 
-            #           ((self.z_all>=0.8) & (self.z_all<1.2) & (self.m_all<=-21.9)) |
-            #           ((self.z_all>=1.2) & (self.z_all<1.8) & (self.m_all<=-22.5)) |
-            #           ((self.z_all>=1.8) & (self.z_all<2.2) & (self.m_all<=-23.1)))
-            select = np.arange(len(self.z_all))
+            select = (((self.z_all>=0.4) & (self.z_all<0.6)) | 
+                      ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-20.7)) | 
+                      ((self.z_all>=0.8) & (self.z_all<1.2) & (self.m_all<=-21.9)) |
+                      ((self.z_all>=1.2) & (self.z_all<1.8) & (self.m_all<=-22.5)) |
+                      ((self.z_all>=1.8) & (self.z_all<2.2) & (self.m_all<=-23.1)))
             
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
@@ -187,11 +184,11 @@ class selmap:
         if self.z_all.size == 0:
             return # This selmap has no points in zlims
 
-        self.z = self.z_all[select]
-        self.m = self.m_all[select]
-        self.p = self.p_all[select]
-        self.dz_array = self.dz_all_array[select]
-        self.dm_array = self.dm_all_array[select]
+        self.z = np.squeeze(self.z_all[select])
+        self.m = np.squeeze(self.m_all[select])
+        self.p = np.squeeze(self.p_all[select])
+        self.dz_array = np.squeeze(self.dz_all_array[select])
+        self.dm_array = np.squeeze(self.dm_all_array[select])
 
         # Just two aliases for older parts of the code 
         self.dz = self.dz_array

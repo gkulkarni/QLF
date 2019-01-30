@@ -6,8 +6,8 @@ from individual import lf
 import mosaic
 import drawlf
 
-qlumfiles = [#'Data_new/dr7z2p2_sample.dat',
-             'Data_new/dr3z2p6_sample.dat', # This is DR3 not DR7 
+qlumfiles = ['Data_new/dr7z2p2_sample.dat',
+             #'Data_new/dr3z2p6_sample.dat', # This is DR3 not DR7 
              'Data_new/croom09sgp_sample.dat',
              'Data_new/croom09ngp_sample.dat',
              'Data_new/bossdr9color.dat',
@@ -25,8 +25,8 @@ qlumfiles = [#'Data_new/dr7z2p2_sample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
              'Data_new/kashikawa15_sample.dat']
 
-selnfiles = [#('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
-             ('Selmaps_with_tiles/dr3z2p6_selfunc.dat', 1622.0, 13, r'Richards et al.\ 2006'), # This is DR3 not DR7! 
+selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
+             #('Selmaps_with_tiles/dr3z2p6_selfunc.dat', 1622.0, 13, r'Richards et al.\ 2006'), # This is DR3 not DR7! 
              ('Selmaps_with_tiles/croom09sgp_selfunc.dat', 64.2, 15, r'Croom et al.\ 2009'),
              ('Selmaps_with_tiles/croom09ngp_selfunc.dat', 127.7, 15, r'Croom et al.\ 2009'),
              ('Selmaps_with_tiles/ross13_selfunc2.dat', 2236.0, 1, r'Ross et al.\ 2013'),
@@ -46,11 +46,10 @@ selnfiles = [#('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards 
 method = 'Nelder-Mead'
 
 zls = [(0.1, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0), (1.0, 1.2),
-       (1.2, 1.4), (1.4, 1.6), (1.6, 1.8)]
-# , (1.8, 2.2), (2.2, 2.4),
-#        (2.4, 2.5), (2.5, 2.6), (2.6, 2.7), (2.7, 2.8), (2.8, 2.9),
-#        (2.9, 3.0), (3.0, 3.1), (3.1, 3.2), (3.2, 3.3), (3.3, 3.4),
-#        (3.4, 3.5), (3.7, 4.1), (4.1, 4.7), (4.7, 5.5), (5.5, 6.5)]
+       (1.2, 1.4), (1.4, 1.6), (1.6, 1.8), (1.8, 2.2), (2.2, 2.4),
+       (2.4, 2.5), (2.5, 2.6), (2.6, 2.7), (2.7, 2.8), (2.8, 2.9),
+       (2.9, 3.0), (3.0, 3.1), (3.1, 3.2), (3.2, 3.3), (3.3, 3.4),
+       (3.4, 3.5), (3.7, 4.1), (4.1, 4.7), (4.7, 5.5), (5.5, 6.5)]
 
 zls = [(0.4, 0.68), (0.68, 1.06), (1.06, 1.44), (1.44, 1.82), (1.82, 2.2), (2.2, 2.6)]
 
