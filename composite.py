@@ -22,8 +22,9 @@ def getselfn(selfile):
     """Read selection map."""
 
     with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
-    return z, mag, p 
+        z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
+    
+    return z, mag, p, dz, dm 
 
 def getqlums(lumfile):
 
@@ -78,13 +79,14 @@ def volume(z, area, cosmo=cosmo):
 
 class selmap:
 
-    def __init__(self, selection_map_file, dm, dz, area, sample_id):
+    def __init__(self, selection_map_file, area, sample_id):
 
-        self.z, self.m, self.p = getselfn(selection_map_file)
+        self.z, self.m, self.p, self.dz, self.dm  = getselfn(selection_map_file)
 
-        self.dz = dz
-        self.dm = dm 
-        print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
+        # self.dz = dz
+        # self.dm = dm 
+        # print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
+        print 'sample_id={:d}'.format(sample_id)
 
         self.sid = sample_id 
 
@@ -108,6 +110,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
             
         if sample_id == 13:
             # Restrict Richards sample
@@ -123,6 +127,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
 
         if sample_id == 15:
             # Restrict Croom sample
@@ -134,6 +140,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
             
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
@@ -142,6 +150,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
 
         if self.z.size == 0:
             return 
