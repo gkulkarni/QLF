@@ -1,0 +1,15 @@
+# Giallongo et al. (2015, A&A, 578, A83) selection function
+# estimated from Giallongo's Table 3 comparing phi_obs and phi_corr
+# caution: bins are not equally spaced (4<z<4.5, 4.5<z<5.0, 5.0<z<6.5)
+# Tile sizes added by hand 
+# counter  z     M1450  p   dz    dmag 
+        1  4.250 -21.00 1.00000 0.5 1.0
+        2  4.250 -20.00 0.79400 0.5 1.0
+        3  4.250 -19.00 0.25100 0.5 1.0
+        4  4.750 -22.50 1.00000 0.5 2.0
+        5  4.750 -21.00 0.79400 0.5 1.0
+        6  4.750 -20.00 0.50100 0.5 1.0
+        7  4.750 -19.00 0.39800 0.5 1.0
+        8  5.750 -21.00 1.00000 1.5 1.0
+        9  5.750 -20.00 0.39800 1.5 1.0
+       10  5.750 -19.00 0.31600 1.5 1.0
