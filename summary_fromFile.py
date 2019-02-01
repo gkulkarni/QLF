@@ -24,7 +24,7 @@ plot_number = 0
 zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=500)
-cfit = False
+cfit = True
 
 def plot_model(composite, param_number, ax):
 
@@ -155,7 +155,7 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
         phi = np.median(phi, axis=0)
         ax.plot(z, phi, color='k', zorder=5, lw=1)
 
-    plot_model(lfg_break, 0, ax)
+#    plot_model(lfg_break, 0, ax)
     plot_model_polyb(lfg_polyb, 0, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='good')
@@ -265,7 +265,7 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
         M = np.median(M, axis=0)
         ax.plot(z, M, color='k', zorder=5, lw=1)
 
-    plot_model(lfg_break, 1, ax)
+#    plot_model(lfg_break, 1, ax)
     plot_model_polyb(lfg_polyb, 1, ax)
         
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='good')
@@ -387,7 +387,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
         alpha = np.median(alpha, axis=0) 
         m1, = ax.plot(z, alpha, color='k', zorder=5, lw=1)
 
-    m2f, m2 = plot_model(lfg_break, 2, ax)
+#    m2f, m2 = plot_model(lfg_break, 2, ax)
     m3f, m3 = plot_model_polyb(lfg_polyb, 2, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='good')
@@ -443,19 +443,19 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
 
     handles, labels = [], []
 
-    handles.append((m1f,m1))
-    labels.append('Model 1')
+    # handles.append((m1f,m1))
+    # labels.append('Model 1')
 
-    handles.append((m2f,m2))
-    labels.append('Model 2')
+    # handles.append((m2f,m2))
+    # labels.append('Model 2')
 
-    handles.append((m3f,m3))
-    labels.append('Model 3')
+    # handles.append((m3f,m3))
+    # labels.append('Model 3')
     
-    plt.legend(handles, labels, loc='upper right', fontsize=10,
-               handlelength=3, frameon=False, framealpha=0.0,
-               labelspacing=.1, handletextpad=0.3, borderpad=0.1,
-               scatterpoints=1)
+    # plt.legend(handles, labels, loc='upper right', fontsize=10,
+    #            handlelength=3, frameon=False, framealpha=0.0,
+    #            labelspacing=.1, handletextpad=0.3, borderpad=0.1,
+    #            scatterpoints=1)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
@@ -526,7 +526,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
         # beta = composite.atz_beta(z, composite.getparams(bf)[3])
         # ax.plot(z, beta, color='k', zorder=2, lw=1)
 
-    plot_model(lfg_break, 3, ax)
+#    plot_model(lfg_break, 3, ax)
     plot_model_polyb(lfg_polyb, 3, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
@@ -540,15 +540,15 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=30)
 
-    cfit = False
+    cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 3)
+        coeffs = chebfit(zmean+1, c, 2)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1, p2, p3):
-                return T([p0, p1, p2, p3])(z)
+        def func(z, p0, p1, p2):
+                return T([p0, p1, p2])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -572,7 +572,8 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
             return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
 
         sigma = u - l 
-        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
+        #popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,4.0,1.4,-0.7])
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
@@ -633,5 +634,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False, l
     
     return
 
-# summary_plot()
+#summary_plot#()
 
