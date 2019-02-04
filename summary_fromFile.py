@@ -12,7 +12,7 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import UnivariateSpline
 
 # These redshift bins are labelled "bad" and are plotted differently.
-reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+reject = [0, 1, 7,8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 # colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown']
 colors = ['k', 'k', 'k', 'k'] 
@@ -401,25 +401,14 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=30)
 
-    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad')
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
-                fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
-
-    cfit = False
+    cfit = True
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1.0, c, 2)
+        coeffs = chebfit(zmean+1.0, c, 3)
         print 'c=', coeffs
 
-        def func(z, p0, p1, p2):
-            return T([p0, p1, p2])(z)
+        def func(z, p0, p1, p2, p3):
+            return T([p0, p1, p2, p3])(z)
 
         sigma = u-l
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -439,6 +428,18 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((downerr, uperr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
+
         
 
     handles, labels = [], []
