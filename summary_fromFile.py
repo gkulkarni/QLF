@@ -544,12 +544,12 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
     cfit = True
     if cfit:
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1, c, 2)
+        coeffs = chebfit(zmean+1, c, 3)
         print coeffs
         # plt.plot(zc, T(coeffs)(zc+1), lw=1, c='k', dashes=[7,2], zorder=3)
 
-        def func(z, p0, p1, p2):
-                return T([p0, p1, p2])(z)
+        def func(z, p0, p1, p2, p3):
+                return T([p0, p1, p2, p3])(z)
 
         sigma = u - l 
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])

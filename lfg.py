@@ -45,7 +45,7 @@ selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13),
              # ('Selmaps_with_tiles/ukidss_sel_4.dat', 3370.0, 19),
              # ('Selmaps_with_tiles/banados_sel_4.dat', 2500.0, 20)]
 
-case = 12
+case = 13
 
 if case == 0:
 
@@ -360,4 +360,31 @@ elif case == 12:
     lfg.run_mcmc()
 
     
+elif case == 13:
+
+    lfg = lf_polyb(quasar_files=qlumfiles, selection_maps=selnfiles, pnum=[3,4,4,4])
+
+    g = np.array([-7.95061036, 1.15284665, -0.12037541,
+                  -18.64592897, -4.52638114, 0.47207865, -0.01890026,
+                  -0.55605685, -2.45096893,  0.26563797, -0.00963905,
+                  -2.17477395e+00,   2.83275620e-01,  -4.10900663e-02,   1.30858315e-03])
+
+    method = 'Nelder-Mead'
+    b = lfg.bestfit(g, method=method)
+
+    lfg.prior_min_values = np.array([-15.0, 0.0, -5.0,
+                                     -30.0, -10.0, 0.0, -2.0,
+                                     -10.0, -20.0, -10.0, -5.0,
+                                     -10.0, -5.0, -5.0, -5.0])
+
+    lfg.prior_max_values = np.array([-5.0, 10.0, 5.0,
+                                     -10.0, -1.0, 2.0, 2.0,
+                                      10.0, 20.0, 10.0, 5.0, 
+                                      10.0, 5.0, 5.0, 5.0])
+
+    assert(np.all(lfg.prior_min_values < lfg.prior_max_values))
+    assert(np.all(lfg.bf.x < lfg.prior_max_values))
+    assert(np.all(lfg.prior_min_values < lfg.bf.x))
+
+    lfg.run_mcmc()
 
