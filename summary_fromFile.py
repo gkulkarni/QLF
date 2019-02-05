@@ -155,8 +155,11 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
         phi = np.median(phi, axis=0)
         ax.plot(z, phi, color='k', zorder=5, lw=1)
 
-    plot_model(lfg_break, 0, ax)
-    #plot_model_polyb(lfg_polyb, 0, ax)
+    if lfg_break is not None: 
+        plot_model(lfg_break, 0, ax)
+
+    if lfg_polyb is not None: 
+        plot_model_polyb(lfg_polyb, 0, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='good')
     left = zmean-zl
@@ -265,8 +268,11 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
         M = np.median(M, axis=0)
         ax.plot(z, M, color='k', zorder=5, lw=1)
 
-    plot_model(lfg_break, 1, ax)
-#    plot_model_polyb(lfg_polyb, 1, ax)
+    if lfg_break is not None: 
+        plot_model(lfg_break, 1, ax)
+
+    if lfg_polyb is not None: 
+        plot_model_polyb(lfg_polyb, 1, ax)
         
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='good')
     left = zmean-zl
@@ -387,8 +393,11 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
         alpha = np.median(alpha, axis=0) 
         m1, = ax.plot(z, alpha, color='k', zorder=5, lw=1)
 
-    m2f, m2 = plot_model(lfg_break, 2, ax)
-#    m3f, m3 = plot_model_polyb(lfg_polyb, 2, ax)
+    if lfg_break is not None: 
+        m2f, m2 = plot_model(lfg_break, 2, ax)
+
+    if lfg_polyb is not None: 
+        m3f, m3 = plot_model_polyb(lfg_polyb, 2, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='good')
     left = zmean-zl
@@ -527,8 +536,11 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
         # beta = composite.atz_beta(z, composite.getparams(bf)[3])
         # ax.plot(z, beta, color='k', zorder=2, lw=1)
 
-    plot_model(lfg_break, 3, ax)
-#    plot_model_polyb(lfg_polyb, 3, ax)
+    if lfg_break is not None: 
+        plot_model(lfg_break, 3, ax)
+
+    if lfg_polyb is not None: 
+        plot_model_polyb(lfg_polyb, 3, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
     left = zmean-zl
