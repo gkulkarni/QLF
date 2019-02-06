@@ -20,10 +20,10 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/jiang16s82_sample.dat',
              'Data_new/willott10_cfhqsdeepsample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
-             'Data_new/kashikawa15_sample.dat',
-             'Data_new/giallongo15_sample.dat',
-             'Data_new/ukidss_sample.dat',
-             'Data_new/banados_sample.dat']
+             'Data_new/kashikawa15_sample.dat']
+             # 'Data_new/giallongo15_sample.dat',
+             # 'Data_new/ukidss_sample.dat',
+             # 'Data_new/banados_sample.dat']
 
 selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13),
              ('Selmaps_with_tiles/croom09sgp_selfunc.dat', 64.2, 15),
@@ -40,12 +40,12 @@ selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13),
              ('Selmaps_with_tiles/jiang16s82_selfunc.dat', 277.0, 18),
              ('Selmaps_with_tiles/willott10_cfhqsdeepsel.dat', 4.47, 10),
              ('Selmaps_with_tiles/willott10_cfhqsvwsel.dat', 494.0, 10),
-             ('Selmaps_with_tiles/kashikawa15_sel.dat', 6.5, 11),
-             ('Selmaps_with_tiles/giallongo15_sel.dat', 0.047, 7),
-             ('Selmaps_with_tiles/ukidss_sel_4.dat', 3370.0, 19),
-             ('Selmaps_with_tiles/banados_sel_4.dat', 2500.0, 20)]
+             ('Selmaps_with_tiles/kashikawa15_sel.dat', 6.5, 11)]
+             # ('Selmaps_with_tiles/giallongo15_sel.dat', 0.047, 7),
+             # ('Selmaps_with_tiles/ukidss_sel_4.dat', 3370.0, 19),
+             # ('Selmaps_with_tiles/banados_sel_4.dat', 2500.0, 20)]
 
-case = 15
+case = 13
 
 if case == 0:
 
