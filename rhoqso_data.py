@@ -9,85 +9,52 @@ mpl.rcParams['font.size'] = '16'
 import matplotlib.pyplot as plt
 from astropy.stats import knuth_bin_width  as kbw
 from astropy.stats import poisson_conf_interval as pci
-from scipy.stats import binned_statistic as bs
-import cosmolopy.distance as cd
-cosmo = {'omega_M_0':0.3,
-         'omega_lambda_0':0.7,
-         'omega_k_0':0.0,
-         'h':0.70}
 
+def f(loglf, theta, m, z, fit='individual'):
 
-"""Makes LF plots at particular redshifts.  Shows data with
-individual and composite models.  This is similar to the draw()
-function in individual.py but is more flexible.
-
-"""
-
-def lfsample(theta, n, mlims):
-
-    """
-    Return n qso magnitudes between mlims[0] and mlims[1] when the LF
-    is described by parameters theta.
-
-    """
-
-    mmin = mlims[0]
-    mmax = mlims[1]
-
-    def lnprob(x, theta):
-
-        if x < mmax and x > mmin: 
-            mag = x 
-            log10phi_star, M_star, alpha, beta = theta 
-            phi = 10.0**log10phi_star / (10.0**(0.4*(alpha+1)*(mag-M_star)) +
-                                         10.0**(0.4*(beta+1)*(mag-M_star)))
-            return np.log(phi)
-        else:
-            return -np.inf 
+    if fit == 'composite':
+        return 10.0**loglf(theta, m, z)
     
-    ndim = 1 
-    nwalkers = 250
-    dm = np.abs(mmin-mmax)
-    p0 = (np.random.rand(ndim*nwalkers)*dm + mmin).reshape((nwalkers, ndim))
+    return 10.0**loglf(theta, m)
 
-    sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=[theta])
-    pos, prob, state = sampler.run_mcmc(p0, 100)
-    sampler.reset()
-    sampler.run_mcmc(pos, 1000)
-    sample = sampler.flatchain[:,0]
 
-    return np.random.choice(sample, n)
+def rhoqso(loglf, theta, mlim, z, fit='individual', mbright=-35.0):
+
+    m = np.linspace(mbright, mlim, num=1000)
+    if fit == 'composite':
+        farr = f(loglf, theta, m, z, fit='composite')
+    else:
+        farr = f(loglf, theta, m, z, fit='individual')
     
-def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
+    return np.trapz(farr, m) # cMpc^-3
 
-    nmags = 100
-    mags = np.linspace(*maglims, num=nmags)
-    nsample = 1000
-    rsample = lf.samples[np.random.randint(len(lf.samples), size=nsample)]
-    phi = np.zeros((nsample, nmags))
+
+def get_rhoqso(lfi, mlim, z, fit='individual', mbright=-35.0):
+
+    rindices = np.random.randint(len(lfi.samples), size=300)
+    n = np.array([rhoqso(lfi.log10phi, theta, mlim, z, mbright=mbright) 
+                  for theta
+                  in lfi.samples[rindices]])
+    u = np.percentile(n, 15.87) 
+    l = np.percentile(n, 84.13)
+    c = np.mean(n)
+    lfi.rhoqso = [u, l, c]
+
+    return
+
+
+def cumVol(selmap, Mlim, zrange):
+
+    v = 0.0
+    for i in xrange(selmap.m.size):
+        if (selmap.m[i] < Mlim):
+            if (selmap.z[i] >= zrange[0]) and (selmap.z[i] < zrange[1]):
+                    v += selmap.volarr[i]*selmap.p[i]
+
+    return v
     
-    for i, theta in enumerate(rsample):
-        phi[i] = lf.log10phi(theta, mags)
-
-    up = np.percentile(phi, 15.87, axis=0)
-    down = np.percentile(phi, 84.13, axis=0)
-    #f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
-    f = ax.fill_between(mags, down, y2=up, color='grey', alpha=0.7)
-
-    return f
-
-def plot_bestfit_lf(lf, ax, mags, **kwargs):
-
-    bf = np.median(lf.samples, axis=0)
-    phi_fit = lf.log10phi(bf, mags)
-    # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
-    #bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
-    bf, = ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
-
-    return bf 
-
-
-def binVol(self, selmap, mrange, zrange):
+    
+def binVol(selmap, mrange, zrange):
 
     """
 
@@ -107,26 +74,6 @@ def binVol(self, selmap, mrange, zrange):
     return v
 
 
-def binVol_all(self, selmap, mrange, zrange):
-
-    """
-
-    Calculate volume in an M-z bin for *one* selmap.
-
-    """
-
-    v = 0.0
-    for i in xrange(selmap.m_all.size):
-        if (selmap.m_all[i] >= mrange[0]) and (selmap.m_all[i] < mrange[1]):
-            if (selmap.z_all[i] >= zrange[0]) and (selmap.z_all[i] < zrange[1]):
-                if selmap.sid == 7: # Giallongo 
-                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm[i]
-                else:
-                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm_all_array[i]
-
-    return v
-
-
 def totBinVol(lf, m, mbins, selmaps):
 
     """
@@ -141,174 +88,29 @@ def totBinVol(lf, m, mbins, selmaps):
     mhigh = mbins[idx]
     mrange = (mlow, mhigh)
 
-    v = np.array([binVol(lf, x, mrange, lf.zlims) for x in selmaps])
+    v = np.array([binVol(x, mrange, lf.zlims) for x in selmaps])
     total_vol = v.sum() 
 
     return total_vol
 
 
-def totBinVol_all(lf, m, mbins, selmaps):
+def get_rhoqso(lf, sid, Mlim):
 
-    """
+    m = lf.M1450[lf.sid==sid]
+    selmaps = [x for x in lf.maps if x.sid == sid]
+    n = np.size(m[m < Mlim])
+    v = np.array([cumVol(x, Mlim, lf.zlims) for x in selmaps])
 
-    Given magnitude bins mbins and a list of selection maps
-    selmaps, compute the volume for an object with magnitude m.
-
-    """
-
-    idx = np.searchsorted(mbins, m)
-    mlow = mbins[idx-1]
-    mhigh = mbins[idx]
-    mrange = (mlow, mhigh)
-
-    v = np.array([binVol_all(lf, x, mrange, lf.zlims) for x in selmaps])
-    total_vol = v.sum() 
-
-    return total_vol
+    return n/np.sum(v)
 
 
-def get_lf(lf, sid, z_plot, bins, special='None'):
+def get_lf(lf, sid, bins):
     
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
     m = lf.M1450[lf.sid==sid]
 
     selmaps = [x for x in lf.maps if x.sid == sid]
-
-    # if sid==6:
-    #     # Glikman's sample needs wider bins.
-    #     bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
-    # elif sid == 7:
-    #     bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
-    # elif sid == 10 or sid == 18:
-    #     bins = np.arange(-30.9, -17.3, 1.8)
-    # elif special == 'croom_comparison':
-    #     # These M1450 bins result in the Mgz2 bins of Croom09.  The
-    #     # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
-    #     bins = np.arange(-30,-19.5,0.5)+1.23
-    # elif special == 'croom_comparison_Mgz2':
-    #     # These Mgz2 bins of Croom09.  
-    #     bins = np.arange(-30,-19.5,0.5)
-    # else:
-    #     bins = np.arange(-30.9, -17.3, 0.6)
-
-    v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
-
-    v1_nonzero = v1[np.where(v1>0.0)]
-    m = m[np.where(v1>0.0)]
-
-    h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
-
-    nums = h[0]
-    mags = (h[1][:-1] + h[1][1:])*0.5
-    dmags = np.diff(h[1])*0.5
-
-    left = mags - h[1][:-1]
-    right = h[1][1:] - mags
-
-    phi = nums
-    logphi = np.log10(phi) # cMpc^-3 mag^-1
-
-    # print 'sid=', sid 
-    # print 'mags=', mags
-    # print 'nums=', nums
-    # print 'total=', np.sum(nums)
-
-    # Calculate errorbars on our binned LF.  These have been estimated
-    # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
-    # implemented in astropy.stats.poisson_conf_interval.  The
-    # interval='frequentist-confidence' option to that astropy function is
-    # exactly equal to the Gehrels formulas, although the documentation
-    # does not say so.
-    n = np.histogram(m, bins=bins)[0]
-    nlims = pci(n,interval='frequentist-confidence')
-    nlims *= phi/n 
-    uperr = np.log10(nlims[1]) - logphi 
-    downerr = logphi - np.log10(nlims[0])
-
-    return mags, left, right, logphi, uperr, downerr
-
-
-def get_lf_all(lf, sid, z_plot, special='None'):
-
-    # Bin data.  This is only for visualisation and to compare
-    # with reported binned values.  
-
-    m = lf.M1450_all[lf.sid_all==sid]
-
-    selmaps = [x for x in lf.maps if x.sid == sid]
-
-    if sid==6:
-        # Glikman's sample needs wider bins.
-        bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
-    elif sid == 7:
-        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
-    elif sid == 10 or sid == 18:
-        bins = np.arange(-30.9, -17.3, 1.8)
-    elif special == 'croom_comparison':
-        # These M1450 bins result in the Mgz2 bins of Croom09.  The
-        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
-        bins = np.arange(-30,-19.5,0.5)+1.23
-    elif special == 'croom_comparison_Mgz2':
-        # These Mgz2 bins of Croom09.  
-        bins = np.arange(-30,-19.5,0.5)
-    else:
-        bins = np.arange(-30.9, -17.3, 0.6)
-
-    v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
-
-    v1_nonzero = v1[np.where(v1>0.0)]
-    m = m[np.where(v1>0.0)]
-
-    h = np.histogram(m, bins=bins, weights=1.0/(v1_nonzero))
-
-    nums = h[0]
-    mags = (h[1][:-1] + h[1][1:])*0.5
-    dmags = np.diff(h[1])*0.5
-
-    left = mags - h[1][:-1]
-    right = h[1][1:] - mags
-
-    phi = nums
-    logphi = np.log10(phi) # cMpc^-3 mag^-1
-
-    # Calculate errorbars on our binned LF.  These have been estimated
-    # using Equations 1 and 2 of Gehrels 1986 (ApJ 303 336), as
-    # implemented in astropy.stats.poisson_conf_interval.  The
-    # interval='frequentist-confidence' option to that astropy function is
-    # exactly equal to the Gehrels formulas, although the documentation
-    # does not say so.
-    n = np.histogram(m, bins=bins)[0]
-    nlims = pci(n,interval='frequentist-confidence')
-    nlims *= phi/n 
-    uperr = np.log10(nlims[1]) - logphi 
-    downerr = logphi - np.log10(nlims[0])
-
-    return mags, left, right, logphi, uperr, downerr
-
-
-def get_lf_sample(lf, sid, z_plot):
-
-    # Bin data.  This is only for visualisation and to compare
-    # with reported binned values.  
-
-    m = lf.M1450[lf.sid==sid]
-    n = m.size
-    mlims = (m.min(), m.max())
-    theta = np.median(lf.samples, axis=0)
-    m = lfsample(theta, n, mlims)
-
-    selmaps = [x for x in lf.maps if x.sid == sid]
-
-    # if sid==6:
-    #     # Glikman's sample needs wider bins.
-    #     bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
-    # elif sid == 7:
-    #     bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
-    # elif sid == 10:
-    #     bins = np.arange(-30.9, -17.3, 1.8)
-    # else:
-    #     bins = np.arange(-30.9, -17.3, 0.6)
 
     v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
@@ -342,272 +144,42 @@ def get_lf_sample(lf, sid, z_plot):
     return mags, left, right, logphi, uperr, downerr
 
 
-def plot_giallongo_z5p75(lf, ax, mags):
+def rhoqso2(lfs, mag_threshold):
 
-    M_star_giallongo = -23.4
-    log10phi_star_giallongo = -5.8
-    beta = -1.66 # Giallongo et al. call this -beta
-    alpha = -3.35 # Giallongo et al. call this -gamma
+    zs = []
+    rhos = []
 
-    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
-    
-    phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=5.75$', dashes=[7,2])
+    for x in lfs:
+        z = (x.zlims[0]+x.zlims[1])/2
+        sids = np.unique(x.sid)
 
-    return 
-
-
-def plot_giallongo_z4p75(lf, ax, mags):
-
-    M_star_giallongo = -23.6
-    log10phi_star_giallongo = -5.7
-    beta = -1.81 # Giallongo et al. call this -beta
-    alpha = -3.14 # Giallongo et al. call this -gamma
-
-    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
-    
-    phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.75$', dashes=[7,2])
-
-    return 
-
-
-def plot_giallongo_z4p25(lf, ax, mags):
-
-    M_star_giallongo = -23.2
-    log10phi_star_giallongo = -5.2
-    beta = -1.52 # Giallongo et al. call this -beta
-    alpha = -3.13 # Giallongo et al. call this -gamma
-
-    p = (log10phi_star_giallongo, M_star_giallongo, alpha, beta)
-    
-    phi_fit = lf.log10phi(p, mags)
-    ax.plot(mags, phi_fit, lw=2, c='r', zorder=100, label=r'Giallongo et al.\ 2015 fit at $z=4.25$', dashes=[7,2])
-
-    return 
-
-
-def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=True, c2=None, c3=None):
-
-    """
-
-    Plot data, best fit LF, and posterior LFs.
-
-    """
-
-    z_plot = lf.z.mean() 
-
-    if show_individual_fit: 
-        mag_plot = np.linspace(-32.0, -16.0, num=200) 
-        indf = plot_posterior_sample_lfs(lf, ax, (-32.0, -16.0), lw=1,
-                                       c='#ffbf00', alpha=0.1, zorder=2) 
-        # plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-        #                      c='#ffbf00', zorder=3, label='This work')
-
-        indbf = plot_bestfit_lf(lf, ax, mag_plot, lw=2,
-                             c='#ffbf00', zorder=3)
+        rhos_thiszbin = []
         
-        # if z_plot < 4.5:
-        #     plot_giallongo_z4p25(lf, ax, mag_plot)
-
-        # if z_plot < 5.5 and z_plot > 4.7:
-        #     plot_giallongo_z4p75(lf, ax, mag_plot)
-
-        # if z_plot > 5.5:
-        #     plot_giallongo_z5p75(lf, ax, mag_plot)
+        for sid in sids:
+            rho = get_rhoqso(x, sid, mag_threshold)
+            rhos_thiszbin.append(rho)
             
-
-    if composite is not None:
-
-        nmags = 200 
-        mags = np.linspace(-32.0, -16.0, num=nmags)
-        bf = np.median(composite.samples, axis=0)
-        nsample = 1000
-        rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
-        phi = np.zeros((nsample, nmags))
-        
-        for i, theta in enumerate(rsample):
-            phi[i] = composite.log10phi(theta, mags, z_plot)
-
-        up = np.percentile(phi, 15.87, axis=0)
-        down = np.percentile(phi, 84.13, axis=0)
-        c1f = ax.fill_between(mags, down, y2=up, color='grey', zorder=6, alpha=0.7)
-
-        p = np.median(phi, axis=0)
-        c1bf, = ax.plot(mags, p, color='k', zorder=6, lw=1)
-
-
-    if c2 is not None: 
-        nmags = 200 
-        mags = np.linspace(-32.0, -16.0, num=nmags)
-        bf = np.median(c2.samples, axis=0)
-        nsample = 1000
-        rsample = c2.samples[np.random.randint(len(c2.samples), size=nsample)]
-        phi = np.zeros((nsample, nmags))
-        
-        for i, theta in enumerate(rsample):
-            phi[i] = c2.log10phi(theta, mags, z_plot)
-
-        up = np.percentile(phi, 15.87, axis=0)
-        down = np.percentile(phi, 84.13, axis=0)
-        c2f = ax.fill_between(mags, down, y2=up, color='forestgreen', zorder=4, alpha=0.7)
-
-        p = np.median(phi, axis=0)
-        c2bf, = ax.plot(mags, p, color='forestgreen', zorder=4, lw=1)
-
-
-    if c3 is not None: 
-        nmags = 200 
-        mags = np.linspace(-32.0, -16.0, num=nmags)
-        bf = np.median(c3.samples, axis=0)
-        nsample = 1000
-        rsample = c3.samples[np.random.randint(len(c3.samples), size=nsample)]
-        phi = np.zeros((nsample, nmags))
-        
-        for i, theta in enumerate(rsample):
-            phi[i] = c3.log10phi(theta, mags, z_plot)
-
-        up = np.percentile(phi, 15.87, axis=0)
-        down = np.percentile(phi, 84.13, axis=0)
-        c3f = ax.fill_between(mags, down, y2=up, color='peru', zorder=5, alpha=0.7)
-
-        p = np.median(phi, axis=0)
-        c3bf, = ax.plot(mags, p, color='brown', zorder=5, lw=1)
-        
-        
-    cs = { 1 : '#1f77b4', # "blue"
-           6 : '#17becf', # "cyan"
-           7 : '#9467bd', # "purple"
-           8 : '#8c564b', # "brown"
-           10 : '#ff7f0e', # "orange"
-           11 : '#7f7f7f', # "grey"
-           13 : '#d62728', # "red"
-           15 : '#2ca02c', # "green"
-           17 : '#bcbd22', # "yellow"
-           18 : '#e377c2' # "pink"
-    }
-    
-    def dsl(i):
-        for x in lf.maps:
-            if x.sid == i:
-                return x.label
-        return
-
-    sids = np.unique(lf.sid)
-    
-    bad_data_set = False
-    if bad_data_set:
-        for i in sids: 
-            mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
-            print mags[logphi>-100.0]
-            print logphi[logphi>-100.0]
-            ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
-                        xerr=np.vstack((left, right)), 
-                        yerr=np.vstack((uperr, downerr)),
-                        fmt='None', zorder=4)
-            ax.scatter(mags, logphi, c='#ffffff', edgecolor=cs[i], zorder=4, s=16, label=dsl(i)+' (rejected bins)')
-        return
-
-    for i in sids[::-1]:
-
-        mags, left, right, logphi, uperr, downerr = get_lf(lf, i, z_plot)
-
-        print mags[logphi>-100.0]
-        print logphi[logphi>-100.0]
-        ax.scatter(mags, logphi, c=cs[i], edgecolor='None', zorder=4, s=20, label=dsl(i))
-        ax.errorbar(mags, logphi, ecolor=cs[i], capsize=0,
-                    xerr=np.vstack((left, right)), 
-                    yerr=np.vstack((uperr, downerr)),
-                    fmt='None', zorder=4)
-
-        if i == 8:
-            # No need to plot rejected bins for McGreer's data because
-            # they were rejected for overlap with Yang, not due to
-            # incompleteness.
-            continue 
-        
-        mags_all, left_all, right_all, logphi_all, uperr_all, downerr_all = get_lf_all(lf, i, z_plot)
-        print mags_all[logphi_all!=logphi]
-        print logphi_all[logphi_all!=logphi]
-
-        select = (logphi_all!=logphi)
-        mags_all = mags_all[select]
-        left_all = left_all[select]
-        right_all = right_all[select]
-        logphi_all = logphi_all[select]
-        uperr_all  = uperr_all[select]
-        downerr_all = downerr_all[select]
-
-        if mags_all.any(): 
-            ax.errorbar(mags_all, logphi_all, ecolor=cs[i], capsize=0,
-                        xerr=np.vstack((left_all, right_all)), 
-                        yerr=np.vstack((uperr_all, downerr_all)),
-                        fmt='None', zorder=4)
-            ax.scatter(mags_all, logphi_all, c='#ffffff', edgecolor=cs[i],
-                       zorder=4, s=16, label=dsl(i)+' (rejected bin)')
-
-    if showMockSample:
-        for i in sids:
-            mags, left, right, logphi, uperr, downerr = get_lf_sample(lf, i, z_plot)
-            ax.scatter(mags, logphi, c='k', edgecolor='None', zorder=4, s=16, label=dsl(i))
-            ax.errorbar(mags, logphi, ecolor='k', capsize=0,
-                        xerr=np.vstack((left, right)), 
-                        yerr=np.vstack((uperr, downerr)),
-                        fmt='None', zorder=4)
-        
-    return #(indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
-
-def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
-
-    """
-
-    Plot data, best fit LF, and posterior LFs.
-
-    """
-
-    z_plot = lf.z.mean() 
-    
-    fig = plt.figure(figsize=(7, 7), dpi=100)
-    ax = fig.add_subplot(1, 1, 1)
-    ax.tick_params('both', which='major', length=7, width=1)
-    ax.tick_params('both', which='minor', length=3, width=1)
-
-    render(ax, lf, composite=composite, showMockSample=showMockSample,
-           show_individual_fit=show_individual_fit)
-
-    ax.set_xlim(-17.0, -31.0)
-    ax.set_ylim(-12.0, -4.0)
-    ax.set_xticks(np.arange(-31,-16, 2))
-
-    ax.set_xlabel(r'$M_{1450}$')
-    ax.set_ylabel(r'$\log_{10}\left(\phi/\mathrm{cMpc}^{-3}\,\mathrm{mag}^{-1}\right)$')
-
-    legend_title = r'$\langle z\rangle={0:.3f}$'.format(z_plot)
-    plt.legend(loc='lower left', fontsize=12, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.1, borderpad=0.2, scatterpoints=1,
-               title=legend_title)
-
-    plottitle = r'${:g}\leq z<{:g}$'.format(lf.zlims[0], lf.zlims[1]) 
-    plt.title(plottitle, size='medium', y=1.01)
-
-    plotfile = dirname+'lf_z{0:.3f}.pdf'.format(z_plot)
-    plt.savefig(plotfile, bbox_inches='tight')
-
-    plt.close('all') 
-
-    return 
-
-def rhoqso(lfs, mag_threshold, bins):
+        rhos.append(np.mean(rhos_thiszbin))
+        zs.append(z)
+            
+    return zs, rhos 
+            
+            
+def rhoqso_old(lfs, mag_threshold, bins):
 
     zs = []
     rhos = [] 
 
     for x in lfs:
 
+        z = (x.zlims[0]+x.zlims[1])/2
+        
         sids = np.unique(x.sid)
+
+        rhos_thiszbin = []
+        
         for sid in sids: 
-            mags, left, right, logphi, uperr, downerr = get_lf(x, sid, 0, bins)
+            mags, left, right, logphi, uperr, downerr = get_lf(x, sid, bins)
 
             dm = left + right
 
@@ -621,16 +193,100 @@ def rhoqso(lfs, mag_threshold, bins):
                 assert(np.all(np.diff(mags) > 0))
 
                 rho = np.interp(mag_threshold, mags, intphidm)
-                z = (x.zlims[0]+x.zlims[1])/2
-
-                print 'Mlim = {:.2f}  z = {:.2f}  rho = {:.3e}'.format(mag_threshold, z, rho)
                 
-                rhos.append(rho)
-                zs.append(z)
-            
+                rhos_thiszbin.append(rho)
+                
+                # print 'Mlim = {:.2f}  z = {:.2f}  rho = {:.3e}'.format(mag_threshold, z, rho)
+                
+        rhos.append(np.mean(rhos_thiszbin))
+        zs.append(z)
+        
     return zs, rhos 
 
-def draw_withGlobal_multiple(individuals, select=False):
+
+def rhoqso3(lfs, mag_threshold, bins):
+
+    zs = []
+    rhos = [] 
+    uerr = []
+    lerr = []
+    
+    for x in lfs:
+
+        z = (x.zlims[0]+x.zlims[1])/2
+        sids = np.unique(x.sid)
+
+        logphis = []
+        for sid in sids: 
+            mags, left, right, logphi, uperr, downerr = get_lf(x, sid, bins)
+            logphis.append(10.0**logphi)
+        logphi = np.sum(logphis, axis=0)
+
+        dm = left + right
+        phidm = logphi * dm 
+        intphidm = np.cumsum(phidm)
+
+        assert(np.all(np.diff(mags) > 0))
+        rho = np.interp(mag_threshold, mags, intphidm)
+        nqso = np.size(x.M1450[x.M1450 < mag_threshold])
+
+        if nqso > 0: 
+            nlims = pci(nqso,interval='frequentist-confidence')
+            nlims *= rho/nqso
+            uperr = nlims[1] - rho
+            downerr = rho - nlims[0]
+        else:
+            uperr = 0.0
+            downerr = 0.0
+            
+        if np.max(mags[logphi > 0.0]) < mag_threshold:
+            # not reaching threshold
+            rho = 0.0
+            uperr = 0.0
+            downerr = 0.0
+                
+        rhos.append(rho)
+        zs.append(z)
+        uerr.append(uperr)
+        lerr.append(downerr)
+
+    return zs, rhos, uerr, lerr
+
+
+def global_cumulative(ax, composite, mlim, color, **kwargs):
+
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    nsample = 300
+    rsample = composite.samples[np.random.randint(len(composite.samples), size=nsample)]
+
+    # bf = np.median(composite.samples, axis=0)
+    # r = np.array([rhoqso(composite.log10phi, bf, mlim, x, fit='composite') for x in z])
+    # ax.plot(z, r, color='k', zorder=7)
+
+    r = np.zeros((nsample, nzs))
+    for i, theta in enumerate(rsample):
+        r[i] = np.array([rhoqso(composite.log10phi, theta, mlim, x, fit='composite') for x in z])
+
+    up = np.percentile(r, 15.87, axis=0)
+    down = np.percentile(r, 84.13, axis=0)
+    f = ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.7, **kwargs)
+
+    c = np.median(r, axis=0)
+
+    if color == 'forestgreen':
+        p, = ax.plot(z, c, color=color, zorder=7)
+    
+    if color == 'peru': 
+        p, = ax.plot(z, c, color='brown', zorder=7)
+
+    if color == 'grey': 
+        p, = ax.plot(z, c, color='k', zorder=7)
+        
+    return f, p 
+
+
+def draw_withGlobal_multiple(c1, c2, c3, individuals, select=False):
 
     fig = plt.figure(figsize=(7, 11), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -645,82 +301,71 @@ def draw_withGlobal_multiple(individuals, select=False):
     ax.set_yscale('log')
     ax.set_ylim(1.0e-10, 1.0e-3)
 
-    # mlim = -18
-    # individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-18$')
-    # global_cumulative(ax, c1, mlim, 'grey', label='Model 1')
-    # global_cumulative(ax, c2, mlim, 'forestgreen', label='Model 2')
-    # global_cumulative(ax, c3, mlim, 'peru', label='Model 3')
-
-    # mlim = -18
-    # zs, rhos = rhoqso(individuals, mlim)
-
-    # ax.scatter(zs, rhos, c='tomato', edgecolor='None',
-    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-18$') 
+    mlim = -21
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.6))
+    ax.scatter(zs, rhos, c='forestgreen', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-21$') 
+    ax.errorbar(zs, rhos, ecolor='forestgreen', capsize=0, fmt='None', elinewidth=1, 
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5) 
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')
     
-    # mlim = -21
-    # zs, rhos = rhoqso(individuals, mlim)
+    mlim = -23
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.1))
+    ax.scatter(zs, rhos, c='red', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-23$') 
+    ax.errorbar(zs, rhos, ecolor='red', capsize=0, fmt='None', elinewidth=1, 
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')    
 
-    # ax.scatter(zs, rhos, c='forestgreen', edgecolor='None',
-    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-21$') 
-    
-
-    # plt.text(0.7, 1.2e-4, '$M_{1450}<-18$', rotation=52, fontsize=14, ha='center')
-
-    # mlim = -21
-    # individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-21$')
-    # global_cumulative(ax, c1, mlim, 'grey')
-    # global_cumulative(ax, c2, mlim, 'forestgreen')
-    # global_cumulative(ax, c3, mlim, 'peru')
-
-    # plt.text(0.7, 1.2e-5, '$M_{1450}<-21$', rotation=55, fontsize=14, ha='center')
-
-    # mlim = -24
-    # zs, rhos = rhoqso(individuals, mlim)
-
-    # ax.scatter(zs, rhos, c='goldenrod', edgecolor='None',
-    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-24$') 
-    
-    # mlim = -24
-    # individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-24$')
-    # global_cumulative(ax, c1, mlim, 'grey')
-    # global_cumulative(ax, c2, mlim, 'forestgreen')
-    # global_cumulative(ax, c3, mlim, 'peru')
-
-    # plt.text(0.5, 2e-7, '$M_{1450}<-24$', rotation=72, fontsize=14, ha='center')
+    mlim = -24
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.1))
+    ax.scatter(zs, rhos, c='goldenrod', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-24$') 
+    ax.errorbar(zs, rhos, ecolor='goldenrod', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')    
 
     mlim = -25
-    zs, rhos = rhoqso(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.005))
-
-    ax.scatter(zs, rhos, c='saddlebrown', edgecolor='None',
-               s=42, zorder=10, linewidths=2, label='$M_{1450}<-27$') 
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.1))
+    ax.scatter(zs, rhos, c='peru', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-25$') 
+    ax.errorbar(zs, rhos, ecolor='peru', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')    
     
-    # ax.errorbar(zs, rhos, ecolor=c, capsize=0, fmt='None', elinewidth=1,
-    #             yerr=np.vstack((rho_low, rho_up)),
-    #             xerr=np.vstack((lzerr, uzerr)), 
-    #             zorder=10, mew=1, ms=5)
-
-    # individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-27$')
-    # m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
-    # m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
-    # m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')
-
-    # plt.text(1, 2.0e-9, '$M_{1450}<-27$', rotation=67, fontsize=14, ha='center')
-
-    # handles, labels = [], []
-    # handles.append((m1f, m1))
-    # labels.append('Model 1')
-
-    # handles.append((m2f, m2))
-    # labels.append('Model 2')
-
-    # handles.append((m3f, m3))
-    # labels.append('Model 3')
-
-    # plt.legend(handles, labels, loc='upper left', fontsize=14, handlelength=3,
-    #            frameon=False, framealpha=0.0, labelspacing=.1,
-    #            handletextpad=0.3, borderpad=0.1,
-    #            scatterpoints=1)
-
+    mlim = -26
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.1))
+    ax.scatter(zs, rhos, c='tomato', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-26$') 
+    ax.errorbar(zs, rhos, ecolor='tomato', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')    
+    
+    mlim = -27
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.1))
+    ax.scatter(zs, rhos, c='saddlebrown', edgecolor='None', s=42, zorder=10, linewidths=2, label='$M_{1450}<-27$') 
+    ax.errorbar(zs, rhos, ecolor='saddlebrown', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                #xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru')
 
     plt.legend(loc='upper left', fontsize=14, handlelength=3,
                frameon=False, framealpha=0.0, labelspacing=.1,
