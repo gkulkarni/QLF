@@ -86,6 +86,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     return bf 
 
+
 def binVol(self, selmap, mrange, zrange):
 
     """
@@ -166,7 +167,7 @@ def totBinVol_all(lf, m, mbins, selmaps):
     return total_vol
 
 
-def get_lf(lf, sid, z_plot, special='None'):
+def get_lf(lf, sid, z_plot, bins, special='None'):
     
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
@@ -174,22 +175,22 @@ def get_lf(lf, sid, z_plot, special='None'):
 
     selmaps = [x for x in lf.maps if x.sid == sid]
 
-    if sid==6:
-        # Glikman's sample needs wider bins.
-        bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
-    elif sid == 7:
-        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
-    elif sid == 10 or sid == 18:
-        bins = np.arange(-30.9, -17.3, 1.8)
-    elif special == 'croom_comparison':
-        # These M1450 bins result in the Mgz2 bins of Croom09.  The
-        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
-        bins = np.arange(-30,-19.5,0.5)+1.23
-    elif special == 'croom_comparison_Mgz2':
-        # These Mgz2 bins of Croom09.  
-        bins = np.arange(-30,-19.5,0.5)
-    else:
-        bins = np.arange(-30.9, -17.3, 0.6)
+    # if sid==6:
+    #     # Glikman's sample needs wider bins.
+    #     bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+    # elif sid == 7:
+    #     bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    # elif sid == 10 or sid == 18:
+    #     bins = np.arange(-30.9, -17.3, 1.8)
+    # elif special == 'croom_comparison':
+    #     # These M1450 bins result in the Mgz2 bins of Croom09.  The
+    #     # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
+    #     bins = np.arange(-30,-19.5,0.5)+1.23
+    # elif special == 'croom_comparison_Mgz2':
+    #     # These Mgz2 bins of Croom09.  
+    #     bins = np.arange(-30,-19.5,0.5)
+    # else:
+    #     bins = np.arange(-30.9, -17.3, 0.6)
 
     v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
@@ -299,15 +300,15 @@ def get_lf_sample(lf, sid, z_plot):
 
     selmaps = [x for x in lf.maps if x.sid == sid]
 
-    if sid==6:
-        # Glikman's sample needs wider bins.
-        bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
-    elif sid == 7:
-        bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
-    elif sid == 10:
-        bins = np.arange(-30.9, -17.3, 1.8)
-    else:
-        bins = np.arange(-30.9, -17.3, 0.6)
+    # if sid==6:
+    #     # Glikman's sample needs wider bins.
+    #     bins = np.array([-26.0, -25.0, -24.0, -23.0, -22.0, -21])
+    # elif sid == 7:
+    #     bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
+    # elif sid == 10:
+    #     bins = np.arange(-30.9, -17.3, 1.8)
+    # else:
+    #     bins = np.arange(-30.9, -17.3, 0.6)
 
     v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
@@ -597,7 +598,7 @@ def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_f
 
     return 
 
-def rhoqso(lfs, mag_threshold):
+def rhoqso(lfs, mag_threshold, bins):
 
     zs = []
     rhos = [] 
@@ -606,14 +607,26 @@ def rhoqso(lfs, mag_threshold):
 
         sids = np.unique(x.sid)
         for sid in sids: 
-            mags, left, right, logphi, uperr, downerr = get_lf(x, sid, 0)
-            dm = left + right
-            phidm = 10.0**logphi * dm
+            mags, left, right, logphi, uperr, downerr = get_lf(x, sid, 0, bins)
 
+            dm = left + right
+
+            phidm = 10.0**logphi * dm
+            intphidm = np.cumsum(phidm)
+
+            # for d in zip(dm, mags, logphi, phidm, intphidm):
+            #     print '{:.2f}  {:.2f}  {:.2f}  {:.2e}  {:.2e}'.format(*d)
+            
             if (mag_threshold > np.min(mags)) and (mag_threshold < np.max(mags)):
                 assert(np.all(np.diff(mags) > 0))
-                rhos.append(np.interp(mag_threshold, mags, phidm))
-                zs.append((x.zlims[0]+x.zlims[1])/2)
+
+                rho = np.interp(mag_threshold, mags, intphidm)
+                z = (x.zlims[0]+x.zlims[1])/2
+
+                print 'Mlim = {:.2f}  z = {:.2f}  rho = {:.3e}'.format(mag_threshold, z, rho)
+                
+                rhos.append(rho)
+                zs.append(z)
             
     return zs, rhos 
 
@@ -638,17 +651,17 @@ def draw_withGlobal_multiple(individuals, select=False):
     # global_cumulative(ax, c2, mlim, 'forestgreen', label='Model 2')
     # global_cumulative(ax, c3, mlim, 'peru', label='Model 3')
 
-    mlim = -18
-    zs, rhos = rhoqso(individuals, mlim)
+    # mlim = -18
+    # zs, rhos = rhoqso(individuals, mlim)
 
-    ax.scatter(zs, rhos, c='tomato', edgecolor='None',
-               s=42, zorder=10, linewidths=2, label='$M_{1450}<-18$') 
+    # ax.scatter(zs, rhos, c='tomato', edgecolor='None',
+    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-18$') 
     
-    mlim = -21
-    zs, rhos = rhoqso(individuals, mlim)
+    # mlim = -21
+    # zs, rhos = rhoqso(individuals, mlim)
 
-    ax.scatter(zs, rhos, c='forestgreen', edgecolor='None',
-               s=42, zorder=10, linewidths=2, label='$M_{1450}<-21$') 
+    # ax.scatter(zs, rhos, c='forestgreen', edgecolor='None',
+    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-21$') 
     
 
     # plt.text(0.7, 1.2e-4, '$M_{1450}<-18$', rotation=52, fontsize=14, ha='center')
@@ -661,11 +674,11 @@ def draw_withGlobal_multiple(individuals, select=False):
 
     # plt.text(0.7, 1.2e-5, '$M_{1450}<-21$', rotation=55, fontsize=14, ha='center')
 
-    mlim = -24
-    zs, rhos = rhoqso(individuals, mlim)
+    # mlim = -24
+    # zs, rhos = rhoqso(individuals, mlim)
 
-    ax.scatter(zs, rhos, c='goldenrod', edgecolor='None',
-               s=42, zorder=10, linewidths=2, label='$M_{1450}<-24$') 
+    # ax.scatter(zs, rhos, c='goldenrod', edgecolor='None',
+    #            s=42, zorder=10, linewidths=2, label='$M_{1450}<-24$') 
     
     # mlim = -24
     # individuals_cumulative_multiple(ax, individuals, mlim, 'k', '$M<-24$')
@@ -675,8 +688,8 @@ def draw_withGlobal_multiple(individuals, select=False):
 
     # plt.text(0.5, 2e-7, '$M_{1450}<-24$', rotation=72, fontsize=14, ha='center')
 
-    mlim = -27
-    zs, rhos = rhoqso(individuals, mlim)
+    mlim = -25
+    zs, rhos = rhoqso(individuals, mlim, bins=np.arange(-30.9, -17.3, 0.005))
 
     ax.scatter(zs, rhos, c='saddlebrown', edgecolor='None',
                s=42, zorder=10, linewidths=2, label='$M_{1450}<-27$') 
