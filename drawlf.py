@@ -71,8 +71,7 @@ def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
 
     up = np.percentile(phi, 15.87, axis=0)
     down = np.percentile(phi, 84.13, axis=0)
-    #f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
-    f = ax.fill_between(mags, down, y2=up, color='grey', alpha=0.7)
+    f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
 
     return f
 
@@ -80,10 +79,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
-    #bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
-    bf, = ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
-
+    bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
     return bf 
 
 def binVol(self, selmap, mrange, zrange):
@@ -553,8 +549,11 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left, right)), 
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
-        
-    return #(indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
+
+    if c2 is not None: 
+        return (indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf)
+    else:
+        return 
 
 def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
 
