@@ -4,8 +4,10 @@ import individual
 reload(individual)
 from individual import lf
 import mosaic
+import drawlf
 
 qlumfiles = ['Data_new/dr7z2p2_sample.dat',
+             #'Data_new/dr3z2p6_sample.dat', # This is DR3 not DR7 
              'Data_new/croom09sgp_sample.dat',
              'Data_new/croom09ngp_sample.dat',
              'Data_new/bossdr9color.dat',
@@ -23,22 +25,23 @@ qlumfiles = ['Data_new/dr7z2p2_sample.dat',
              'Data_new/willott10_cfhqsvwsample.dat',
              'Data_new/kashikawa15_sample.dat']
 
-selnfiles = [('Data_new/dr7z2p2_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'Richards et al.\ 2006'),
-             ('Data_new/croom09sgp_selfunc.dat', 0.3, 0.05, 64.2, 15, r'Croom et al.\ 2009'),
-             ('Data_new/croom09ngp_selfunc.dat', 0.3, 0.05, 127.7, 15, r'Croom et al.\ 2009'),
-             ('Data_new/ross13_selfunc2.dat', 0.1, 0.05, 2236.0, 1, r'Ross et al.\ 2013'),
-             ('Data_new/dr7z3p7_selfunc.dat', 0.1, 0.05, 6248.0, 13, r'Richards et al.\ 2006'),
-             ('Data_new/glikman11_selfunc_ndwfs.dat', 0.05, 0.02, 1.71, 6, r'Glikman et al.\ 2011'),
-             ('Data_new/glikman11_selfunc_dls.dat', 0.05, 0.02, 2.05, 6, r'Glikman et al.\ 2011'),
-             ('Data_new/yang16_sel.dat', 0.1, 0.05, 14555.0, 17, r'Yang et al.\ 2016'),
-             ('Data_new/mcgreer13_dr7selfunc.dat', 0.1, 0.05, 6248.0, 8, r'McGreer et al.\ 2013'),
-             ('Data_new/mcgreer13_s82selfunc.dat', 0.1, 0.05, 235.0, 8, r'McGreer et al.\ 2013'),
-             ('Data_new/jiang16main_selfunc.dat', 0.1, 0.05, 11240.0, 18, r'Jiang et al.\ 2016'),
-             ('Data_new/jiang16overlap_selfunc.dat', 0.1, 0.05, 4223.0, 18, r'Jiang et al.\ 2016'),
-             ('Data_new/jiang16s82_selfunc.dat', 0.1, 0.05, 277.0, 18, r'Jiang et al.\ 2016'),
-             ('Data_new/willott10_cfhqsdeepsel.dat', 0.1, 0.025, 4.47, 10, r'Willott et al.\ 2010'),
-             ('Data_new/willott10_cfhqsvwsel.dat', 0.1, 0.025, 494.0, 10, r'Willott et al.\ 2010'),
-             ('Data_new/kashikawa15_sel.dat', 0.05, 0.05, 6.5, 11, r'Kashikawa et al.\ 2015')]
+selnfiles = [('Selmaps_with_tiles/dr7z2p2_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
+             #('Selmaps_with_tiles/dr3z2p6_selfunc.dat', 1622.0, 13, r'Richards et al.\ 2006'), # This is DR3 not DR7! 
+             ('Selmaps_with_tiles/croom09sgp_selfunc.dat', 64.2, 15, r'Croom et al.\ 2009'),
+             ('Selmaps_with_tiles/croom09ngp_selfunc.dat', 127.7, 15, r'Croom et al.\ 2009'),
+             ('Selmaps_with_tiles/ross13_selfunc2.dat', 2236.0, 1, r'Ross et al.\ 2013'),
+             ('Selmaps_with_tiles/dr7z3p7_selfunc.dat', 6248.0, 13, r'Richards et al.\ 2006'),
+             ('Selmaps_with_tiles/glikman11_selfunc_ndwfs.dat', 1.71, 6, r'Glikman et al.\ 2011'),
+             ('Selmaps_with_tiles/glikman11_selfunc_dls.dat', 2.05, 6, r'Glikman et al.\ 2011'),
+             ('Selmaps_with_tiles/yang16_sel.dat', 14555.0, 17, r'Yang et al.\ 2016'),
+             ('Selmaps_with_tiles/mcgreer13_dr7selfunc.dat', 6248.0, 8, r'McGreer et al.\ 2013'),
+             ('Selmaps_with_tiles/mcgreer13_s82selfunc.dat', 235.0, 8, r'McGreer et al.\ 2013'),
+             ('Selmaps_with_tiles/jiang16main_selfunc.dat', 11240.0, 18, r'Jiang et al.\ 2016'),
+             ('Selmaps_with_tiles/jiang16overlap_selfunc.dat', 4223.0, 18, r'Jiang et al.\ 2016'),
+             ('Selmaps_with_tiles/jiang16s82_selfunc.dat', 277.0, 18, r'Jiang et al.\ 2016'),
+             ('Selmaps_with_tiles/willott10_cfhqsdeepsel.dat', 4.47, 10, r'Willott et al.\ 2010'),
+             ('Selmaps_with_tiles/willott10_cfhqsvwsel.dat', 494.0, 10, r'Willott et al.\ 2010'),
+             ('Selmaps_with_tiles/kashikawa15_sel.dat', 6.5, 11, r'Kashikawa et al.\ 2015')]
 
 method = 'Nelder-Mead'
 
@@ -86,6 +89,8 @@ for i, zl in enumerate(zls):
     lfi.run_mcmc()
     lfi.get_percentiles()
 
+    drawlf.draw(lfi, show_individual_fit=True)
+    
     WRITE_PARAMS = True
     if WRITE_PARAMS: 
         with open('bins.dat', 'a') as f:

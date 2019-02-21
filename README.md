@@ -24,7 +24,7 @@ Begin by running lfi.py to get the luminosity function in a redshift bin.
 
 #### 2. How do I get the number density of AGN at a certain redshift? 
 
-In two ways: (a) Pass luminosity function models (instances of `individual.lf` or `composite.lf`) to one of the functions in `rhoqso.py`, (b) Use `code-that-produces-hm12-fit`.
+Pass luminosity function models (instances of `individual.lf` or `composite.lf`) to one of the functions in `rhoqso.py`.
 
 #### 3. I just want to know the value of one of the double-power-law parameters at a redshift
 

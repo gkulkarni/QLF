@@ -155,7 +155,7 @@ def get_fit_mcmc(individuals):
 
     # Get the 1450A emissivity of bright qsos (-18 > M > -30).
     for x in individuals_good:
-        get_rhoqso(x, -18.0, mbright=-40.0)
+        get_rhoqso(x, -21.0, mbright=-40.0)
     c18 = np.array([x.rhoqso[2] for x in individuals_good])
     u18 = np.array([x.rhoqso[0] for x in individuals_good])
     l18 = np.array([x.rhoqso[1] for x in individuals_good])
@@ -168,7 +168,7 @@ def get_fit_mcmc(individuals):
             
     write = True
     if write: 
-        np.savez('e1450_18', z=z1450, median=b1450, up=up1450, down=down1450)
+        np.savez('e1450_21_21feb', z=z1450, median=b1450, up=up1450, down=down1450)
 
     #-----
 

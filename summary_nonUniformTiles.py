@@ -11,11 +11,51 @@ from numpy.polynomial import Chebyshev as T
 from scipy.optimize import curve_fit
 from scipy.interpolate import UnivariateSpline
 
-# These redshift bins are labelled "bad" and are plotted differently.
-reject = [0, 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+clr = {'masters12': 'dodgerblue',
+       'jiang16': 'dodgerblue',
+       'glikman11': 'dodgerblue'}
 
-# colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown']
-colors = ['k', 'k', 'k', 'k'] 
+def croom09(ax, param):
+
+    if param == 0:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_phistar.txt', unpack=True)
+        pdownerr = -pdownerr 
+        
+    if param == 1:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_Mgstar.txt', unpack=True)
+        pdownerr = -pdownerr
+
+        # Convert from Mgz2 to M1450 using equation B8 of Ross et
+        # al. 2013.
+        p = p + 1.23
+        
+    if param == 2:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_alpha.txt', unpack=True)
+        pdownerr = -pdownerr 
+        
+    if param == 3:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_beta.txt', unpack=True)
+        pdownerr = -pdownerr 
+
+    ax.errorbar(z, p, ecolor=clr['glikman11'], capsize=2,
+                yerr=np.vstack((pdownerr, puperr)),
+                fmt='None', zorder=2, linewidths=0.5, elinewidths=0.5)
+    ax.scatter(z, p, color=clr['glikman11'], edgecolor='None', zorder=2, s=20, label='published values from Croom et al. 2009')
+
+    return
+
+
+# These redshift bins are labelled "bad" and are plotted differently.
+reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+colors = ['tomato', 'tomato', 'tomato', 'tomato']
+colors2 = ['k', 'k', 'k', 'k']
+colors3 = ['g', 'g', 'g', 'g']
+colors4 = ['m', 'm', 'm', 'm'] 
 nplots_x = 2
 nplots_y = 2
 nplots = 4
@@ -47,12 +87,12 @@ def plot_model(composite, param_number, ax):
     up = np.percentile(beta, 15.87, axis=0)
     down = np.percentile(beta, 84.13, axis=0)
     
-    mf = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=1, alpha=0.7)
+    ax.fill_between(z, down, y2=up, color='turquoise', zorder=1, label='Model 2')
 
     beta = np.median(beta, axis=0)
-    m, = ax.plot(z, beta, color='forestgreen', zorder=2, lw=1)
+    ax.plot(z, beta, color='turquoise', zorder=2, lw=1)
     
-    return mf, m
+    return
 
 def plot_model_polyb(composite, param_number, ax):
 
@@ -69,16 +109,35 @@ def plot_model_polyb(composite, param_number, ax):
     up = np.percentile(beta, 15.87, axis=0)
     down = np.percentile(beta, 84.13, axis=0)
     
-    mf = ax.fill_between(z, down, y2=up, color='peru', zorder=1, alpha=0.7)
+    ax.fill_between(z, down, y2=up, color='peru', zorder=1, label='Model 3')
 
     beta = np.median(beta, axis=0)
-    m, = ax.plot(z, beta, color='brown', zorder=2, lw=1)
+    ax.plot(z, beta, color='peru', zorder=2, lw=1)
     
-    return mf, m 
+    return
+
 
 def getParam(individuals, param, which='old', dtype='good'):
 
-    if individuals is not None: 
+    if which == 'nonUniformTiles':
+
+        zmean, zl, zu, u, l, c = np.loadtxt('bins_nonUniformTiles.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
+
+    elif which == 'all2SLAQandSDSS':
+
+        zmean, zl, zu, u, l, c = np.loadtxt('bins_noExclusion2SLAQSDSS.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
+
+    elif which == 'all2SLAQsomeSDSS':
+
+        zmean, zl, zu, u, l, c = np.loadtxt('bins_all2SLAQsomeSDSS.dat',
+                                            usecols=(0,1,2,3+param*3,4+param*3,5+param*3),
+                                            unpack=True)
+        
+    elif individuals is not None: 
     
         zmean = np.array([x.z.mean() for x in individuals])
         zl = np.array([x.zlims[0] for x in individuals])
@@ -150,38 +209,101 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
                 
             up = np.percentile(phi, 15.87, axis=0)
             down = np.percentile(phi, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
             
         phi = np.median(phi, axis=0)
-        ax.plot(z, phi, color='k', zorder=5, lw=1)
+        ax.plot(z, phi, color='k', zorder=2, lw=1)
 
-    if lfg_break is not None: 
-        plot_model(lfg_break, 0, ax)
-
-    if lfg_polyb is not None: 
-        plot_model_polyb(lfg_polyb, 0, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='good')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='k', capsize=0,
+    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=30)
+    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=20)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 0, which='new', dtype='bad')
     left = zmean-zl
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
+    ax.errorbar(zmean, c, ecolor=colors[0], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
+    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=20)
+
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='nonUniformTiles', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors2[0], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='nonUniformTiles', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color='k', edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='all2SLAQandSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[0], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='all2SLAQandSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[0], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='all2SLAQsomeSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[0], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 0, which='all2SLAQsomeSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[0], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[0], edgecolor='None', zorder=4, s=20)
+
     
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -214,10 +336,12 @@ def plot_phi_star(fig, composite, individuals=None, compOpt=None, sample=False, 
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,1,2,3), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((downerr, uperr)),
+    #             yerr=np.vstack((uperr, downerr)),
     #             fmt='None', zorder=4)
-    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=20)
 
+    croom09(ax, 0)
+    
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}'+
                   r'\mathrm{cMpc}^{-3}\right)$')
@@ -263,16 +387,11 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
                 
             up = np.percentile(M, 15.87, axis=0)
             down = np.percentile(M, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
             
         M = np.median(M, axis=0)
-        ax.plot(z, M, color='k', zorder=5, lw=1)
+        ax.plot(z, M, color='k', zorder=2, lw=1)
 
-    if lfg_break is not None: 
-        plot_model(lfg_break, 1, ax)
-
-    if lfg_polyb is not None: 
-        plot_model_polyb(lfg_polyb, 1, ax)
         
     zmean, zl, zu, u, l, c = getParam(individuals, 1, which='new', dtype='good')
     left = zmean-zl
@@ -281,16 +400,51 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=30, label='included data')
+    ax.scatter(zmean, c, color=colors[1], edgecolor='None', zorder=6, s=20)
 
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='nonUniformTiles', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors2[1], edgecolor='None', zorder=4, s=20)
+
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='all2SLAQandSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[1], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='all2SLAQsomeSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[1], edgecolor='None', zorder=4, s=20)
+    
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,4,5,6), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((downerr, uperr)),
+    #             yerr=np.vstack((uperr, downerr)),
     #             fmt='None', zorder=4)
-    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=20)
 
     cfit = False
     if cfit:
@@ -312,12 +466,46 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
+    ax.errorbar(zmean, c, ecolor=colors[1], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27, label='excluded data')
-        
+    ax.scatter(zmean, c, color=colors[0], edgecolor='None', zorder=6, s=20)
+
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='nonUniformTiles', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color='k', edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='all2SLAQandSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color='k', edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 1, which='all2SLAQsomeSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[1], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[1], edgecolor='None', zorder=4, s=20)
+    
     curvefit = False
     if curvefit:
         zc = np.linspace(0, 7, 500)
@@ -338,17 +526,13 @@ def plot_m_star(fig, composite, individuals=None, compOpt=None, sample=False, lf
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-22.,1,1])
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
-        
+
+    croom09(ax, 1)
+    
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
     ax.yaxis.labelpad = 12
     ax.set_xticklabels('')
-
-    plt.legend(loc='upper right', fontsize=10,
-               handlelength=3, frameon=False, framealpha=0.0,
-               labelspacing=.1, handletextpad=-0.3, borderpad=0.1,
-               scatterpoints=1)
-    
 
     return
 
@@ -363,7 +547,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
     ax.tick_params('both', which='minor', length=2, width=1, direction='in')
 
     ax.set_xlim(zmin, zmax)
-    ax.set_ylim(-7, -1)
+    ax.set_ylim(-6, 0)
     ax.set_yticks(np.arange(-7, -0.9, 1))
 
 
@@ -387,17 +571,12 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
                 
             up = np.percentile(alpha, 15.87, axis=0)
             down = np.percentile(alpha, 84.13, axis=0)
-            m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=5, label='Model 1', alpha=0.7)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1, label='Model 1')
 
         
         alpha = np.median(alpha, axis=0) 
-        m1, = ax.plot(z, alpha, color='k', zorder=5, lw=1)
+        ax.plot(z, alpha, color='k', zorder=2, lw=1)
 
-    if lfg_break is not None: 
-        m2f, m2 = plot_model(lfg_break, 2, ax)
-
-    if lfg_polyb is not None: 
-        m3f, m3 = plot_model_polyb(lfg_polyb, 2, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='good')
     left = zmean-zl
@@ -406,18 +585,95 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=30)
+    ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=20, label='assuming uniform tiles')
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=6)
+    ax.scatter(zmean, c, color=colors[0], edgecolor=colors[2], zorder=6, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='nonUniformTiles', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors2[2], edgecolor='None', zorder=4, s=20, label='allowing for non-uniform tiles')
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='nonUniformTiles', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color='k', edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='all2SLAQandSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[2], edgecolor='None', zorder=4, s=20, label='non-uniform tiles; no selection')
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='all2SLAQandSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[2], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='all2SLAQsomeSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[2], edgecolor='None', zorder=4, s=20, label='non-uniform tiles; old seln for SDSS')
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='all2SLAQsomeSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[2], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[2], edgecolor='None', zorder=4, s=20)
+    
     cfit = False
     if cfit: 
         zc = np.linspace(0, 7, 500)
-        coeffs = chebfit(zmean+1.0, c, 3)
+        coeffs = chebfit(zmean+1.0, c, 2)
         print 'c=', coeffs
 
-        def func(z, p0, p1, p2, p3):
-            return T([p0, p1, p2, p3])(z)
+        def func(z, p0, p1, p2):
+            return T([p0, p1, p2])(z)
 
         sigma = u-l
         popt, pcov = curve_fit(func, zmean+1, c, sigma=sigma, p0=[coeffs])
@@ -437,36 +693,15 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
         popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='r', dashes=[7,2])
-
-    zmean, zl, zu, u, l, c = getParam(individuals, 2, which='new', dtype='bad')
-    left = zmean-zl
-    right = zu-zmean
-    uperr = u-c
-    downerr = c-l
-    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
-                xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
-                fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
-
         
+    croom09(ax, 2)
 
-    handles, labels = [], []
-
-    handles.append((m1f,m1))
-    labels.append('Model 1')
-
-    handles.append((m2f,m2))
-    labels.append('Model 2')
-
-    handles.append((m3f,m3))
-    labels.append('Model 3')
     
-    plt.legend(handles, labels, loc='upper right', fontsize=10,
-               handlelength=3, frameon=False, framealpha=0.0,
-               labelspacing=.1, handletextpad=0.3, borderpad=0.1,
-               scatterpoints=1)
+    plt.legend(loc='upper left', fontsize=8, handlelength=1,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=-0.1, borderpad=0.01, scatterpoints=1)
 
+    
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
     ax.set_xlabel('$z$')
@@ -524,23 +759,18 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
                 
             up = np.percentile(beta, 15.87, axis=0)
             down = np.percentile(beta, 84.13, axis=0)
-            ax.fill_between(z, down, y2=up, color='grey', zorder=5, alpha=0.7)
+            ax.fill_between(z, down, y2=up, color='grey', zorder=1)
 
         # bfs = np.median(rsample, axis=0) 
         # print 'median beta (beta):', composite.getparams(bfs)[3]
         # print 'median beta (samples):', composite.getparams(bf)[3]
 
         beta = np.median(beta, axis=0)
-        ax.plot(z, beta, color='k', zorder=5, lw=1)
+        ax.plot(z, beta, color='k', zorder=2, lw=1)
 
         # beta = composite.atz_beta(z, composite.getparams(bf)[3])
         # ax.plot(z, beta, color='k', zorder=2, lw=1)
 
-    if lfg_break is not None: 
-        plot_model(lfg_break, 3, ax)
-
-    if lfg_polyb is not None: 
-        plot_model_polyb(lfg_polyb, 3, ax)
 
     zmean, zl, zu, u, l, c = getParam(individuals, 3, which='new', dtype='good')
     left = zmean-zl
@@ -549,10 +779,43 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
     downerr = c-l
     ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=30)
+    ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=20)
 
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='nonUniformTiles', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors2[3], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='all2SLAQandSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[3], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='all2SLAQsomeSDSS', dtype='good')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[3], edgecolor='None', zorder=4, s=20)
+    
     cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
@@ -585,8 +848,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
             return h + f0/(10.0**(a*zeta) + 10.0**(b*zeta))
 
         sigma = u - l 
-        #popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
-        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,4.0,1.4,-0.7])
+        popt, pcov = curve_fit(func, zmean, c, sigma=sigma, p0=[-4,4.2,2.0,1.4,-0.7])
         print popt
         plt.plot(zc, func(zc, *popt), lw=1, c='k', dashes=[7,2])
 
@@ -595,18 +857,53 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
     right = zu-zmean
     uperr = u-c
     downerr = c-l
-    ax.errorbar(zmean, c, ecolor='grey', capsize=0,
+    ax.errorbar(zmean, c, ecolor=colors[3], capsize=0,
                 xerr=np.vstack((left, right)), 
-                yerr=np.vstack((downerr, uperr)),
+                yerr=np.vstack((uperr, downerr)),
                 fmt='None', zorder=6)
-    ax.scatter(zmean, c, color='#ffffff', edgecolor='grey', zorder=6, s=27)
-        
+    ax.scatter(zmean, c, color=colors[0], edgecolor=colors[3], zorder=6, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='nonUniformTiles', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors2[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color='k', edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='all2SLAQandSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors3[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors3[3], edgecolor='None', zorder=4, s=20)
+
+    zmean, zl, zu, u, l, c = getParam(individuals, 3, which='all2SLAQsomeSDSS', dtype='bad')
+    left = zmean-zl
+    right = zu-zmean
+    uperr = u-c
+    downerr = c-l
+    ax.errorbar(zmean, c, ecolor=colors4[3], capsize=0,
+                xerr=np.vstack((left, right)), 
+                yerr=np.vstack((uperr, downerr)),
+                fmt='None', zorder=4)
+    ax.scatter(zmean, c, color=colors4[3], edgecolor='None', zorder=4, s=20)
+    
     # zm, cm, uperr, downerr = np.loadtxt('Data/manti.txt',
     #                                     usecols=(0,7,8,9), unpack=True)
     # ax.errorbar(zm, cm, ecolor='grey', capsize=0,
-    #             yerr=np.vstack((downerr, uperr)),
+    #             yerr=np.vstack((uperr, downerr)),
     #             fmt='None', zorder=4)
-    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=30)
+    # ax.scatter(zm, cm, color='#ffffff', edgecolor='grey', zorder=4, s=20)
+
+    croom09(ax, 3)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\beta$ (faint-end slope)')
@@ -614,7 +911,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
 
     return 
 
-def summary_plot(composite=None, individuals=None, compOpt=None, sample=False, lfg_break=None, lfg_polyb=None):
+def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
 
     mpl.rcParams['font.size'] = '14'
     
@@ -636,16 +933,16 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False, l
 
     print 'plotting now'
     
-    plot_phi_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
-    plot_m_star(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
-    plot_alpha(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
-    plot_beta(fig, composite, individuals=individuals, compOpt=compOpt, sample=sample, lfg_break=lfg_break, lfg_polyb=lfg_polyb)
+    plot_phi_star(fig, composite, individuals=individuals, compOpt=compOpt)
+    plot_m_star(fig, composite, individuals=individuals, compOpt=compOpt)
+    plot_alpha(fig, composite, individuals=individuals, compOpt=compOpt)
+    plot_beta(fig, composite, individuals=individuals, compOpt=compOpt)
 
-    plt.savefig('evolution.pdf',bbox_inches='tight')
+    plt.savefig('evolution_nonUniformTiles.pdf',bbox_inches='tight')
 
     mpl.rcParams['font.size'] = '22'
     
     return
 
-#summary_plot#()
+summary_plot()
 

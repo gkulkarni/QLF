@@ -5,7 +5,7 @@ mpl.use('Agg')
 mpl.rcParams['text.usetex'] = True 
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '22'
+mpl.rcParams['font.size'] = '16'
 import matplotlib.pyplot as plt
 from astropy.stats import knuth_bin_width  as kbw
 from astropy.stats import poisson_conf_interval as pci
@@ -71,8 +71,7 @@ def plot_posterior_sample_lfs(lf, ax, maglims, **kwargs):
 
     up = np.percentile(phi, 15.87, axis=0)
     down = np.percentile(phi, 84.13, axis=0)
-    #f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
-    f = ax.fill_between(mags, down, y2=up, color='grey', alpha=0.7)
+    f = ax.fill_between(mags, down, y2=up, color='#ffbf00', alpha=0.7)
 
     return f
 
@@ -80,10 +79,7 @@ def plot_bestfit_lf(lf, ax, mags, **kwargs):
 
     bf = np.median(lf.samples, axis=0)
     phi_fit = lf.log10phi(bf, mags)
-    # ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'], label=kwargs['label'])
-    #bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
-    bf, = ax.plot(mags, phi_fit, lw=1.5, c='k', zorder=kwargs['zorder'])
-
+    bf, = ax.plot(mags, phi_fit, lw=1.5, c='#ffbf00', zorder=kwargs['zorder'])
     return bf 
 
 def binVol(self, selmap, mrange, zrange):
@@ -101,7 +97,7 @@ def binVol(self, selmap, mrange, zrange):
                 if selmap.sid == 7: # Giallongo 
                     v += selmap.volarr[i]*selmap.p[i]*selmap.dm[i]
                 else:
-                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm
+                    v += selmap.volarr[i]*selmap.p[i]*selmap.dm_array[i]
 
     return v
 
@@ -121,7 +117,7 @@ def binVol_all(self, selmap, mrange, zrange):
                 if selmap.sid == 7: # Giallongo 
                     v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm[i]
                 else:
-                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm
+                    v += selmap.volarr_all[i]*selmap.p_all[i]*selmap.dm_all_array[i]
 
     return v
 
@@ -166,7 +162,7 @@ def totBinVol_all(lf, m, mbins, selmaps):
     return total_vol
 
 
-def get_lf(lf, sid, z_plot):
+def get_lf(lf, sid, z_plot, special='None'):
     
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
@@ -181,10 +177,17 @@ def get_lf(lf, sid, z_plot):
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     elif sid == 10 or sid == 18:
         bins = np.arange(-30.9, -17.3, 1.8)
+    elif special == 'croom_comparison':
+        # These M1450 bins result in the Mgz2 bins of Croom09.  The
+        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
+        bins = np.arange(-30,-19.5,0.5)+1.23
+    elif special == 'croom_comparison_Mgz2':
+        # These Mgz2 bins of Croom09.  
+        bins = np.arange(-30,-19.5,0.5)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
-    v1 = np.array([totBinVol_all(lf, x, bins, selmaps) for x in m])
+    v1 = np.array([totBinVol(lf, x, bins, selmaps) for x in m])
 
     v1_nonzero = v1[np.where(v1>0.0)]
     m = m[np.where(v1>0.0)]
@@ -221,7 +224,7 @@ def get_lf(lf, sid, z_plot):
     return mags, left, right, logphi, uperr, downerr
 
 
-def get_lf_all(lf, sid, z_plot):
+def get_lf_all(lf, sid, z_plot, special='None'):
 
     # Bin data.  This is only for visualisation and to compare
     # with reported binned values.  
@@ -237,6 +240,13 @@ def get_lf_all(lf, sid, z_plot):
         bins = np.array([-23.5, -21.5, -20.5, -19.5, -18.5])
     elif sid == 10 or sid == 18:
         bins = np.arange(-30.9, -17.3, 1.8)
+    elif special == 'croom_comparison':
+        # These M1450 bins result in the Mgz2 bins of Croom09.  The
+        # 1.23 converts between the two magnitudes (Eqn B8 of Ross13).
+        bins = np.arange(-30,-19.5,0.5)+1.23
+    elif special == 'croom_comparison_Mgz2':
+        # These Mgz2 bins of Croom09.  
+        bins = np.arange(-30,-19.5,0.5)
     else:
         bins = np.arange(-30.9, -17.3, 0.6)
 
@@ -539,8 +549,11 @@ def render(ax, lf, composite=None, showMockSample=False, show_individual_fit=Tru
                         xerr=np.vstack((left, right)), 
                         yerr=np.vstack((uperr, downerr)),
                         fmt='None', zorder=4)
-        
-    return #(indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf) 
+
+    if c2 is not None: 
+        return (indf, indbf), (c1f, c1bf), (c2f, c2bf), (c3f, c3bf)
+    else:
+        return 
 
 def draw(lf, composite=None, dirname='', showMockSample=False, show_individual_fit=True):
 

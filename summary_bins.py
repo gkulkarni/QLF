@@ -508,5 +508,5 @@ def summary_plot(composite=None, individuals=None, compOpt=None, sample=False):
     
     return
 
-summary_plot()
+# summary_plot()
 

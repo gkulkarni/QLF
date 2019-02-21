@@ -22,8 +22,9 @@ def getselfn(selfile):
     """Read selection map."""
 
     with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(selfile, usecols=(1,2,3), unpack=True)
-    return z, mag, p 
+        z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
+    
+    return z, mag, p, dz, dm 
 
 def getqlums(lumfile):
 
@@ -38,13 +39,13 @@ def getqlums(lumfile):
 
     if sample_id[0] == 13:
         # Restrict Richards (SDSS) sample.
-        select = ((((z>=0.6) & (z<0.8) & (mag<=-23.1)) | 
-                   ((z>=0.8) & (z<1.0) & (mag<=-23.7)) |
-                   ((z>=1.0) & (z<1.2)) |
-                   ((z>=1.2) & (z<1.4) & (mag<=-24.3)) |
-                   ((z>=1.4) & (z<1.6)) |
-                   ((z>=1.6) & (z<1.8) & (mag<=-24.9)) |
-                   ((z>=1.8) & (z<2.2))) |
+        select = (((z>=0.6) & (z<0.8) & (mag<=-23.1)) | 
+                  ((z>=0.8) & (z<1.0) & (mag<=-23.7)) |
+                  ((z>=1.0) & (z<1.2)) |
+                  ((z>=1.2) & (z<1.4) & (mag<=-24.3)) |
+                  ((z>=1.4) & (z<1.6)) |
+                  ((z>=1.6) & (z<1.8) & (mag<=-24.9)) |
+                  ((z>=1.8) & (z<2.2)) |
                   ((z>=3.5) & (z<4.7) & (mag<=-26.1)))
 
     if sample_id[0] == 15:
@@ -78,13 +79,14 @@ def volume(z, area, cosmo=cosmo):
 
 class selmap:
 
-    def __init__(self, selection_map_file, dm, dz, area, sample_id):
+    def __init__(self, selection_map_file, area, sample_id):
 
-        self.z, self.m, self.p = getselfn(selection_map_file)
+        self.z, self.m, self.p, self.dz, self.dm  = getselfn(selection_map_file)
 
-        self.dz = dz
-        self.dm = dm 
-        print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
+        # self.dz = dz
+        # self.dm = dm 
+        # print 'dz={:.3f}, dm={:.3f}, sample_id={:d}'.format(dz, dm, sample_id)
+        print 'sample_id={:d}'.format(sample_id)
 
         self.sid = sample_id 
 
@@ -108,21 +110,25 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
             
         if sample_id == 13:
             # Restrict Richards sample
-            select = ((((self.z>=0.6) & (self.z<0.8) & (self.m<=-23.1)) | 
-                       ((self.z>=0.8) & (self.z<1.0) & (self.m<=-23.7)) |
-                       ((self.z>=1.0) & (self.z<1.2)) |
-                       ((self.z>=1.2) & (self.z<1.4) & (self.m<=-24.3)) |
-                       ((self.z>=1.4) & (self.z<1.6)) |
-                       ((self.z>=1.6) & (self.z<1.8) & (self.m<=-24.9)) |
-                       ((self.z>=1.8) & (self.z<2.2))) |
+            select = (((self.z>=0.6) & (self.z<0.8) & (self.m<=-23.1)) | 
+                      ((self.z>=0.8) & (self.z<1.0) & (self.m<=-23.7)) |
+                      ((self.z>=1.0) & (self.z<1.2)) |
+                      ((self.z>=1.2) & (self.z<1.4) & (self.m<=-24.3)) |
+                      ((self.z>=1.4) & (self.z<1.6)) |
+                      ((self.z>=1.6) & (self.z<1.8) & (self.m<=-24.9)) |
+                      ((self.z>=1.8) & (self.z<2.2)) |
                       ((self.z>=3.5) & (self.z<4.7) & (self.m<=-26.1)))
 
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
 
         if sample_id == 15:
             # Restrict Croom sample
@@ -134,6 +140,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
             
         if sample_id == 8:
             # Restrict McGreer's samples to faint quasars to avoid
@@ -142,6 +150,8 @@ class selmap:
             self.z = self.z[select]
             self.m = self.m[select]
             self.p = self.p[select]
+            self.dz = self.dz[select]
+            self.dm = self.dm[select]
 
         if self.z.size == 0:
             return 

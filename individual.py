@@ -6,7 +6,7 @@ mpl.use('Agg')
 mpl.rcParams['text.usetex'] = True 
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
-mpl.rcParams['font.size'] = '22'
+mpl.rcParams['font.size'] = '16'
 import matplotlib.pyplot as plt
 import triangle 
 from astropy.stats import poisson_conf_interval as pci
@@ -67,7 +67,7 @@ def getqlums(lumfile, zlims=None):
                   ((z_all>=0.8) & (z_all<1.2) & (mag_all<=-21.9)) |
                   ((z_all>=1.2) & (z_all<1.8) & (mag_all<=-22.5)) |
                   ((z_all>=1.8) & (z_all<2.2) & (mag_all<=-23.1)))
-        
+
     if sid == 8:
         select = (mag_all > -26.73)
 
@@ -85,7 +85,7 @@ def getselfn(selfile, zlims=None):
     """Read selection map."""
 
     with open(selfile,'r') as f: 
-        z, mag, p = np.loadtxt(f, usecols=(1,2,3), unpack=True)
+        z, mag, p, dz, dm = np.loadtxt(f, usecols=(1,2,3,4,5), unpack=True)
 
     if zlims is None:
         select = None
@@ -93,7 +93,8 @@ def getselfn(selfile, zlims=None):
         z_min, z_max = zlims 
         select = ((z>=z_min) & (z<z_max))
 
-    return z[select], mag[select], p[select]
+    return z[select], mag[select], p[select], dz[select], dm[select]
+
 
 def volume(z, area, cosmo=cosmo):
 
@@ -114,12 +115,10 @@ class selmap:
 
     def __init__(self, x, zlims=None):
 
-        selection_map_file, dm, dz, area, sample_id, label = x
+        selection_map_file, area, sample_id, label = x
 
         self.label = label
         self.sid = sample_id
-        self.dz = dz
-        self.dm = dm
         
         if sample_id == 7:
             # Set dz and dm for Giallongo's sample.  This sample needs
@@ -134,11 +133,13 @@ class selmap:
             select = ((z>=z_min) & (z<z_max))
             self.dm = self.dm[select]
             
-        self.z_all, self.m_all, self.p_all = getselfn(selection_map_file, zlims=zlims)
+        self.z_all, self.m_all, self.p_all, self.dz_all_array, self.dm_all_array = getselfn(selection_map_file, zlims=zlims)
 
         self.z = self.z_all
         self.m = self.m_all
-        self.p = self.p_all 
+        self.p = self.p_all
+        self.dz_array = self.dz_all_array
+        self.dm_array = self.dm_all_array
     
         select = None
 
@@ -167,7 +168,7 @@ class selmap:
                        ((self.z_all>=1.6) & (self.z_all<1.8) & (self.m_all<=-24.9)) |
                        ((self.z_all>=1.8) & (self.z_all<2.2))) |
                       ((self.z_all>=3.5) & (self.z_all<4.7) & (self.m_all<=-26.1)))
-            
+
         if sample_id == 15: 
             select = (((self.z_all>=0.4) & (self.z_all<0.6)) | 
                       ((self.z_all>=0.6) & (self.z_all<0.8) & (self.m_all<=-20.7)) | 
@@ -183,16 +184,22 @@ class selmap:
         if self.z_all.size == 0:
             return # This selmap has no points in zlims
 
-        self.z = self.z_all[select]
-        self.m = self.m_all[select]
-        self.p = self.p_all[select]
+        self.z = np.squeeze(self.z_all[select])
+        self.m = np.squeeze(self.m_all[select])
+        self.p = np.squeeze(self.p_all[select])
+        self.dz_array = np.squeeze(self.dz_all_array[select])
+        self.dm_array = np.squeeze(self.dm_all_array[select])
+
+        # Just two aliases for older parts of the code 
+        self.dz = self.dz_array
+        self.dm = self.dm_array
 
         if self.z.size == 0:
             return # This selmap has no points in zlims
 
         self.area = area
-        self.volarr = volume(self.z, self.area)*self.dz
-        self.volarr_all = volume(self.z_all, self.area)*self.dz
+        self.volarr = volume(self.z, self.area)*self.dz_array
+        self.volarr_all = volume(self.z_all, self.area)*self.dz_all_array
 
         return
 
@@ -202,7 +209,7 @@ class selmap:
             psi = 10.0**lumfn.log10phi(theta, self.m)
             # Except for Giallongo's sample, self.dm is assumed to be
             # constant here; may not be true.
-            tot = psi*self.p*self.volarr*self.dm
+            tot = psi*self.p*self.volarr*self.dm_array
             return np.sum(tot)
         except(AttributeError):
             return 0 

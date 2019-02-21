@@ -6,7 +6,7 @@ mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.serif'] = 'cm'
 mpl.rcParams['font.size'] = '14'
 import matplotlib.pyplot as plt
-from drawlf_selected import render 
+from drawlf import render 
 
 def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
          nofirstylabel=True, nolastxlabel=True, nofirstxlabel=False, legend=False, c2=None, c3=None):
@@ -64,9 +64,11 @@ def plot(lf, ax, composite=None, yticklabels=False, xticklabels=False,
     
     return ind, co1, co2, co3
     
-def draw(lfs, composite=None, c2=None, c3=None):
+def draw(lfs_all, composite=None, c2=None, c3=None):
 
-    # lfs_selected = bins.lfs[2:9] + bins.lfs[21:]
+    # We only show selected redshifts in this plot: lfs_selected =
+    # bins.lfs[2:9] + bins.lfs[21:].
+    lfs = lfs_all[2:9] + lfs_all[21:]
 
     nplots_x = 5
     nplots_y = 3
@@ -100,8 +102,6 @@ def draw(lfs, composite=None, c2=None, c3=None):
     fig.subplots_adjust(left=l, bottom=b, right=r, top=t, wspace=wspace/hdim,
                         hspace=hspace/vdim)
 
-
-
     ax = fig.add_subplot(nplots_y, nplots_x, 1)
     plot(lfs[0], ax, composite=composite, yticklabels=True, c2=c2, c3=c3)
     ax = fig.add_subplot(nplots_y, nplots_x, 2)
@@ -123,18 +123,11 @@ def draw(lfs, composite=None, c2=None, c3=None):
     ax = fig.add_subplot(nplots_y, nplots_x, 10)
     plot(lfs[9], ax, composite=composite, xticklabels=True, c2=c2, c3=c3, nolastxlabel=False)
     ax = fig.add_subplot(nplots_y, nplots_x, 11)
-    ind, co1, co2, co3 = plot(lfs[10], ax, composite=composite, yticklabels=True, c2=c2, c3=c3, xticklabels=True, nolastxlabel=False, nofirstylabel=False)
 
-    # if i in set([0,5,10,15]):
-    #     plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, c2=c2, c3=c3)
-    # elif i in set([7,8,9]):
-    #     plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, c2=c2, c3=c3)
-    # elif i == 20:
-    #     plot(lfs[i+idx_offset], ax, composite=composite, yticklabels=True, xticklabels=True, nofirstylabel=False, c2=c2, c3=c3)
-    # elif i == 24:
-    #     plot(lfs[i+idx_offset], ax, composite=composite, xticklabels=True, nolastxlabel=False, c2=c2, c3=c3)
-    # else:
-    #     ind, co1, co2, co3 = plot(lfs[i+idx_offset], ax, composite=composite, c2=c2, c3=c3)
+    ind, co1, co2, co3 = plot(lfs[10], ax, composite=composite,
+                              yticklabels=True, c2=c2, c3=c3,
+                              xticklabels=True,
+                              nolastxlabel=False, nofirstylabel=False)
 
     fig.text(0.5, 0.31, r'$M_{1450}$', transform=fig.transFigure,
              horizontalalignment='center', verticalalignment='center')

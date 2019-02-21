@@ -40,6 +40,40 @@ def getParam(param, dtype='notwithg'):
     return zmean, zl, zu, u, l, c
 
 
+def croom09(ax, param):
+
+    if param == 0:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_phistar.txt', unpack=True)
+        pdownerr = -pdownerr 
+        
+    if param == 1:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_Mgstar.txt', unpack=True)
+        pdownerr = -pdownerr
+
+        # Convert from Mgz2 to M1450 using equation B8 of Ross et
+        # al. 2013.
+        p = p + 1.23
+        
+    if param == 2:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_alpha.txt', unpack=True)
+        pdownerr = -pdownerr 
+        
+    if param == 3:
+
+        z, p, pdownerr, puperr = np.loadtxt('Scratch/croom_beta.txt', unpack=True)
+        pdownerr = -pdownerr 
+
+    ax.errorbar(z, p, ecolor=clr['glikman11'], capsize=2,
+                yerr=np.vstack((pdownerr, puperr)), 
+                fmt='None', zorder=2, linewidths=0.5, elinewidths=0.5)
+    ax.scatter(z, p, color=clr['glikman11'], edgecolor='None', zorder=2, s=20, marker="h")
+
+    return
+
+
 def ross13_s82(ax, param):
 
     # Ross using M_i not M1450. 
@@ -480,6 +514,7 @@ def plot_phi_star(fig):
     schulze09(ax, 0)
     yang16(ax, 0)
     mcgreer13(ax, 0)
+    croom09(ax, 0)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\log_{10}\left(\phi_*/\mathrm{mag}^{-1}\mathrm{cMpc}^{-3}\right)$')
@@ -524,6 +559,7 @@ def plot_m_star(fig):
     schulze09(ax, 1)
     yang16(ax, 1)
     mcgreer13(ax, 1)
+    croom09(ax, 1)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$M_*$')
@@ -565,6 +601,7 @@ def plot_alpha(fig):
     schulze09(ax, 2)
     yang16(ax, 2)
     mcgreer13(ax, 2)
+    croom09(ax, 2)
 
     # plt.legend(loc='upper right', fontsize=10, handlelength=2,
     #            frameon=False, framealpha=0.0, labelspacing=.1,
@@ -613,6 +650,7 @@ def plot_beta(fig):
     schulze09(ax, 3)
     yang16(ax, 3)
     mcgreer13(ax, 3)
+    croom09(ax, 3)
     
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\beta$ (faint-end slope)')
