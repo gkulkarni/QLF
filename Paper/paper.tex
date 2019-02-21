@@ -4,6 +4,9 @@
 \usepackage{graphicx}	
 \usepackage{amsmath}	
 \usepackage{amssymb}
+\usepackage{xcolor}
+\definecolor{notecolor}{rgb}{0.8,0,0}
+\newcommand{\new}[1]{{\color{notecolor} #1}}
 \usepackage{pdflscape}
 \usepackage{siunitx}
 \def\lya{Ly$\alpha$~}
@@ -341,17 +344,20 @@ but with $>20$ times as many quasars. Second, although the SDSS DR7
 sample provides better coverage of the bright end of the QLF at these
 redshifts, its selection function is highly dependent on the assumed
 incidence of (partial) Lyman limit systems in the IGM
-\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}. While the BOSS DR9
-selection function considers these improvements, the uncertainty in
-the QLF remains dominated by assumptions in the selection function
-given the large sample size
-\citep{2013ApJ...773...14R}. Variability-selected quasar samples
-circumvent this issue \citep{2013ApJ...773...14R, 2013A&A...551A..29P,
-  2016A&A...587A..41P}, but may be affected by (i) single-epoch
-imaging incompleteness at the faint end \citep{2013ApJ...773...14R},
-and (ii) uncertainties in the selection function caused by the limited
-number of known $z\ga 3$ quasars not selected by variability in the
-same footprint \citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
+\citep{2009ApJ...705L.113P, 2011ApJ...728...23W}.  \new{The BOSS DR9
+selection function incorporates an improved treatment of the QSO SED
+and the IGM, including stochasticity in the colour distribution due to
+intervening Lyman-limit systems.}  While the BOSS DR9 selection
+function considers these improvements, the uncertainty in the QLF
+remains dominated by assumptions in the selection function given the
+large sample size \citep{2013ApJ...773...14R}.  Variability-selected
+quasar samples circumvent this issue \citep{2013ApJ...773...14R,
+  2013A&A...551A..29P, 2016A&A...587A..41P}, but may be affected by
+(i) single-epoch imaging incompleteness at the faint end
+\citep{2013ApJ...773...14R}, and (ii) uncertainties in the selection
+function caused by the limited number of known $z\ga 3$ quasars not
+selected by variability in the same footprint
+\citep{2013A&A...551A..29P, 2016A&A...587A..41P}.
 
 At $3.7<z<4.7$ we used a combination of SDSS DR7 \citep[1785 uniformly
   selected quasars from][]{2010AJ....139.2360S} and the NDWFS$+$DLS
@@ -1122,7 +1128,7 @@ defined as follows.
 \begin{figure*}
   \begin{center}
     \includegraphics[width=\textwidth,keepaspectratio]{mosaic_small_global.pdf}
-    % mosaic_selected.py and drawlf_selected.py 
+    % mosaic_selected.py
   \end{center}
   \caption{Luminosity function estimates from $z=0.6$ to $6.5$.
     Similar to Figure~\ref{fig:mosaic}, the symbols show our inferred
@@ -1158,9 +1164,12 @@ the luminosity function binned in luminosity and redshift, and the
 yellow shaded regions show the posterior distribution of the double
 power law luminosity functions in various redshift bins, as in
 Figure~\ref{fig:mosaic}.  Bins containing data with large systematic
-error are excluded from Figure~\ref{fig:mosaic_global}.  All three
-global models are in excellent agreement with the binned models,
-although Model~1 performs better.
+error are excluded from Figure~\ref{fig:mosaic_global}.  \new{All
+  three global models are in good agreement with the luminosity
+  functions in redshift bins, although Model~1 reproduces best the
+  apparent rapid evolution in the faint-end slope $\beta$ at $z>4$.
+  Given the systematic errors in the data, a quantitative model
+  selection is of limited use.}
 
 Figure~\ref{fig:evoln_global} shows the parameter evolution in the
 global models, by comparing it with the results from the fits in
@@ -1567,9 +1576,10 @@ magnitude range are required.
       squares]{2018ApJ...855..106D}, and
     \citet[pentagons]{2017MNRAS.467.3172G}, and models of
     \citet[dotted brown curve]{2012ApJ...746..125H}, the QSO
-    contribution in this model (dashed grey), \citet[dashed
-      brown]{2015ApJ...813L...8M}, the QSO contribution from the model
-    of \citet[dashed orange]{2015MNRAS.451L..30K}, \citet[dotted
+    contribution in this model (\new{dashed brown}),
+    \citet[\new{dotted green}]{2015ApJ...813L...8M}, the QSO
+    contribution from the model of \citet[dashed
+      orange]{2015MNRAS.451L..30K}, \citet[dotted
       grey]{2017ApJ...837..106O}, and \citet[dashed
       grey]{2018arXiv180104931P}.  The photoionization rate derived
     from the luminosity function fits of \citet{2015AA...578A..83G}
@@ -2188,12 +2198,12 @@ systems to inform UV background synthesis models at $z<2$ and $z>4$.
 Using the homogenised data and code that we make publicly available
 (Appendix \ref{sec:code}), the luminosity functions presented in this
 paper can be easily compared with theoretical models or future data
-sets.  These luminosity function determinations supersede previous
-determinations by \citet{2007ApJ...654..731H} by including new data,
-by analysing unbinned data, and extending the analysis to higher
-redshifts.  Our public code can be used either to reproduce all of our
-analysis starting from the QSO catalogues, or to quickly evaluate our
-luminosity function fits at desired redshifts and luminosities.  
+sets.  \new{These luminosity functions update previous determinations
+  by including new data, by analysing unbinned data, and extending the
+  analysis to higher redshifts.}  Our public code can be used either
+to reproduce all of our analysis starting from the QSO catalogues, or
+to quickly evaluate our luminosity function fits at desired redshifts
+and luminosities.
 
 \section*{Acknowledgements}
 
@@ -2285,7 +2295,8 @@ determinations, our parameter values are closest to those reported by
     \citet[pentagons]{2018PASJ...70S..34A}, \citet[leftward
       triangles]{2017ApJ...847L..15O},
     \citet[asterisks]{2016ApJ...829...33Y},
-    \citet[circles]{2013ApJ...773...14R}, and \citet[rightward
+    \citet[circles]{2013ApJ...773...14R},
+    \new{\citet[hexagons]{2009MNRAS.399.1755C}} and \citet[rightward
       triangles]{2009A&A...507..781S}.  Where necessary, values from
     the literature have been converted to our cosmology.
     \label{fig:params_grand}}
