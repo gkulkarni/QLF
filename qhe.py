@@ -20,7 +20,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     import sys
 
-data = np.load('e1450_18.npz')
+data = np.load('e1450_18_21feb.npz')
 z18 = data['z']
 median18 = data['median']*((912.0/1450.0)**0.61)
 up18 = data['up']*((912.0/1450.0)**0.61)
@@ -35,7 +35,7 @@ down18 = data['down']*((912.0/1450.0)**0.61)
 # downfaint18 = data['downfaint']*((912.0/1450.0)**0.61)
 # upfaint18 = data['upfaint']*((912.0/1450.0)**0.61)
 
-data = np.load('e1450_21.npz')
+data = np.load('e1450_21_21feb.npz')
 z21 = data['z']
 median21 = data['median']*((912.0/1450.0)**0.61)
 up21 = data['up']*((912.0/1450.0)**0.61)

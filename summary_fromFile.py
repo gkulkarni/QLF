@@ -12,7 +12,7 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import UnivariateSpline
 
 # These redshift bins are labelled "bad" and are plotted differently.
-reject = [0, 1, 7,8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+reject = [0, 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 # colors = ['tomato', 'forestgreen', 'goldenrod', 'saddlebrown']
 colors = ['k', 'k', 'k', 'k'] 
@@ -24,7 +24,7 @@ plot_number = 0
 zlims=(0.0,7.0)
 zmin, zmax = zlims
 z = np.linspace(zmin, zmax, num=500)
-cfit = True
+cfit = False
 
 def plot_model(composite, param_number, ax):
 
@@ -410,7 +410,7 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[2], edgecolor='None', zorder=6, s=30)
 
-    cfit = True
+    cfit = False
     if cfit: 
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1.0, c, 3)
@@ -453,19 +453,19 @@ def plot_alpha(fig, composite, individuals=None, compOpt=None, sample=False, lfg
 
     handles, labels = [], []
 
-    # handles.append((m1f,m1))
-    # labels.append('Model 1')
+    handles.append((m1f,m1))
+    labels.append('Model 1')
 
-    # handles.append((m2f,m2))
-    # labels.append('Model 2')
+    handles.append((m2f,m2))
+    labels.append('Model 2')
 
-    # handles.append((m3f,m3))
-    # labels.append('Model 3')
+    handles.append((m3f,m3))
+    labels.append('Model 3')
     
-    # plt.legend(handles, labels, loc='upper right', fontsize=10,
-    #            handlelength=3, frameon=False, framealpha=0.0,
-    #            labelspacing=.1, handletextpad=0.3, borderpad=0.1,
-    #            scatterpoints=1)
+    plt.legend(handles, labels, loc='upper right', fontsize=10,
+               handlelength=3, frameon=False, framealpha=0.0,
+               labelspacing=.1, handletextpad=0.3, borderpad=0.1,
+               scatterpoints=1)
 
     ax.set_xticks((0,1,2,3,4,5,6,7))
     ax.set_ylabel(r'$\alpha$ (bright-end slope)')
@@ -553,7 +553,7 @@ def plot_beta(fig, composite, individuals=None, compOpt=None, sample=False, lfg_
                 fmt='None', zorder=6)
     ax.scatter(zmean, c, color=colors[3], edgecolor='None', zorder=6, s=30)
 
-    cfit = True
+    cfit = False
     if cfit:
         zc = np.linspace(0, 7, 500)
         coeffs = chebfit(zmean+1, c, 3)

@@ -1059,7 +1059,7 @@ def get_gammapi_percentiles(lfi, z):
     return 
 
 
-def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
+def draw_emissivity_18(all_individuals, composite=None, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -1110,9 +1110,8 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
                label='Kulkarni et al.\ 2018 (this work)',
                s=36, zorder=6, linewidths=1.5) 
 
-
-    # npz produced using rhoqso_fit2.py 
-    data = np.load('e1450_18.npz')
+    # npz produced using rhoqso_fit.get_fit_mcmc(). 
+    data = np.load('e1450_18_21feb.npz')
     z = data['z']
     b = data['median']*((912.0/1450.0)**0.61)
     up = data['up']*((912.0/1450.0)**0.61)
@@ -1120,7 +1119,6 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     tw18f = ax.fill_between(z, down, y2=up, color='red', zorder=5, alpha=0.6, edgecolor='None')
     tw18, = plt.plot(z, b, lw=2, c='red', zorder=5)
     
-
     show_bad = True
     if show_bad:
         for x in individuals_bad:
@@ -1147,7 +1145,6 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
     giallongo15(ax, only18=True)
     
     e_MH15 = emissivity_MH15(z)
-    # ax.plot(z, e_MH15, lw=2, c='forestgreen', label='Madau and Haardt 2015', zorder=1)
     ax.plot(z, e_MH15, lw=1, c='darkgreen', label='Madau and Haardt 2015', zorder=1, dashes=[1,1])
 
     e_HM12 = emissivity_HM12(z)
@@ -1200,8 +1197,6 @@ def draw_emissivity_18(all_individuals, zlims, composite=None, select=False):
 
     masters12(ax, only18=True)
 
-    #bongiorno07(ax, only18=True)
-    
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
     labels.append('Kulkarni et al.\ 2018 (this work; fit)')
@@ -1406,7 +1401,7 @@ def draw_emissivity_18_talk(all_individuals, zlims, composite=None, select=False
     return
 
 
-def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
+def draw_emissivity_21(all_individuals, composite=None, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -1457,8 +1452,8 @@ def draw_emissivity_21(all_individuals, zlims, composite=None, select=False):
                label='Kulkarni et al.\ 2018 (this work)',
                s=42, zorder=6, linewidths=1.5) 
 
-    # npz produced using rhoqso_fit2.py 
-    data = np.load('e1450_21.npz')
+    # npz produced using rhoqso_fit.get_fit_mcmc().
+    data = np.load('e1450_21_21feb.npz')
     z = data['z']
     b = data['median']*((912.0/1450.0)**0.61)
     up = data['up']*((912.0/1450.0)**0.61)
