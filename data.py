@@ -63,14 +63,14 @@ def plot_data(data):
     # colorbrewer2.org.
     cs = [u'#1f77b4', u'#ff7f0e', u'#2ca02c', u'#d62728', u'#9467bd',
           u'#8c564b', u'#e377c2', u'#7f7f7f', u'#bcbd22', u'#17becf',
-          u'#77ab31']#, u'#d8b365']#, u'#cc7af4', u'#f66bad']
+          u'#77ab31']
 
     d = [x.z for x in data]
     l = [x.label for x in data]
     plt.hist(d, histtype='bar', stacked=True, rwidth=1.0,
              ec='None', bins=bins, color=cs, label=l, lw=0.0)
 
-    # Three qsos added by hand 
+    # Three z ~7 qsos have to be added by hand 
     z = 7.085
     zlim = (z-bin_width/2.0, z+bin_width/2.0)
     nbins = 1
@@ -105,7 +105,7 @@ def plot_data(data):
                frameon=False, framealpha=0.0, labelspacing=.1,
                handletextpad=0.4, borderpad=0.2,markerscale=.5)
 
-    plt.savefig('qsos4.pdf', bbox_inches='tight')
+    plt.savefig('qsos.pdf', bbox_inches='tight')
 
     return
 
@@ -159,31 +159,18 @@ l = r'CANDELS GOODS-S Giallongo et al.\ (2015)'
 s = sample(f, label=l)
 data.append(s)
 
-f = ['Data_new/jiang16main_sample.dat', 'Data_new/jiang16overlap_sample.dat', 'Data_new/jiang16s82_sample.dat']
+f = ['Data_new/jiang16main_sample.dat',
+     'Data_new/jiang16overlap_sample.dat',
+     'Data_new/jiang16s82_sample.dat']
 l = r'SDSS Jiang et al.\ (2016)'
 s = sample(f, label=l)
 data.append(s)
-
-# f = []
-# l = r'SDSS Overlap Jiang et al.\ (2016)'
-# s = sample(f, label=l)
-# data.append(s)
-
-# f = []
-# l = r'SDSS Stripe 82 Jiang et al.\ (2016)'
-# s = sample(f, label=l)
-# data.append(s)
 
 f = ['Data_new/willott10_cfhqsdeepsample.dat',
      'Data_new/willott10_cfhqsvwsample.dat']
 l = r'CFHQS Willott et al.\ (2010)'
 s = sample(f, label=l)
 data.append(s)
-
-# f = []
-# l = r'CFHQS Very Wide Willott et al.\ (2010)'
-# s = sample(f, label=l)
-# data.append(s)
 
 f = ['Data_new/kashikawa15_sample.dat']
 l = r'Subaru High-$z$ Quasar Survey Kashikawa et al.\ (2010)'
