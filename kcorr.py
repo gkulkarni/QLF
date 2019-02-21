@@ -57,7 +57,6 @@ plt.text(4.7, -2.0, '$m=z_\mathrm{AB}$', fontsize=12)
 
 plt.ylim(-2.5,-0.5)
 plt.xlim(0,5.5)
-# plt.xticks(np.arange(2,6.5,1))
 
 handles, labels = ax.get_legend_handles_labels()
 plt.legend(handles, labels, loc='upper right', fontsize=14, handlelength=3,
