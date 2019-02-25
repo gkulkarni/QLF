@@ -380,7 +380,7 @@ def plotq():
     qup = np.where(qup<1.0, qup, 1.0)
 
     q18 = ax.fill_between(z, qup.flatten(), y2=qdown.flatten(), color='red', zorder=10, alpha=0.6, edgecolor='None')
-    q18bf, = plt.plot(z, q.flatten(), c='red', lw=2, label=r'Kulkarni et al.\ 2018 (this work; $M_{1450}<-18$)', zorder=10)
+    q18bf, = plt.plot(z, q.flatten(), c='red', lw=2, label=r'Kulkarni et al.\ 2019 (this work; $M_{1450}<-18$)', zorder=10)
 
     #----------
 
@@ -394,7 +394,7 @@ def plotq():
     qup = np.where(qup<1.0, qup, 1.0)
     
     q21 = ax.fill_between(z, qup.flatten(), y2=qdown.flatten(), color='blue', zorder=10, alpha=0.6, edgecolor='None')
-    q21bf, = plt.plot(z, q.flatten(), c='blue', lw=2, label=r'Kulkarni et al.\ 2018 (this work; $M_{1450}<-21$)', zorder=10)
+    q21bf, = plt.plot(z, q.flatten(), c='blue', lw=2, label=r'Kulkarni et al.\ 2019 (this work; $M_{1450}<-21$)', zorder=10)
 
     #----------
     
