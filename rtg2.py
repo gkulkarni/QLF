@@ -1320,9 +1320,9 @@ def draw_g_paper():
 
     handles, labels = ax.get_legend_handles_labels()
     handles.append((g18f,g18))
-    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-18$)')
+    labels.append('Kulkarni et al.\ 2019 (this work; $M_\mathrm{1450}<-18$)')
     handles.append((g21f,g21))
-    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-21$)')
+    labels.append('Kulkarni et al.\ 2019 (this work; $M_\mathrm{1450}<-21$)')
 
     plt.legend(handles, labels, loc='center',
                fontsize=12, handlelength=3, frameon=False,
@@ -1426,9 +1426,9 @@ def draw_g_puc():
 
     handles, labels = [], [] 
     handles.append((g18f,g18))
-    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-18$)')
+    labels.append('Kulkarni et al.\ 2019 (this work; $M_\mathrm{1450}<-18$)')
     handles.append((g21f,g21))
-    labels.append('Kulkarni et al.\ 2018 (this work; $M_\mathrm{1450}<-21$)')
+    labels.append('Kulkarni et al.\ 2019 (this work; $M_\mathrm{1450}<-21$)')
 
     l2 = plt.legend(handles, labels, loc='lower right',
                     fontsize=11, handlelength=3, frameon=False,
