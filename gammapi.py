@@ -689,7 +689,7 @@ def bongiorno07(ax, only18=False, only21=False, style=False):
     return
     
         
-def draw_emissivity(all_individuals, zlims, composite=None, select=False):
+def draw_emissivity(all_individuals, composite=None, select=False):
 
     """
     Calculates and plots LyC emissivity.
@@ -1107,7 +1107,7 @@ def draw_emissivity_18(all_individuals, composite=None, select=False):
                 mfc='#ffffff', mec='#404040', zorder=6, mew=1,
                 ms=5)
     ax.scatter(zs, em, c='k', edgecolor='None',
-               label='Kulkarni et al.\ 2018 (this work)',
+               label='Kulkarni et al.\ 2019 (this work)',
                s=36, zorder=6, linewidths=1.5) 
 
     # npz produced using rhoqso_fit.get_fit_mcmc(). 
@@ -1199,7 +1199,7 @@ def draw_emissivity_18(all_individuals, composite=None, select=False):
 
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
-    labels.append('Kulkarni et al.\ 2018 (this work; fit)')
+    labels.append('Kulkarni et al.\ 2019 (this work; fit)')
 
     print len(handles)
     for i, x in enumerate(labels):
@@ -1449,7 +1449,7 @@ def draw_emissivity_21(all_individuals, composite=None, select=False):
                 mfc='#ffffff', mec='#404040', zorder=6, mew=1,
                 ms=5)
     ax.scatter(zs, em, c='k', edgecolor='None',
-               label='Kulkarni et al.\ 2018 (this work)',
+               label='Kulkarni et al.\ 2019 (this work)',
                s=42, zorder=6, linewidths=1.5) 
 
     # npz produced using rhoqso_fit.get_fit_mcmc().
@@ -1558,7 +1558,7 @@ def draw_emissivity_21(all_individuals, composite=None, select=False):
     
     handles, labels = ax.get_legend_handles_labels()
     handles.append((tw18f,tw18))
-    labels.append('Kulkarni et al.\ 2018 (this work; fit)')
+    labels.append('Kulkarni et al.\ 2019 (this work; fit)')
 
     # myorder = [10, 14, 9, 12, 11, 13, 7, 0, 1, 2, 3, 4, 5, 6, 8, 15]
     myorder = [9, 13, 8, 11, 10, 12, 6, 0, 1, 2, 3, 4, 5, 7, 14]
