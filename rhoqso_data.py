@@ -542,6 +542,14 @@ def test(c1, individuals, **kwargs):
     ax.set_yscale('log')
     ax.set_ylim(1.0e-10, 1.0e-3)
 
+    zs = np.array([x.z.mean() for x in individuals])
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz 
+
+
     mlim = -24
 
     dm = 0.6
@@ -553,6 +561,12 @@ def test(c1, individuals, **kwargs):
     # print 'rhos=', rhos
 
     ax.scatter(zs, rhos, c='b', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+
+    ax.errorbar(zs, rhos, ecolor='b', capsize=0, fmt='None', elinewidth=2,
+                yerr=np.vstack((downerr, uperr)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    
 
     global_cumulative(ax, c1, mlim, 'grey')
 
