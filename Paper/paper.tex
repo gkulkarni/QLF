@@ -1013,7 +1013,7 @@ be developed.  We therefore set up an empirical parameterisation to
 describe the evolution of the four parameters of the double power law
 model in Equation~(\ref{eqn:dpl}) as 
 \begin{align}
-  &\phi_*(z) = F_0(\{c_{0,j}\}, z)\nonumber\\
+  &\log_{10}\phi_*(z) = F_0(\{c_{0,j}\}, z)\nonumber\\
   &M_*(z) = F_1(\{c_{1,j}\}, z)\nonumber\\
   &\alpha(z) = F_2(\{c_{2,j}\}, z)\nonumber\\
   &\beta(z) = F_3(\{c_{3,j}\}, z),
@@ -1141,18 +1141,17 @@ defined as follows.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+    % \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_withGlobal.pdf}
+    \includegraphics[width=\columnwidth,keepaspectratio]{rhoqso_test2.pdf}
     % rhoqso.py -- draw_withGlobal_multiple()
   \end{center}
-  \caption{AGN number density evolution in the global model, when the
-    luminosity function is integrated (from top to bottom) down to
-    $M_\mathrm{1450}=-18, -21, -24,$ and $-27$.  Filled black circles
-    show the estimates from the our fiducual double power law
-    luminosity function models in various redshift bins, with vertical
-    error bars denoting one-sigma (68.26\%) uncertainties.  Open
-    circles show the same in redshifts bins affected by systematics.
-    Curves show the estimated density from the global models, with the
-    accompanying shaded regions denoting the one-sigma uncertainty. }
+  \caption{\new{AGN number density evolution in the global model, when
+      the luminosity function is integrated (from top to bottom) down
+      to $M_\mathrm{1450}=-21, -24, -25.5$ and $-27$.  Points show the
+      observed number density evolution, with vertical error bars
+      denoting one-sigma (68.26\%) uncertainties.}  Curves show the
+    estimated density from the global models, with the accompanying
+    shaded regions denoting the one-sigma uncertainty. }
   \label{fig:rhoqso}
 \end{figure}
 
@@ -1195,14 +1194,14 @@ are tabulated in Table~\ref{tab:global}.
 
 The evolution of the comoving number density of quasars is shown in
 Figure~\ref{fig:rhoqso} when the luminosity function is integrated
-down to different limits.  Similar to Figure~\ref{fig:evoln_global},
-symbols show the posterior median values with one-sigma uncertainties
-from the double power law fits to the data in redshift bins.  Solid
-curves and shaded regions show the global models.  This number density
-evolution again highlights the systematic error in data at $z\sim 3$.
-The number density of AGN down to the limit of the deepest
-spectroscopic surveys ($M_{1450}<-21$) is about $10^{-5}$ cMpc$^{-3}$
-at its peak.  This density rapidly increases with redshift at low
+down to different limits.  \new{Symbols show the number densities
+  derived from the data.}  Solid curves and shaded regions show the
+global models.  This number density evolution again highlights the
+systematic error in data at $z\sim 3$.  \new{The number density of AGN
+  down to the limit of the deepest spectroscopic surveys
+  ($M_{1450}<-21$) is about few times $10^{-6}$ cMpc$^{-3}$ at its
+  peak.  At higher redshifts, data go down to only about
+  $M_{1450}=-24$.} This density rapidly increases with redshift at low
 redshifts and then drops with redshift gradually at high redshifts.
 Figure~\ref{fig:rhoqso} also shows the familiar downsizing feature in
 which the number density of faint AGN peaks at lower redshifts than
@@ -1211,9 +1210,7 @@ that of the bright AGN \citep{2004ApJ...605..625H,
   2009A&A...493...55E, 2013A&A...558A..89K, 2010MNRAS.401.2531A,
   2015MNRAS.451.1892A}.  While the number density of AGN with
 $M_*<-27$ peaks at $z\sim 2.5$, the number density of AGN with
-$M_*<-24$ peaks at $z\sim 2$.  At the faintest luminosity at which
-spectroscopic data exist, $M_*<-21$, the number density of AGN peaks
-at a slightly lower redshift.  However, the difference between our
+$M_*<-24$ peaks at $z\sim 2$.  However, the difference between our
 three models is dramatically evident in Figure~\ref{fig:rhoqso}.
 Model~1 prefers a decrease in the number density of faint quasars at
 $z\sim 3$ followed by an increase at higher redshift.  This is caused
@@ -1225,18 +1222,13 @@ results from the steep faint-end slope at high redshifts combined with
 the rapid brightening of the break luminosity.  While no data exist at
 redshift $z>7.5$, this divergent behaviour is shared by previous
 models in the literature \citep{2007ApJ...654..731H}.
-Figure~\ref{fig:rhoqso} also shows that although Models 2 and 3
-exhibit regular behaviour in the evolution of the AGN number density
-at $z\sim 3$, they do not fit the $z\sim 4$--$5$ data as well as Model
-1.
 
 \begin{table}
   \caption{Derived luminosity function evolution models.  These
     parameters are defined in Equations~(\ref{eqn:cbs}) and
     (\ref{eqn:beta}).  See Section~\ref{sec:global} for further
     details and the redshift range of validity of these models.
-    Errors indicate one-sigma (68.26\%) uncertainties.  Model 2 is our
-    preferred model.}
+    Errors indicate one-sigma (68.26\%) uncertainties. }
   \label{tab:global}
   \begin{tabular}{p{1.0cm}eee}
     \hline 
@@ -1244,25 +1236,25 @@ at $z\sim 3$, they do not fit the $z\sim 4$--$5$ data as well as Model
     \multicolumn{1}{c}{Model 1} &
     \multicolumn{1}{c}{Model 2} &
     \multicolumn{1}{c}{Model 3} \\
-    \hline
-    $c_{0,0}$ & -7.559^{+0.131}_{-0.139} & -7.084^{+0.136}_{-0.142} & -6.842^{+0.077}_{-0.076} \\     
-    $c_{0,1}$ & 1.013^{+0.079}_{-0.072} & 0.753^{+0.080}_{-0.073} & 0.590^{+0.039}_{-0.041} \\        
-    $c_{0,2}$ & -0.113^{+0.005}_{-0.005} & -0.096^{+0.004}_{-0.005} & -0.083^{+0.003}_{-0.003} \\
-    \\
-    $c_{1,0}$ & -17.006^{+0.230}_{-0.243} & -15.423^{+0.263}_{-0.261} & -15.140^{+0.144}_{-0.136} \\  
-    $c_{1,1}$ & -5.548^{+0.156}_{-0.143} & -6.725^{+0.156}_{-0.171} & -6.910^{+0.091}_{-0.093} \\     
-    $c_{1,2}$ & 0.588^{+0.016}_{-0.019} & 0.737^{+0.018}_{-0.015} & 0.750^{+0.012}_{-0.013} \\        
-    $c_{1,3}$ & -0.023^{+0.001}_{-0.001} & -0.029^{+0.001}_{-0.001} & -0.029^{+0.001}_{-0.001} \\
-    \\
-    $c_{2,0}$ & -3.246^{+0.121}_{-0.123} & -2.973^{+0.117}_{-0.133} & -2.950^{+0.105}_{-0.097} \\     
-    $c_{2,1}$ & -0.250^{+0.048}_{-0.050} & -0.347^{+0.050}_{-0.050} & -0.363^{+0.040}_{-0.043} \\
-    \\
-    $c_{3,0}$ & -2.350^{+0.051}_{-0.060} & -2.545^{+0.123}_{-0.290} & -1.424^{+0.031}_{-0.031} \\     
-    $c_{3,1}$ & 0.647^{+0.072}_{-0.060} & 1.581^{+0.520}_{-0.264} & -0.111^{+0.010}_{-0.010} \\       
-    $c_{3,2}$ & 3.857^{+0.092}_{-0.073} & 2.102^{+0.450}_{-0.283} & \multicolumn{1}{c}{---} \\        
-    $c_{3,3}$ & 27.534^{+41.364}_{-9.405} & 1.965^{+0.461}_{-0.464} & \multicolumn{1}{c}{---} \\      
-    $c_{3,4}$ & -0.002^{+0.074}_{-0.082} & -0.641^{+0.169}_{-0.154} & \multicolumn{1}{c}{---} \\      
     \hline 
+    $c_{0,0}$&-7.798^{+0.145}_{-0.157} &   -7.432^{+0.192}_{-0.211} &   -6.942^{+0.086}_{-0.086} \\
+    $c_{0,1}$&1.128^{+0.085}_{-0.081} &    0.953^{+0.122}_{-0.107} &    0.629^{+0.046}_{-0.045} \\
+    $c_{0,2}$&-0.120^{+0.005}_{-0.006} &   -0.112^{+0.007}_{-0.008} &   -0.086^{+0.003}_{-0.003} \\ 
+    \\      
+    $c_{1,0}$&-17.163^{+0.219}_{-0.226} &  -15.412^{+0.288}_{-0.318} &  -15.038^{+0.156}_{-0.150} \\
+    $c_{1,1}$&-5.512^{+0.127}_{-0.124} &   -6.869^{+0.183}_{-0.169} &   -7.046^{+0.100}_{-0.101} \\
+    $c_{1,2}$&0.593^{+0.011}_{-0.010} &    0.778^{+0.016}_{-0.015} &    0.772^{+0.013}_{-0.013} \\
+    $c_{1,3}$&-0.024^{+0.00035}_{-0.00039} &   -0.032^{+0.001}_{-0.001} &   -0.030^{+0.001}_{-0.001} \\ 
+    \\       
+    $c_{2,0}$&-3.223^{+0.127}_{-0.121} &   -2.959^{+0.127}_{-0.143} &   -2.888^{+0.097}_{-0.093} \\
+    $c_{2,1}$&-0.258^{+0.047}_{-0.051} &   -0.351^{+0.054}_{-0.052} &   -0.383^{+0.039}_{-0.041} \\
+    \\       
+    $c_{3,0}$&-2.312^{+0.034}_{-0.032} &   -2.264^{+0.038}_{-0.036} &   -1.602^{+0.029}_{-0.028} \\
+    $c_{3,1}$&0.559^{+0.049}_{-0.045} &    0.530^{+0.054}_{-0.049} &    -0.082^{+0.009}_{-0.009} \\
+    $c_{3,2}$&3.773^{+0.017}_{-0.016} &    2.379^{+0.118}_{-0.085} &  \multicolumn{1}{c}{---} \\        
+    $c_{3,3}$&141.884^{+31.521}_{-8.832} & 12.527^{+7.349}_{-3.618} & \multicolumn{1}{c}{---} \\        
+    $c_{3,4}$&-0.171^{+0.101}_{-0.116} &   -0.229^{+0.135}_{-0.150} & \multicolumn{1}{c}{---} \\
+    \hline
   \end{tabular}
 \end{table}
 
@@ -2215,13 +2207,14 @@ McGreer, Nick Ross, Chris Willott, and Jinyi Yang for sharing data and
 especially for sharing their quasar selection functions.  It is a
 pleasure to acknowledge useful discussions with James Aird, Eduardo
 Ba\~nados, Manda Banerji, Tirthankar Roy Choudhury, George Efstathiou,
-Xiaohui Fan, Andrea Ferrara, Prakash Gaikwad, Francesco Haardt, Martin
-Haehnelt, Paul Hewett, David Hogg, Vikram Khaire, Sergey Koposov, Alex
-Krolewski, Donald Lynden-Bell, Roberto Maiolino, Richard McMahon,
-Daniel Mortlock, Ewald Puchwein, Gordon Richards, Alberto Rorai, Bram
-Venemans and Stephen Warren.  \new{We thank the anonymous referee for
-  their comments.} GK acknowledges support from ERC Advanced Grant
-320596 `The Emergence of Structure During the Epoch of Reionization'.
+Xiaohui Fan, Andrea Ferrara, Prakash Gaikwad, Enrico Garaldi,
+Francesco Haardt, Martin Haehnelt, Paul Hewett, David Hogg, Vikram
+Khaire, Sergey Koposov, Alex Krolewski, Donald Lynden-Bell, Roberto
+Maiolino, Richard McMahon, Daniel Mortlock, Ewald Puchwein, Gordon
+Richards, Alberto Rorai, Bram Venemans and Stephen Warren.  \new{We
+  thank the anonymous referee for their comments.} GK acknowledges
+support from ERC Advanced Grant 320596 `The Emergence of Structure
+During the Epoch of Reionization'.
 
 \appendix
 
@@ -2285,7 +2278,7 @@ determinations, our parameter values are closest to those reported by
 \begin{figure*}
   \begin{center}
     % summary_grand.py
-    \includegraphics[width=0.7\textwidth]{evolution_grand.pdf}
+    \includegraphics[width=\textwidth]{evolution_grand.pdf}
   \end{center}
   \caption{A comparison of our inferred double power law parameter
     values with those reported in the literature.  Black points show
