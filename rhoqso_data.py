@@ -179,7 +179,7 @@ def get_lf(lf, sid, bins, use_smooth_maps=False, use_binvol2 = False):
     ms = (bins[1:]+bins[:-1])*0.5
 
     limit = np.max(ms)
-    m = m[m<-24.0]
+    m = m[m<limit]
     # print 'bins=', bins
     #print 'limit=', limit
 
@@ -221,8 +221,8 @@ def get_lf(lf, sid, bins, use_smooth_maps=False, use_binvol2 = False):
     uperr = np.log10(nlims[1]) - logphi 
     downerr = logphi - np.log10(nlims[0])
 
-    # for a in zip(mags, n):
-    #     print '{:.2f}  {:d}'.format(a[0], a[1])
+    for a in zip(mags, n):
+        print '{:.2f}  {:d}'.format(a[0], a[1])
 
     return mags, left, right, logphi, uperr, downerr
 
@@ -328,54 +328,13 @@ def rhoqso3(lfs, mag_threshold, bins, **kwargs):
                     vals.append(logphis[j][i])
             if nonzero_counter > 0:
                 total_phi[i] = np.mean(np.array(vals))
-            # print i, total_phi[i]
-                        
-            
-
-        #     N = len(logphis)
-        # if N > 2:
-        #     print 'We have a problem: N > 2!!!'
-            
-        # if N > 1:
-        #     total_phi = logphis[0]
-        #     for ns in range(1,N):
-        #         for i, p in enumerate(logphis[ns]):
-        #             if total_phi[i] == 0.0:
-        #                 total_phi[i] = total_phi[i] + p
-        #             elif p > 0.0:
-        #                 total_phi[i] = (total_phi[i] + p)/2 
-        #     logphi = total_phi
-        # else:
-        #     logphi = np.sum(logphis, axis=0)
 
         logphi = total_phi 
         
-        #row1 = logphis[0]
-        #row2 = logphis[1]
-
-        # logphi = np.sum(logphis, axis=0)
-
-        # #logphi = total_phi 
-
-        # logphi_test = np.mean(logphis, axis=0)
-
-        #for phivalue in zip(row1, row2, logphi):
-         #   print '{:.2e}  {:.2e}  {:.2e}'.format(*phivalue)
-        
-            #print logphi 
-
         dm = left + right
         phidm = logphi * dm 
         intphidm = np.cumsum(phidm)
 
-        # for omega in zip(mags, logphi):
-        #     print '{:.2f}  {:.2e}'.format(omega[0], omega[1])
-
-        # print 'mags=', mags
-        # print 'logphi=', logphi 
-        #
-        assert(np.all(np.diff(mags) > 0))
-        # rho = np.interp(mag_threshold, mags, intphidm)
         rho = intphidm[-1]
         nqso = np.size(x.M1450[x.M1450 < mag_threshold])
 
@@ -384,16 +343,17 @@ def rhoqso3(lfs, mag_threshold, bins, **kwargs):
             nlims *= rho/nqso
             uperr = nlims[1] - rho
             downerr = rho - nlims[0]
+
+            if np.max(mags[logphi > 0.0]) < mag_threshold:
+                # not reaching threshold
+                rho = 0.0
+                uperr = 0.0
+                downerr = 0.0
+                
         else:
             uperr = 0.0
             downerr = 0.0
             
-        if np.max(mags[logphi > 0.0]) < mag_threshold:
-            # not reaching threshold
-            rho = 0.0
-            uperr = 0.0
-            downerr = 0.0
-                
         rhos.append(rho)
         zs.append(z)
         uerr.append(uperr)
@@ -402,7 +362,7 @@ def rhoqso3(lfs, mag_threshold, bins, **kwargs):
     return zs, rhos, uerr, lerr
 
 
-def global_cumulative(ax, composite, mlim, color, **kwargs):
+def global_cumulative(ax, composite, mlim, color, filename, **kwargs):
 
     nzs = 500
     z = np.linspace(0, 7, nzs)
@@ -422,6 +382,8 @@ def global_cumulative(ax, composite, mlim, color, **kwargs):
     f = ax.fill_between(z, down, y2=up, color=color, zorder=6, alpha=0.7, **kwargs)
 
     c = np.median(r, axis=0)
+
+    np.savez(filename, up=up, down=down, c=c) 
 
     if color == 'forestgreen':
         p, = ax.plot(z, c, color=color, zorder=7)
@@ -527,7 +489,7 @@ def draw_withGlobal_multiple(c1, c2, c3, individuals, select=False):
     return
 
 
-def test(c1, individuals, **kwargs):
+def test(c1, c2, c3, individuals, **kwargs):
 
     fig = plt.figure(figsize=(7, 11), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -547,30 +509,437 @@ def test(c1, individuals, **kwargs):
     lz = np.array([x.zlims[1] for x in individuals])
     
     uzerr = uz-zs
-    lzerr = zs-lz 
+    lzerr = zs-lz
 
+    # np.savez('zs', zs=zs, uz=uz, lz=uz, uzerr=uzerr, lzerr=lzerr)
 
-    mlim = -24
+    # mlim = -21.0
+    # dm = 0.6
+    # bins = np.arange(mlim+dm/2, -35, -dm)[::-1]
+    # zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=bins)
+    # print 'rhos=', rhos
+    # ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+    # m1f, m1 = global_cumulative(ax, c1, mlim, 'grey', filename='m1_21')
+    # m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen', filename='m2_21')
+    # m3f, m3 = global_cumulative(ax, c3, mlim, 'peru', filename='m3_21')
 
+    # np.savez('rhos21', zs=zs, rhos=rhos, downerr=downerr, uperr=uperr)
+
+    mlim = -25.0
     dm = 0.6
     bins = np.arange(mlim+dm/2, -35, -dm)[::-1]
     zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=bins)
     print 'rhos=', rhos
-
-    # zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=np.arange(-30.9, mlim+0.6, 0.6))
-    # print 'rhos=', rhos
-
-    ax.scatter(zs, rhos, c='b', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-
-    ax.errorbar(zs, rhos, ecolor='b', capsize=0, fmt='None', elinewidth=2,
+    ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
                 yerr=np.vstack((downerr, uperr)),
                 xerr=np.vstack((lzerr, uzerr)), 
                 zorder=10, mew=1, ms=5)
-    
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey', filename='m1_25')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen', filename='m2_25')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru', filename='m3_25')
 
-    global_cumulative(ax, c1, mlim, 'grey')
+    np.savez('rhos25', zs=zs, rhos=rhos, downerr=downerr, uperr=uperr)
+    
+    # mlim = -25.5
+    # dm = 0.6
+    # bins = np.arange(mlim+dm/2, -35, -dm)[::-1]
+    # zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=bins)
+    # print 'rhos=', rhos
+    # ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+    # m1f, m1 = global_cumulative(ax, c1, mlim, 'grey', filename='m1_25p5')
+    # m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen', filename='m2_25p5')
+    # m3f, m3 = global_cumulative(ax, c3, mlim, 'peru', filename='m3_25p5')    
+
+    # np.savez('rhos25p5', zs=zs, rhos=rhos, downerr=downerr, uperr=uperr)
+    
+    mlim = -26.0
+    dm = 0.6
+    bins = np.arange(mlim+dm/2, -35, -dm)[::-1]
+    zs, rhos, uperr, downerr = rhoqso3(individuals, mlim, bins=bins)
+    print 'rhos=', rhos
+    ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+    m1f, m1 = global_cumulative(ax, c1, mlim, 'grey', filename='m1_26')
+    m2f, m2 = global_cumulative(ax, c2, mlim, 'forestgreen', filename='m2_26')
+    m3f, m3 = global_cumulative(ax, c3, mlim, 'peru', filename='m3_26')
+
+    np.savez('rhos26', zs=zs, rhos=rhos, downerr=downerr, uperr=uperr)
+        
+    # global_cumulative(ax, c1, mlim, 'grey')
+    handles, labels = [], []
+    handles.append((m1f, m1))
+    labels.append('Model 1')
+
+    handles.append((m2f, m2))
+    labels.append('Model 2')
+
+    handles.append((m3f, m3))
+    labels.append('Model 3')
+
+    plt.legend(handles, labels, loc='upper left', fontsize=14, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.3, borderpad=0.1,
+               scatterpoints=1)    
 
     plt.savefig('rhoqso_test.pdf',bbox_inches='tight')
+    plt.close('all')
+
+    return
+
+
+def test2(c1, c2, c3, individuals, **kwargs):
+
+    fig = plt.figure(figsize=(7, 11), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.tick_params('both', which='major', length=7, width=1)
+    ax.tick_params('both', which='minor', length=5, width=1)
+
+    ax.set_ylabel(r'$\rho(z, M_{1450} < M_\mathrm{lim})$ [cMpc$^{-3}$]')
+    ax.set_xlabel('$z$')
+    ax.set_xlim(0.,7)
+
+    ax.set_yscale('log')
+    ax.set_ylim(1.0e-10, 2.0e-4)
+
+    zs = np.array([x.z.mean() for x in individuals])
+    uz = np.array([x.zlims[0] for x in individuals])
+    lz = np.array([x.zlims[1] for x in individuals])
+    
+    uzerr = uz-zs
+    lzerr = zs-lz
+
+    reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    m = np.ones(len(individuals), dtype=bool)
+    m[reject] = False
+    minv = np.logical_not(m)
+
+    individuals_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    individuals_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+
+    mlim = -21.0
+    data = np.load('rhos21.npz')
+
+    zs = data['zs']
+    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    rhos = data['rhos']
+    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    downerr = data['downerr']
+    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    uperr = data['uperr']
+    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    ax.scatter(zs, rhos, c='r', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    ax.errorbar(zs, rhos, ecolor='r', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    plt.text(0.7, 1.4e-5, '$M_{1450}<-21$', rotation=55, fontsize=14, ha='center')
+
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    data = np.load('m1_21.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    m1, = ax.plot(z, c, color='k', zorder=7)
+
+    data = np.load('m2_21.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    data = np.load('m3_21.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    m3, = ax.plot(z, c, color='brown', zorder=7)
+
+    
+    mlim = -24.0
+    data = np.load('rhos24.npz')
+
+    zs = data['zs']
+    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    rhos = data['rhos']
+    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    downerr = data['downerr']
+    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    uperr = data['uperr']
+    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    
+    # zs = data['zs']
+    # rhos = data['rhos']
+    # downerr = data['downerr']
+    # uperr = data['uperr']
+    ax.scatter(zs, rhos, c='b', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    ax.errorbar(zs, rhos, ecolor='b', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    plt.text(0.5, 2e-7, '$M_{1450}<-24$', rotation=72, fontsize=14, ha='center')
+
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    data = np.load('m1_24.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    m1, = ax.plot(z, c, color='k', zorder=7)
+
+    data = np.load('m2_24.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    data = np.load('m3_24.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    m3, = ax.plot(z, c, color='brown', zorder=7)
+    
+    # mlim = -25.0
+    # data = np.load('rhos25.npz')
+    # zs = data['zs']
+    # rhos = data['rhos']
+    # downerr = data['downerr']
+    # uperr = data['uperr']
+    # ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+    
+    # nzs = 500
+    # z = np.linspace(0, 7, nzs)
+    # data = np.load('m1_25.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    # m1, = ax.plot(z, c, color='k', zorder=7)
+
+    # data = np.load('m2_25.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    # m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    # data = np.load('m3_25.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    # m3, = ax.plot(z, c, color='brown', zorder=7)
+    
+    mlim = -25.5
+    data = np.load('rhos25p5.npz')
+
+    zs = data['zs']
+    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    rhos = data['rhos']
+    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    downerr = data['downerr']
+    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    uperr = data['uperr']
+    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    
+    # zs = data['zs']
+    # rhos = data['rhos']
+    # downerr = data['downerr']
+    # uperr = data['uperr']
+    ax.scatter(zs, rhos, c='brown', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    ax.errorbar(zs, rhos, ecolor='brown', capsize=0, fmt='None', elinewidth=1,
+                yerr=np.vstack((downerr, uperr)),
+                xerr=np.vstack((lzerr, uzerr)), 
+                zorder=10, mew=1, ms=5)
+
+    plt.text(0.85, 5e-8, '$M_{1450}<-25.5$', rotation=72, fontsize=14, ha='center')
+
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    data = np.load('m1_25p5.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    m1, = ax.plot(z, c, color='k', zorder=7)
+
+    data = np.load('m2_25p5.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    data = np.load('m3_25p5.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    m3, = ax.plot(z, c, color='brown', zorder=7)
+    
+    
+    # mlim = -26.0
+    # data = np.load('rhos26.npz')
+    # zs = data['zs']
+    # rhos = data['rhos']
+    # downerr = data['downerr']
+    # uperr = data['uperr']
+    # ax.scatter(zs, rhos, c='m', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs, rhos, ecolor='m', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+
+    # nzs = 500
+    # z = np.linspace(0, 7, nzs)
+    # data = np.load('m1_26.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    # m1, = ax.plot(z, c, color='k', zorder=7)
+
+    # data = np.load('m2_26.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    # m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    # data = np.load('m3_26.npz')
+    # c = data['c']
+    # up = data['up']
+    # down = data['down']
+    # m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    # m3, = ax.plot(z, c, color='brown', zorder=7)
+    
+    mlim = -27.0
+    data = np.load('rhos27.npz')
+
+    zs = data['zs']
+    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    rhos = data['rhos']
+    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    downerr = data['downerr']
+    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    uperr = data['uperr']
+    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
+    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    
+    
+    # zs = data['zs']
+    # rhos = data['rhos']
+    # downerr = data['downerr']
+    # uperr = data['uperr']
+    ax.scatter(zs_good, rhos_good, c='tomato', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs_good, rhos_good, ecolor='tomato', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+
+    # ax.scatter(zs_bad, rhos_bad, c='white', edgecolor='tomato', s=42, zorder=10, linewidths=2, label='$0.6$')
+    # ax.errorbar(zs, rhos, ecolor='tomato', capsize=0, fmt='None', elinewidth=1,
+    #             yerr=np.vstack((downerr, uperr)),
+    #             xerr=np.vstack((lzerr, uzerr)), 
+    #             zorder=10, mew=1, ms=5)
+    
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    data = np.load('m1_27.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
+    m1, = ax.plot(z, c, color='k', zorder=7)
+
+    plt.text(1, 2.0e-9, '$M_{1450}<-27$', rotation=67, fontsize=14, ha='center')
+
+    data = np.load('m2_27.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
+    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    data = np.load('m3_27.npz')
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
+    m3, = ax.plot(z, c, color='brown', zorder=7)
+    
+    
+    handles, labels = [], []
+    handles.append((m1f, m1))
+    labels.append('Model 1')
+
+    handles.append((m2f, m2))
+    labels.append('Model 2')
+
+    handles.append((m3f, m3))
+    labels.append('Model 3')
+
+    plt.legend(handles, labels, loc='upper left', fontsize=14, handlelength=3,
+               frameon=False, framealpha=0.0, labelspacing=.1,
+               handletextpad=0.3, borderpad=0.1,
+               scatterpoints=1)    
+
+    plt.savefig('rhoqso_test2.pdf',bbox_inches='tight')
     plt.close('all')
 
     return

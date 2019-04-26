@@ -601,7 +601,7 @@ def draw_withGlobal(composite, individuals, zlims, select=False):
 
     return
 
-def draw_withGlobal_multiple(c1, c2, c3, individuals, zlims, select=False):
+def draw_withGlobal_multiple(c1, c2, c3, individuals, select=False):
 
     fig = plt.figure(figsize=(7, 11), dpi=100)
     ax = fig.add_subplot(1, 1, 1)

@@ -7,13 +7,22 @@ You only need to set data, z_tolerance, and mag_tolerance.
 import numpy as np
 import sys
 
-filename = sys.argv[1]
+# filename = sys.argv[1]
 #data = np.loadtxt('Data_new/croom09sgp_selfunc.dat')
-data = np.loadtxt(filename)
-z_tolerance = 0.01
-mag_tolerance = 0.001 
 
-print 'Using z_tolerance = {:.4f} and mag_tolerance = {:.4f}'.format(z_tolerance, mag_tolerance)
+
+in_file = 'smooth_maps/' + sys.argv[1]
+out_file = 'smooth_maps/' + sys.argv[1][:-4] + '_with_tiles.dat'
+print 'Reading ' + in_file
+print 'Writing to ' + out_file
+
+data = np.loadtxt(in_file)
+fl = open(out_file, 'w')
+
+z_tolerance = 0.0001
+mag_tolerance = 0.00001 
+
+fl.write('# Using z_tolerance = {:.4f} and mag_tolerance = {:.4f}\n'.format(z_tolerance, mag_tolerance))
 
 def is_same_z(z1, z2):
 
@@ -127,10 +136,20 @@ for i, tile in enumerate(data):
     dzs.append(dz)
     dmags.append(dmag)
     
-    print '{:>5d}  {:.3f}  {:.2f}  {:.5f}  {:.4f}  {:.3f}'.format(i+1, z, mag, p, dz, dmag)
+    fl.write('{:>5d}  {:.3f}  {:.2f}  {:.5f}  {:.4f}  {:.3f}\n'.format(i+1, z, mag, p, dz, dmag))
 
 dzs = np.array(dzs)
 dmags = np.array(dmags)
     
-print '# dzs =', np.unique(dzs.round(decimals=4))
-print '# dmags =', np.unique(dmags.round(decimals=4))
+fl.write('# dzs = ' + str(np.unique(dzs.round(decimals=4))) + '\n')
+fl.write('# dmags = ' + str(np.unique(dmags.round(decimals=4))) + '\n') 
+
+fl.close()
+
+print '# dzs = ' + str(np.unique(dzs.round(decimals=4)))
+print '# dmags = ' + str(np.unique(dmags.round(decimals=4)))
+
+
+
+
+
