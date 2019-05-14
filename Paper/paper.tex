@@ -1062,8 +1062,8 @@ defined as follows.
   $\alpha$ prefer quadratic, cubic, and linear evolutions in
   $\left(1+z\right)$, respectively.  For the faint-end slope $\beta$
   we adopt a double power law to account for a possible break at
-  $z\sim 3$ that is currently not covered with credible data.  Thus we
-  write
+  $z\sim 3$ that is currently not covered with credible data \new{with
+    well-characterised selection function}.  Thus we write
   \begin{equation}
     F_3\left(1+z\right)=c_{3,0}+\frac{c_{3,1}}{10^{c_{3,3}\zeta}+10^{c_{3,4}\zeta}},
     \label{eqn:beta}
@@ -2250,40 +2250,90 @@ remain qualitatively unchanged.
     \label{fig:corner}}
 \end{figure*}
 
-
 \section{Comparison with other luminosity function determinations}
 \label{sec:qlfliterature}
 Figure~\ref{fig:params_grand} compares the parameters of the double
 power law luminosity function from our analysis of
-Section~\ref{sec:bins} to values reported in the literature.  In
-general, our break luminosity is brighter and the faint-end slope is
-steeper than other determinations.  Note however that several results
-from the literature shown in Figure~\ref{fig:params_grand} make
-restrictive assumptions while fitting double power law models to data.
-For example, \citet{2013ApJ...768..105M} fix the bright-end slope
-$\alpha$ to $-4$ at $z=4.7$--$5.1$.  \citet{2016ApJ...833..222J} fix
-the faint-end slope $\beta$ to $-2.8$ at $z=5.7$--$6.4$.
+Section~\ref{sec:bins} to values reported in the literature.
+\new{There is significant disagreement between various inferences.
+  The break magnitude and the luminosity function amplitudes are
+  particularly severely discordant towards the higher-redshift end of
+  Figure~\ref{fig:params_grand}, although the disagreement is
+  appreciable at other redshifts too.  The slopes are in conflict at
+  all redshifts.} In general, our break luminosity is brighter and the
+faint-end slope is steeper than other determinations.
+
+Several results from the literature shown in
+Figure~\ref{fig:params_grand} make restrictive assumptions while
+fitting double power law models to data.  For example,
+\citet{2013ApJ...768..105M} fix the bright-end slope $\alpha$ to $-4$
+at $z=4.7$--$5.1$.  \citet{2016ApJ...833..222J} fix the faint-end
+slope $\beta$ to $-2.8$ at $z=5.7$--$6.4$.
 \citet{2017ApJ...847L..15O} fix the bright-end slope $\alpha$ to
 $-2.8$ at $z=5.5$--$6.5$.  \citet{2015AA...578A..83G} fix the
 faint-end slope and the break luminosity in their highest-redshift bin
-($z=5.0$--$6.5$).  The choice of data sets is also often different.
+($z=5.0$--$6.5$).  \new{This biases the inference of other parameters
+  and may also underestimate their uncertainties.}
+
+The choice of data sets is also often different.
 For instance, \citet{2015AA...578A..83G} do not include the SDSS
 Stripe 82 data from \citet{2013ApJ...768..105M} and the AGN samples of
 \citet{2010AJ....139..906W} and \citet{2015ApJ...798...28K} in their
 analysis.  (We discuss the results of \citet{2015AA...578A..83G} in
-greater detail in Appendix~\ref{sec:conv}.)  Of the remaining
-determinations, our parameter values are closest to those reported by
-\citet{2016ApJ...829...33Y} at $z=4.7$--$5.4$.
+greater detail in Appendix~\ref{sec:conv}.)
+
+\new{The uncertainties reported by \citet{2012ApJ...755..169M} are
+  unphysical.  At $z\sim 4$, the uncertainty reported by these authors
+  on $\phi_*$ spans negative values.  It is unclear if the double
+  power law model was fit to data after binning in magnitude and how
+  the uncertainties were derived.  At lower redshifts, our fits to the
+  $z<2$ luminosity function have steeper faint ends than those
+  reported by \citet{2009MNRAS.399.1755C}.  Upon closer inspection, we
+  found that our binned luminosity functions differ systematically
+  from those of \citet{2009MNRAS.399.1755C} in one or two faintest
+  bins at all redshifts.  Unfortunately, \citet{2009MNRAS.399.1755C}
+  do not provide enough detail for us to deduce the causes behind this
+  difference, but one possibility is that these authors made specific
+  interpolation choices while integrating over the completeness map.
+  At intermediate redshifts, some of the parameter values reported
+  \citet{2013ApJ...773...14R} also have unphysical uncertainties.
+  Uncertainties for these values do not enclose the measurement.
+  While our disagreement with \citet{2013ApJ...773...14R} in
+  Figure~\ref{fig:params_grand} is relatively minor, we note that this
+  is in a redshift range where the data suffer from severe systematic
+  errors.  The reason our parameter values disagree with those given
+  by \citet{2011ApJ...728L..26G} is also unclear.  The selection
+  function provided by these authors had completeness values that
+  exceeded 100\%, perhaps due to extrapolation errors.  When this
+  happened we assumed 100\% completeness.  \citet{2018PASJ...70S..34A}
+  report very flat faint-end slope that is inconsistent with our
+  inference at all redshifts.  As discussed in
+  Section~\ref{sec:reion}, this could be because of missing AGN faint
+  population $M_{1450} > -23.5$ due to point source selection and
+  partly also because of photometric redshift errors.  Thus, of the
+  five determinations in the literature with unconstrainted double
+  power law fits,} our parameter values are closest to those reported
+by \citet{2016ApJ...829...33Y} at $z=4.7$--$5.4$.
+
+\new{In sum, Figure~\ref{fig:params_grand} suggests that it is
+  incorrect to fix QLF parameters while fitting QLF models and one
+  should only fit models if data actually span the magnitude range.
+  In order to emphasize this, we have shown inferences without
+  errorbars as open symbols.  Note that the formal statistical
+  uncertainty of our inferences in often smaller than the symbol size
+  in Figure~\ref{fig:params_grand}.}
 
 \begin{figure*}
   \begin{center}
     % summary_grand.py
-    \includegraphics[width=\textwidth]{evolution_grand.pdf}
+    \includegraphics[width=\textwidth]{/Users/girish/Desktop/evolution_grand.pdf}
   \end{center}
   \caption{A comparison of our inferred double power law parameter
-    values with those reported in the literature.  Black points show
-    our determinations from Figure~\ref{fig:evoln}.  Blue points show
-    other values, from \citet[triangles]{2012ApJ...755..169M},
+    values with those reported in the literature.  Yellow points show
+    our determinations from Figure~\ref{fig:evoln}.  \new{(Our
+      statistical errors are often smaller than the symbol size.)}
+    Other data points show values from
+    \citet[triangles]{2012ApJ...755..169M},
     \citet[squares]{2016ApJ...833..222J},
     \citet[diamonds]{2011ApJ...728L..26G},
     \citet[crosses]{2013ApJ...768..105M}, \citet[downward
@@ -2292,9 +2342,11 @@ determinations, our parameter values are closest to those reported by
       triangles]{2017ApJ...847L..15O},
     \citet[asterisks]{2016ApJ...829...33Y},
     \citet[circles]{2013ApJ...773...14R},
-    \new{\citet[hexagons]{2009MNRAS.399.1755C}} and \citet[rightward
-      triangles]{2009A&A...507..781S}.  Where necessary, values from
-    the literature have been converted to our cosmology.
+    \citet[hexagons]{2009MNRAS.399.1755C} and \citet[rightward
+      triangles]{2009A&A...507..781S}.  \new{Measurements for which no
+      error bars are available are shown using open symbols.}  Where
+    necessary, values from the literature have been converted to our
+    cosmology.
     \label{fig:params_grand}}
 \end{figure*}
 
