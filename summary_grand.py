@@ -14,15 +14,15 @@ LFs.
 
 """
 
-clr = { 'croom09': 'gold',
+clr = { 'croom09': '#1f77b4', 
         'masters12': 'dodgerblue',
         'glikman11': 'dodgerblue',
-        'kulkarni19': '#1f77b4',
+        'kulkarni19': 'gold',
         'masters12': '#ffffff', # was '#2ca02c'
         'jiang16': '#ffffff', # was '#d62728'
         'onoue17': '#ffffff', # was '#7f7f7f'
         'schulze09': '#ffffff', # was '#bcbd22'
-        'mcgreer13': 'dodgerblue',
+        'mcgreer13': '#ffffff', # was 'dodgerblue'
         'giallongo15': '#ffffff' # was '#8c564b' 
 }
 
@@ -420,7 +420,7 @@ def yang16(ax, param):
     zuperr = zup-z
 
     if param == 0:
-        p = np.array([-9.07])
+        p = np.array([-8.56]) # Scale given z = 6 phi* to z = 5 and multiply by 1.1 for cosmology.
         perr = np.array([0.4])
 
     if param == 1:
@@ -466,10 +466,10 @@ def mcgreer13(ax, param):
 
     if param == 2:
         p = np.array([-4.0])
-        ax.errorbar(z, p, ecolor=clr['mcgreer13'], capsize=2,
+        ax.errorbar(z, p, ecolor='k', capsize=2,
                     xerr=np.vstack((zdownerr, zuperr)),
                     fmt='None', zorder=2, linewidths=0.5, elinewidths=0.5, capthick=0.5)
-        ax.scatter(z, p, color=clr['mcgreer13'], edgecolor='k', zorder=2, s=20, marker='x', label=r'McGreer et al.\ 2013')
+        ax.scatter(z, p, color=clr['mcgreer13'], edgecolor='k', zorder=2, s=20, marker='8', label=r'McGreer et al.\ 2013', linewidths=0.5)
         return
         
     if param == 3:
@@ -477,11 +477,11 @@ def mcgreer13(ax, param):
         puperr = np.array([0.15])
         pdownerr = np.array([0.14])
         
-    ax.errorbar(z, p, ecolor=clr['mcgreer13'], capsize=2,
+    ax.errorbar(z, p, ecolor='k', capsize=2,
                 xerr=np.vstack((zdownerr, zuperr)),
                 yerr=np.vstack((pdownerr, puperr)),
                 fmt='None', zorder=2, linewidths=0.5, elinewidths=0.5, capthick=0.5)
-    ax.scatter(z, p, color=clr['mcgreer13'], edgecolor='k', zorder=2, s=20, marker='x', label=r'McGreer et al.\ 2013')
+    ax.scatter(z, p, color=clr['mcgreer13'], edgecolor='k', zorder=2, s=20, marker='8', label=r'McGreer et al.\ 2013', linewidths=0.5)
 
     return
 
