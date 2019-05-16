@@ -598,8 +598,98 @@ def test(c1, c2, c3, individuals, **kwargs):
 
     return
 
+def sift(vals, reject):
 
-def test2(c1, c2, c3, individuals, **kwargs):
+    good = [x for i, x in enumerate(vals) if i not in set(reject)]
+    bad = [x for i, x in enumerate(vals) if i in set(reject)]
+
+    return good, bad
+
+
+def plot_globals_using_npz(ax, npz_globals):
+
+    nzs = 500
+    z = np.linspace(0, 7, nzs)
+    data = np.load(npz_globals[0])
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m1f = ax.fill_between(z, down, y2=up,
+                          color='grey', zorder=6, alpha=0.7)
+    m1, = ax.plot(z, c, color='k', zorder=7)
+
+    data = np.load(npz_globals[1])
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m2f = ax.fill_between(z, down, y2=up,
+                          color='forestgreen', zorder=6, alpha=0.7)
+    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
+
+    data = np.load(npz_globals[2])
+    c = data['c']
+    up = data['up']
+    down = data['down']
+    m3f = ax.fill_between(z, down, y2=up,
+                          color='peru', zorder=6, alpha=0.7)
+    m3, = ax.plot(z, c, color='brown', zorder=7)
+
+    return m1, m2, m3, m1f, m2f, m3f
+
+
+def error_point(ax, x, y, lx, ux, ly, uy, c='r', good=True):
+
+    if good: 
+
+        ax.errorbar(x, y, ecolor=c, capsize=0,
+                    fmt='None', elinewidth=1,
+                    yerr=np.vstack((ly, uy)), 
+                    xerr=np.vstack((lx, ux)),
+                    zorder=10, mew=1, ms=5)
+        ax.scatter(x, y, c=c, edgecolor=c, s=42, zorder=10,
+                   linewidths=1)
+
+    else:
+
+        ax.errorbar(x, y, ecolor=c, capsize=0,
+                    fmt='None', elinewidth=1,
+                    yerr=np.vstack((ly, uy)), 
+                    xerr=np.vstack((lx, ux)),
+                    zorder=10, mew=1, ms=5)
+        ax.scatter(x, y, c='#ffffff', edgecolor=c, s=42, zorder=10,
+                   linewidths=1)
+        
+    return 
+
+
+def plot_individuals_using_npz(ax, mlim, npz_individual,
+                               reject, lzerr, uzerr, color):
+
+    data = np.load(npz_individual)
+
+    zs_good, zs_bad = sift(data['zs'], reject)
+    lzerr_good, lzerr_bad = sift(lzerr, reject)
+    uzerr_good, uzerr_bad = sift(uzerr, reject)
+    rhos_good, rhos_bad = sift(data['rhos'], reject)
+    downerr_good, downerr_bad = sift(data['downerr'], reject)
+    uperr_good, uperr_bad = sift(data['uperr'], reject)
+
+    error_point(ax,
+                zs_good, rhos_good,
+                lzerr_good, uzerr_good,
+                downerr_good, uperr_good,
+                c=color)
+
+    error_point(ax,
+                zs_bad, rhos_bad,
+                lzerr_bad, uzerr_bad,
+                downerr_bad, uperr_bad,
+                c=color, good=False)
+
+    return 
+    
+
+def make_figure(c1, c2, c3, individuals):
 
     fig = plt.figure(figsize=(7, 11), dpi=100)
     ax = fig.add_subplot(1, 1, 1)
@@ -623,306 +713,35 @@ def test2(c1, c2, c3, individuals, **kwargs):
 
     reject = [0, 1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
-    m = np.ones(len(individuals), dtype=bool)
-    m[reject] = False
-    minv = np.logical_not(m)
+    mlim = -21.0 
+    plot_individuals_using_npz(ax, mlim, 'rhos21.npz',
+                               reject, lzerr, uzerr, color='r')
+    plot_globals_using_npz(ax, ['m1_21.npz', 'm2_21.npz', 'm3_21.npz'])
+    plt.text(0.7, 1.4e-5, '$M_{1450}<-21$',
+             rotation=55, fontsize=14, ha='center')
 
-    individuals_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    individuals_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
+    mlim = -24.0 
+    plot_individuals_using_npz(ax, mlim, 'rhos24.npz',
+                               reject, lzerr, uzerr, color='b')
+    plot_globals_using_npz(ax, ['m1_24.npz', 'm2_24.npz', 'm3_24.npz'])
+    plt.text(0.5, 2e-7, '$M_{1450}<-24$',
+             rotation=72, fontsize=14, ha='center')
 
-    mlim = -21.0
-    data = np.load('rhos21.npz')
-
-    zs = data['zs']
-    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    rhos = data['rhos']
-    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    downerr = data['downerr']
-    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    uperr = data['uperr']
-    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    ax.scatter(zs, rhos, c='r', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    ax.errorbar(zs, rhos, ecolor='r', capsize=0, fmt='None', elinewidth=1,
-                yerr=np.vstack((downerr, uperr)),
-                xerr=np.vstack((lzerr, uzerr)), 
-                zorder=10, mew=1, ms=5)
-
-    plt.text(0.7, 1.4e-5, '$M_{1450}<-21$', rotation=55, fontsize=14, ha='center')
-
-    nzs = 500
-    z = np.linspace(0, 7, nzs)
-    data = np.load('m1_21.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    m1, = ax.plot(z, c, color='k', zorder=7)
-
-    data = np.load('m2_21.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    data = np.load('m3_21.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    m3, = ax.plot(z, c, color='brown', zorder=7)
-
-    
-    mlim = -24.0
-    data = np.load('rhos24.npz')
-
-    zs = data['zs']
-    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    rhos = data['rhos']
-    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    downerr = data['downerr']
-    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    uperr = data['uperr']
-    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    
-    # zs = data['zs']
-    # rhos = data['rhos']
-    # downerr = data['downerr']
-    # uperr = data['uperr']
-    ax.scatter(zs, rhos, c='b', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    ax.errorbar(zs, rhos, ecolor='b', capsize=0, fmt='None', elinewidth=1,
-                yerr=np.vstack((downerr, uperr)),
-                xerr=np.vstack((lzerr, uzerr)), 
-                zorder=10, mew=1, ms=5)
-
-    plt.text(0.5, 2e-7, '$M_{1450}<-24$', rotation=72, fontsize=14, ha='center')
-
-    nzs = 500
-    z = np.linspace(0, 7, nzs)
-    data = np.load('m1_24.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    m1, = ax.plot(z, c, color='k', zorder=7)
-
-    data = np.load('m2_24.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    data = np.load('m3_24.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    m3, = ax.plot(z, c, color='brown', zorder=7)
-    
-    # mlim = -25.0
-    # data = np.load('rhos25.npz')
-    # zs = data['zs']
-    # rhos = data['rhos']
-    # downerr = data['downerr']
-    # uperr = data['uperr']
-    # ax.scatter(zs, rhos, c='k', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    # ax.errorbar(zs, rhos, ecolor='k', capsize=0, fmt='None', elinewidth=1,
-    #             yerr=np.vstack((downerr, uperr)),
-    #             xerr=np.vstack((lzerr, uzerr)), 
-    #             zorder=10, mew=1, ms=5)
-    
-    # nzs = 500
-    # z = np.linspace(0, 7, nzs)
-    # data = np.load('m1_25.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    # m1, = ax.plot(z, c, color='k', zorder=7)
-
-    # data = np.load('m2_25.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    # m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    # data = np.load('m3_25.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    # m3, = ax.plot(z, c, color='brown', zorder=7)
-    
     mlim = -25.5
-    data = np.load('rhos25p5.npz')
+    plot_individuals_using_npz(ax, mlim, 'rhos25p5.npz',
+                               reject, lzerr, uzerr, color='brown')
+    plot_globals_using_npz(ax, ['m1_25p5.npz', 'm2_25p5.npz', 'm3_25p5.npz'])
+    plt.text(0.85, 5e-8, '$M_{1450}<-25.5$',
+             rotation=72, fontsize=14, ha='center')
 
-    zs = data['zs']
-    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    rhos = data['rhos']
-    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    downerr = data['downerr']
-    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    uperr = data['uperr']
-    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    
-    # zs = data['zs']
-    # rhos = data['rhos']
-    # downerr = data['downerr']
-    # uperr = data['uperr']
-    ax.scatter(zs, rhos, c='brown', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    ax.errorbar(zs, rhos, ecolor='brown', capsize=0, fmt='None', elinewidth=1,
-                yerr=np.vstack((downerr, uperr)),
-                xerr=np.vstack((lzerr, uzerr)), 
-                zorder=10, mew=1, ms=5)
-
-    plt.text(0.85, 5e-8, '$M_{1450}<-25.5$', rotation=72, fontsize=14, ha='center')
-
-    nzs = 500
-    z = np.linspace(0, 7, nzs)
-    data = np.load('m1_25p5.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    m1, = ax.plot(z, c, color='k', zorder=7)
-
-    data = np.load('m2_25p5.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    data = np.load('m3_25p5.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    m3, = ax.plot(z, c, color='brown', zorder=7)
-    
-    
-    # mlim = -26.0
-    # data = np.load('rhos26.npz')
-    # zs = data['zs']
-    # rhos = data['rhos']
-    # downerr = data['downerr']
-    # uperr = data['uperr']
-    # ax.scatter(zs, rhos, c='m', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    # ax.errorbar(zs, rhos, ecolor='m', capsize=0, fmt='None', elinewidth=1,
-    #             yerr=np.vstack((downerr, uperr)),
-    #             xerr=np.vstack((lzerr, uzerr)), 
-    #             zorder=10, mew=1, ms=5)
-
-    # nzs = 500
-    # z = np.linspace(0, 7, nzs)
-    # data = np.load('m1_26.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    # m1, = ax.plot(z, c, color='k', zorder=7)
-
-    # data = np.load('m2_26.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    # m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    # data = np.load('m3_26.npz')
-    # c = data['c']
-    # up = data['up']
-    # down = data['down']
-    # m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    # m3, = ax.plot(z, c, color='brown', zorder=7)
-    
     mlim = -27.0
-    data = np.load('rhos27.npz')
+    plot_individuals_using_npz(ax, mlim, 'rhos27.npz',
+                               reject, lzerr, uzerr, color='tomato')
+    h = plot_globals_using_npz(ax, ['m1_27.npz', 'm2_27.npz', 'm3_27.npz'])
+    plt.text(1, 2.0e-9, '$M_{1450}<-27$',
+             rotation=67, fontsize=14, ha='center')
 
-    zs = data['zs']
-    zs_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    zs_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    rhos = data['rhos']
-    rhos_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    rhos_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    downerr = data['downerr']
-    downerr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    downerr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    uperr = data['uperr']
-    uperr_good = [x for i, x in enumerate(individuals) if i not in set(reject)]
-    uperr_bad = [x for i, x in enumerate(individuals) if i in set(reject)]
-    
-    
-    # zs = data['zs']
-    # rhos = data['rhos']
-    # downerr = data['downerr']
-    # uperr = data['uperr']
-    ax.scatter(zs_good, rhos_good, c='tomato', edgecolor='None', s=42, zorder=10, linewidths=2, label='$0.6$')
-    # ax.errorbar(zs_good, rhos_good, ecolor='tomato', capsize=0, fmt='None', elinewidth=1,
-    #             yerr=np.vstack((downerr, uperr)),
-    #             xerr=np.vstack((lzerr, uzerr)), 
-    #             zorder=10, mew=1, ms=5)
-
-    # ax.scatter(zs_bad, rhos_bad, c='white', edgecolor='tomato', s=42, zorder=10, linewidths=2, label='$0.6$')
-    # ax.errorbar(zs, rhos, ecolor='tomato', capsize=0, fmt='None', elinewidth=1,
-    #             yerr=np.vstack((downerr, uperr)),
-    #             xerr=np.vstack((lzerr, uzerr)), 
-    #             zorder=10, mew=1, ms=5)
-    
-    nzs = 500
-    z = np.linspace(0, 7, nzs)
-    data = np.load('m1_27.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m1f = ax.fill_between(z, down, y2=up, color='grey', zorder=6, alpha=0.7)
-    m1, = ax.plot(z, c, color='k', zorder=7)
-
-    plt.text(1, 2.0e-9, '$M_{1450}<-27$', rotation=67, fontsize=14, ha='center')
-
-    data = np.load('m2_27.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m2f = ax.fill_between(z, down, y2=up, color='forestgreen', zorder=6, alpha=0.7)
-    m2, = ax.plot(z, c, color='forestgreen', zorder=7)
-
-    data = np.load('m3_27.npz')
-    c = data['c']
-    up = data['up']
-    down = data['down']
-    m3f = ax.fill_between(z, down, y2=up, color='peru', zorder=6, alpha=0.7)
-    m3, = ax.plot(z, c, color='brown', zorder=7)
-    
+    m1, m2, m3, m1f, m2f, m3f = h 
     
     handles, labels = [], []
     handles.append((m1f, m1))
@@ -934,12 +753,12 @@ def test2(c1, c2, c3, individuals, **kwargs):
     handles.append((m3f, m3))
     labels.append('Model 3')
 
-    plt.legend(handles, labels, loc='upper left', fontsize=14, handlelength=3,
-               frameon=False, framealpha=0.0, labelspacing=.1,
-               handletextpad=0.3, borderpad=0.1,
+    plt.legend(handles, labels, loc='upper left', fontsize=14,
+               handlelength=3, frameon=False, framealpha=0.0,
+               labelspacing=.1, handletextpad=0.3, borderpad=0.1,
                scatterpoints=1)    
 
-    plt.savefig('rhoqso_test2.pdf',bbox_inches='tight')
+    plt.savefig('rhoqso.pdf',bbox_inches='tight')
     plt.close('all')
 
     return
